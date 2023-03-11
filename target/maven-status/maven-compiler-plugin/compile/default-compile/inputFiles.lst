@@ -1,0 +1,15 @@
+/Users/paul/eclipse-workspace/lbos/src/main/java/com/wisneskey/lbos/boot/BootConfiguration.java
+/Users/paul/eclipse-workspace/lbos/src/main/java/com/wisneskey/lbos/kernel/LBOSKernel.java
+/Users/paul/eclipse-workspace/lbos/src/main/java/com/wisneskey/lbos/service/audio/AudioService.java
+/Users/paul/eclipse-workspace/lbos/src/main/java/com/wisneskey/lbos/service/display/DisplayService.java
+/Users/paul/eclipse-workspace/lbos/src/main/java/com/wisneskey/lbos/LaissezBoyOS.java
+/Users/paul/eclipse-workspace/lbos/src/main/java/com/wisneskey/lbos/service/AbstractService.java
+/Users/paul/eclipse-workspace/lbos/src/main/java/com/wisneskey/lbos/util/JsonUtils.java
+/Users/paul/eclipse-workspace/lbos/src/main/java/com/wisneskey/lbos/service/audio/SoundEffectSet.java
+/Users/paul/eclipse-workspace/lbos/src/main/java/com/wisneskey/lbos/boot/BootLoader.java
+/Users/paul/eclipse-workspace/lbos/src/main/java/com/wisneskey/lbos/service/ServiceId.java
+/Users/paul/eclipse-workspace/lbos/src/main/java/com/wisneskey/lbos/service/display/cp/SecondaryController.java
+/Users/paul/eclipse-workspace/lbos/src/main/java/com/wisneskey/lbos/service/Service.java
+/Users/paul/eclipse-workspace/lbos/src/main/java/com/wisneskey/lbos/error/LBOSException.java
+/Users/paul/eclipse-workspace/lbos/src/main/java/com/wisneskey/lbos/service/audio/SoundEffect.java
+/Users/paul/eclipse-workspace/lbos/src/main/java/com/wisneskey/lbos/service/display/cp/PrimaryController.java
