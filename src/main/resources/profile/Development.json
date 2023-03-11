@@ -1,0 +1,10 @@
+{
+	//
+	// Default profile for LaissezOS development.
+	//  
+	"profileId": "Development",
+	"description": "Default profile for development of LaissezOS.",
+	"supportedRunModes": [
+		"DEV"
+	]
+}

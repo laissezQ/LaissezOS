@@ -6,11 +6,12 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.wisneskey.los.error.LBOSException;
+import com.wisneskey.los.error.LOSException;
 import com.wisneskey.los.service.Service;
 import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.audio.AudioService;
 import com.wisneskey.los.service.display.DisplayService;
+import com.wisneskey.los.service.profile.ProfileService;
 
 /**
  * Core of the Laissez Boy Operating System that manages all services, hardware,
@@ -18,10 +19,10 @@ import com.wisneskey.los.service.display.DisplayService;
  * 
  * @author paul.wisneskey@gmail.com
  */
-public class LBOSKernel {
+public class LOSKernel {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(LBOSKernel.class);
-	
+	private static final Logger LOGGER = LoggerFactory.getLogger(LOSKernel.class);
+
 	/**
 	 * Flag indicating if the kernel has been initialized.
 	 */
@@ -44,7 +45,7 @@ public class LBOSKernel {
 	/**
 	 * Private constructor to disallow instantiation.
 	 */
-	private LBOSKernel() {
+	private LOSKernel() {
 	}
 
 	// ----------------------------------------------------------------------------------------
@@ -54,16 +55,17 @@ public class LBOSKernel {
 	/**
 	 * Set the run mode for the LBOS.
 	 * 
-	 * @param mode Run mode to set for the
+	 * @param mode
+	 *          Run mode to set for the
 	 */
 	public static void setRunMode(RunMode mode) {
 
 		requireUninitializedKernel();
 
-		if(( runMode != null) && (runMode != mode)) {
-			throw new LBOSException("Run mode can not be changed once set.");
+		if ((runMode != null) && (runMode != mode)) {
+			throw new LOSException("Run mode can not be changed once set.");
 		}
-		
+
 		runMode = mode;
 	}
 
@@ -81,9 +83,9 @@ public class LBOSKernel {
 		requireUninitializedKernel();
 
 		if (serviceMap.put(service.getServiceId(), service) != null) {
-			throw new LBOSException("Duplicate service registration: id=" + service.getServiceId());
+			throw new LOSException("Duplicate service registration: id=" + service.getServiceId());
 		}
-		
+
 		LOGGER.debug("Registered service: id=" + service.getServiceId());
 	}
 
@@ -99,7 +101,7 @@ public class LBOSKernel {
 		for (ServiceId serviceId : ServiceId.values()) {
 
 			if (!serviceMap.containsKey(serviceId)) {
-				throw new LBOSException("Required service not registered: id=" + serviceId);
+				throw new LOSException("Required service not registered: id=" + serviceId);
 			}
 		}
 
@@ -119,7 +121,6 @@ public class LBOSKernel {
 	public static AudioService audioService() {
 
 		requireInitializedKernel();
-
 		return AudioService.class.cast(serviceMap.get(ServiceId.AUDIO));
 	}
 
@@ -129,10 +130,20 @@ public class LBOSKernel {
 	 * @return Display service instance.
 	 */
 	public static DisplayService displayService() {
-		
+
 		requireInitializedKernel();
-		
 		return DisplayService.class.cast(serviceMap.get(ServiceId.DISPLAY));
+	}
+
+	/**
+	 * Return the profile service registered with the kernel.
+	 * 
+	 * @return Profile service instance.
+	 */
+	public static ProfileService profileService() {
+
+		requireInitializedKernel();
+		return ProfileService.class.cast(serviceMap.get(ServiceId.PROFILE));
 	}
 	
 	/**
@@ -142,12 +153,12 @@ public class LBOSKernel {
 	 * @return Enumerated type designated the environment the application is being
 	 *         run in.
 	 */
-	public RunMode getRunMode() {
+	public static RunMode getRunMode() {
 
 		requireInitializedKernel();
 
 		if (runMode == null) {
-			throw new LBOSException("Run mode not set.");
+			throw new LOSException("Run mode not set.");
 		}
 
 		return runMode;
@@ -164,7 +175,7 @@ public class LBOSKernel {
 	private static void requireInitializedKernel() {
 
 		if (!initialized) {
-			throw new LBOSException("LBOS kernel not initialized.");
+			throw new LOSException("LBOS kernel not initialized.");
 		}
 	}
 
@@ -175,7 +186,7 @@ public class LBOSKernel {
 	private static void requireUninitializedKernel() {
 
 		if (initialized) {
-			throw new LBOSException("LBOS kernel already initialized.");
+			throw new LOSException("LBOS kernel already initialized.");
 		}
 	}
 
@@ -188,7 +199,29 @@ public class LBOSKernel {
 	 * it can configuration itself appropriately.
 	 */
 	public enum RunMode {
-		CHAIR,
-		DEV;
+		DEV("Off chair development where chair system interfaces are simulated."),
+		PI2B("Raspberry PI2B prototyping (limited display support).");
+
+		// ----------------------------------------------------------------------------------------
+		// Variables.
+		// ----------------------------------------------------------------------------------------
+
+		private String description;
+
+		// ----------------------------------------------------------------------------------------
+		// Constructors.
+		// ----------------------------------------------------------------------------------------
+
+		private RunMode(String description) {
+			this.description = description;
+		}
+
+		// ----------------------------------------------------------------------------------------
+		// Public methods.
+		// ----------------------------------------------------------------------------------------
+
+		public String getDescription() {
+			return description;
+		}
 	}
 }

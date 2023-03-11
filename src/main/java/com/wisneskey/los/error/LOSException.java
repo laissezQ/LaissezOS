@@ -5,7 +5,7 @@ package com.wisneskey.los.error;
  * 
  * @author paul.wisneskey@gmail.com
  */
-public class LBOSException extends RuntimeException {
+public class LOSException extends RuntimeException {
 
 	/**
 	 * Version id for serialization.
@@ -16,23 +16,23 @@ public class LBOSException extends RuntimeException {
 	// Constructors.
 	// ----------------------------------------------------------------------------------------
 
-	public LBOSException() {
+	public LOSException() {
 		super();
 	}
 
-	public LBOSException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+	public LOSException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 	}
 
-	public LBOSException(String message, Throwable cause) {
+	public LOSException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
-	public LBOSException(String message) {
+	public LOSException(String message) {
 		super(message);
 	}
 
-	public LBOSException(Throwable cause) {
+	public LOSException(Throwable cause) {
 		super(cause);
 	}
 }

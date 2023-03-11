@@ -5,10 +5,12 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.wisneskey.los.kernel.LBOSKernel;
+import com.wisneskey.los.kernel.LOSKernel;
 import com.wisneskey.los.service.audio.AudioService;
 import com.wisneskey.los.service.audio.SoundEffect;
 import com.wisneskey.los.service.display.DisplayService;
+import com.wisneskey.los.service.profile.ProfileService;
+import com.wisneskey.los.service.profile.model.Profile;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -41,14 +43,18 @@ public class BootLoader extends Application {
 
 		// First make sure we have a run mode set since that may affect how services
 		// set themselves up (particularly the display service).
-		LBOSKernel.setRunMode(bootConfig.getRunMode());
+		LOSKernel.setRunMode(bootConfig.getRunMode());
 
 		// Register services.
-		LBOSKernel.registerService(new AudioService());
-		LBOSKernel.registerService(new DisplayService());
+		LOSKernel.registerService(new AudioService());
+		LOSKernel.registerService(new DisplayService());
+		LOSKernel.registerService(new ProfileService());
 
 		// Initialize the kernel now that its set up.
-		LBOSKernel.initialize();
+		LOSKernel.initialize();
+
+		// First load the profile specified during startup or the default one if none was specified.
+		Profile activeProfile = LOSKernel.profileService().loadProfile(bootConfig.getProfileName());
 
 		// Finally, launch the JavaFX application as the "desktop" for LBOS.
 		LOGGER.info("Launching UI...");
@@ -67,10 +73,10 @@ public class BootLoader extends Application {
 
 		// JavaFX is ready to display now so initialize the display manager and
 		// start the dramatic boot sequence.
-		LBOSKernel.displayService().initialize(stage);
+		LOSKernel.displayService().initialize(stage);
 
 		// Play a welcome clip as a test.
-		LBOSKernel.audioService().playEffect(SoundEffect.BOOT_COMPLETE);
+		LOSKernel.audioService().playEffect(SoundEffect.BOOT_COMPLETE);
 	}
 
 	// ----------------------------------------------------------------------------------------

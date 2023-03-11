@@ -1,5 +1,8 @@
 package com.wisneskey.los.util;
 
+import java.io.InputStream;
+
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -10,7 +13,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class JsonUtils {
 
+	/**
+	 * Object mapper used for serialization and deserialization. Configured to
+	 * allow inline comments in the JSON.
+	 */
 	private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
+	static {
+		JSON_MAPPER.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
+	}
 
 	// ---------------------------------------------------------------------
 	// Constructors.
@@ -26,6 +36,13 @@ public class JsonUtils {
 	// Static methods.
 	// ---------------------------------------------------------------------
 
+	/**
+	 * Serializes an object into JSON.
+	 * 
+	 * @param object
+	 *          Object to serialize into JSON.
+	 * @return String container serialized JSON.
+	 */
 	public static String toJSONString(Object object) {
 
 		if (object == null) {
@@ -39,6 +56,17 @@ public class JsonUtils {
 		}
 	}
 
+	/**
+	 * Deserializes JSON into an object of the specified type.
+	 * 
+	 * @param <T>
+	 *          Type of object.
+	 * @param source
+	 *          String containing source JSON to deserialize.
+	 * @param objectClass
+	 *          Class of the object to create from JSON.
+	 * @return Object of the specified class created from deserialized JSON.
+	 */
 	public static <T> T toObject(String source, Class<T> objectClass) {
 		try {
 			return JSON_MAPPER.readValue(source, objectClass);
@@ -46,4 +74,25 @@ public class JsonUtils {
 			throw new RuntimeException("Failed to parse JSON string to object.", e);
 		}
 	}
+
+	/**
+	 * Deserializes JSON into an object of the specified type.
+	 * 
+	 * @param <T>
+	 *          Type of object.
+	 * @param input
+	 *          Input stream to read JSON from.
+	 * @param objectClass
+	 *          Class of the object to create from JSON.
+	 * @return Object of the specified class created from deserialized JSON.
+	 */
+
+	public static <T> T toObject(InputStream input, Class<T> objectClass) {
+		try {
+			return JSON_MAPPER.readValue(input, objectClass);
+		} catch (Exception e) {
+			throw new RuntimeException("Failed to parse JSON string to object.", e);
+		}
+	}
+
 }

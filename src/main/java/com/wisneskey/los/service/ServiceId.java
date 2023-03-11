@@ -2,6 +2,7 @@ package com.wisneskey.los.service;
 
 import com.wisneskey.los.service.audio.AudioService;
 import com.wisneskey.los.service.display.DisplayService;
+import com.wisneskey.los.service.profile.ProfileService;
 
 /**
  * Enumerated type for all of the ids for the services supported in LBOS.
@@ -11,7 +12,8 @@ import com.wisneskey.los.service.display.DisplayService;
 public enum ServiceId {
 
 	AUDIO(AudioService.class, "This service goes to 11."),
-	DISPLAY(DisplayService.class, "Looking good there,");
+	DISPLAY(DisplayService.class, "Looking good there,"),
+	PROFILE(ProfileService.class, "Keep it low.");
 
 	// ----------------------------------------------------------------------------------------
 	// Variables.

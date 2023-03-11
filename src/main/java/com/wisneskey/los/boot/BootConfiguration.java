@@ -1,6 +1,7 @@
 package com.wisneskey.los.boot;
 
-import com.wisneskey.los.kernel.LBOSKernel.RunMode;
+import com.wisneskey.los.kernel.LOSKernel.RunMode;
+import com.wisneskey.los.service.profile.ProfileService;
 
 /**
  * Initial configuration that drive the boot process.
@@ -20,9 +21,9 @@ public class BootConfiguration {
 	private RunMode runMode = DEFAULT_RUN_MODE;
 	
 	/**
-	 * Optional name of the profile to use to in place of currently active profile.
+	 * Optional name of the profile to use to in place of default profile.
 	 */
-	private String profileName;
+	private String profileName = ProfileService.DEFAULT_PROFILE_ID;
 
 	// ----------------------------------------------------------------------------------------
 	// Property getters/setters.

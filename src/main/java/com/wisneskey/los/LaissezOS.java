@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import com.wisneskey.los.boot.BootConfiguration;
 import com.wisneskey.los.boot.BootLoader;
-import com.wisneskey.los.kernel.LBOSKernel.RunMode;
+import com.wisneskey.los.kernel.LOSKernel.RunMode;
 
 /**
  * Laissez Boy Operating System
