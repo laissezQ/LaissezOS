@@ -1,9 +1,9 @@
-package com.wisneskey.lbos.service.display.cp;
+package com.wisneskey.los.service.display.cp;
 
 import java.io.IOException;
 
-import com.wisneskey.lbos.kernel.LBOSKernel;
-import com.wisneskey.lbos.service.audio.SoundEffect;
+import com.wisneskey.los.kernel.LBOSKernel;
+import com.wisneskey.los.service.audio.SoundEffect;
 
 import javafx.fxml.FXML;
 

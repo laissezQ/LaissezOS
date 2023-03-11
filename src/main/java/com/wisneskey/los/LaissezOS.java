@@ -1,4 +1,4 @@
-package com.wisneskey.lbos;
+package com.wisneskey.los;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -8,9 +8,9 @@ import org.apache.commons.cli.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.wisneskey.lbos.boot.BootConfiguration;
-import com.wisneskey.lbos.boot.BootLoader;
-import com.wisneskey.lbos.kernel.LBOSKernel.RunMode;
+import com.wisneskey.los.boot.BootConfiguration;
+import com.wisneskey.los.boot.BootLoader;
+import com.wisneskey.los.kernel.LBOSKernel.RunMode;
 
 /**
  * Laissez Boy Operating System
@@ -20,9 +20,9 @@ import com.wisneskey.lbos.kernel.LBOSKernel.RunMode;
  * 
  * @author paul.wisneskey@gmail.com
  */
-public class LaissezBoyOS {
+public class LaissezOS {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(LaissezBoyOS.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(LaissezOS.class);
 
 	// ----------------------------------------------------------------------------------------
 	// Main method.
@@ -36,7 +36,7 @@ public class LaissezBoyOS {
 	 */
 	public static void main(String[] args) {
 
-		LOGGER.info("LaissezBoyOS starting: args={}", (Object[]) args);
+		LOGGER.info("LaissezOS starting: args={}", (Object[]) args);
 
 		// Set up the configuration for the boot loader.
 		BootConfiguration bootConfig = new BootConfiguration();
@@ -53,7 +53,7 @@ public class LaissezBoyOS {
 
 		loader.boot(bootConfig);
 
-		LOGGER.info("LaissesBoyOS shutdown normally.");
+		LOGGER.info("LaissesOS shutdown normally.");
 	}
 
 	// ----------------------------------------------------------------------------------------

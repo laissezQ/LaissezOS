@@ -1,10 +1,10 @@
-package com.wisneskey.lbos.service.display;
+package com.wisneskey.los.service.display;
 
 import java.io.IOException;
 
-import com.wisneskey.lbos.LaissezBoyOS;
-import com.wisneskey.lbos.service.AbstractService;
-import com.wisneskey.lbos.service.ServiceId;
+import com.wisneskey.los.LaissezOS;
+import com.wisneskey.los.service.AbstractService;
+import com.wisneskey.los.service.ServiceId;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -83,7 +83,7 @@ public class DisplayService extends AbstractService {
 	}
 
 	private Parent loadFXML(String fxml) throws IOException {
-		FXMLLoader fxmlLoader = new FXMLLoader(LaissezBoyOS.class.getResource("/display/" + fxml + ".fxml"));
+		FXMLLoader fxmlLoader = new FXMLLoader(LaissezOS.class.getResource("/display/" + fxml + ".fxml"));
 		return fxmlLoader.load();
 	}
 

@@ -1,4 +1,4 @@
-package com.wisneskey.lbos.service;
+package com.wisneskey.los.service;
 
 /**
  * Abstract base class for LBOS services that handles common functionality.

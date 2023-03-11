@@ -1,6 +1,6 @@
-package com.wisneskey.lbos.boot;
+package com.wisneskey.los.boot;
 
-import com.wisneskey.lbos.kernel.LBOSKernel.RunMode;
+import com.wisneskey.los.kernel.LBOSKernel.RunMode;
 
 /**
  * Initial configuration that drive the boot process.

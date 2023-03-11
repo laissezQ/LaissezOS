@@ -1,4 +1,4 @@
-package com.wisneskey.lbos.kernel;
+package com.wisneskey.los.kernel;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,11 +6,11 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.wisneskey.lbos.error.LBOSException;
-import com.wisneskey.lbos.service.Service;
-import com.wisneskey.lbos.service.ServiceId;
-import com.wisneskey.lbos.service.audio.AudioService;
-import com.wisneskey.lbos.service.display.DisplayService;
+import com.wisneskey.los.error.LBOSException;
+import com.wisneskey.los.service.Service;
+import com.wisneskey.los.service.ServiceId;
+import com.wisneskey.los.service.audio.AudioService;
+import com.wisneskey.los.service.display.DisplayService;
 
 /**
  * Core of the Laissez Boy Operating System that manages all services, hardware,

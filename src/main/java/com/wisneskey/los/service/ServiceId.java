@@ -1,35 +1,48 @@
-package com.wisneskey.lbos.service.audio;
+package com.wisneskey.los.service;
+
+import com.wisneskey.los.service.audio.AudioService;
+import com.wisneskey.los.service.display.DisplayService;
 
 /**
- * Enumerated type designating the various sets of sound effects that are
- * available to be played.
+ * Enumerated type for all of the ids for the services supported in LBOS.
  * 
  * @author paul.wisneskey@gmail.com
  */
-public enum SoundEffectSet {
+public enum ServiceId {
 
-	DEV("Initial sound effect set for LBOS development.");
+	AUDIO(AudioService.class, "This service goes to 11."),
+	DISPLAY(DisplayService.class, "Looking good there,");
 
 	// ----------------------------------------------------------------------------------------
 	// Variables.
 	// ----------------------------------------------------------------------------------------
 
 	/**
-	 * Brief description of the set.
+	 * Brief description of the service.
 	 */
 	private String description;
+
+	/**
+	 * Class of the service object.
+	 */
+	private Class<? extends Service> serviceClass;
 
 	// ----------------------------------------------------------------------------------------
 	// Constructors.
 	// ----------------------------------------------------------------------------------------
 
-	private SoundEffectSet(String description) {
+	private ServiceId(Class<? extends Service> serviceClass, String description) {
+		this.serviceClass = serviceClass;
 		this.description = description;
 	}
 
 	// ----------------------------------------------------------------------------------------
 	// Public methods.
 	// ----------------------------------------------------------------------------------------
+
+	public Class<? extends Service> getServiceClass() {
+		return serviceClass;
+	}
 
 	public String getDescription() {
 		return description;

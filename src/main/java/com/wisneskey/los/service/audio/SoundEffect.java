@@ -1,4 +1,4 @@
-package com.wisneskey.lbos.service.audio;
+package com.wisneskey.los.service.audio;
 
 /**
  * Enumerated type designating the various sound effects that can be played by

@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.wisneskey</groupId>
-	<artifactId>lbos</artifactId>
+	<artifactId>laissezos</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -83,7 +83,7 @@
 						<configuration>
 							<transformers>
 								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-									<mainClass>com.wisneskey.lbos.LaissezBoyOS</mainClass>
+									<mainClass>com.wisneskey.los.LaissezOS</mainClass>
 									<manifestEntries>
 										<Multi-Release>true</Multi-Release>
 									</manifestEntries>
@@ -103,7 +103,7 @@
 						<!-- Usage: mvn clean javafx:run -->
 						<id>default-cli</id>
 						<configuration>
-							<mainClass>com.wisneskey.lbos.App</mainClass>
+							<mainClass>com.wisneskey.los.LaissezOS</mainClass>
 						</configuration>
 					</execution>
 				</executions>
@@ -124,7 +124,7 @@
 					<executable>/usr/bin/scp</executable>
 					<workingDirectory>${project.build.directory}</workingDirectory>
 					<arguments>
-						<argument>lbos-0.0.1-SNAPSHOT.jar</argument>
+						<argument>laissezos-0.0.1-SNAPSHOT.jar</argument>
 						<argument>pwisneskey@192.168.86.12:./lbos.jar</argument>
 					</arguments>
 				</configuration>

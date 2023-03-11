@@ -1,4 +1,4 @@
-package com.wisneskey.lbos.service.audio;
+package com.wisneskey.los.service.audio;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
@@ -9,8 +9,8 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
 
-import com.wisneskey.lbos.service.AbstractService;
-import com.wisneskey.lbos.service.ServiceId;
+import com.wisneskey.los.service.AbstractService;
+import com.wisneskey.los.service.ServiceId;
 
 /**
  * Service for playing audio sound effects. Sound effects are loaded entirely

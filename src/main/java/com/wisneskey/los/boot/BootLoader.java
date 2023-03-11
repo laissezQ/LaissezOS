@@ -1,14 +1,14 @@
-package com.wisneskey.lbos.boot;
+package com.wisneskey.los.boot;
 
 import java.io.IOException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.wisneskey.lbos.kernel.LBOSKernel;
-import com.wisneskey.lbos.service.audio.AudioService;
-import com.wisneskey.lbos.service.audio.SoundEffect;
-import com.wisneskey.lbos.service.display.DisplayService;
+import com.wisneskey.los.kernel.LBOSKernel;
+import com.wisneskey.los.service.audio.AudioService;
+import com.wisneskey.los.service.audio.SoundEffect;
+import com.wisneskey.los.service.display.DisplayService;
 
 import javafx.application.Application;
 import javafx.stage.Stage;

@@ -1,4 +1,4 @@
-package com.wisneskey.lbos.error;
+package com.wisneskey.los.error;
 
 /**
  * Basic exception class for LBOS exceptions.

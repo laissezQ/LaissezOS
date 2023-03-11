@@ -1,4 +1,4 @@
-package com.wisneskey.lbos.service;
+package com.wisneskey.los.service;
 
 /**
  * Interface designation a service for LBOS.
