@@ -1,5 +1,7 @@
 package com.wisneskey.los.service;
 
+import com.wisneskey.los.state.State;
+
 /**
  * Abstract base class for LBOS services that handles common functionality.
  * 
@@ -8,7 +10,7 @@ package com.wisneskey.los.service;
  * 
  * @author paul.wisneskey@gmail.com
  */
-public abstract class AbstractService<T> implements Service<T> {
+public abstract class AbstractService<T extends State> implements Service<T> {
 
 	/**
 	 * Id for the service.

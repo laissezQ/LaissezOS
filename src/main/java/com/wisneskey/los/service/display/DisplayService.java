@@ -3,21 +3,29 @@ package com.wisneskey.los.service.display;
 import java.io.IOException;
 
 import com.wisneskey.los.LaissezOS;
+import com.wisneskey.los.kernel.RunMode;
 import com.wisneskey.los.service.AbstractService;
 import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.profile.model.Profile;
+import com.wisneskey.los.state.DisplayState;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 
 /**
  * Main point for working with the Laissez Boy displays.
  * 
  * @author paul.wisneskey@gmail.com
  */
-public class DisplayService extends AbstractService<Object> {
+public class DisplayService extends AbstractService<DisplayState> {
+
+	/**
+	 * Internal service state object.
+	 */
+	private InternalDisplayState displayState;
 
 	/**
 	 * Flag indicating if the display manager is initialized.
@@ -49,7 +57,7 @@ public class DisplayService extends AbstractService<Object> {
 	// ----------------------------------------------------------------------------------------
 
 	/**
-	 * Private constructor to disallow instantiation.
+	 * Private constructor to request use of static service creation method.
 	 */
 	public DisplayService() {
 		super(ServiceId.DISPLAY);
@@ -66,7 +74,7 @@ public class DisplayService extends AbstractService<Object> {
 		}
 
 		// Determine what screens are available
-		//ObservableList<Screen> screens = Screen.getScreens();
+		// ObservableList<Screen> screens = Screen.getScreens();
 
 		// First set up the control panel.
 		cpStage = stage;
@@ -92,10 +100,42 @@ public class DisplayService extends AbstractService<Object> {
 		cpScene.setRoot(loadFXML(fxml));
 	}
 
-	@Override
-	public java.lang.Object getInitialState(Profile profile) {
-		// TODO Auto-generated method stub
-		return null;
+	// ----------------------------------------------------------------------------------------
+	// Supporting methods.
+	// ----------------------------------------------------------------------------------------
+
+	private DisplayState createInitialState(Profile profile) {
+		displayState = new InternalDisplayState();
+		return displayState;
 	}
 
+	// ----------------------------------------------------------------------------------------
+	// Static service creation methods.
+	// ----------------------------------------------------------------------------------------
+
+	/**
+	 * Creates an instance of the display service along with its initial state as
+	 * set from the supplied profile.
+	 * 
+	 * @param runMode
+	 *          Run mode for the operating system.
+	 * @param profile
+	 *          Profile to use for configuring initial state of the display
+	 *          service.
+	 * @return Audio service instance and its initial state object.
+	 */
+	public static Pair<DisplayService, DisplayState> createService(RunMode runMode, Profile profile) {
+
+		DisplayService service = new DisplayService();
+		DisplayState state = service.createInitialState(profile);
+		return new Pair<>(service, state);
+	}
+
+	// ----------------------------------------------------------------------------------------
+	// Inner classes.
+	// ----------------------------------------------------------------------------------------
+
+	private static class InternalDisplayState implements DisplayState {
+
+	}
 }

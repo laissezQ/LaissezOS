@@ -6,14 +6,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.wisneskey.los.kernel.LOSKernel;
+import com.wisneskey.los.kernel.RunMode;
 import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.audio.AudioService;
 import com.wisneskey.los.service.audio.SoundEffect;
 import com.wisneskey.los.service.display.DisplayService;
 import com.wisneskey.los.service.profile.ProfileService;
+import com.wisneskey.los.service.profile.model.Profile;
+import com.wisneskey.los.state.ProfileState;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 
 /**
  * 
@@ -34,29 +38,38 @@ public class BootLoader extends Application {
 	 * Main entry point of the boot loader that handles configuration loading,
 	 * initializes the kernel and performs the configured boot sequence.
 	 * 
-	 * @param kernelConfigurator
-	 *          Handle to use to configure the kernel and register its services.
+	 * @param kernel
+	 *          Kernel to be configured during boot.
 	 * @param bootConfig
 	 *          Configuration for bootstrap the LBOS instance.
 	 */
-	public void boot(KernelConfigurator kernelConfigurator, BootConfiguration bootConfig) {
+	public void boot(BootConfiguration bootConfig) {
 
-		LOGGER.info("Boot loader starting: runMode={} profile={}", bootConfig.getRunMode(), bootConfig.getProfileName());
+		RunMode runMode = bootConfig.getRunMode();
+		String profileName = bootConfig.getProfileName();
+
+		LOGGER.info("Boot loader starting: runMode={} profile={}", runMode, profileName);
+
+		// Get what should be the uninitialized kernel.
+		LOSKernel kernel = LOSKernel.kernel();
 
 		// First make sure we have a run mode set since that may affect how services
 		// set themselves up (particularly the display service).
-		kernelConfigurator.setRunMode(bootConfig.getRunMode());
+		kernel.setRunMode(runMode);
 
 		// Get the profile service stood up first so we can activate the profile for
-		// use
-		// in configuring all the other services.
-		ProfileService profileService = new ProfileService();
-		profileService.activateProfile(bootConfig.getProfileName());
-		kernelConfigurator.register(profileService);
+		// use in configuring all the other services.
+		Pair<ProfileService, ProfileState> profileServiceDetails = ProfileService.createService(profileName);
+		kernel.registerService(profileServiceDetails);
 
-		// Register the other services whcih will use the active profile to configure themselves.
-		kernelConfigurator.register(new AudioService());
-		kernelConfigurator.register(new DisplayService());
+		// Get the profile from the profile service's state to use for other
+		// services.
+		Profile profile = profileServiceDetails.getValue().activeProfile().getValue();
+
+		// Register the other services which will use the active profile to
+		// configure themselves.
+		kernel.registerService(AudioService.createService(profile));
+		kernel.registerService(DisplayService.createService(runMode, profile));
 
 		// Initialize the kernel now that its set up.
 		LOSKernel.kernel().initialize();

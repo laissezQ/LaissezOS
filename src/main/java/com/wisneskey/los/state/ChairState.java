@@ -4,7 +4,7 @@ import com.wisneskey.los.service.ServiceId;
 
 import javafx.beans.property.ReadOnlyObjectProperty;
 
-public interface ChairState {
+public interface ChairState extends State {
 
 	// ----------------------------------------------------------------------------------------
 	// Top level state properties.
@@ -16,7 +16,7 @@ public interface ChairState {
 	// Service state properties.
 	// ----------------------------------------------------------------------------------------
 
-	<T> T getServiceState(ServiceId serviceId);
+	<T extends State> T getServiceState(ServiceId serviceId);
 	
 	// ----------------------------------------------------------------------------------------
 	// Inner classes.

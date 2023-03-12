@@ -14,13 +14,18 @@ import org.slf4j.LoggerFactory;
 import com.wisneskey.los.service.AbstractService;
 import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.profile.model.Profile;
+import com.wisneskey.los.state.AudioState;
+
+import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.util.Pair;
 
 /**
  * Service for playing audio tracks and sound effects.
  * 
  * @author paul.wisneskey@gmail.com
  */
-public class AudioService extends AbstractService<Object> {
+public class AudioService extends AbstractService<AudioState> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AudioService.class);
 
@@ -35,15 +40,18 @@ public class AudioService extends AbstractService<Object> {
 	private static final SoundEffectSet DEFAULT_SOUND_EFFECT_SET = SoundEffectSet.DEV;
 
 	/**
-	 * Current sound effect set in use.
+	 * Object for the state of the audio service.
 	 */
-	private SoundEffectSet currentSet = DEFAULT_SOUND_EFFECT_SET;
+	private InternalAudioState audioState;
 
 	// ----------------------------------------------------------------------------------------
 	// Constructors.
 	// ----------------------------------------------------------------------------------------
 
-	public AudioService() {
+	/**
+	 * Private constructor to require use of static service creation method.
+	 */
+	private AudioService() {
 		super(ServiceId.AUDIO);
 	}
 
@@ -52,16 +60,41 @@ public class AudioService extends AbstractService<Object> {
 	// ----------------------------------------------------------------------------------------
 
 	public void selectSet(SoundEffectSet set) {
-		this.currentSet = set;
-	}
-
-	public SoundEffectSet getCurrentSet() {
-		return currentSet;
+		audioState.setSoundEffectSet(set);
 	}
 
 	public void playEffect(SoundEffect effect) {
 
-		new SoundEffectPlayerThread(currentSet, effect).start();
+		new SoundEffectPlayerThread(audioState.selectedSoundEffectSet().get(), effect).start();
+	}
+
+	// ----------------------------------------------------------------------------------------
+	// Supporting methods.
+	// ----------------------------------------------------------------------------------------
+
+	private AudioState createInitialState(Profile profile) {
+		audioState = new InternalAudioState();
+		// TODO: Set the initial selected audio set from profile here.
+		return audioState;
+	}
+
+	// ----------------------------------------------------------------------------------------
+	// Static service creation methods.
+	// ----------------------------------------------------------------------------------------
+
+	/**
+	 * Creates an instance of the audio service along with its initial state as
+	 * set from the supplied profile.
+	 * 
+	 * @param profile
+	 *          Profile to use for configuring initial state of the audio service.
+	 * @return Audio service instance and its initial state object.
+	 */
+	public static Pair<AudioService, AudioState> createService(Profile profile) {
+
+		AudioService service = new AudioService();
+		AudioState state = service.createInitialState(profile);
+		return new Pair<>(service, state);
 	}
 
 	// ----------------------------------------------------------------------------------------
@@ -104,9 +137,21 @@ public class AudioService extends AbstractService<Object> {
 
 	}
 
-	@Override
-	public Object getInitialState(Profile profile) {
-		// TODO Auto-generated method stub
-		return null;
+	private static class InternalAudioState implements AudioState {
+
+		/**
+		 * Current sound effect set in use.
+		 */
+		private SimpleObjectProperty<SoundEffectSet> currentSet = new SimpleObjectProperty<SoundEffectSet>(this,
+				"selectedSoundEffectSet", DEFAULT_SOUND_EFFECT_SET);
+
+		@Override
+		public ReadOnlyObjectProperty<SoundEffectSet> selectedSoundEffectSet() {
+			return currentSet;
+		}
+
+		public void setSoundEffectSet(SoundEffectSet newSet) {
+			currentSet.setValue(newSet);
+		}
 	}
 }

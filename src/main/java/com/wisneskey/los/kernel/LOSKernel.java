@@ -6,17 +6,17 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.wisneskey.los.boot.KernelConfigurator;
 import com.wisneskey.los.error.LOSException;
 import com.wisneskey.los.service.Service;
 import com.wisneskey.los.service.ServiceId;
-import com.wisneskey.los.service.profile.model.Profile;
 import com.wisneskey.los.state.ChairState;
-import com.wisneskey.los.state.ProfileState;
+import com.wisneskey.los.state.ChairState.MasterState;
+import com.wisneskey.los.state.State;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.util.Pair;
 
 /**
  * Core of the Laissez Boy Operating System that manages all services, hardware,
@@ -24,7 +24,7 @@ import javafx.beans.property.SimpleObjectProperty;
  * 
  * @author paul.wisneskey@gmail.com
  */
-public class LOSKernel implements KernelConfigurator {
+public class LOSKernel {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(LOSKernel.class);
 
@@ -68,17 +68,6 @@ public class LOSKernel implements KernelConfigurator {
 	// ----------------------------------------------------------------------------------------
 
 	/**
-	 * Return the configurator that can be used to set up internal kernel state
-	 * and register services before it is initialized.
-	 * 
-	 * @return Configurator to use to configure the kernel.
-	 */
-	public KernelConfigurator getConfigurator() {
-		requireUninitializedKernel();
-		return this;
-	}
-
-	/**
 	 * Method used by the bootstrap processing to initialize the kernel after it
 	 * has been configured.
 	 */
@@ -94,7 +83,12 @@ public class LOSKernel implements KernelConfigurator {
 			}
 		}
 
+		// Set the initialized flag and update the master state of the chair for
+		// anyone
+		// that might be listening for master state changes.
 		initialized = true;
+		chairState.setMasterState(MasterState.STARTED);
+
 		LOGGER.info("Kernel initialized.");
 	}
 
@@ -141,21 +135,15 @@ public class LOSKernel implements KernelConfigurator {
 	 * 
 	 * @return Top level state object for the chair state.
 	 */
-	public ChairState getChairState() {
+	public ChairState chairState() {
 		requireInitializedKernel();
 		return chairState;
 	}
 
 	// ----------------------------------------------------------------------------------------
-	// KernelConfigurator methods.
+	// ConfigurableKernel methods.
 	// ----------------------------------------------------------------------------------------
 
-	/**
-	 * Set the run mode for the LBOS.
-	 * 
-	 * @param mode
-	 *          Run mode to set for the
-	 */
 	public void setRunMode(RunMode mode) {
 
 		requireUninitializedKernel();
@@ -167,12 +155,13 @@ public class LOSKernel implements KernelConfigurator {
 		runMode = mode;
 	}
 
-	public <T> void register(Service<T> service) {
+	public <S extends Service<T>, T extends State> void registerService(Pair<S, T> serviceDetails) {
+
+		Service<T> service = serviceDetails.getKey();
+		T state = serviceDetails.getValue();
 
 		serviceMap.put(service.getServiceId(), service);
-		ProfileState profileState = chairState.getServiceState(ServiceId.PROFILE);
-		Profile profile = profileState == null ? null : profileState.activeProfile().get();
-		chairState.setServiceState(service.getServiceId(), service.getInitialState(profile));
+		chairState.setServiceState(service.getServiceId(), state);
 	}
 
 	// ----------------------------------------------------------------------------------------
@@ -207,21 +196,31 @@ public class LOSKernel implements KernelConfigurator {
 
 	/**
 	 * Returns the singleton kernel instance.
+	 * 
 	 * @return
 	 */
 	public static LOSKernel kernel() {
 		return kernel;
 	}
-	
+
 	// ----------------------------------------------------------------------------------------
 	// Inner classes.
 	// ----------------------------------------------------------------------------------------
 
+	/**
+	 * Class implementing the chair's overall state tracking object.
+	 */
 	private static class InternalChairState implements ChairState {
 
+		/**
+		 * Current master state of the chair.
+		 */
 		private ObjectProperty<MasterState> masterState = new SimpleObjectProperty<MasterState>(this, "masterState",
-				MasterState.STARTED);
+				MasterState.BOOTING);
 
+		/**
+		 * Map of service id's to their state objects.
+		 */
 		private Map<ServiceId, Object> stateMap = new HashMap<>();
 
 		// ----------------------------------------------------------------------------------------
@@ -234,8 +233,9 @@ public class LOSKernel implements KernelConfigurator {
 			return masterState;
 		}
 
+		@Override
 		@SuppressWarnings("unchecked")
-		public <T> T getServiceState(ServiceId id) {
+		public <T extends State> T getServiceState(ServiceId id) {
 
 			Class<T> serviceStateClass = (Class<T>) id.getServiceStateClass();
 			return serviceStateClass.cast(stateMap.get(id));
@@ -245,10 +245,24 @@ public class LOSKernel implements KernelConfigurator {
 		// Public methods.
 		// ----------------------------------------------------------------------------------------
 
+		/**
+		 * Sets the master state of the chair.
+		 * 
+		 * @param newState
+		 *          New master state for the chair.
+		 */
 		public void setMasterState(MasterState newState) {
 			masterState.setValue(newState);
 		}
 
+		/**
+		 * Sets the state object for a service (during boot loading).
+		 * 
+		 * @param serviceId
+		 *          If of the service to set the state for.
+		 * @param state
+		 *          State object for the service.
+		 */
 		public void setServiceState(ServiceId serviceId, Object state) {
 			stateMap.put(serviceId, state);
 		}
