@@ -6,12 +6,17 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.wisneskey.los.boot.KernelConfigurator;
 import com.wisneskey.los.error.LOSException;
 import com.wisneskey.los.service.Service;
 import com.wisneskey.los.service.ServiceId;
-import com.wisneskey.los.service.audio.AudioService;
-import com.wisneskey.los.service.display.DisplayService;
-import com.wisneskey.los.service.profile.ProfileService;
+import com.wisneskey.los.service.profile.model.Profile;
+import com.wisneskey.los.state.ChairState;
+import com.wisneskey.los.state.ProfileState;
+
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 
 /**
  * Core of the Laissez Boy Operating System that manages all services, hardware,
@@ -19,31 +24,41 @@ import com.wisneskey.los.service.profile.ProfileService;
  * 
  * @author paul.wisneskey@gmail.com
  */
-public class LOSKernel {
+public class LOSKernel implements KernelConfigurator {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(LOSKernel.class);
 
 	/**
+	 * Singleton kernel instance.
+	 */
+	private static final LOSKernel kernel = new LOSKernel();
+
+	/**
 	 * Flag indicating if the kernel has been initialized.
 	 */
-	private static boolean initialized = false;
+	private boolean initialized = false;
 
 	/**
 	 * Mode chair is running.
 	 */
-	private static RunMode runMode;
+	private RunMode runMode;
 
 	/**
 	 * Map of service id to their service objects.
 	 */
-	private static Map<ServiceId, Service> serviceMap = new HashMap<>();
+	private Map<ServiceId, Service<?>> serviceMap = new HashMap<>();
+
+	/**
+	 * Top level state object for tracking the current state of the chair.
+	 */
+	private InternalChairState chairState = new InternalChairState();
 
 	// ----------------------------------------------------------------------------------------
 	// Constructors.
 	// ----------------------------------------------------------------------------------------
 
 	/**
-	 * Private constructor to disallow instantiation.
+	 * Private constructor to disallow instantiation by outsiders.
 	 */
 	private LOSKernel() {
 	}
@@ -53,47 +68,21 @@ public class LOSKernel {
 	// ----------------------------------------------------------------------------------------
 
 	/**
-	 * Set the run mode for the LBOS.
+	 * Return the configurator that can be used to set up internal kernel state
+	 * and register services before it is initialized.
 	 * 
-	 * @param mode
-	 *          Run mode to set for the
+	 * @return Configurator to use to configure the kernel.
 	 */
-	public static void setRunMode(RunMode mode) {
-
+	public KernelConfigurator getConfigurator() {
 		requireUninitializedKernel();
-
-		if ((runMode != null) && (runMode != mode)) {
-			throw new LOSException("Run mode can not be changed once set.");
-		}
-
-		runMode = mode;
-	}
-
-	/**
-	 * Method used by the bootstrap processing to register the expected services
-	 * for the kernel.
-	 * 
-	 * @param serviceId
-	 *          Id of the service being registered.
-	 * @param service
-	 *          Service object to register.
-	 */
-	public static void registerService(Service service) {
-
-		requireUninitializedKernel();
-
-		if (serviceMap.put(service.getServiceId(), service) != null) {
-			throw new LOSException("Duplicate service registration: id=" + service.getServiceId());
-		}
-
-		LOGGER.debug("Registered service: id=" + service.getServiceId());
+		return this;
 	}
 
 	/**
 	 * Method used by the bootstrap processing to initialize the kernel after it
 	 * has been configured.
 	 */
-	public static void initialize() {
+	public void initialize() {
 
 		requireUninitializedKernel();
 
@@ -114,48 +103,13 @@ public class LOSKernel {
 	// ----------------------------------------------------------------------------------------
 
 	/**
-	 * Return the audio service registered with the kernel.
-	 * 
-	 * @return Audio service instance.
-	 */
-	public static AudioService audioService() {
-
-		requireInitializedKernel();
-		return AudioService.class.cast(serviceMap.get(ServiceId.AUDIO));
-	}
-
-	/**
-	 * Return the display service registered with the kernel.
-	 * 
-	 * @return Display service instance.
-	 */
-	public static DisplayService displayService() {
-
-		requireInitializedKernel();
-		return DisplayService.class.cast(serviceMap.get(ServiceId.DISPLAY));
-	}
-
-	/**
-	 * Return the profile service registered with the kernel.
-	 * 
-	 * @return Profile service instance.
-	 */
-	public static ProfileService profileService() {
-
-		requireInitializedKernel();
-		return ProfileService.class.cast(serviceMap.get(ServiceId.PROFILE));
-	}
-	
-	/**
 	 * Returns the indicator that designates what environment the application is
 	 * being run in.
 	 * 
 	 * @return Enumerated type designated the environment the application is being
 	 *         run in.
 	 */
-	public static RunMode getRunMode() {
-
-		requireInitializedKernel();
+	public RunMode getRunMode() {
 
 		if (runMode == null) {
 			throw new LOSException("Run mode not set.");
@@ -164,15 +118,72 @@ public class LOSKernel {
 		return runMode;
 	}
 
+	/**
+	 * Returns the service with the given id.
+	 * 
+	 * @param <T>
+	 *          Type of service.
+	 * @param id
+	 *          Id for the service to return.
+	 * @return Service for the requested id.
+	 */
+	@SuppressWarnings("unchecked")
+	public <T extends Service<?>> T getService(ServiceId id) {
+
+		Class<T> serviceClass = (Class<T>) id.getServiceClass();
+		return serviceClass.cast(serviceMap.get(id));
+	}
+
+	/**
+	 * Return the top level state object for the chair. The state object is ready
+	 * only and can only be manipulated by the kernel and services (for their
+	 * specific state sub-objects).
+	 * 
+	 * @return Top level state object for the chair state.
+	 */
+	public ChairState getChairState() {
+		requireInitializedKernel();
+		return chairState;
+	}
+
 	// ----------------------------------------------------------------------------------------
-	// Supporting static methods.
+	// KernelConfigurator methods.
+	// ----------------------------------------------------------------------------------------
+
+	/**
+	 * Set the run mode for the LBOS.
+	 * 
+	 * @param mode
+	 *          Run mode to set for the
+	 */
+	public void setRunMode(RunMode mode) {
+
+		requireUninitializedKernel();
+
+		if ((runMode != null) && (runMode != mode)) {
+			throw new LOSException("Run mode can not be changed once set.");
+		}
+
+		runMode = mode;
+	}
+
+	public <T> void register(Service<T> service) {
+
+		serviceMap.put(service.getServiceId(), service);
+		ProfileState profileState = chairState.getServiceState(ServiceId.PROFILE);
+		Profile profile = profileState == null ? null : profileState.activeProfile().get();
+		chairState.setServiceState(service.getServiceId(), service.getInitialState(profile));
+	}
+
+	// ----------------------------------------------------------------------------------------
+	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
 
 	/**
 	 * Checks to make sure the kernel has been initialized and throws a run time
 	 * exception if it has not.
 	 */
-	private static void requireInitializedKernel() {
+	private void requireInitializedKernel() {
 
 		if (!initialized) {
 			throw new LOSException("LBOS kernel not initialized.");
@@ -183,7 +194,7 @@ public class LOSKernel {
 	 * Checks to make sure the kernel has not been initialized and throws a run
 	 * time exception if it has.
 	 */
-	private static void requireUninitializedKernel() {
+	private void requireUninitializedKernel() {
 
 		if (initialized) {
 			throw new LOSException("LBOS kernel already initialized.");
@@ -191,37 +202,55 @@ public class LOSKernel {
 	}
 
 	// ----------------------------------------------------------------------------------------
-	// Inner classes.
+	// Public static methods.
 	// ----------------------------------------------------------------------------------------
 
 	/**
-	 * Enumerated type used to indicate where the application is being run so that
-	 * it can configuration itself appropriately.
+	 * Returns the singleton kernel instance.
+	 * @return
 	 */
-	public enum RunMode {
-		DEV("Off chair development where chair system interfaces are simulated."),
-		PI2B("Raspberry PI2B prototyping (limited display support).");
+	public static LOSKernel kernel() {
+		return kernel;
+	}
+	
+	// ----------------------------------------------------------------------------------------
+	// Inner classes.
+	// ----------------------------------------------------------------------------------------
+
+	private static class InternalChairState implements ChairState {
+
+		private ObjectProperty<MasterState> masterState = new SimpleObjectProperty<MasterState>(this, "masterState",
+				MasterState.STARTED);
+
+		private Map<ServiceId, Object> stateMap = new HashMap<>();
 
 		// ----------------------------------------------------------------------------------------
-		// Variables.
+		// ChairState methods.
 		// ----------------------------------------------------------------------------------------
 
-		private String description;
+		@Override
+		public ReadOnlyObjectProperty<MasterState> masterState() {
 
-		// ----------------------------------------------------------------------------------------
-		// Constructors.
-		// ----------------------------------------------------------------------------------------
+			return masterState;
+		}
 
-		private RunMode(String description) {
-			this.description = description;
+		@SuppressWarnings("unchecked")
+		public <T> T getServiceState(ServiceId id) {
+
+			Class<T> serviceStateClass = (Class<T>) id.getServiceStateClass();
+			return serviceStateClass.cast(stateMap.get(id));
 		}
 
 		// ----------------------------------------------------------------------------------------
 		// Public methods.
 		// ----------------------------------------------------------------------------------------
 
-		public String getDescription() {
-			return description;
+		public void setMasterState(MasterState newState) {
+			masterState.setValue(newState);
+		}
+
+		public void setServiceState(ServiceId serviceId, Object state) {
+			stateMap.put(serviceId, state);
 		}
 	}
 }

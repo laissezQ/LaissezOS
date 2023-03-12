@@ -10,7 +10,8 @@ import org.slf4j.LoggerFactory;
 
 import com.wisneskey.los.boot.BootConfiguration;
 import com.wisneskey.los.boot.BootLoader;
-import com.wisneskey.los.kernel.LOSKernel.RunMode;
+import com.wisneskey.los.kernel.LOSKernel;
+import com.wisneskey.los.kernel.RunMode;
 
 /**
  * Laissez Boy Operating System
@@ -50,8 +51,7 @@ public class LaissezOS {
 		}
 
 		BootLoader loader = new BootLoader();
-
-		loader.boot(bootConfig);
+		loader.boot(LOSKernel.kernel().getConfigurator(), bootConfig);
 
 		LOGGER.info("LaissesOS shutdown normally.");
 	}

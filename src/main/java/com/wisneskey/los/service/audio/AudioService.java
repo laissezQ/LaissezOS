@@ -1,6 +1,5 @@
 package com.wisneskey.los.service.audio;
 
-import java.io.BufferedInputStream;
 import java.io.InputStream;
 
 import javax.sound.sampled.AudioFormat;
@@ -9,16 +8,26 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.wisneskey.los.service.AbstractService;
 import com.wisneskey.los.service.ServiceId;
+import com.wisneskey.los.service.profile.model.Profile;
 
 /**
- * Service for playing audio sound effects. Sound effects are loaded entirely
- * into memory before being played so they should be relative short clips.
+ * Service for playing audio tracks and sound effects.
  * 
  * @author paul.wisneskey@gmail.com
  */
-public class AudioService extends AbstractService {
+public class AudioService extends AbstractService<Object> {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(AudioService.class);
+
+	/**
+	 * Base path for where audio clips are saved in the resources.
+	 */
+	private static final String AUDIO_RESOURCE_BASE = "/audio/";
 
 	/**
 	 * Default sound effect set to use.
@@ -52,36 +61,52 @@ public class AudioService extends AbstractService {
 
 	public void playEffect(SoundEffect effect) {
 
-		new Thread() { public void run() {
+		new SoundEffectPlayerThread(currentSet, effect).start();
+	}
 
-			String resourceLocation = "/audio/" + currentSet + "/" + effect.getResourcePath();
+	// ----------------------------------------------------------------------------------------
+	// Inner classes.
+	// ----------------------------------------------------------------------------------------
+
+	/**
+	 * Thread for playing a sound effect via the javax.sound classes.
+	 */
+	private static class SoundEffectPlayerThread extends Thread {
+
+		private SoundEffectSet set;
+		private SoundEffect effect;
+
+		public SoundEffectPlayerThread(SoundEffectSet set, SoundEffect effect) {
+			this.set = set;
+			this.effect = effect;
+
+			setDaemon(true);
+			setName("SoundEffectPlayer[" + effect + "]");
+		}
+
+		@Override
+		public void run() {
+
+			String resourceLocation = AUDIO_RESOURCE_BASE + set + "/" + effect.getResourcePath();
 
 			try {
 				InputStream source = getClass().getResourceAsStream(resourceLocation);
-				InputStream inputStream = new BufferedInputStream(source);
-				AudioInputStream audioIn = AudioSystem.getAudioInputStream(inputStream);
+				AudioInputStream audioIn = AudioSystem.getAudioInputStream(source);
 				AudioFormat format = audioIn.getFormat();
 				DataLine.Info info = new DataLine.Info(Clip.class, format);
 				Clip clip = (Clip) AudioSystem.getLine(info);
 				clip.open(audioIn);
 				clip.start();
-			} catch (Exception e1) {
-				System.err.println("Error playing sound: " + e1);
+			} catch (Exception e) {
+				LOGGER.error("Failed to play sound effect: set=" + set + " effect=" + effect, e);
 			}
+		}
 
-			
-		} }.run();
-		
-		
 	}
 
-	// ----------------------------------------------------------------------------------------
-	// Supporting methods.
-	// ----------------------------------------------------------------------------------------
-
-	private String getEffectFileLocation(SoundEffect effect) {
-
-		String resourceLocation = "/audio/" + currentSet + "/" + effect.getResourcePath();
-		return getClass().getResource(resourceLocation).toExternalForm();
+	@Override
+	public Object getInitialState(Profile profile) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

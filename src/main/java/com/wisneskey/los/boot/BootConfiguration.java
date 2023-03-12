@@ -1,6 +1,6 @@
 package com.wisneskey.los.boot;
 
-import com.wisneskey.los.kernel.LOSKernel.RunMode;
+import com.wisneskey.los.kernel.RunMode;
 import com.wisneskey.los.service.profile.ProfileService;
 
 /**

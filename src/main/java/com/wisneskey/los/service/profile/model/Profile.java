@@ -2,7 +2,7 @@ package com.wisneskey.los.service.profile.model;
 
 import java.util.Set;
 
-import com.wisneskey.los.kernel.LOSKernel.RunMode;
+import com.wisneskey.los.kernel.RunMode;
 
 /**
  * Class defining the root profile object used to manage an individual

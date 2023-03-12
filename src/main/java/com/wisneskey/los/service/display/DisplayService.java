@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.wisneskey.los.LaissezOS;
 import com.wisneskey.los.service.AbstractService;
 import com.wisneskey.los.service.ServiceId;
+import com.wisneskey.los.service.profile.model.Profile;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,7 +17,7 @@ import javafx.stage.Stage;
  * 
  * @author paul.wisneskey@gmail.com
  */
-public class DisplayService extends AbstractService {
+public class DisplayService extends AbstractService<Object> {
 
 	/**
 	 * Flag indicating if the display manager is initialized.
@@ -89,6 +90,12 @@ public class DisplayService extends AbstractService {
 
 	public void setRoot(String fxml) throws IOException {
 		cpScene.setRoot(loadFXML(fxml));
+	}
+
+	@Override
+	public java.lang.Object getInitialState(Profile profile) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
