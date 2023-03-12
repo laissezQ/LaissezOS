@@ -6,7 +6,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.wisneskey.los.error.LOSException;
+import com.wisneskey.los.error.LaissezException;
 import com.wisneskey.los.service.Service;
 import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.state.ChairState;
@@ -24,14 +24,14 @@ import javafx.util.Pair;
  * 
  * @author paul.wisneskey@gmail.com
  */
-public class LOSKernel {
+public class Kernel {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(LOSKernel.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(Kernel.class);
 
 	/**
 	 * Singleton kernel instance.
 	 */
-	private static final LOSKernel kernel = new LOSKernel();
+	private static final Kernel kernel = new Kernel();
 
 	/**
 	 * Flag indicating if the kernel has been initialized.
@@ -60,7 +60,7 @@ public class LOSKernel {
 	/**
 	 * Private constructor to disallow instantiation by outsiders.
 	 */
-	private LOSKernel() {
+	private Kernel() {
 	}
 
 	// ----------------------------------------------------------------------------------------
@@ -73,13 +73,15 @@ public class LOSKernel {
 	 */
 	public void initialize() {
 
+		LOGGER.info("Initializing kernel...");
+		
 		requireUninitializedKernel();
 
 		// Verify that all expected services have been registered.
 		for (ServiceId serviceId : ServiceId.values()) {
 
 			if (!serviceMap.containsKey(serviceId)) {
-				throw new LOSException("Required service not registered: id=" + serviceId);
+				throw new LaissezException("Required service not registered: id=" + serviceId);
 			}
 		}
 
@@ -106,7 +108,7 @@ public class LOSKernel {
 	public RunMode getRunMode() {
 
 		if (runMode == null) {
-			throw new LOSException("Run mode not set.");
+			throw new LaissezException("Run mode not set.");
 		}
 
 		return runMode;
@@ -141,18 +143,24 @@ public class LOSKernel {
 	}
 
 	// ----------------------------------------------------------------------------------------
-	// ConfigurableKernel methods.
+	// Kernel initialization methods.
 	// ----------------------------------------------------------------------------------------
 
+	/**
+	 * Used by boot loader to set the run mode of the operating system.
+	 * 
+	 * @param mode Run mode of the operating
+	 */
 	public void setRunMode(RunMode mode) {
 
 		requireUninitializedKernel();
 
 		if ((runMode != null) && (runMode != mode)) {
-			throw new LOSException("Run mode can not be changed once set.");
+			throw new LaissezException("Run mode can not be changed once set.");
 		}
 
 		runMode = mode;
+		LOGGER.debug("Run mode set: {}", runMode.getDescription());
 	}
 
 	public <S extends Service<T>, T extends State> void registerService(Pair<S, T> serviceDetails) {
@@ -160,8 +168,12 @@ public class LOSKernel {
 		Service<T> service = serviceDetails.getKey();
 		T state = serviceDetails.getValue();
 
-		serviceMap.put(service.getServiceId(), service);
+		if( serviceMap.put(service.getServiceId(), service) != null ) {
+			throw new LaissezException("Duplicate service registration: " + service.getServiceId());
+		}
+	
 		chairState.setServiceState(service.getServiceId(), state);
+		LOGGER.info("Registered service: {}", service.getServiceId());
 	}
 
 	// ----------------------------------------------------------------------------------------
@@ -175,7 +187,7 @@ public class LOSKernel {
 	private void requireInitializedKernel() {
 
 		if (!initialized) {
-			throw new LOSException("LBOS kernel not initialized.");
+			throw new LaissezException("LBOS kernel not initialized.");
 		}
 	}
 
@@ -186,7 +198,7 @@ public class LOSKernel {
 	private void requireUninitializedKernel() {
 
 		if (initialized) {
-			throw new LOSException("LBOS kernel already initialized.");
+			throw new LaissezException("LBOS kernel already initialized.");
 		}
 	}
 
@@ -199,7 +211,7 @@ public class LOSKernel {
 	 * 
 	 * @return
 	 */
-	public static LOSKernel kernel() {
+	public static Kernel kernel() {
 		return kernel;
 	}
 

@@ -5,8 +5,8 @@ import java.io.InputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.wisneskey.los.error.LOSException;
-import com.wisneskey.los.kernel.LOSKernel;
+import com.wisneskey.los.error.LaissezException;
+import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.service.AbstractService;
 import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.profile.model.Profile;
@@ -60,6 +60,9 @@ public class ProfileService extends AbstractService<ProfileState> {
 	// Public methods.
 	// ----------------------------------------------------------------------------------------
 
+	// Currently no public methods; other services just use the profile for
+	// initialization.
+
 	// ----------------------------------------------------------------------------------------
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
@@ -88,10 +91,10 @@ public class ProfileService extends AbstractService<ProfileState> {
 	private Profile loadProfile(String profileId) {
 
 		if (profileState.activeProfile().get() != null) {
-			throw new LOSException("Profile already loaded.");
+			throw new LaissezException("Profile already loaded.");
 		}
 
-		LOGGER.info("Loading profile: profileId={}", profileId);
+		LOGGER.info("Loading profile: {}", profileId);
 
 		String profilePath = PROFILE_RESOURCE_BASE + profileId + ".json";
 		Profile profile = null;
@@ -99,11 +102,13 @@ public class ProfileService extends AbstractService<ProfileState> {
 			InputStream input = getClass().getResourceAsStream(profilePath);
 			profile = JsonUtils.toObject(input, Profile.class);
 		} catch (Exception e) {
-			throw new LOSException("Failed to load profile.", e);
+			throw new LaissezException("Failed to load profile.", e);
 		}
 
 		// Validate the profile
 		validateProfile(profile);
+
+		LOGGER.info("Profile loaded: {}", profile.getDescription());
 		return profile;
 	}
 
@@ -123,8 +128,8 @@ public class ProfileService extends AbstractService<ProfileState> {
 
 		// Since we have valid run modes, make sure the current run mode is
 		// supported by the profile.
-		if (!profile.getSupportedRunModes().contains(LOSKernel.kernel().getRunMode())) {
-			throw new LOSException("Profile does not supported kernel run mode '" + LOSKernel.kernel().getRunMode() + "'.");
+		if (!profile.getSupportedRunModes().contains(Kernel.kernel().getRunMode())) {
+			throw new LaissezException("Profile does not supported kernel run mode '" + Kernel.kernel().getRunMode() + "'.");
 		}
 
 		LOGGER.debug("Profile validation passed.");
@@ -144,7 +149,7 @@ public class ProfileService extends AbstractService<ProfileState> {
 	 */
 	public static Pair<ProfileService, ProfileState> createService(String profileId) {
 
-		if( profileId == null ) {
+		if (profileId == null) {
 			profileId = DEFAULT_PROFILE_ID;
 		}
 		ProfileService service = new ProfileService();
@@ -156,6 +161,9 @@ public class ProfileService extends AbstractService<ProfileState> {
 	// Inner classes.
 	// ----------------------------------------------------------------------------------------
 
+	/**
+	 * Internal state object for the profile service.
+	 */
 	private static class InternalProfileState implements ProfileState {
 
 		private ObjectProperty<Profile> activeProfile = new SimpleObjectProperty<>(this, "activeProfile");
@@ -170,10 +178,16 @@ public class ProfileService extends AbstractService<ProfileState> {
 		}
 
 		// ----------------------------------------------------------------------------------------
-		// Public methods.
+		// Supporting methods.
 		// ----------------------------------------------------------------------------------------
 
-		public void setActiveProfile(Profile profile) {
+		/**
+		 * Update the active profile.
+		 * 
+		 * @param profile
+		 *          Profile to make the active profile.
+		 */
+		private void setActiveProfile(Profile profile) {
 			this.activeProfile.set(profile);
 		}
 	}

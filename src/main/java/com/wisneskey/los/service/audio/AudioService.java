@@ -15,6 +15,8 @@ import com.wisneskey.los.service.AbstractService;
 import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.profile.model.Profile;
 import com.wisneskey.los.state.AudioState;
+import com.wisneskey.los.util.StopWatch;
+import com.wisneskey.los.util.ValidationUtils;
 
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -37,7 +39,7 @@ public class AudioService extends AbstractService<AudioState> {
 	/**
 	 * Default sound effect set to use.
 	 */
-	private static final SoundEffectSet DEFAULT_SOUND_EFFECT_SET = SoundEffectSet.DEV;
+	public static final SoundEffectSet DEFAULT_SOUND_EFFECT_SET = SoundEffectSet.DEV;
 
 	/**
 	 * Object for the state of the audio service.
@@ -59,12 +61,26 @@ public class AudioService extends AbstractService<AudioState> {
 	// Public methods.
 	// ----------------------------------------------------------------------------------------
 
+	/**
+	 * Change the currently selected sound effect set.
+	 * 
+	 * @param set
+	 *          New sound effect set to use.
+	 */
 	public void selectSet(SoundEffectSet set) {
+		ValidationUtils.requireValue(set, "Sound effect set id is required.");
 		audioState.setSoundEffectSet(set);
 	}
 
+	/**
+	 * Play a sound effect.
+	 * 
+	 * @param effect
+	 *          Id of the sound effect to play.
+	 */
 	public void playEffect(SoundEffect effect) {
 
+		LOGGER.debug("Playing sound effect: {}", effect);
 		new SoundEffectPlayerThread(audioState.selectedSoundEffectSet().get(), effect).start();
 	}
 
@@ -72,9 +88,15 @@ public class AudioService extends AbstractService<AudioState> {
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
 
+	/**
+	 * Creates the initial state of the service using the supplied profile for configuration.
+	 * 
+	 * @param profile Profile to use for configuring initial service state.
+	 * @return Configured state object for the service.
+	 */
 	private AudioState createInitialState(Profile profile) {
 		audioState = new InternalAudioState();
-		// TODO: Set the initial selected audio set from profile here.
+		audioState.setSoundEffectSet(profile.getSoundEffectSet());
 		return audioState;
 	}
 
@@ -106,6 +128,8 @@ public class AudioService extends AbstractService<AudioState> {
 	 */
 	private static class SoundEffectPlayerThread extends Thread {
 
+		private static final Logger PLAYER_LOGGER = LoggerFactory.getLogger("EffectPlayer");
+
 		private SoundEffectSet set;
 		private SoundEffect effect;
 
@@ -120,23 +144,38 @@ public class AudioService extends AbstractService<AudioState> {
 		@Override
 		public void run() {
 
+			PLAYER_LOGGER.trace("Player thread started...");
+
 			String resourceLocation = AUDIO_RESOURCE_BASE + set + "/" + effect.getResourcePath();
+			PLAYER_LOGGER.trace("Audio clip resource: {}", resourceLocation);
 
 			try {
+
+				StopWatch timer = new StopWatch();
+
+				// Load the resource to play back as a clip.
 				InputStream source = getClass().getResourceAsStream(resourceLocation);
 				AudioInputStream audioIn = AudioSystem.getAudioInputStream(source);
 				AudioFormat format = audioIn.getFormat();
 				DataLine.Info info = new DataLine.Info(Clip.class, format);
 				Clip clip = (Clip) AudioSystem.getLine(info);
 				clip.open(audioIn);
+
+				PLAYER_LOGGER.trace("Audio clip playback starting; load time: {}", timer.elapsedAsString());
 				clip.start();
+				PLAYER_LOGGER.trace("Audio clip playback complete; total time: {}", timer.elapsedAsString());
 			} catch (Exception e) {
-				LOGGER.error("Failed to play sound effect: set=" + set + " effect=" + effect, e);
+				PLAYER_LOGGER.error("Failed to play sound effect: set=" + set + " effect=" + effect, e);
 			}
+
+			PLAYER_LOGGER.trace("Player thread ended.");
 		}
 
 	}
 
+	/**
+	 * Internal state object for the Audio service.
+	 */
 	private static class InternalAudioState implements AudioState {
 
 		/**
@@ -145,12 +184,20 @@ public class AudioService extends AbstractService<AudioState> {
 		private SimpleObjectProperty<SoundEffectSet> currentSet = new SimpleObjectProperty<SoundEffectSet>(this,
 				"selectedSoundEffectSet", DEFAULT_SOUND_EFFECT_SET);
 
+		// ----------------------------------------------------------------------------------------
+		// AudioState methods.
+		// ----------------------------------------------------------------------------------------
+
 		@Override
 		public ReadOnlyObjectProperty<SoundEffectSet> selectedSoundEffectSet() {
 			return currentSet;
 		}
 
-		public void setSoundEffectSet(SoundEffectSet newSet) {
+		// ----------------------------------------------------------------------------------------
+		// Supporting methods.
+		// ----------------------------------------------------------------------------------------
+
+		private void setSoundEffectSet(SoundEffectSet newSet) {
 			currentSet.setValue(newSet);
 		}
 	}

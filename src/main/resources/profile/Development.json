@@ -6,5 +6,9 @@
 	"description": "Default profile for development of LaissezOS.",
 	"supportedRunModes": [
 		"DEV"
-	]
+	],
+	// 
+	// Audio service settings:
+	//
+	"soundEffectSet": "DEV"
 }

@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.wisneskey.los.kernel.LOSKernel;
+import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.kernel.RunMode;
 import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.audio.AudioService;
@@ -51,7 +51,7 @@ public class BootLoader extends Application {
 		LOGGER.info("Boot loader starting: runMode={} profile={}", runMode, profileName);
 
 		// Get what should be the uninitialized kernel.
-		LOSKernel kernel = LOSKernel.kernel();
+		Kernel kernel = Kernel.kernel();
 
 		// First make sure we have a run mode set since that may affect how services
 		// set themselves up (particularly the display service).
@@ -72,7 +72,7 @@ public class BootLoader extends Application {
 		kernel.registerService(DisplayService.createService(runMode, profile));
 
 		// Initialize the kernel now that its set up.
-		LOSKernel.kernel().initialize();
+		Kernel.kernel().initialize();
 
 		// Finally, launch the JavaFX application as the "desktop" for LBOS.
 		LOGGER.info("Launching UI...");
@@ -91,10 +91,10 @@ public class BootLoader extends Application {
 
 		// JavaFX is ready to display now so initialize the display manager and
 		// start the dramatic boot sequence.
-		((DisplayService) LOSKernel.kernel().getService(ServiceId.DISPLAY)).initialize(stage);
+		((DisplayService) Kernel.kernel().getService(ServiceId.DISPLAY)).initialize(stage);
 
 		// Play a welcome clip as a test.
-		((AudioService) LOSKernel.kernel().getService(ServiceId.AUDIO)).playEffect(SoundEffect.BOOT_COMPLETE);
+		((AudioService) Kernel.kernel().getService(ServiceId.AUDIO)).playEffect(SoundEffect.BOOT_COMPLETE);
 	}
 
 	// ----------------------------------------------------------------------------------------

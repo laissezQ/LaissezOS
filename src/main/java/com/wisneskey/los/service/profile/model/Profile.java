@@ -3,6 +3,8 @@ package com.wisneskey.los.service.profile.model;
 import java.util.Set;
 
 import com.wisneskey.los.kernel.RunMode;
+import com.wisneskey.los.service.audio.AudioService;
+import com.wisneskey.los.service.audio.SoundEffectSet;
 
 /**
  * Class defining the root profile object used to manage an individual
@@ -21,11 +23,16 @@ public class Profile {
 	 * Description of the profile.
 	 */
 	private String description;
-	
+
 	/**
 	 * Run modes the profile is compatible with.
 	 */
 	private Set<RunMode> supportedRunModes;
+
+	/**
+	 * Id of the sound effect set to start with.
+	 */
+	private SoundEffectSet soundEffectSet = AudioService.DEFAULT_SOUND_EFFECT_SET;
 
 	// ----------------------------------------------------------------------------------------
 	// Property getters/setters.
@@ -48,7 +55,7 @@ public class Profile {
 	public String getDescription() {
 		return description;
 	}
-	
+
 	/**
 	 * Returns the set of run modes that the profile is compatible with.
 	 * 
@@ -56,5 +63,24 @@ public class Profile {
 	 */
 	public Set<RunMode> getSupportedRunModes() {
 		return supportedRunModes;
+	}
+
+	/**
+	 * Returns the sound effect set to use.
+	 * 
+	 * @return Id of the sound effect set to use.
+	 */
+	public SoundEffectSet getSoundEffectSet() {
+		return soundEffectSet;
+	}
+
+	/**
+	 * Sets the sound effect set to use.
+	 * 
+	 * @param soundEffectSet
+	 *          Id of the sound effect set to use.
+	 */
+	public void setSoundEffectSet(SoundEffectSet soundEffectSet) {
+		this.soundEffectSet = soundEffectSet;
 	}
 }

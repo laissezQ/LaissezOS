@@ -2,7 +2,7 @@ package com.wisneskey.los.util;
 
 import java.util.Collection;
 
-import com.wisneskey.los.error.LOSException;
+import com.wisneskey.los.error.LaissezException;
 
 /**
  * Utility class providing static methods to validate values.
@@ -54,7 +54,7 @@ public class ValidationUtils {
 		}
 
 		if (!valid) {
-			throw new LOSException(failureMessage);
+			throw new LaissezException(failureMessage);
 		}
 	}
 }
