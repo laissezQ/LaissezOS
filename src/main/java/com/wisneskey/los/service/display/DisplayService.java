@@ -2,7 +2,11 @@ package com.wisneskey.los.service.display;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.wisneskey.los.LaissezOS;
+import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.kernel.RunMode;
 import com.wisneskey.los.service.AbstractService;
 import com.wisneskey.los.service.ServiceId;
@@ -21,6 +25,8 @@ import javafx.util.Pair;
  * @author paul.wisneskey@gmail.com
  */
 public class DisplayService extends AbstractService<DisplayState> {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(DisplayService.class);
 
 	/**
 	 * Internal service state object.
@@ -73,27 +79,29 @@ public class DisplayService extends AbstractService<DisplayState> {
 			throw new RuntimeException("Display manager already initialized.");
 		}
 
-		// Determine what screens are available
-		// ObservableList<Screen> screens = Screen.getScreens();
+		// Create the stages for both screens but the run mode will dictate which
+		// ones actually
+		// get shown and where they are placed.
 
-		// First set up the control panel.
+		// Control panel stage:
 		cpStage = stage;
 		cpScene = new Scene(loadFXML("primary"), 400, 1280);
 		cpStage.setScene(cpScene);
-		cpStage.show();
 
-		// Now set up the heads up display.
+		// Heads up display stage:
 		hudStage = new Stage();
 		hudScene = new Scene(loadFXML("secondary"), 640, 480);
 		hudStage.setScene(hudScene);
-		hudStage.show();
+
+		// Show each stage depending on run mode and screen availability.
+		RunMode runMode = Kernel.kernel().getRunMode();
+		showControlPanel(runMode);
+		showHeadsUpDisplay(runMode);
+
+		// Determine what screens are available
+		// ObservableList<Screen> screens = Screen.getScreens();
 
 		initialized = true;
-	}
-
-	private Parent loadFXML(String fxml) throws IOException {
-		FXMLLoader fxmlLoader = new FXMLLoader(LaissezOS.class.getResource("/display/" + fxml + ".fxml"));
-		return fxmlLoader.load();
 	}
 
 	public void setRoot(String fxml) throws IOException {
@@ -107,6 +115,43 @@ public class DisplayService extends AbstractService<DisplayState> {
 	private DisplayState createInitialState(Profile profile) {
 		displayState = new InternalDisplayState();
 		return displayState;
+	}
+
+	private void showControlPanel(RunMode runMode) {
+
+		switch (runMode) {
+		case DEV:
+			cpStage.show();
+			break;
+		case PI2B_CP:
+			cpStage.show();
+			cpStage.setFullScreenExitHint("");
+			cpStage.setFullScreen(true);
+			break;
+		default:
+			LOGGER.info("Control panel not being shown in run mode: " + runMode);
+		}
+	}
+
+	private void showHeadsUpDisplay(RunMode runMode) {
+
+		switch (runMode) {
+		case DEV:
+			hudStage.show();
+			break;
+		case PI2B_HUD:
+			hudStage.show();
+			hudStage.setFullScreen(true);
+			break;
+		default:
+			LOGGER.info("Heads up display not being shown in run mode: " + runMode);
+		}
+	}
+
+
+	private Parent loadFXML(String fxml) throws IOException {
+		FXMLLoader fxmlLoader = new FXMLLoader(LaissezOS.class.getResource("/display/" + fxml + ".fxml"));
+		return fxmlLoader.load();
 	}
 
 	// ----------------------------------------------------------------------------------------

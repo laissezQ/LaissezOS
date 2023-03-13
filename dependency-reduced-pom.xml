@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.wisneskey</groupId>
-  <artifactId>lbos</artifactId>
+  <artifactId>laissezos</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <build>
     <extensions>
@@ -32,7 +32,10 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>com.wisneskey.lbos.LaissezBoyOS</mainClass>
+                  <mainClass>com.wisneskey.los.LaissezOS</mainClass>
+                  <manifestEntries>
+                    <Multi-Release>true</Multi-Release>
+                  </manifestEntries>
                 </transformer>
               </transformers>
             </configuration>
@@ -47,7 +50,7 @@
           <execution>
             <id>default-cli</id>
             <configuration>
-              <mainClass>com.wisneskey.lbos.App</mainClass>
+              <mainClass>com.wisneskey.los.LaissezOS</mainClass>
             </configuration>
           </execution>
         </executions>
@@ -68,7 +71,7 @@
           <executable>/usr/bin/scp</executable>
           <workingDirectory>${project.build.directory}</workingDirectory>
           <arguments>
-            <argument>lbos-0.0.1-SNAPSHOT.jar</argument>
+            <argument>laissezos-0.0.1-SNAPSHOT.jar</argument>
             <argument>pwisneskey@192.168.86.12:./lbos.jar</argument>
           </arguments>
         </configuration>

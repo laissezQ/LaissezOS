@@ -1,5 +1,6 @@
 package com.wisneskey.los.service.audio;
 
+import java.io.BufferedInputStream;
 import java.io.InputStream;
 
 import javax.sound.sampled.AudioFormat;
@@ -153,9 +154,12 @@ public class AudioService extends AbstractService<AudioState> {
 
 				StopWatch timer = new StopWatch();
 
-				// Load the resource to play back as a clip.
+				// Load the resource to play back as a clip.  Put it in a buffered input
+				// stream so that stream can rewind after reading the header information.
 				InputStream source = getClass().getResourceAsStream(resourceLocation);
-				AudioInputStream audioIn = AudioSystem.getAudioInputStream(source);
+				BufferedInputStream bufferedSource = new BufferedInputStream(source);
+				
+				AudioInputStream audioIn = AudioSystem.getAudioInputStream(bufferedSource);
 				AudioFormat format = audioIn.getFormat();
 				DataLine.Info info = new DataLine.Info(Clip.class, format);
 				Clip clip = (Clip) AudioSystem.getLine(info);
@@ -163,7 +167,7 @@ public class AudioService extends AbstractService<AudioState> {
 
 				PLAYER_LOGGER.trace("Audio clip playback starting; load time: {}", timer.elapsedAsString());
 				clip.start();
-				PLAYER_LOGGER.trace("Audio clip playback complete; total time: {}", timer.elapsedAsString());
+				PLAYER_LOGGER.trace("Audio clip playback started; total time: {}", timer.elapsedAsString());
 			} catch (Exception e) {
 				PLAYER_LOGGER.error("Failed to play sound effect: set=" + set + " effect=" + effect, e);
 			}

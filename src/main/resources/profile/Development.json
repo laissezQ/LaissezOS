@@ -5,7 +5,8 @@
 	"profileId": "Development",
 	"description": "Default profile for development of LaissezOS.",
 	"supportedRunModes": [
-		"DEV"
+		"DEV",
+		"PI2B_CP"
 	],
 	// 
 	// Audio service settings:

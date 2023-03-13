@@ -62,7 +62,7 @@ public class LaissezOS {
 	private static void parseCommandLine(String[] args, BootConfiguration bootConfig) throws ParseException {
 
 		Options options = new Options();
-		options.addOption("m", true, "Set the run mode: valid values=DEV, CHAIR (default is DEV)");
+		options.addOption("m", true, "Set the run mode (default is DEV)");
 		options.addOption("p", true, "Use profile in place of last active profile.");
 
 		CommandLineParser parser = new DefaultParser();
