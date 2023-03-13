@@ -3,16 +3,26 @@ package com.wisneskey.los.service.profile.model;
 import java.util.Set;
 
 import com.wisneskey.los.kernel.RunMode;
-import com.wisneskey.los.service.audio.AudioService;
 import com.wisneskey.los.service.audio.SoundEffectSet;
+import com.wisneskey.los.service.display.DisplayStyle;
 
 /**
  * Class defining the root profile object used to manage an individual
- * configuration for the operating sytstem.
+ * configuration for the operating system.
  * 
  * @author paul.wisneskey@gmail.com
  */
 public class Profile {
+
+	/**
+	 * Default sound effect set to use.
+	 */
+	public static final SoundEffectSet DEFAULT_SOUND_EFFECT_SET = SoundEffectSet.DEV;
+
+	/**
+	 * Default style for the displays.
+	 */
+	public static final DisplayStyle DEFAULT_DISPLAY_STYLE = DisplayStyle.NORD_DARK;
 
 	/**
 	 * Unique id for the profile.
@@ -30,9 +40,14 @@ public class Profile {
 	private Set<RunMode> supportedRunModes;
 
 	/**
+	 * Style for the UI on the displays.
+	 */
+	private DisplayStyle displayStyle = DEFAULT_DISPLAY_STYLE;
+	
+	/**
 	 * Id of the sound effect set to start with.
 	 */
-	private SoundEffectSet soundEffectSet = AudioService.DEFAULT_SOUND_EFFECT_SET;
+	private SoundEffectSet soundEffectSet = DEFAULT_SOUND_EFFECT_SET;
 
 	// ----------------------------------------------------------------------------------------
 	// Property getters/setters.
@@ -63,6 +78,24 @@ public class Profile {
 	 */
 	public Set<RunMode> getSupportedRunModes() {
 		return supportedRunModes;
+	}
+
+	/**
+	 * Returns the style to use for the UI displays.
+	 * 
+	 * @return Display style for the UI.
+	 */
+	public DisplayStyle getDisplayStyle() {
+		return displayStyle;
+	}
+
+	/**
+	 * Set the display style for the UI.
+	 * 
+	 * @param displayStyle Display style to use for the UI.
+	 */
+	public void setDisplayStyle(DisplayStyle displayStyle) {
+		this.displayStyle = displayStyle;
 	}
 
 	/**

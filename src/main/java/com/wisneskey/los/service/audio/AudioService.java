@@ -38,11 +38,6 @@ public class AudioService extends AbstractService<AudioState> {
 	private static final String AUDIO_RESOURCE_BASE = "/audio/";
 
 	/**
-	 * Default sound effect set to use.
-	 */
-	public static final SoundEffectSet DEFAULT_SOUND_EFFECT_SET = SoundEffectSet.DEV;
-
-	/**
 	 * Object for the state of the audio service.
 	 */
 	private InternalAudioState audioState;
@@ -185,8 +180,8 @@ public class AudioService extends AbstractService<AudioState> {
 		/**
 		 * Current sound effect set in use.
 		 */
-		private SimpleObjectProperty<SoundEffectSet> currentSet = new SimpleObjectProperty<SoundEffectSet>(this,
-				"selectedSoundEffectSet", DEFAULT_SOUND_EFFECT_SET);
+		private SimpleObjectProperty<SoundEffectSet> currentSet = new SimpleObjectProperty<>(this,
+				"selectedSoundEffectSet");
 
 		// ----------------------------------------------------------------------------------------
 		// AudioState methods.

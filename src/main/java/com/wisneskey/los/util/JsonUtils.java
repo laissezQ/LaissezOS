@@ -1,10 +1,19 @@
 package com.wisneskey.los.util;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
  * Methods for reading and writing JSON to and from Java objects.
@@ -22,9 +31,9 @@ public class JsonUtils {
 		JSON_MAPPER.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
 	}
 
-	// ---------------------------------------------------------------------
+	// ----------------------------------------------------------------------------------------
 	// Constructors.
-	// ---------------------------------------------------------------------
+	// ----------------------------------------------------------------------------------------
 
 	/**
 	 * Private constructor to disallow instantiation.
@@ -32,9 +41,9 @@ public class JsonUtils {
 	private JsonUtils() {
 	}
 
-	// ---------------------------------------------------------------------
+	// ----------------------------------------------------------------------------------------
 	// Static methods.
-	// ---------------------------------------------------------------------
+	// ----------------------------------------------------------------------------------------
 
 	/**
 	 * Serializes an object into JSON.
@@ -92,6 +101,95 @@ public class JsonUtils {
 			return JSON_MAPPER.readValue(input, objectClass);
 		} catch (Exception e) {
 			throw new RuntimeException("Failed to parse JSON string to object.", e);
+		}
+	}
+
+	/**
+	 * Creates a deserializer that use the @JsonSubType annotation to map from
+	 * incoming source JSON to an subclass of a supplied target class.
+	 * 
+	 * @param <T>
+	 *          Base class of the result objects that the deserializer will
+	 *          produce.
+	 * @param targetClass
+	 *          Base class of the result objects (used to get sub-type
+	 *          annotations).
+	 * @return Deserializer that is auto-configured from annotations on specified
+	 *         base class.
+	 */
+	public static <T> JsonDeserializer<T> createTypedDeserializer(Class<T> targetClass) {
+
+		return new TypedDeserializer<>(targetClass);
+	}
+
+	// ----------------------------------------------------------------------------------------
+	// Inner classes.
+	// ----------------------------------------------------------------------------------------
+
+	/**
+	 * JSON deserializer that uses the JsonSubTypes annotation to determine which
+	 * subclass an instance should be in the JSON. The annotation should be on the
+	 * root class and is used to map from a name to one of the defined subclasses.
+	 *
+	 * @param <R>
+	 *          Root class that is being deserialized.
+	 */
+	private static class TypedDeserializer<T> extends StdDeserializer<T> {
+
+		/**
+		 * Version id for serialization.
+		 */
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Map of the query name to the Java type that it should be deserialized to.
+		 */
+		private Map<String, Class<?>> nameToTypeMap;
+
+		// ----------------------------------------------------------------------------------------
+		// Constructors.
+		// ----------------------------------------------------------------------------------------
+
+		public TypedDeserializer(Class<T> targetClass) {
+			super(targetClass);
+
+			// Use the JsonSubType annotations on the main query interface to
+			// determine all of the various
+			// types that it could map to.
+			JsonSubTypes.Type[] queryTypes = targetClass.getAnnotation(JsonSubTypes.class).value();
+
+			// Now store these in a mapping from the type name to the Java class for
+			// its query.
+			nameToTypeMap = new LinkedHashMap<>();
+			for (JsonSubTypes.Type queryType : queryTypes) {
+				nameToTypeMap.put(queryType.name(), queryType.value());
+			}
+		}
+
+		// ----------------------------------------------------------------------------------------
+		// JsonDeserializer methods.
+		// ----------------------------------------------------------------------------------------
+
+		@Override
+		@SuppressWarnings("unchecked")
+		public T deserialize(JsonParser parser, DeserializationContext context) throws IOException {
+
+			ObjectMapper objectMapper = (ObjectMapper) parser.getCodec();
+
+			ObjectNode object = objectMapper.readTree(parser);
+
+			for (Map.Entry<String, Class<?>> mapEntry : nameToTypeMap.entrySet()) {
+				String propertyName = mapEntry.getKey();
+				Class<?> targetClass = mapEntry.getValue();
+
+				if (object.has(propertyName)) {
+					JsonNode targetConfigNode = object.get(propertyName);
+					return (T) objectMapper.treeToValue(targetConfigNode, targetClass);
+				}
+			}
+
+			String name = object.fieldNames().next();
+			throw new IllegalArgumentException("Unrecognized type '" + name + "'.");
 		}
 	}
 

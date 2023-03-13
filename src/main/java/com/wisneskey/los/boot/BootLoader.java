@@ -13,6 +13,7 @@ import com.wisneskey.los.service.audio.SoundEffect;
 import com.wisneskey.los.service.display.DisplayService;
 import com.wisneskey.los.service.profile.ProfileService;
 import com.wisneskey.los.service.profile.model.Profile;
+import com.wisneskey.los.service.script.ScriptService;
 import com.wisneskey.los.state.ProfileState;
 
 import javafx.application.Application;
@@ -70,6 +71,7 @@ public class BootLoader extends Application {
 		// configure themselves.
 		kernel.registerService(AudioService.createService(profile));
 		kernel.registerService(DisplayService.createService(runMode, profile));
+		kernel.registerService(ScriptService.createService(profile));
 
 		// Initialize the kernel now that its set up.
 		Kernel.kernel().initialize();

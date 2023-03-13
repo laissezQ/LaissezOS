@@ -11,5 +11,9 @@
 	// 
 	// Audio service settings:
 	//
-	"soundEffectSet": "DEV"
+	"soundEffectSet": "DEV",
+	// 
+	// Display service settings:
+	//
+	"displayStyle": "NORD_DARK"
 }

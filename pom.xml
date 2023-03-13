@@ -59,6 +59,12 @@
 			<artifactId>commons-cli</artifactId>
 			<version>1.5.0</version>
 		</dependency>
+		<!-- AtlantaFX Stylesheets -->
+		<dependency>
+			<groupId>io.github.mkpaz</groupId>
+			<artifactId>atlantafx-base</artifactId>
+			<version>1.2.0</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
