@@ -11,6 +11,7 @@ import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.kernel.RunMode;
 import com.wisneskey.los.service.AbstractService;
 import com.wisneskey.los.service.ServiceId;
+import com.wisneskey.los.service.display.Displays.DisplayConfiguration;
 import com.wisneskey.los.service.profile.model.Profile;
 import com.wisneskey.los.state.DisplayState;
 
@@ -36,6 +37,26 @@ public class DisplayService extends AbstractService<DisplayState> {
 	 * Base path for where stylesheets are saved in the resources.
 	 */
 	private static final String STYLESHEET_RESOURCE_BASE = "/display/stylesheet/";
+
+	/**
+	 * Width of the heads up display.
+	 */
+	private static final double HUD_WIDTH = 640.0;
+
+	/**
+	 * Height of the heads up display.
+	 */
+	private static final double HUD_HEIGHT = 480;
+
+	/**
+	 * Width of the control panel display.
+	 */
+	private static final double CONTROL_PANEL_WIDTH = 400;
+
+	/**
+	 * Height of the control panel display.
+	 */
+	private static final double CONTROL_PANEL_HEIGHT = 1280;
 
 	/**
 	 * Internal service state object.
@@ -96,8 +117,15 @@ public class DisplayService extends AbstractService<DisplayState> {
 			throw new RuntimeException("Display manager already initialized.");
 		}
 
+		// Determine the run mode since that governs how and what is shown.
+		RunMode runMode = Kernel.kernel().getRunMode();
+
 		// Apply the style set in our state
 		applyStyle(displayState.currentStyle().getValue());
+
+		// Get the display settings for our run mode.
+		Displays displays = Displays.loadDisplays();
+		DisplayConfiguration displayConfig = displays.getDisplayConfiguration(runMode);
 
 		// Create the stages for both screens but the run mode will dictate which
 		// ones actually
@@ -105,16 +133,19 @@ public class DisplayService extends AbstractService<DisplayState> {
 
 		// Control panel stage:
 		cpStage = stage;
-		cpScene = new Scene(loadFXML("primary"), 400, 1280);
+		cpScene = new Scene(loadFXML("primary"), CONTROL_PANEL_WIDTH, CONTROL_PANEL_HEIGHT);
 		cpStage.setScene(cpScene);
+		cpStage.setX(displayConfig.getControlPanelX());
+		cpStage.setY(displayConfig.getControlPanelY());
 
 		// Heads up display stage:
 		hudStage = new Stage();
-		hudScene = new Scene(loadFXML("secondary"), 640, 480);
+		hudScene = new Scene(loadFXML("secondary"), HUD_WIDTH, HUD_HEIGHT);
 		hudStage.setScene(hudScene);
+		hudStage.setX(displayConfig.getHudX());
+		hudStage.setY(displayConfig.getHudY());
 
 		// Show each stage depending on run mode and screen availability.
-		RunMode runMode = Kernel.kernel().getRunMode();
 		showControlPanel(runMode);
 		showHeadsUpDisplay(runMode);
 
