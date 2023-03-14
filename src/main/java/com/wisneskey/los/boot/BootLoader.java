@@ -9,10 +9,10 @@ import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.kernel.RunMode;
 import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.audio.AudioService;
-import com.wisneskey.los.service.audio.SoundEffect;
 import com.wisneskey.los.service.display.DisplayService;
 import com.wisneskey.los.service.profile.ProfileService;
 import com.wisneskey.los.service.profile.model.Profile;
+import com.wisneskey.los.service.script.ScriptId;
 import com.wisneskey.los.service.script.ScriptService;
 import com.wisneskey.los.state.ProfileState;
 
@@ -94,9 +94,7 @@ public class BootLoader extends Application {
 		// JavaFX is ready to display now so initialize the display manager and
 		// start the dramatic boot sequence.
 		((DisplayService) Kernel.kernel().getService(ServiceId.DISPLAY)).initialize(stage);
-
-		// Play a welcome clip as a test.
-		((AudioService) Kernel.kernel().getService(ServiceId.AUDIO)).playEffect(SoundEffect.BOOT_COMPLETE);
+		((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.BOOT_SEQUENCE_2001);
 	}
 
 	// ----------------------------------------------------------------------------------------

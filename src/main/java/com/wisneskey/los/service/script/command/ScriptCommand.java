@@ -9,8 +9,13 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
  */
 @JsonSubTypes({
 
-		// Acquisition Service commands:
-		@JsonSubTypes.Type(value = Pause.class, name = "pause") })
+		@JsonSubTypes.Type(value = Pause.class, name = "pause"),
+		@JsonSubTypes.Type(value = PlaySoundEffect.class, name = "playSoundEffect")
+		})
 public interface ScriptCommand {
 
+	/**
+	 * Method called to perform the script command.
+	 */
+	void perform();
 }

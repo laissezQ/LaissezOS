@@ -13,7 +13,9 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.wisneskey.los.service.script.command.ScriptCommand;
 
 /**
  * Methods for reading and writing JSON to and from Java objects.
@@ -28,7 +30,13 @@ public class JsonUtils {
 	 */
 	private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
 	static {
+		// Allow Java style comments in the JSON.
 		JSON_MAPPER.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
+
+		// Register a custom deserializer for the script command objects.
+		SimpleModule module = new SimpleModule();
+		module.addDeserializer(ScriptCommand.class, JsonUtils.createTypedDeserializer(ScriptCommand.class));
+		JSON_MAPPER.registerModule(module);
 	}
 
 	// ----------------------------------------------------------------------------------------

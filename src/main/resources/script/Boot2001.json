@@ -1,0 +1,22 @@
+{
+	// 
+	// Script that does a boot sequence with a 2001 Space Oddysey theme.
+	//
+	"name": "2001 Space Oddysey Boot Sequence",
+	//
+	"commands": [
+		{
+			"pause": {
+				"seconds": 2.0
+			}
+		},
+		{
+			"playSoundEffect": {
+				"effectIds": [
+					"MOVIE_HAL_OPERATIONAL",
+					"MOVIE_MACHINE_GOES_PING"
+				]
+			}
+		}
+	]
+}

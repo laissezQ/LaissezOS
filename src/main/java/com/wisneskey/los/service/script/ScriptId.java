@@ -1,40 +1,46 @@
-package com.wisneskey.los.service.audio;
+package com.wisneskey.los.service.script;
 
 /**
- * Enumerated type designating the various sound effects that can be played by
- * the chair.
+ * Enumerated type defining the scripts that are available to be executed.
  * 
  * @author paul.wisneskey@gmail.com
  */
-public enum SoundEffect {
+public enum ScriptId {
 
-	BOOT_COMPLETE("hal_good_morning.wav", "Succesful completion of Laissez Boy OS boot sequence.");
+	BOOT_SEQUENCE_2001("Test boot sequence using 2001 references.","Boot2001");
 
 	// ----------------------------------------------------------------------------------------
 	// Variables.
 	// ----------------------------------------------------------------------------------------
 
-	private String resourcePath;
+	/**
+	 * Description of the script.
+	 */
 	private String description;
+
+	/**
+	 * Name of the script file to load from the resources.
+	 */
+	private String name;
 
 	// ----------------------------------------------------------------------------------------
 	// Constructors.
 	// ----------------------------------------------------------------------------------------
 
-	private SoundEffect(String resourcePath, String description) {
-		this.resourcePath = resourcePath;
+	private ScriptId(String description, String name) {
 		this.description = description;
+		this.name = name;
 	}
 
 	// ----------------------------------------------------------------------------------------
 	// Public methods.
 	// ----------------------------------------------------------------------------------------
 
-	public String getResourcePath() {
-		return resourcePath;
-	}
-
 	public String getDescription() {
 		return description;
+	}
+
+	public String getName() {
+		return name;
 	}
 }

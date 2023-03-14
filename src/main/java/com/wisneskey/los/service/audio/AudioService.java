@@ -1,6 +1,7 @@
 package com.wisneskey.los.service.audio;
 
 import java.io.BufferedInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 import javax.sound.sampled.AudioFormat;
@@ -74,7 +75,7 @@ public class AudioService extends AbstractService<AudioState> {
 	 * @param effect
 	 *          Id of the sound effect to play.
 	 */
-	public void playEffect(SoundEffect effect) {
+	public void playEffect(SoundEffectId effect) {
 
 		LOGGER.debug("Playing sound effect: {}", effect);
 		new SoundEffectPlayerThread(audioState.selectedSoundEffectSet().get(), effect).start();
@@ -85,9 +86,11 @@ public class AudioService extends AbstractService<AudioState> {
 	// ----------------------------------------------------------------------------------------
 
 	/**
-	 * Creates the initial state of the service using the supplied profile for configuration.
+	 * Creates the initial state of the service using the supplied profile for
+	 * configuration.
 	 * 
-	 * @param profile Profile to use for configuring initial service state.
+	 * @param profile
+	 *          Profile to use for configuring initial service state.
 	 * @return Configured state object for the service.
 	 */
 	private AudioState createInitialState(Profile profile) {
@@ -127,9 +130,9 @@ public class AudioService extends AbstractService<AudioState> {
 		private static final Logger PLAYER_LOGGER = LoggerFactory.getLogger("EffectPlayer");
 
 		private SoundEffectSet set;
-		private SoundEffect effect;
+		private SoundEffectId effect;
 
-		public SoundEffectPlayerThread(SoundEffectSet set, SoundEffect effect) {
+		public SoundEffectPlayerThread(SoundEffectSet set, SoundEffectId effect) {
 			this.set = set;
 			this.effect = effect;
 
@@ -149,11 +152,15 @@ public class AudioService extends AbstractService<AudioState> {
 
 				StopWatch timer = new StopWatch();
 
-				// Load the resource to play back as a clip.  Put it in a buffered input
-				// stream so that stream can rewind after reading the header information.
+				// Load the resource to play back as a clip. Put it in a buffered input
+				// stream so that stream can rewind after reading the header
+				// information.
 				InputStream source = getClass().getResourceAsStream(resourceLocation);
+				if (source == null) {
+					throw new IOException("Sound effect resource not found.");
+				}
+
 				BufferedInputStream bufferedSource = new BufferedInputStream(source);
-				
 				AudioInputStream audioIn = AudioSystem.getAudioInputStream(bufferedSource);
 				AudioFormat format = audioIn.getFormat();
 				DataLine.Info info = new DataLine.Info(Clip.class, format);
