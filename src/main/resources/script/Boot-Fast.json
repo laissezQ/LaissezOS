@@ -1,0 +1,14 @@
+{
+	// 
+	// Script that does the fastest possible boot sequence.
+	//
+	"name": "Fast Boot Sequence",
+	//
+	"commands": [
+		{
+			"playSoundEffect": {
+				"effectId": "MISC_WINDOWS_XP_STARTUP"
+			}
+		}
+	]
+}

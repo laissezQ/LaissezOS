@@ -8,8 +8,11 @@ package com.wisneskey.los.service.audio;
  */
 public enum SoundEffectId {
 
-	MOVIE_HAL_OPERATIONAL("hal_good_morning.wav", "Hal's greeting from 2001 Space Oddysey."),
-	MOVIE_MACHINE_GOES_PING("monty_python_machine_goes_ping.wav", "Machine goes ping from Monty Python's Meaning of Life.");
+	MISC_WINDOWS_XP_STARTUP("misc/windows_xp_startup.wav", "Windows XP startup sound."),
+
+	MOVIE_HAL_OPERATIONAL("movie/hal_operational.wav", "I'm completely operational..."),
+	MOVIE_MACHINE_GOES_PING("movie/machine_goes_ping.wav", "Machine that goes ping!"),
+	MOVIE_WHAT_IS_THY_BIDDING("movie/what_is_thy_bidding_master.wav", "What is thy bidding, Master?");
 
 	// ----------------------------------------------------------------------------------------
 	// Variables.

@@ -8,10 +8,10 @@
 		"DEV",
 		"PI2B_CP"
 	],
-	// 
-	// Audio service settings:
 	//
-	"soundEffectSet": "DEV",
+	// Boot settings:
+	//
+	"bootScript": "BOOT_DEV",
 	// 
 	// Display service settings:
 	//

@@ -12,7 +12,6 @@ import com.wisneskey.los.service.audio.AudioService;
 import com.wisneskey.los.service.display.DisplayService;
 import com.wisneskey.los.service.profile.ProfileService;
 import com.wisneskey.los.service.profile.model.Profile;
-import com.wisneskey.los.service.script.ScriptId;
 import com.wisneskey.los.service.script.ScriptService;
 import com.wisneskey.los.state.ProfileState;
 
@@ -92,9 +91,11 @@ public class BootLoader extends Application {
 	public void start(Stage stage) throws IOException {
 
 		// JavaFX is ready to display now so initialize the display manager and
-		// start the dramatic boot sequence.
+		// start the boot script that is specified in the profile.
 		((DisplayService) Kernel.kernel().getService(ServiceId.DISPLAY)).initialize(stage);
-		((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.BOOT_SEQUENCE_2001);
+		
+		Profile profile = ((ProfileState) Kernel.kernel().chairState().getServiceState(ServiceId.PROFILE)).activeProfile().get();
+		((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(profile.getBootScript());
 	}
 
 	// ----------------------------------------------------------------------------------------

@@ -18,10 +18,7 @@ import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.profile.model.Profile;
 import com.wisneskey.los.state.AudioState;
 import com.wisneskey.los.util.StopWatch;
-import com.wisneskey.los.util.ValidationUtils;
 
-import javafx.beans.property.ReadOnlyObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.util.Pair;
 
 /**
@@ -59,26 +56,15 @@ public class AudioService extends AbstractService<AudioState> {
 	// ----------------------------------------------------------------------------------------
 
 	/**
-	 * Change the currently selected sound effect set.
-	 * 
-	 * @param set
-	 *          New sound effect set to use.
-	 */
-	public void selectSet(SoundEffectSet set) {
-		ValidationUtils.requireValue(set, "Sound effect set id is required.");
-		audioState.setSoundEffectSet(set);
-	}
-
-	/**
 	 * Play a sound effect.
 	 * 
-	 * @param effect
+	 * @param effectId
 	 *          Id of the sound effect to play.
 	 */
-	public void playEffect(SoundEffectId effect) {
+	public void playEffect(SoundEffectId effectId) {
 
-		LOGGER.debug("Playing sound effect: {}", effect);
-		new SoundEffectPlayerThread(audioState.selectedSoundEffectSet().get(), effect).start();
+		LOGGER.debug("Playing sound effect: {}", effectId);
+		new SoundEffectPlayerThread(effectId).start();
 	}
 
 	// ----------------------------------------------------------------------------------------
@@ -95,7 +81,6 @@ public class AudioService extends AbstractService<AudioState> {
 	 */
 	private AudioState createInitialState(Profile profile) {
 		audioState = new InternalAudioState();
-		audioState.setSoundEffectSet(profile.getSoundEffectSet());
 		return audioState;
 	}
 
@@ -129,15 +114,13 @@ public class AudioService extends AbstractService<AudioState> {
 
 		private static final Logger PLAYER_LOGGER = LoggerFactory.getLogger("EffectPlayer");
 
-		private SoundEffectSet set;
-		private SoundEffectId effect;
+		private SoundEffectId effectId;
 
-		public SoundEffectPlayerThread(SoundEffectSet set, SoundEffectId effect) {
-			this.set = set;
-			this.effect = effect;
+		public SoundEffectPlayerThread( SoundEffectId effectId) {
+			this.effectId = effectId;
 
 			setDaemon(true);
-			setName("SoundEffectPlayer[" + effect + "]");
+			setName("SoundEffectPlayer[" + effectId + "]");
 		}
 
 		@Override
@@ -145,7 +128,7 @@ public class AudioService extends AbstractService<AudioState> {
 
 			PLAYER_LOGGER.trace("Player thread started...");
 
-			String resourceLocation = AUDIO_RESOURCE_BASE + set + "/" + effect.getResourcePath();
+			String resourceLocation = AUDIO_RESOURCE_BASE + effectId.getResourcePath();
 			PLAYER_LOGGER.trace("Audio clip resource: {}", resourceLocation);
 
 			try {
@@ -171,7 +154,7 @@ public class AudioService extends AbstractService<AudioState> {
 				clip.start();
 				PLAYER_LOGGER.trace("Audio clip playback started; total time: {}", timer.elapsedAsString());
 			} catch (Exception e) {
-				PLAYER_LOGGER.error("Failed to play sound effect: set=" + set + " effect=" + effect, e);
+				PLAYER_LOGGER.error("Failed to play sound effect.", e);
 			}
 
 			PLAYER_LOGGER.trace("Player thread ended.");
@@ -184,27 +167,5 @@ public class AudioService extends AbstractService<AudioState> {
 	 */
 	private static class InternalAudioState implements AudioState {
 
-		/**
-		 * Current sound effect set in use.
-		 */
-		private SimpleObjectProperty<SoundEffectSet> currentSet = new SimpleObjectProperty<>(this,
-				"selectedSoundEffectSet");
-
-		// ----------------------------------------------------------------------------------------
-		// AudioState methods.
-		// ----------------------------------------------------------------------------------------
-
-		@Override
-		public ReadOnlyObjectProperty<SoundEffectSet> selectedSoundEffectSet() {
-			return currentSet;
-		}
-
-		// ----------------------------------------------------------------------------------------
-		// Supporting methods.
-		// ----------------------------------------------------------------------------------------
-
-		private void setSoundEffectSet(SoundEffectSet newSet) {
-			currentSet.setValue(newSet);
-		}
 	}
 }

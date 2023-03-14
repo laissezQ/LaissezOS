@@ -7,7 +7,8 @@ package com.wisneskey.los.service.script;
  */
 public enum ScriptId {
 
-	BOOT_SEQUENCE_2001("Test boot sequence using 2001 references.","Boot2001");
+	BOOT_FAST("Fasted possible boot sequence.", "Boot-Fast"),
+	BOOT_DEV("Test boot sequence for development.", "Boot-DEV");
 
 	// ----------------------------------------------------------------------------------------
 	// Variables.

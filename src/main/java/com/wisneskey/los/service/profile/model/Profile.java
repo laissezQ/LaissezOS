@@ -3,8 +3,8 @@ package com.wisneskey.los.service.profile.model;
 import java.util.Set;
 
 import com.wisneskey.los.kernel.RunMode;
-import com.wisneskey.los.service.audio.SoundEffectSet;
 import com.wisneskey.los.service.display.DisplayStyle;
+import com.wisneskey.los.service.script.ScriptId;
 
 /**
  * Class defining the root profile object used to manage an individual
@@ -15,15 +15,15 @@ import com.wisneskey.los.service.display.DisplayStyle;
 public class Profile {
 
 	/**
-	 * Default sound effect set to use.
-	 */
-	public static final SoundEffectSet DEFAULT_SOUND_EFFECT_SET = SoundEffectSet.DEV;
-
-	/**
 	 * Default style for the displays.
 	 */
 	public static final DisplayStyle DEFAULT_DISPLAY_STYLE = DisplayStyle.NORD_DARK;
 
+	/**
+	 * Default to a fast boot.
+	 */
+	public static final ScriptId DEFAULT_BOOT_SCRIPT = ScriptId.BOOT_FAST;
+	
 	/**
 	 * Unique id for the profile.
 	 */
@@ -43,12 +43,12 @@ public class Profile {
 	 * Style for the UI on the displays.
 	 */
 	private DisplayStyle displayStyle = DEFAULT_DISPLAY_STYLE;
-	
-	/**
-	 * Id of the sound effect set to start with.
-	 */
-	private SoundEffectSet soundEffectSet = DEFAULT_SOUND_EFFECT_SET;
 
+	/**
+	 * Script to run at boot.
+	 */
+	private ScriptId bootScript = DEFAULT_BOOT_SCRIPT;
+	
 	// ----------------------------------------------------------------------------------------
 	// Property getters/setters.
 	// ----------------------------------------------------------------------------------------
@@ -90,30 +90,11 @@ public class Profile {
 	}
 
 	/**
-	 * Set the display style for the UI.
+	 * Returns the script to run for the boot sequence.
 	 * 
-	 * @param displayStyle Display style to use for the UI.
+	 * @return Id of the script to run for boot sequence.
 	 */
-	public void setDisplayStyle(DisplayStyle displayStyle) {
-		this.displayStyle = displayStyle;
-	}
-
-	/**
-	 * Returns the sound effect set to use.
-	 * 
-	 * @return Id of the sound effect set to use.
-	 */
-	public SoundEffectSet getSoundEffectSet() {
-		return soundEffectSet;
-	}
-
-	/**
-	 * Sets the sound effect set to use.
-	 * 
-	 * @param soundEffectSet
-	 *          Id of the sound effect set to use.
-	 */
-	public void setSoundEffectSet(SoundEffectSet soundEffectSet) {
-		this.soundEffectSet = soundEffectSet;
+	public ScriptId getBootScript() {
+		return bootScript;
 	}
 }
