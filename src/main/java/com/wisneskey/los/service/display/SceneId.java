@@ -7,9 +7,11 @@ package com.wisneskey.los.service.display;
  */
 public enum SceneId {
 
-	// 
+	//
 	// Control Panel scenes:
 	//
+	CP_BOOT_SCREEN(DisplayId.CP, "BootScreen"),
+	CP_LOCK_SCREEN(DisplayId.CP, "LockScreen"),
 	CP_SPLASH_SCREEN(DisplayId.CP, "SplashScreen"),
 	
 	//
@@ -39,7 +41,7 @@ public enum SceneId {
 		this.displayId = displayId;
 		this.fxmlName = fxmlName;
 	}
-	
+
 	// ----------------------------------------------------------------------------------------
 	// Public methods.
 	// ----------------------------------------------------------------------------------------

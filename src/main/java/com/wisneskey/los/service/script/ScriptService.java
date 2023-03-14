@@ -26,6 +26,11 @@ public class ScriptService extends AbstractService<ScriptState> {
 	private static final Logger RUNNER_LOGGER = LoggerFactory.getLogger("ScriptRunner");
 
 	/**
+	 * Number of milliseconds in a second.
+	 */
+	private static final double MILLISECONDS_PER_SECOND = 1000.0;
+
+	/**
 	 * Base path for where audio clips are saved in the resources.
 	 */
 	private static final String SCRIPT_RESOURCE_BASE = "/script/";
@@ -181,15 +186,23 @@ public class ScriptService extends AbstractService<ScriptState> {
 
 			RUNNER_LOGGER.trace("Script runner thread started...");
 
-			for( ScriptCommand command : script.getCommands() ) {
+			for (ScriptCommand command : script.getCommands()) {
 
 				LOGGER.debug("Performing command: {}", command);
-				
+
 				try {
 					command.perform();
-				} catch( Exception e) {
+				} catch (Exception e) {
 					LOGGER.error("Error during command execution: aborting", e);
 					break;
+				}
+
+				if (command.getPostCommandPause() > 0.0) {
+					try {
+						Thread.sleep((long) (command.getPostCommandPause() * MILLISECONDS_PER_SECOND));
+					} catch (InterruptedException e) {
+						LOGGER.warn("Interrupted while in pause.");
+					}
 				}
 			}
 

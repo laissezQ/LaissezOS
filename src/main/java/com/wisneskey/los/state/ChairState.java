@@ -3,6 +3,7 @@ package com.wisneskey.los.state;
 import com.wisneskey.los.service.ServiceId;
 
 import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.ReadOnlyStringProperty;
 
 public interface ChairState extends State {
 
@@ -11,6 +12,8 @@ public interface ChairState extends State {
 	// ----------------------------------------------------------------------------------------
 
 	ReadOnlyObjectProperty<MasterState> masterState();
+	
+	ReadOnlyStringProperty bootMessage();
 	
 	// ----------------------------------------------------------------------------------------
 	// Service state properties.
@@ -23,7 +26,7 @@ public interface ChairState extends State {
 	// ----------------------------------------------------------------------------------------
 
 	public enum MasterState {
-		STARTED,
-		BOOTING
+		BOOTING,
+		STARTED
 	}
 }

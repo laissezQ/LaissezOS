@@ -88,7 +88,7 @@ public class DisplayService extends AbstractService<DisplayState> {
 	/**
 	 * Map of scene id's to their loaded scenes.
 	 */
-	private Map<SceneId, Scene> sceneMap = new HashMap<>();
+	private Map<SceneId, Parent> sceneMap = new HashMap<>();
 
 	// ----------------------------------------------------------------------------------------
 	// Constructors.
@@ -135,21 +135,21 @@ public class DisplayService extends AbstractService<DisplayState> {
 		loadScenes();
 
 		// Create the stages for both screens but the run mode will dictate which
-		// ones actually get shown and where they are placed.
+		// ones actually get shown and where they are placed. We set the initial
+		// scene to be the splash screen so that we can change its contents later.
+		// If we switch the actual scene, the menu bar pops up.
 
 		// Control panel stage:
 		cpStage = stage;
+		cpStage.setScene(new Scene(sceneMap.get(SceneId.CP_SPLASH_SCREEN), CONTROL_PANEL_WIDTH, CONTROL_PANEL_HEIGHT));
 		cpStage.setX(displayConfig.getControlPanelX());
 		cpStage.setY(displayConfig.getControlPanelY());
 
 		// Heads up display stage:
 		hudStage = new Stage();
+		hudStage.setScene(new Scene(sceneMap.get(SceneId.HUD_SPLASH_SCREEN), HUD_WIDTH, HUD_HEIGHT));
 		hudStage.setX(displayConfig.getHudX());
 		hudStage.setY(displayConfig.getHudY());
-
-		// Select initial scenes
-		showScene(SceneId.CP_SPLASH_SCREEN);
-		showScene(SceneId.HUD_SPLASH_SCREEN);
 
 		// Show each stage depending on run mode and screen availability.
 		showControlPanel(runMode);
@@ -169,18 +169,20 @@ public class DisplayService extends AbstractService<DisplayState> {
 
 		LOGGER.info("Changing scene on {}: {}", sceneId.getDisplayId(), sceneId);
 
-		Scene scene = sceneMap.get(sceneId);
-		if (scene == null) {
+		Parent content = sceneMap.get(sceneId);
+		if (content == null) {
 			LOGGER.error("Scene not found: " + sceneId);
 			return;
 		}
 
+		// Change the appropriate display's scene contents. We do not set a new
+		// scene because in full screen mode this causes the menu bar to reappear.
 		switch (sceneId.getDisplayId()) {
 		case CP:
-			cpStage.setScene(scene);
+			cpStage.getScene().setRoot(content);
 			break;
 		case HUD:
-			hudStage.setScene(scene);
+			hudStage.getScene().setRoot(content);
 		}
 	}
 
@@ -222,9 +224,9 @@ public class DisplayService extends AbstractService<DisplayState> {
 			cpStage.show();
 			break;
 		case PI2B_CP:
-			cpStage.show();
 			cpStage.setFullScreenExitHint("");
 			cpStage.setFullScreen(true);
+			cpStage.show();
 			break;
 		default:
 			LOGGER.info("Control panel not being shown in run mode: " + runMode);
@@ -322,23 +324,7 @@ public class DisplayService extends AbstractService<DisplayState> {
 				throw new LaissezException("Failed to load scene: " + sceneId, e);
 			}
 
-			double width = 0.0;
-			double height = 0.0;
-			switch (sceneId.getDisplayId()) {
-			case CP:
-				width = CONTROL_PANEL_WIDTH;
-				height = CONTROL_PANEL_HEIGHT;
-				break;
-			case HUD:
-				width = HUD_WIDTH;
-				height = HUD_HEIGHT;
-				break;
-			default:
-				throw new LaissezException("Unhandled display id for setting scene dimensions: " + sceneId.getDisplayId());
-			}
-
-			Scene scene = new Scene(parent, width, height);
-			sceneMap.put(sceneId, scene);
+			sceneMap.put(sceneId, parent);
 		}
 	}
 

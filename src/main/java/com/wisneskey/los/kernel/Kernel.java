@@ -15,7 +15,10 @@ import com.wisneskey.los.state.State;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.util.Pair;
 
 /**
@@ -74,7 +77,7 @@ public class Kernel {
 	public void initialize() {
 
 		LOGGER.info("Initializing kernel...");
-		
+
 		requireUninitializedKernel();
 
 		// Verify that all expected services have been registered.
@@ -149,7 +152,8 @@ public class Kernel {
 	/**
 	 * Used by boot loader to set the run mode of the operating system.
 	 * 
-	 * @param mode Run mode of the operating
+	 * @param mode
+	 *          Run mode of the operating
 	 */
 	public void setRunMode(RunMode mode) {
 
@@ -168,14 +172,22 @@ public class Kernel {
 		Service<T> service = serviceDetails.getKey();
 		T state = serviceDetails.getValue();
 
-		if( serviceMap.put(service.getServiceId(), service) != null ) {
+		if (serviceMap.put(service.getServiceId(), service) != null) {
 			throw new LaissezException("Duplicate service registration: " + service.getServiceId());
 		}
-	
+
 		chairState.setServiceState(service.getServiceId(), state);
 		LOGGER.info("Registered service: {}", service.getServiceId());
 	}
 
+	// ----------------------------------------------------------------------------------------
+	// Public methods.
+	// ----------------------------------------------------------------------------------------
+
+	public void bootMessage(String message) {
+		chairState.setBootMessage(message);
+	}
+	
 	// ----------------------------------------------------------------------------------------
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
@@ -231,6 +243,11 @@ public class Kernel {
 				MasterState.BOOTING);
 
 		/**
+		 * Last boot message.
+		 */
+		private StringProperty bootMessage = new SimpleStringProperty();
+
+		/**
 		 * Map of service id's to their state objects.
 		 */
 		private Map<ServiceId, Object> stateMap = new HashMap<>();
@@ -253,8 +270,13 @@ public class Kernel {
 			return serviceStateClass.cast(stateMap.get(id));
 		}
 
+		@Override
+		public ReadOnlyStringProperty bootMessage() {
+			return bootMessage;
+		}
+
 		// ----------------------------------------------------------------------------------------
-		// Public methods.
+		// Private methods.
 		// ----------------------------------------------------------------------------------------
 
 		/**
@@ -263,7 +285,7 @@ public class Kernel {
 		 * @param newState
 		 *          New master state for the chair.
 		 */
-		public void setMasterState(MasterState newState) {
+		private void setMasterState(MasterState newState) {
 			masterState.setValue(newState);
 		}
 
@@ -275,8 +297,17 @@ public class Kernel {
 		 * @param state
 		 *          State object for the service.
 		 */
-		public void setServiceState(ServiceId serviceId, Object state) {
+		private void setServiceState(ServiceId serviceId, Object state) {
 			stateMap.put(serviceId, state);
+		}
+
+		/**
+		 * Sets the current boot message.
+		 * 
+		 * @param message Message to set or null to clear message.
+		 */
+		private void setBootMessage(String message) {
+			bootMessage.setValue(message);
 		}
 	}
 }

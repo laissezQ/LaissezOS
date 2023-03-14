@@ -22,7 +22,7 @@ public class PlaySoundEffect extends AbstractScriptCommand {
 	private static final Logger LOGGER = LoggerFactory.getLogger(PlaySoundEffect.class);
 
 	/**
-	 * Id of a sing
+	 * Id of a single sound effect to play.
 	 */
 	private SoundEffectId effectId;
 
@@ -52,7 +52,7 @@ public class PlaySoundEffect extends AbstractScriptCommand {
 	}
 
 	// ----------------------------------------------------------------------------------------
-	// ScriptCommands methods.
+	// ScriptCommand methods.
 	// ----------------------------------------------------------------------------------------
 
 	@Override

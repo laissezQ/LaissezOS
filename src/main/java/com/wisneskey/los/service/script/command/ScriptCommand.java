@@ -9,10 +9,18 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
  */
 @JsonSubTypes({
 
+		@JsonSubTypes.Type(value = BootMessage.class, name = "bootMessage"),
 		@JsonSubTypes.Type(value = Pause.class, name = "pause"),
-		@JsonSubTypes.Type(value = PlaySoundEffect.class, name = "playSoundEffect")
-		})
+		@JsonSubTypes.Type(value = PlaySoundEffect.class, name = "playSoundEffect"),
+		@JsonSubTypes.Type(value = ShowScene.class, name = "showScene") })
 public interface ScriptCommand {
+
+	/**
+	 * Number of seconds to pause after executing the command.
+	 * 
+	 * @return Number of seconds to pause after executing the command.
+	 */
+	double getPostCommandPause();
 
 	/**
 	 * Method called to perform the script command.

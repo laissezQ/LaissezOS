@@ -2,12 +2,78 @@
 	// 
 	// Script that does a boot sequence with a 2001 Space Oddysey theme.
 	//
-	"name": "2001 Space Oddysey Boot Sequence",
+	"name": "Development test boot sequence.",
 	//
 	"commands": [
 		{
 			"pause": {
-				"seconds": 2.0
+				"seconds": 1.0
+			}
+		},
+		{
+			"showScene": {
+				"sceneId": "CP_BOOT_SCREEN",
+				"postCommandPause": 1.0
+			}
+		},
+		{
+			"bootMessage": {
+				"message": "Bringing flux capacitor online...\n",
+				"postCommandPause": 2.0
+			}
+		},
+		{
+			"bootMessage": {
+				"message": "Inventorying whiskey...\n",
+				"postCommandPause": 2.0
+			}
+		},
+		{
+			"bootMessage": {
+				"message": "Connecting to lighting subsystem.",
+				"postCommandPause": 2.0
+			}
+		},
+		{
+			"bootMessage": {
+				"message": ".",
+				"postCommandPause": 1.0
+			}
+		},
+		{
+			"bootMessage": {
+				"message": ".",
+				"postCommandPause": 1.0
+			}
+		},
+		{
+			"bootMessage": {
+				"message": ".",
+				"postCommandPause": 1.0
+			}
+		},
+		{
+			"bootMessage": {
+				"message": ".",
+				"postCommandPause": 1.0
+			}
+		},
+		{
+			"bootMessage": {
+				"message": ".connected!\n",
+				"postCommandPause": 2.0
+			}
+		},
+		{
+			"bootMessage": {
+				"message": "WARNING: Cigar module not installed!\n",
+				"postCommandPause": 2.0
+			}
+		},
+		{
+			"bootMessage": {
+				"message": "Cyber Chair 2.0 is now online.",
+				"postCommandPause": 0.5
 			}
 		},
 		{
@@ -17,6 +83,11 @@
 					"MOVIE_MACHINE_GOES_PING",
 					"MOVIE_WHAT_IS_THY_BIDDING"
 				]
+			}
+		},
+		{
+			"showScene": {
+				"sceneId": "CP_LOCK_SCREEN"
 			}
 		}
 	]

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<?import javafx.geometry.Insets?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1280.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.wisneskey.los.service.display.controller.cp.LockScreen">
+	<children>
+		<Label layoutX="70.0" layoutY="65.0" text="CHAIR LOCKED">
+			<font>
+				<Font name="Monospaced Bold" size="36.0" />
+			</font>
+		</Label>
+      <Button layoutX="43.0" layoutY="197.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="87.0" text="1">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Button>
+      <Button layoutX="157.0" layoutY="197.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="87.0" text="2">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Button>
+      <Button layoutX="268.0" layoutY="197.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="87.0" text="3">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Button>
+      <Button layoutX="44.0" layoutY="315.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="87.0" text="4">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Button>
+      <Button layoutX="158.0" layoutY="315.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="87.0" text="5">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Button>
+      <Button layoutX="269.0" layoutY="315.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="87.0" text="6">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Button>
+      <Button layoutX="44.0" layoutY="431.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="87.0" text="7">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Button>
+      <Button layoutX="158.0" layoutY="431.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="87.0" text="8">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Button>
+      <Button layoutX="268.0" layoutY="431.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="87.0" text="9">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Button>
+      <Button layoutX="158.0" layoutY="550.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="87.0" text="0">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Button>
+	</children>
+</Pane>

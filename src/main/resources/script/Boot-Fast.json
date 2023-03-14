@@ -9,6 +9,11 @@
 			"playSoundEffect": {
 				"effectId": "MISC_WINDOWS_XP_STARTUP"
 			}
+		},
+		{
+			"showScene": {
+				"sceneId": "CP_LOCK_SCREEN"
+			}
 		}
 	]
 }
