@@ -15,7 +15,7 @@ public class PrimaryController {
 
 	@FXML
 	private void switchToSecondary() throws IOException, URISyntaxException {		
-		((DisplayService) Kernel.kernel().getService(ServiceId.DISPLAY)).setRoot("secondary");
+	//	((DisplayService) Kernel.kernel().getService(ServiceId.DISPLAY)).setRoot("secondary");
 		((DisplayService) Kernel.kernel().getService(ServiceId.DISPLAY)).changeDisplayStyle(DisplayStyle.NORD_LIGHT);
 	}
 }

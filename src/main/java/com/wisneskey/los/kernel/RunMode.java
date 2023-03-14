@@ -5,6 +5,7 @@ package com.wisneskey.los.kernel;
  * it can configuration itself appropriately.
  */
 public enum RunMode {
+
 	DEV("Off chair development where chair system interfaces are simulated."),
 	PI2B_CP("Raspberry PI2B prototyping (control panel display only)."),
 	PI2B_HUD("Raspberry PI2B prototyping (heads up display only).");

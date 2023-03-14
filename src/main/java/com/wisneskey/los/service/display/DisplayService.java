@@ -2,11 +2,13 @@ package com.wisneskey.los.service.display;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.wisneskey.los.LaissezOS;
+import com.wisneskey.los.error.LaissezException;
 import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.kernel.RunMode;
 import com.wisneskey.los.service.AbstractService;
@@ -37,6 +39,11 @@ public class DisplayService extends AbstractService<DisplayState> {
 	 * Base path for where stylesheets are saved in the resources.
 	 */
 	private static final String STYLESHEET_RESOURCE_BASE = "/display/stylesheet/";
+
+	/**
+	 * Base path for where scene definitions are saved in the resources.
+	 */
+	private static final String SCENE_RESOURCE_BASE = "/display/scene/";
 
 	/**
 	 * Width of the heads up display.
@@ -79,14 +86,9 @@ public class DisplayService extends AbstractService<DisplayState> {
 	private Stage hudStage;
 
 	/**
-	 * Scene for the control panel display.
+	 * Map of scene id's to their loaded scenes.
 	 */
-	private Scene cpScene;
-
-	/**
-	 * Scene for the heads up display.
-	 */
-	private Scene hudScene;
+	private Map<SceneId, Scene> sceneMap = new HashMap<>();
 
 	// ----------------------------------------------------------------------------------------
 	// Constructors.
@@ -127,29 +129,59 @@ public class DisplayService extends AbstractService<DisplayState> {
 		Displays displays = Displays.loadDisplays();
 		DisplayConfiguration displayConfig = displays.getDisplayConfiguration(runMode);
 
+		// Load all of the scenes so that we can start displaying them once the
+		// stages
+		// are set up.
+		loadScenes();
+
 		// Create the stages for both screens but the run mode will dictate which
-		// ones actually
-		// get shown and where they are placed.
+		// ones actually get shown and where they are placed.
 
 		// Control panel stage:
 		cpStage = stage;
-		cpScene = new Scene(loadFXML("primary"), CONTROL_PANEL_WIDTH, CONTROL_PANEL_HEIGHT);
-		cpStage.setScene(cpScene);
 		cpStage.setX(displayConfig.getControlPanelX());
 		cpStage.setY(displayConfig.getControlPanelY());
 
 		// Heads up display stage:
 		hudStage = new Stage();
-		hudScene = new Scene(loadFXML("secondary"), HUD_WIDTH, HUD_HEIGHT);
-		hudStage.setScene(hudScene);
 		hudStage.setX(displayConfig.getHudX());
 		hudStage.setY(displayConfig.getHudY());
+
+		// Select initial scenes
+		showScene(SceneId.CP_SPLASH_SCREEN);
+		showScene(SceneId.HUD_SPLASH_SCREEN);
 
 		// Show each stage depending on run mode and screen availability.
 		showControlPanel(runMode);
 		showHeadsUpDisplay(runMode);
 
 		initialized = true;
+	}
+
+	/**
+	 * Shows the requested scene in the appropriate display (as designated by the
+	 * scene id).
+	 * 
+	 * @param sceneId
+	 *          Id of the scene to show.
+	 */
+	public void showScene(SceneId sceneId) {
+
+		LOGGER.info("Changing scene on {}: {}", sceneId.getDisplayId(), sceneId);
+
+		Scene scene = sceneMap.get(sceneId);
+		if (scene == null) {
+			LOGGER.error("Scene not found: " + sceneId);
+			return;
+		}
+
+		switch (sceneId.getDisplayId()) {
+		case CP:
+			cpStage.setScene(scene);
+			break;
+		case HUD:
+			hudStage.setScene(scene);
+		}
 	}
 
 	/**
@@ -171,10 +203,6 @@ public class DisplayService extends AbstractService<DisplayState> {
 		// Apply the style and then update our state.
 		applyStyle(newStyle);
 		displayState.setCurrentStyle(newStyle);
-	}
-
-	public void setRoot(String fxml) throws IOException {
-		cpScene.setRoot(loadFXML(fxml));
 	}
 
 	// ----------------------------------------------------------------------------------------
@@ -255,11 +283,6 @@ public class DisplayService extends AbstractService<DisplayState> {
 
 	}
 
-	private Parent loadFXML(String fxml) throws IOException {
-		FXMLLoader fxmlLoader = new FXMLLoader(LaissezOS.class.getResource("/display/" + fxml + ".fxml"));
-		return fxmlLoader.load();
-	}
-
 	/**
 	 * Creates the initial display state object as configured by the supplied
 	 * profile.
@@ -272,6 +295,51 @@ public class DisplayService extends AbstractService<DisplayState> {
 		displayState = new InternalDisplayState();
 		displayState.setCurrentStyle(profile.getDisplayStyle());
 		return displayState;
+	}
+
+	/**
+	 * Load all of the registered scenes from their FXML definitions.
+	 */
+	private void loadScenes() {
+
+		LOGGER.info("Loading {} scenes...", SceneId.values().length);
+
+		for (SceneId sceneId : SceneId.values()) {
+
+			String scenePath = SCENE_RESOURCE_BASE + sceneId.getDisplayId() + "/" + sceneId.getFxmlName() + ".fxml";
+			LOGGER.debug("Loading scene: " + scenePath);
+
+			URL sceneURL = this.getClass().getResource(scenePath);
+			if (sceneURL == null) {
+				throw new LaissezException("Scene FXML not found: " + sceneId);
+			}
+
+			FXMLLoader fxmlLoader = new FXMLLoader(sceneURL);
+			Parent parent;
+			try {
+				parent = fxmlLoader.load();
+			} catch (IOException e) {
+				throw new LaissezException("Failed to load scene: " + sceneId, e);
+			}
+
+			double width = 0.0;
+			double height = 0.0;
+			switch (sceneId.getDisplayId()) {
+			case CP:
+				width = CONTROL_PANEL_WIDTH;
+				height = CONTROL_PANEL_HEIGHT;
+				break;
+			case HUD:
+				width = HUD_WIDTH;
+				height = HUD_HEIGHT;
+				break;
+			default:
+				throw new LaissezException("Unhandled display id for setting scene dimensions: " + sceneId.getDisplayId());
+			}
+
+			Scene scene = new Scene(parent, width, height);
+			sceneMap.put(sceneId, scene);
+		}
 	}
 
 	// ----------------------------------------------------------------------------------------
