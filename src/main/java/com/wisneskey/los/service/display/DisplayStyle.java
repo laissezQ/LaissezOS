@@ -8,11 +8,12 @@ package com.wisneskey.los.service.display;
 public enum DisplayStyle {
 	
 	NONE("Base JavaFX Mode", null),
+	LAISSEZ_OS("Laissex Boy Mode", "laissez-os.css"),
 	PRIMER_LIGHT("Primer Light Mode", "primer-light.css"),
 	PRIMER_DARK("Primer Dark Mode", "primer-dark.css"),
 	NORD_LIGHT("Nord Light Mode", "nord-light.css"),
 	NORD_DARK("Nord Dark Mode", "nord-dark.css");
-
+	
 	// ----------------------------------------------------------------------------------------
 	// Variables.
 	// ----------------------------------------------------------------------------------------

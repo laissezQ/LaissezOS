@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
@@ -10,20 +11,20 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.geometry.Insets?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity"
-	minHeight="-Infinity" minWidth="-Infinity" prefHeight="1280.0"
-	prefWidth="400.0" xmlns="http://javafx.com/javafx/8"
-	xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="com.wisneskey.los.service.display.controller.cp.BootScreen">
+<Pane id="pane" maxHeight="1280.0" maxWidth="400.0" minHeight="1280.0" minWidth="400.0" prefHeight="1280.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.wisneskey.los.service.display.controller.cp.BootScreen">
 	<children>
-		<Label layoutX="14.0" layoutY="14.0"
-			text="LaissezOS 1.0 Boot Sequence">
+		<Label layoutX="14.0" layoutY="10.0" text="LaissezOS 1.0 Booting">
 			<font>
-				<Font name="Monospaced Bold Italic" size="18.0" />
+				<Font name="Avenir Next Heavy" size="24.0" />
 			</font>
+         <effect>
+            <DropShadow />
+         </effect>
 		</Label>
-		<TextArea fx:id="bootMessages" layoutX="14.0" layoutY="49.0"
-			prefHeight="1119.0" prefWidth="373.0" wrapText="true" />
+		<TextArea fx:id="messages" editable="false" layoutX="14.0" layoutY="49.0" prefHeight="1119.0" prefWidth="373.0" wrapText="false">
+			<font>
+				<Font name="Consolas" size="14.0" />
+			</font>
+		</TextArea>
 	</children>
 </Pane>

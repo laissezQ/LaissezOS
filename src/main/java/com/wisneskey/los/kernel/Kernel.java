@@ -184,8 +184,8 @@ public class Kernel {
 	// Public methods.
 	// ----------------------------------------------------------------------------------------
 
-	public void bootMessage(String message) {
-		chairState.setBootMessage(message);
+	public void message(String message) {
+		chairState.setMessage(message);
 	}
 	
 	// ----------------------------------------------------------------------------------------
@@ -271,7 +271,7 @@ public class Kernel {
 		}
 
 		@Override
-		public ReadOnlyStringProperty bootMessage() {
+		public ReadOnlyStringProperty message() {
 			return bootMessage;
 		}
 
@@ -302,11 +302,11 @@ public class Kernel {
 		}
 
 		/**
-		 * Sets the current boot message.
+		 * Sets the current message.
 		 * 
 		 * @param message Message to set or null to clear message.
 		 */
-		private void setBootMessage(String message) {
+		private void setMessage(String message) {
 			bootMessage.setValue(message);
 		}
 	}

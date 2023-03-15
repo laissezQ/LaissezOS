@@ -40,4 +40,14 @@ public class ShowScene extends AbstractScriptCommand {
 
 		Platform.runLater(() -> ((DisplayService) Kernel.kernel().getService(ServiceId.DISPLAY)).showScene(sceneId));
 	}
+	
+	// ----------------------------------------------------------------------------------------
+	// Object methods.
+	// ----------------------------------------------------------------------------------------
+
+	@Override
+	public String toString() {
+		return "ShowScene[" + getSceneId() + "]";
+	}
+
 }

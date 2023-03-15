@@ -1,38 +1,39 @@
 package com.wisneskey.los.service.display.controller.cp;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.wisneskey.los.service.display.controller.AbstractController;
+import com.wisneskey.los.service.display.listener.MessagesToTextAreaListener;
 
-import com.wisneskey.los.kernel.Kernel;
-
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 
-public class BootScreen {
+/**
+ * Controller for the control panel boot screen.
+ * 
+ * @author paul.wisneskey@gmail.com
+ */
+public class BootScreen extends AbstractController {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(BootScreen.class);
+	/**
+	 * Maximum number of lines to keep in the messages text area.
+	 */
+	private static final int MAX_LINE_COUNT = 100;
 
+	/**
+	 * Text area for displaying messages.
+	 */
 	@FXML
-	private TextArea bootMessages;
+	private TextArea messages;
 
+	// ----------------------------------------------------------------------------------------
+	// Public methods.
+	// ----------------------------------------------------------------------------------------
+
+	/**
+	 * Initializes the controller.
+	 */
 	@FXML
 	public void initialize() {
 
-		Kernel.kernel().chairState().bootMessage().addListener(new BootMessageListener());
-	}
-
-	private class BootMessageListener implements ChangeListener<String> {
-
-		@Override
-		public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-			if (newValue == null) {
-				bootMessages.clear();
-			} else {
-				bootMessages.selectEnd();
-				bootMessages.insertText(bootMessages.textProperty().getValue().length(), newValue);
-			}
-		}
+		chairState().message().addListener(new MessagesToTextAreaListener(messages, MAX_LINE_COUNT));
 	}
 }

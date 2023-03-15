@@ -21,9 +21,11 @@ import javafx.application.Application;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Pair;
 
 /**
@@ -53,17 +55,17 @@ public class DisplayService extends AbstractService<DisplayState> {
 	/**
 	 * Height of the heads up display.
 	 */
-	private static final double HUD_HEIGHT = 480;
+	private static final double HUD_HEIGHT = 480.0;
 
 	/**
 	 * Width of the control panel display.
 	 */
-	private static final double CONTROL_PANEL_WIDTH = 400;
+	private static final double CONTROL_PANEL_WIDTH = 400.0;
 
 	/**
 	 * Height of the control panel display.
 	 */
-	private static final double CONTROL_PANEL_HEIGHT = 1280;
+	private static final double CONTROL_PANEL_HEIGHT = 1280.0;
 
 	/**
 	 * Internal service state object.
@@ -150,7 +152,7 @@ public class DisplayService extends AbstractService<DisplayState> {
 		hudStage.setScene(new Scene(sceneMap.get(SceneId.HUD_SPLASH_SCREEN), HUD_WIDTH, HUD_HEIGHT));
 		hudStage.setX(displayConfig.getHudX());
 		hudStage.setY(displayConfig.getHudY());
-
+		
 		// Show each stage depending on run mode and screen availability.
 		showControlPanel(runMode);
 		showHeadsUpDisplay(runMode);
@@ -224,9 +226,12 @@ public class DisplayService extends AbstractService<DisplayState> {
 			cpStage.show();
 			break;
 		case PI2B_CP:
+			cpStage.initStyle(StageStyle.UNDECORATED);
 			cpStage.setFullScreenExitHint("");
 			cpStage.setFullScreen(true);
 			cpStage.show();
+			cpStage.toFront();
+			cpStage.getScene().setCursor(Cursor.NONE);
 			break;
 		default:
 			LOGGER.info("Control panel not being shown in run mode: " + runMode);
@@ -248,6 +253,7 @@ public class DisplayService extends AbstractService<DisplayState> {
 		case PI2B_HUD:
 			hudStage.show();
 			hudStage.setFullScreen(true);
+			hudStage.toFront();
 			break;
 		default:
 			LOGGER.info("Heads up display not being shown in run mode: " + runMode);

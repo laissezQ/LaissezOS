@@ -17,63 +17,19 @@
 			}
 		},
 		{
-			"bootMessage": {
-				"message": "Bringing flux capacitor online...\n",
-				"postCommandPause": 2.0
-			}
-		},
-		{
-			"bootMessage": {
-				"message": "Inventorying whiskey...\n",
-				"postCommandPause": 2.0
-			}
-		},
-		{
-			"bootMessage": {
-				"message": "Connecting to lighting subsystem.",
-				"postCommandPause": 2.0
-			}
-		},
-		{
-			"bootMessage": {
-				"message": ".",
+			"message": {
+				"messages": [
+					"Bringing flux capacitor online...\n",
+					"Inventorying whiskey...\n",
+					"Accessing lighting subsystem.",
+					".",
+					".",
+					".connected!\n",
+					"WARNING: Cigar module not installed.\n",
+					"Callibrating retro-entabulator...\n",
+					"Cyber Chair 2.0 is now online!\n"
+				],
 				"postCommandPause": 1.0
-			}
-		},
-		{
-			"bootMessage": {
-				"message": ".",
-				"postCommandPause": 1.0
-			}
-		},
-		{
-			"bootMessage": {
-				"message": ".",
-				"postCommandPause": 1.0
-			}
-		},
-		{
-			"bootMessage": {
-				"message": ".",
-				"postCommandPause": 1.0
-			}
-		},
-		{
-			"bootMessage": {
-				"message": ".connected!\n",
-				"postCommandPause": 2.0
-			}
-		},
-		{
-			"bootMessage": {
-				"message": "WARNING: Cigar module not installed!\n",
-				"postCommandPause": 2.0
-			}
-		},
-		{
-			"bootMessage": {
-				"message": "Cyber Chair 2.0 is now online.",
-				"postCommandPause": 0.5
 			}
 		},
 		{

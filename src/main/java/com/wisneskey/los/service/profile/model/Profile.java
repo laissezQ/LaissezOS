@@ -17,7 +17,7 @@ public class Profile {
 	/**
 	 * Default style for the displays.
 	 */
-	public static final DisplayStyle DEFAULT_DISPLAY_STYLE = DisplayStyle.NORD_DARK;
+	public static final DisplayStyle DEFAULT_DISPLAY_STYLE = DisplayStyle.LAISSEZ_OS;
 
 	/**
 	 * Default to a fast boot.
