@@ -1,7 +1,17 @@
 package com.wisneskey.los.service.display.controller.cp;
 
-import com.wisneskey.los.service.display.controller.AbstractController;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.wisneskey.los.kernel.Kernel;
+import com.wisneskey.los.service.ServiceId;
+import com.wisneskey.los.service.display.controller.AbstractController;
+import com.wisneskey.los.service.security.SecurityService;
+import com.wisneskey.los.state.ChairState.MasterState;
+
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -47,9 +57,20 @@ public class LockScreen extends AbstractController {
 	@FXML
 	private Button buttonZero;
 
+	/**
+	 * The actual PIN code being entered.
+	 */
 	private String pinEntered = "";
 
+	/**
+	 * The dummy PIN code that is displayed on screen.
+	 */
 	private String pinDisplayed = "";
+
+	/**
+	 * List of all PIN code entry buttons [0-9].
+	 */
+	private List<Button> entryButtons;
 
 	// ----------------------------------------------------------------------------------------
 	// Public methods.
@@ -62,68 +83,98 @@ public class LockScreen extends AbstractController {
 	public void initialize() {
 
 		pinDisplay.setText(pinDisplayed);
+		entryButtons = new ArrayList<>(10);
+		entryButtons.add(buttonOne);
+		entryButtons.add(buttonTwo);
+		entryButtons.add(buttonThree);
+		entryButtons.add(buttonFour);
+		entryButtons.add(buttonFive);
+		entryButtons.add(buttonSix);
+		entryButtons.add(buttonSeven);
+		entryButtons.add(buttonEight);
+		entryButtons.add(buttonNine);
+		entryButtons.add(buttonZero);
+		
+		// Add a listener for the chair state so that if the chair is set to a master state of LOCKED,
+		// we can assume we will be getting displayed and we need to enable the PIN entry buttons.
+		chairState().masterState().addListener(new MasterStateListener());
+		
+		// Put focus on the PIN display.
+		redirectFocus();
 	}
 
 	@FXML
 	public void buttonOnePressed(ActionEvent event) {
 		buttonPressed("1");
-		pinDisplay.requestFocus();
+		redirectFocus();
 	}
 
 	@FXML
 	public void buttonTwoPressed(ActionEvent event) {
 		buttonPressed("2");
-		pinDisplay.requestFocus();
+		redirectFocus();
 	}
 
 	@FXML
 	public void buttonThreePressed(ActionEvent event) {
 		buttonPressed("3");
-		pinDisplay.requestFocus();
+		redirectFocus();
 	}
 
 	@FXML
 	public void buttonFourPressed(ActionEvent event) {
 		buttonPressed("4");
-		pinDisplay.requestFocus();
+		redirectFocus();
 	}
 
 	@FXML
 	public void buttonFivePressed(ActionEvent event) {
 		buttonPressed("5");
-		pinDisplay.requestFocus();
+		redirectFocus();
 	}
 
 	@FXML
 	public void buttonSixPressed(ActionEvent event) {
 		buttonPressed("6");
-		pinDisplay.requestFocus();
+		redirectFocus();
 	}
 
 	@FXML
 	public void buttonSevenPressed(ActionEvent event) {
 		buttonPressed("7");
-		pinDisplay.requestFocus();
+		redirectFocus();
 	}
 
 	@FXML
 	public void buttonEightPressed(ActionEvent event) {
 		buttonPressed("8");
-		pinDisplay.requestFocus();
+		redirectFocus();
 	}
 
 	@FXML
 	public void buttonNinePressed(ActionEvent event) {
 		buttonPressed("9");
-		pinDisplay.requestFocus();
+		redirectFocus();
 	}
 
 	@FXML
 	public void buttonZeroPressed(ActionEvent event) {
 		buttonPressed("0");
-		pinDisplay.requestFocus();
+		redirectFocus();
 	}
 
+	private void redirectFocus() {
+		Platform.runLater(() -> pinDisplay.requestFocus());
+	}
+	
+	private void setEntryPadState(boolean enabled) {
+		
+		for( Button button : entryButtons) {
+			
+			button.setDisable(! enabled);
+		}
+	}
+	
 	private void buttonPressed(String buttonValue) {
 
 		pinEntered += buttonValue;
@@ -133,10 +184,31 @@ public class LockScreen extends AbstractController {
 		// When we have four digits, submit it to the security service.
 		if (pinEntered.length() >= 4) {
 
-			// TODO: Call unlock on security service.
+			String pinCode = pinEntered;
+			
+			setEntryPadState(false);
 			pinEntered = "";
 			pinDisplayed = "";
 			pinDisplay.setText(pinDisplayed);
+			
+			boolean unlocked = ((SecurityService) Kernel.kernel().getService(ServiceId.SECURITY)).unlockChair(pinCode);
+			if( ! unlocked ) {
+				// Failed to unlock so re-enable PIN code entry.
+				setEntryPadState(true);
+			}
+		}
+	}
+	
+	private class MasterStateListener implements ChangeListener<MasterState> {
+
+		@Override
+		public void changed(ObservableValue<? extends MasterState> observable, MasterState oldValue, MasterState newValue) {
+
+			// If the chair is locked, enabled our PIN entry because it will be needed to unlock.
+			if( newValue == MasterState.LOCKED) {
+				setEntryPadState(true);
+				redirectFocus();
+			}
 		}
 	}
 }

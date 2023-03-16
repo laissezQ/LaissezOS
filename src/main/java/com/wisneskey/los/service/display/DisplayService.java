@@ -18,6 +18,7 @@ import com.wisneskey.los.service.profile.model.Profile;
 import com.wisneskey.los.state.DisplayState;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXMLLoader;
@@ -182,9 +183,11 @@ public class DisplayService extends AbstractService<DisplayState> {
 		switch (sceneId.getDisplayId()) {
 		case CP:
 			cpStage.getScene().setRoot(content);
+			Platform.runLater(() -> cpStage.requestFocus());
 			break;
 		case HUD:
 			hudStage.getScene().setRoot(content);
+			Platform.runLater(() -> hudStage.requestFocus());
 		}
 	}
 

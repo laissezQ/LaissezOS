@@ -39,6 +39,7 @@ public interface ChairState extends State {
 
 	public enum MasterState {
 		BOOTING,
-		STARTED
+		RUNNING,
+		LOCKED
 	}
 }

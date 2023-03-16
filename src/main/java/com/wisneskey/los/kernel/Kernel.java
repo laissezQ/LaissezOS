@@ -89,10 +89,11 @@ public class Kernel {
 		}
 
 		// Set the initialized flag and update the master state of the chair for
-		// anyone
-		// that might be listening for master state changes.
+		// anyone that might be listening for master state changes. We start with
+		// the
+		// assumption that Q has started the chair so it will be fully enabled.
 		initialized = true;
-		chairState.setMasterState(MasterState.STARTED);
+		chairState.setMasterState(MasterState.RUNNING);
 
 		LOGGER.info("Kernel initialized.");
 	}
@@ -187,7 +188,11 @@ public class Kernel {
 	public void message(String message) {
 		chairState.setMessage(message);
 	}
-	
+
+	public void setMasterState(MasterState state) {
+		chairState.setMasterState(state);
+	}
+
 	// ----------------------------------------------------------------------------------------
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
@@ -304,7 +309,8 @@ public class Kernel {
 		/**
 		 * Sets the current message.
 		 * 
-		 * @param message Message to set or null to clear message.
+		 * @param message
+		 *          Message to set or null to clear message.
 		 */
 		private void setMessage(String message) {
 			bootMessage.setValue(message);

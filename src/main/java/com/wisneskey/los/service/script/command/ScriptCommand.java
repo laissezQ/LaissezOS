@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
  */
 @JsonSubTypes({
 
+	@JsonSubTypes.Type(value = LockChair.class, name = "lockChair"),
 		@JsonSubTypes.Type(value = Message.class, name = "message"),
 		@JsonSubTypes.Type(value = Pause.class, name = "pause"),
 		@JsonSubTypes.Type(value = PlaySoundEffect.class, name = "playSoundEffect"),

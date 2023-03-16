@@ -8,7 +8,9 @@ package com.wisneskey.los.service.script;
 public enum ScriptId {
 
 	BOOT_FAST("Fasted possible boot sequence.", "Boot-Fast"),
-	BOOT_DEV("Test boot sequence for development.", "Boot-DEV");
+	BOOT_DEV("Test boot sequence for development.", "Boot-DEV"),
+	SECURITY_UNLOCKED("Chair was unlocked.", "Security-Unlocked"),
+	SECURITY_UNLOCK_FAILED("Invalid PIN entered for chair unlock.", "Security-UnlockFailed");
 
 	// ----------------------------------------------------------------------------------------
 	// Variables.

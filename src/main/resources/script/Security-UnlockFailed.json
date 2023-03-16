@@ -1,0 +1,16 @@
+{
+	// 
+	// Script for playing when somone enters the wrong PIN to unlock the chair.
+	//
+	"name": "Invalid PIN entered to unlock chair.",
+	//
+	"commands": [
+		{
+			"playSoundEffect": {
+				"effectIds": [
+					"MOVIE_HAL_SORRY_DAVE"
+				]
+			}
+		}
+	]
+}

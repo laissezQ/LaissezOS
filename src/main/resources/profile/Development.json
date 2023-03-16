@@ -15,5 +15,11 @@
 	// 
 	// Display service settings:
 	//
-	"displayStyle": "LAISSEZ_OS"
+	"displayStyle": "LAISSEZ_OS",
+	// 
+	// Security service settings:
+	//
+	"pinCode" : "6294",
+	"unlockedScript" : "SECURITY_UNLOCKED",
+	"unlockFailedScript" : "SECURITY_UNLOCK_FAILED"
 }

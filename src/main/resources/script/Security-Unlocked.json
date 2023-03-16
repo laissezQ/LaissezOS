@@ -1,0 +1,16 @@
+{
+	// 
+	// Script for playing when somone enters the right PIN to unlock the chair.
+	//
+	"name": "Correct PIN entered to unlock chair.",
+	//
+	"commands": [
+		{
+			"playSoundEffect": {
+				"effectIds": [
+					"MOVIE_IJ_CHOSEN_WISELY"
+				]
+			}
+		}
+	]
+}

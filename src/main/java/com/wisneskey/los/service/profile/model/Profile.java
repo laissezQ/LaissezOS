@@ -49,6 +49,21 @@ public class Profile {
 	 */
 	private ScriptId bootScript = DEFAULT_BOOT_SCRIPT;
 	
+	/**
+	 * 4 digit PIN code to unlock chair.
+	 */
+	private String pinCode;
+		
+	/**
+	 * Optional script to run when chair is unlocked.
+	 */
+	private ScriptId unlockedScript;
+
+	/**
+	 * Optional script to run when wrong PIN code is entered.
+	 */
+	private ScriptId unlockFailedScript;
+
 	// ----------------------------------------------------------------------------------------
 	// Property getters/setters.
 	// ----------------------------------------------------------------------------------------
@@ -97,4 +112,17 @@ public class Profile {
 	public ScriptId getBootScript() {
 		return bootScript;
 	}
+
+	public String getPinCode() {
+		return pinCode;
+	}
+
+	public ScriptId getUnlockedScript() {
+		return unlockedScript;
+	}
+
+	public ScriptId getUnlockFailedScript() {
+		return unlockFailedScript;
+	}
+
 }
