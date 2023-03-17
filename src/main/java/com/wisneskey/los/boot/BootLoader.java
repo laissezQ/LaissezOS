@@ -99,9 +99,4 @@ public class BootLoader extends Application {
 		Profile profile = ((ProfileState) Kernel.kernel().chairState().getServiceState(ServiceId.PROFILE)).activeProfile().get();
 		((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(profile.getBootScript());
 	}
-
-	// ----------------------------------------------------------------------------------------
-	// Supporting methods.
-	// ----------------------------------------------------------------------------------------
-
 }

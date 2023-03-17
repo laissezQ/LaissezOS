@@ -4,19 +4,59 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.TextArea;
 
+/**
+ * Change listener that monitors for new chair messages and adds them to a
+ * scrolling text area. Properly handles messages that do not have a new line
+ * (e.g. should be added to the previous message). Tracks the number of lines in
+ * the text area and trims the oldest when the maximum is reached.
+ * 
+ * @author paul.wisneskey@gmail.com
+ *
+ */
 public class MessagesToTextAreaListener implements ChangeListener<String> {
 
+	/**
+	 * Constant representing a solid block character to use for a simulated
+	 * cursor.
+	 */
 	private static final String SOLID_BLOCK = "\u2588";
 
+	/**
+	 * Text area to append the messages to.
+	 */
 	private TextArea textArea;
 
-	private int lineCount = 0;
+	/**
+	 * Maximum number of lines to allow in the text area.
+	 */
 	private int maxLines = 0;
 
+	/**
+	 * Number of lines currently in the text area.
+	 */
+	private int lineCount = 0;
+
+	// ----------------------------------------------------------------------------------------
+	// Constructors.
+	// ----------------------------------------------------------------------------------------
+
+	/**
+	 * Creates a listener that uses the supplied text area with the specified
+	 * maximum number of lines.
+	 * 
+	 * @param textArea
+	 *          Text area to use for displaying messages.
+	 * @param maxLines
+	 *          Maximum number of lines to keep in the text area.
+	 */
 	public MessagesToTextAreaListener(TextArea textArea, int maxLines) {
 		this.textArea = textArea;
 		this.maxLines = maxLines;
 	}
+
+	// ----------------------------------------------------------------------------------------
+	// ChangeListener methods.
+	// ----------------------------------------------------------------------------------------
 
 	@Override
 	public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -41,6 +81,18 @@ public class MessagesToTextAreaListener implements ChangeListener<String> {
 		}
 	}
 
+	// ----------------------------------------------------------------------------------------
+	// Supporting methods.
+	// ----------------------------------------------------------------------------------------
+
+	/**
+	 * Count the number of new lines in the latest message by counting the number
+	 * of newline characters it contains.
+	 * 
+	 * @param message
+	 *          Message to count the newlines in.
+	 * @return Number of newline characters found in the message.
+	 */
 	private int countNewLines(String message) {
 
 		int newLineCount = 0;

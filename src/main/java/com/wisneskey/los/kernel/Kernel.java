@@ -168,6 +168,17 @@ public class Kernel {
 		LOGGER.debug("Run mode set: {}", runMode.getDescription());
 	}
 
+	/**
+	 * Registers a service with the kernel.
+	 * 
+	 * @param <S>
+	 *          Class service uses for its state.
+	 * @param <T>
+	 *          Type of service.
+	 * @param serviceDetails
+	 *          Pair consisting of service and its state to register with the
+	 *          kernel.
+	 */
 	public <S extends Service<T>, T extends State> void registerService(Pair<S, T> serviceDetails) {
 
 		Service<T> service = serviceDetails.getKey();
@@ -185,10 +196,24 @@ public class Kernel {
 	// Public methods.
 	// ----------------------------------------------------------------------------------------
 
+	/**
+	 * Write a message to the kernel for reporting on chair operations. The
+	 * message property is observed by the UI controller's to report on status in
+	 * the UI.
+	 * 
+	 * @param message
+	 *          Message to report for latest status.
+	 */
 	public void message(String message) {
 		chairState.setMessage(message);
 	}
 
+	/**
+	 * Sets the master state of the chair.
+	 * 
+	 * @param state
+	 *          New master start for the chair.
+	 */
 	public void setMasterState(MasterState state) {
 		chairState.setMasterState(state);
 	}

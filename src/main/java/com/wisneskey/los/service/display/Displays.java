@@ -93,6 +93,11 @@ public class Displays {
 	// Static methods.
 	// ----------------------------------------------------------------------------------------
 
+	/**
+	 * Load the display settings from their JSON configuration in the resources.
+	 * 
+	 * @return Displays object containing the settings for the various displays.
+	 */
 	public static Displays loadDisplays() {
 
 		LOGGER.info("Loading display settings: {}", DISPLAY_SETTINGS_RESOURCE);
@@ -115,11 +120,34 @@ public class Displays {
 	 */
 	public static class DisplayConfiguration {
 
+		/**
+		 * Run mode the configuration is for.
+		 */
 		private RunMode runMode;
+		
+		/**
+		 * X location to put the control panel to position it on the proper monitor.
+		 */
 		private double controlPanelX;
+
+		/**
+		 * Y location to put the control panel to position it on the proper monitor.
+		 */
 		private double controlPanelY;
+
+		/**
+		 * X location to put the heads up display to position it on the proper monitor.
+		 */
 		private double hudX;
+
+		/**
+		 * Y location to put the heads up display to position it on the proper monitor.
+		 */
 		private double hudY;
+
+		// ----------------------------------------------------------------------------------------
+		// Property getters/setters.
+		// ----------------------------------------------------------------------------------------
 
 		public RunMode getRunMode() {
 			return runMode;

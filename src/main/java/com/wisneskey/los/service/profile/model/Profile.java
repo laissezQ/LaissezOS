@@ -124,5 +124,4 @@ public class Profile {
 	public ScriptId getUnlockFailedScript() {
 		return unlockFailedScript;
 	}
-
 }

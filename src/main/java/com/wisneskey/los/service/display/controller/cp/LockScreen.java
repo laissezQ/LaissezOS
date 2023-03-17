@@ -94,87 +94,170 @@ public class LockScreen extends AbstractController {
 		entryButtons.add(buttonEight);
 		entryButtons.add(buttonNine);
 		entryButtons.add(buttonZero);
-		
-		// Add a listener for the chair state so that if the chair is set to a master state of LOCKED,
-		// we can assume we will be getting displayed and we need to enable the PIN entry buttons.
+
+		// Add a listener for the chair state so that if the chair is set to a
+		// master state of LOCKED,
+		// we can assume we will be getting displayed and we need to enable the PIN
+		// entry buttons.
 		chairState().masterState().addListener(new MasterStateListener());
-		
+
 		// Put focus on the PIN display.
 		redirectFocus();
 	}
 
+	/**
+	 * Action listener for button 1 being pressed.
+	 * 
+	 * @param event
+	 *          Button 1 event.
+	 */
 	@FXML
 	public void buttonOnePressed(ActionEvent event) {
 		buttonPressed("1");
 		redirectFocus();
 	}
 
+	/**
+	 * Action listener for button 2 being pressed.
+	 * 
+	 * @param event
+	 *          Button 2 event.
+	 */
 	@FXML
 	public void buttonTwoPressed(ActionEvent event) {
 		buttonPressed("2");
 		redirectFocus();
 	}
 
+	/**
+	 * Action listener for button 3 being pressed.
+	 * 
+	 * @param event
+	 *          Button 3 event.
+	 */
 	@FXML
 	public void buttonThreePressed(ActionEvent event) {
 		buttonPressed("3");
 		redirectFocus();
 	}
 
+	/**
+	 * Action listener for button 4 being pressed.
+	 * 
+	 * @param event
+	 *          Button 4 event.
+	 */
 	@FXML
 	public void buttonFourPressed(ActionEvent event) {
 		buttonPressed("4");
 		redirectFocus();
 	}
 
+	/**
+	 * Action listener for button 5 being pressed.
+	 * 
+	 * @param event
+	 *          Button 5 event.
+	 */
 	@FXML
 	public void buttonFivePressed(ActionEvent event) {
 		buttonPressed("5");
 		redirectFocus();
 	}
 
+	/**
+	 * Action listener for button 6 being pressed.
+	 * 
+	 * @param event
+	 *          Button 6 event.
+	 */
 	@FXML
 	public void buttonSixPressed(ActionEvent event) {
 		buttonPressed("6");
 		redirectFocus();
 	}
 
+	/**
+	 * Action listener for button 7 being pressed.
+	 * 
+	 * @param event
+	 *          Button 7 event.
+	 */
 	@FXML
 	public void buttonSevenPressed(ActionEvent event) {
 		buttonPressed("7");
 		redirectFocus();
 	}
 
+	/**
+	 * Action listener for button 8 being pressed.
+	 * 
+	 * @param event
+	 *          Button 8 event.
+	 */
 	@FXML
 	public void buttonEightPressed(ActionEvent event) {
 		buttonPressed("8");
 		redirectFocus();
 	}
 
+	/**
+	 * Action listener for button 9 being pressed.
+	 * 
+	 * @param event
+	 *          Button 9 event.
+	 */
 	@FXML
 	public void buttonNinePressed(ActionEvent event) {
 		buttonPressed("9");
 		redirectFocus();
 	}
 
+	/**
+	 * Action listener for button 0 being pressed.
+	 * 
+	 * @param event
+	 *          Button 0 event.
+	 */
 	@FXML
 	public void buttonZeroPressed(ActionEvent event) {
 		buttonPressed("0");
 		redirectFocus();
 	}
 
+	// ----------------------------------------------------------------------------------------
+	// Supporting methods.
+	// ----------------------------------------------------------------------------------------
+
+	/**
+	 * Method used by event handlers to send focus back to the PIN code entry so
+	 * that the last button pressed does not remain selected on the screen.
+	 */
 	private void redirectFocus() {
 		Platform.runLater(() -> pinDisplay.requestFocus());
 	}
-	
+
+	/**
+	 * Sets the enabled state for all of the PIN code entry buttons.
+	 * 
+	 * @param enabled
+	 *          Flag indicating if buttons should be enabled or not.
+	 */
 	private void setEntryPadState(boolean enabled) {
-		
-		for( Button button : entryButtons) {
-			
-			button.setDisable(! enabled);
+
+		for (Button button : entryButtons) {
+
+			button.setDisable(!enabled);
 		}
 	}
-	
+
+	/**
+	 * Method invoked by the button pressed event handlers to submit their value
+	 * as entered.
+	 * 
+	 * @param buttonValue
+	 *          Value of the button that was pressed.
+	 */
 	private void buttonPressed(String buttonValue) {
 
 		pinEntered += buttonValue;
@@ -185,27 +268,36 @@ public class LockScreen extends AbstractController {
 		if (pinEntered.length() >= 4) {
 
 			String pinCode = pinEntered;
-			
+
 			setEntryPadState(false);
 			pinEntered = "";
 			pinDisplayed = "";
 			pinDisplay.setText(pinDisplayed);
-			
+
 			boolean unlocked = ((SecurityService) Kernel.kernel().getService(ServiceId.SECURITY)).unlockChair(pinCode);
-			if( ! unlocked ) {
+			if (!unlocked) {
 				// Failed to unlock so re-enable PIN code entry.
 				setEntryPadState(true);
 			}
 		}
 	}
-	
+
+	// ----------------------------------------------------------------------------------------
+	// Inner classes.
+	// ----------------------------------------------------------------------------------------
+
+	/**
+	 * Listener for changes in the master chair state so that the PIN code entry
+	 * can be unlocked if the chair is set in a locked state.
+	 */
 	private class MasterStateListener implements ChangeListener<MasterState> {
 
 		@Override
 		public void changed(ObservableValue<? extends MasterState> observable, MasterState oldValue, MasterState newValue) {
 
-			// If the chair is locked, enabled our PIN entry because it will be needed to unlock.
-			if( newValue == MasterState.LOCKED) {
+			// If the chair is locked, enable our PIN entry because it will be needed
+			// to unlock.
+			if (newValue == MasterState.LOCKED) {
 				setEntryPadState(true);
 				redirectFocus();
 			}
