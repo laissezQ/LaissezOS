@@ -11,6 +11,16 @@
 					"MOVIE_IJ_CHOSEN_WISELY"
 				]
 			}
+		},
+		{
+			"showScene": {
+				"sceneId": "HUD_MAIN_SCREEN"
+			}
+		},
+		{
+			"showScene": {
+				"sceneId": "CP_MAIN_SCREEN"
+			}
 		}
 	]
 }

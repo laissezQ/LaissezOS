@@ -3,11 +3,13 @@ package com.wisneskey.los.service;
 import com.wisneskey.los.service.audio.AudioService;
 import com.wisneskey.los.service.display.DisplayService;
 import com.wisneskey.los.service.profile.ProfileService;
+import com.wisneskey.los.service.relay.RelayService;
 import com.wisneskey.los.service.script.ScriptService;
 import com.wisneskey.los.service.security.SecurityService;
 import com.wisneskey.los.state.AudioState;
 import com.wisneskey.los.state.DisplayState;
 import com.wisneskey.los.state.ProfileState;
+import com.wisneskey.los.state.RelayState;
 import com.wisneskey.los.state.ScriptState;
 import com.wisneskey.los.state.SecurityState;
 import com.wisneskey.los.state.State;
@@ -22,6 +24,7 @@ public enum ServiceId {
 	AUDIO(AudioService.class, AudioState.class, "This service goes to 11."),
 	DISPLAY(DisplayService.class, DisplayState.class, "Looking good there,"),
 	PROFILE(ProfileService.class, ProfileState.class, "Keep it low."),
+	RELAY(RelayService.class, RelayState.class, "Have you tried turning it off and on again?"),
 	SCRIPT(ScriptService.class, ScriptState.class, "Don't tell me what to do!"),
 	SECURITY(SecurityService.class, SecurityState.class, "1000 times no!");
 

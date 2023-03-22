@@ -45,6 +45,11 @@ public class Profile {
 	private DisplayStyle displayStyle = DEFAULT_DISPLAY_STYLE;
 
 	/**
+	 * I2C address of the relay board.
+	 */
+	private String relayAddress;
+	
+	/**
 	 * Script to run at boot.
 	 */
 	private ScriptId bootScript = DEFAULT_BOOT_SCRIPT;
@@ -123,5 +128,9 @@ public class Profile {
 
 	public ScriptId getUnlockFailedScript() {
 		return unlockFailedScript;
+	}
+
+	public String getRelayAddress() {
+		return relayAddress;
 	}
 }

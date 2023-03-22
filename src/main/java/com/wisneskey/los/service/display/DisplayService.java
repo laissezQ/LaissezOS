@@ -350,7 +350,7 @@ public class DisplayService extends AbstractService<DisplayState> {
 	 * @param profile
 	 *          Profile to use for configuring initial state of the display
 	 *          service.
-	 * @return Audio service instance and its initial state object.
+	 * @return Display service instance and its initial state object.
 	 */
 	public static Pair<DisplayService, DisplayState> createService(RunMode runMode, Profile profile) {
 

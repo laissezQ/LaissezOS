@@ -12,11 +12,13 @@ public enum SceneId {
 	//
 	CP_BOOT_SCREEN(DisplayId.CP, "BootScreen"),
 	CP_LOCK_SCREEN(DisplayId.CP, "LockScreen"),
+	CP_MAIN_SCREEN(DisplayId.CP, "MainScreen"),
 	CP_SPLASH_SCREEN(DisplayId.CP, "SplashScreen"),
-	
+
 	//
 	// Heads Up Display scenes:
 	//
+	HUD_MAIN_SCREEN(DisplayId.HUD, "MainScreen"),
 	HUD_SPLASH_SCREEN(DisplayId.HUD, "SplashScreen");
 
 	// ----------------------------------------------------------------------------------------

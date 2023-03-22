@@ -37,6 +37,7 @@
                     <Multi-Release>true</Multi-Release>
                   </manifestEntries>
                 </transformer>
+                <transformer />
               </transformers>
             </configuration>
           </execution>
@@ -80,7 +81,9 @@
   </build>
   <properties>
     <maven.compiler.target>11</maven.compiler.target>
+    <slf4j.version>1.7.32</slf4j.version>
     <maven.compiler.source>11</maven.compiler.source>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <pi4j.version>2.3.0</pi4j.version>
   </properties>
 </project>
