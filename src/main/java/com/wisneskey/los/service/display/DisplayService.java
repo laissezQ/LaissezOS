@@ -153,7 +153,7 @@ public class DisplayService extends AbstractService<DisplayState> {
 		hudStage.setScene(new Scene(sceneMap.get(SceneId.HUD_SPLASH_SCREEN), HUD_WIDTH, HUD_HEIGHT));
 		hudStage.setX(displayConfig.getHudX());
 		hudStage.setY(displayConfig.getHudY());
-		
+
 		// Show each stage depending on run mode and screen availability.
 		showControlPanel(runMode);
 		showHeadsUpDisplay(runMode);
@@ -182,11 +182,11 @@ public class DisplayService extends AbstractService<DisplayState> {
 		// scene because in full screen mode this causes the menu bar to reappear.
 		switch (sceneId.getDisplayId()) {
 		case CP:
-			cpStage.getScene().setRoot(content);
+			Platform.runLater(() -> cpStage.getScene().setRoot(content));
 			Platform.runLater(() -> cpStage.requestFocus());
 			break;
 		case HUD:
-			hudStage.getScene().setRoot(content);
+			Platform.runLater(() -> hudStage.getScene().setRoot(content));
 			Platform.runLater(() -> hudStage.requestFocus());
 		}
 	}
