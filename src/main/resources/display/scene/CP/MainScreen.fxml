@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
@@ -13,18 +14,18 @@
 
 <Pane id="pane" maxHeight="1280.0" maxWidth="400.0" minHeight="1280.0" minWidth="400.0" prefHeight="1280.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.wisneskey.los.service.display.controller.cp.MainScreen">
 	<children>
-		<Label layoutX="14.0" layoutY="10.0" text="LaissezOS 1.0">
-			<font>
-				<Font name="Avenir Next Heavy" size="24.0" />
-			</font>
-         <effect>
-            <DropShadow />
-         </effect>
-		</Label>
 		<TextArea fx:id="messages" editable="false" layoutX="14.0" layoutY="1063.0" prefHeight="200.0" prefWidth="373.0" wrapText="false">
 			<font>
 				<Font name="Consolas" size="14.0" />
 			</font>
 		</TextArea>
+      <ImageView fitHeight="181.0" fitWidth="373.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../images/laissez-boys-header.png" />
+         </image>
+         <effect>
+            <DropShadow />
+         </effect>
+      </ImageView>
 	</children>
 </Pane>

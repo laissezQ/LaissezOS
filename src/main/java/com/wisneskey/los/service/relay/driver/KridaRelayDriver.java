@@ -67,11 +67,10 @@ public class KridaRelayDriver implements RelayDriver {
 				
 		Map<RelayId, Boolean> stateMap = new HashMap<>();
 		for( RelayId id : RelayId.values()) {
-			stateMap.put(id, (state & (2 >> id.getNumber())) != 0);
+			stateMap.put(id, (state & (2 >> id.getIndex())) != 0);
 		}
 		
 		LOGGER.info("Initial state: " + state + " map=" + stateMap);
 		return stateMap;
-
 	}
 }
