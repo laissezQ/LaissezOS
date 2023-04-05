@@ -1,5 +1,6 @@
 package com.wisneskey.los.service.relay;
 
+import java.time.Duration;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -50,18 +51,44 @@ public class RelayService extends AbstractService<RelayState> {
 	// Public methods.
 	// ----------------------------------------------------------------------------------------
 
+	/**
+	 * Turn on the relay with the specified id.
+	 * 
+	 * @param relayId
+	 *          Id of the relay to turn on.
+	 */
 	public void turnOn(RelayId relayId) {
 
-		LOGGER.info("Relay on: " + relayId);
+		LOGGER.info("Relay on: {}", relayId);
 
 		relayDriver.turnOn(relayId);
 		relayState.updateState(relayId, true);
-		
 	}
 
+	/**
+	 * Turns on the specified relay for the given duration and then turns it off.
+	 * 
+	 * @param relayId
+	 *          Id of the relay to turn on.
+	 * @param duration
+	 *          Duration the relay should be on.
+	 */
+	public void turnOn(RelayId relayId, Duration duration) {
+
+		// We just use a thread for this since we do not expect many relays to be
+		// running simultaneously.
+		new TimedRelayThread(relayId, duration).start();
+	}
+
+	/**
+	 * Turn off the relay with the specified id.
+	 * 
+	 * @param relayId
+	 *          Id of the relay to turn off.
+	 */
 	public void turnOff(RelayId relayId) {
 
-		LOGGER.info("Relay off: " + relayId);
+		LOGGER.info("Relay off: {}", relayId);
 
 		relayDriver.turnOff(relayId);
 		relayState.updateState(relayId, false);
@@ -71,6 +98,12 @@ public class RelayService extends AbstractService<RelayState> {
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
 
+	/**
+	 * Set the driver to use for communicating with the relays.
+	 * 
+	 * @param relayDriver
+	 *          Relay driver to use to communicate with relay hardware.
+	 */
 	private void setRelayDriver(RelayDriver relayDriver) {
 		this.relayDriver = relayDriver;
 	}
@@ -166,12 +199,48 @@ public class RelayService extends AbstractService<RelayState> {
 		// ----------------------------------------------------------------------------------------
 
 		private void setInitialState(Map<RelayId, Boolean> initialStateMap) {
-			stateMap = initialStateMap.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, (e) -> new SimpleBooleanProperty(e.getValue())));
+			stateMap = initialStateMap.entrySet().stream()
+					.collect(Collectors.toMap(Map.Entry::getKey, (e) -> new SimpleBooleanProperty(e.getValue())));
 		}
-		
+
 		private void updateState(RelayId relayId, boolean state) {
-			
+
 			stateMap.get(relayId).set(state);
+		}
+	}
+
+	/**
+	 * Thread that energizes a relay for a given duration.
+	 */
+	private class TimedRelayThread extends Thread {
+
+		private RelayId relayId;
+		private Duration duration;
+
+		private TimedRelayThread(RelayId relayId, Duration duration) {
+
+			setDaemon(true);
+
+			this.relayId = relayId;
+			this.duration = duration;
+		}
+
+		@Override
+		public void run() {
+
+			LOGGER.info("Timed relay on for {} ms: {}", duration.toMillis(), relayId);
+			RelayService.this.relayDriver.turnOn(relayId);
+
+			try {
+				Thread.sleep(duration.toMillis());
+			} catch (InterruptedException e) {
+				LOGGER.warn("Interrupted waiting for relay duration to elapsed.");
+			} finally {
+
+				// Turn off relay no matter what.
+				LOGGER.info("Timed relay off: {}", relayId);
+				RelayService.this.relayDriver.turnOff(relayId);
+			}
 		}
 	}
 }

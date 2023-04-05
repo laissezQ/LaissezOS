@@ -1,5 +1,7 @@
 package com.wisneskey.los.service.display.controller.cp;
 
+import java.time.Duration;
+
 import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.display.controller.AbstractController;
@@ -54,7 +56,7 @@ public class MainScreen extends AbstractController {
 
 		relayOne.pressedProperty().addListener(new RelayButtonListener(RelayId.RELAY_1));
 		relayTwo.pressedProperty().addListener(new RelayButtonListener(RelayId.RELAY_2));
-		relayThree.pressedProperty().addListener(new RelayButtonListener(RelayId.RELAY_3));
+		relayThree.pressedProperty().addListener(new TimedRelayButtonListener(RelayId.RELAY_3, Duration.ofSeconds(5)));
 	}
 
 	// ----------------------------------------------------------------------------------------
@@ -76,6 +78,25 @@ public class MainScreen extends AbstractController {
 				((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOn(relayId);
 			} else {
 				((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOff(relayId);
+			}
+		}
+	}
+
+	private static class TimedRelayButtonListener implements ChangeListener<Boolean> {
+
+		private RelayId relayId;
+		private Duration duration;
+
+		private TimedRelayButtonListener(RelayId relayId, Duration duration) {
+			this.relayId = relayId;
+			this.duration = duration;
+		}
+
+		@Override
+		public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean pressed) {
+
+			if (pressed) {
+				((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOn(relayId, duration);
 			}
 		}
 	}
