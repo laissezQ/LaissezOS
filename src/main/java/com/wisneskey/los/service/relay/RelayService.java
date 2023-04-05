@@ -1,5 +1,11 @@
 package com.wisneskey.los.service.relay;
 
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.wisneskey.los.error.LaissezException;
 import com.wisneskey.los.kernel.RunMode;
 import com.wisneskey.los.service.AbstractService;
@@ -10,9 +16,14 @@ import com.wisneskey.los.service.relay.driver.KridaRelayDriver;
 import com.wisneskey.los.service.relay.driver.RelayDriver;
 import com.wisneskey.los.state.RelayState;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.util.Pair;
 
 public class RelayService extends AbstractService<RelayState> {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(RelayService.class);
 
 	/**
 	 * Internal state object for tracking the state of the relays.
@@ -36,6 +47,27 @@ public class RelayService extends AbstractService<RelayState> {
 	}
 
 	// ----------------------------------------------------------------------------------------
+	// Public methods.
+	// ----------------------------------------------------------------------------------------
+
+	public void turnOn(RelayId relayId) {
+
+		LOGGER.info("Relay on: " + relayId);
+
+		relayDriver.turnOn(relayId);
+		relayState.updateState(relayId, true);
+		
+	}
+
+	public void turnOff(RelayId relayId) {
+
+		LOGGER.info("Relay off: " + relayId);
+
+		relayDriver.turnOff(relayId);
+		relayState.updateState(relayId, false);
+	}
+
+	// ----------------------------------------------------------------------------------------
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
 
@@ -53,14 +85,17 @@ public class RelayService extends AbstractService<RelayState> {
 	 * @return Configured display state object.
 	 */
 	private RelayState initialize(RunMode runMode, Profile profile) {
-		relayState = new InternalRelayState();
-		if( relayDriver == null ) {
+
+		if (relayDriver == null) {
 			throw new LaissezException("Relay driver not set.");
 		}
-		
+
+		relayState = new InternalRelayState();
+
 		// Let the relay driver initialize itself based on the profile.
-		relayDriver.initialize(profile);
-		
+		Map<RelayId, Boolean> initialState = relayDriver.initialize(profile);
+		relayState.setInitialState(initialState);
+
 		return relayState;
 	}
 
@@ -109,5 +144,34 @@ public class RelayService extends AbstractService<RelayState> {
 	 */
 	private static class InternalRelayState implements RelayState {
 
+		private Map<RelayId, BooleanProperty> stateMap;
+
+		// ----------------------------------------------------------------------------------------
+		// Relay state methods.
+		// ----------------------------------------------------------------------------------------
+
+		@Override
+		public ReadOnlyBooleanProperty getState(RelayId relayId) {
+
+			BooleanProperty stateProperty = stateMap.get(relayId);
+			if (stateProperty == null) {
+				throw new LaissezException("No state property found for relay id: " + relayId);
+			}
+
+			return stateProperty;
+		}
+
+		// ----------------------------------------------------------------------------------------
+		// Private methods.
+		// ----------------------------------------------------------------------------------------
+
+		private void setInitialState(Map<RelayId, Boolean> initialStateMap) {
+			stateMap = initialStateMap.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, (e) -> new SimpleBooleanProperty(e.getValue())));
+		}
+		
+		private void updateState(RelayId relayId, boolean state) {
+			
+			stateMap.get(relayId).set(state);
+		}
 	}
 }

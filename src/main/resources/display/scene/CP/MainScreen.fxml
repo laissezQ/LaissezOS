@@ -27,5 +27,18 @@
             <DropShadow />
          </effect>
       </ImageView>
+      <Button fx:id="relayOne" focusTraversable="false" layoutX="108.0" layoutY="222.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="177.0" text="Relay 1">
+         <effect>
+            <DropShadow />
+         </effect></Button>
+      <Button fx:id="relayTwo" focusTraversable="false" layoutX="108.0" layoutY="311.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="177.0" text="Relay 2">
+         <effect>
+            <DropShadow />
+         </effect></Button>
+      <Button fx:id="relayThree" focusTraversable="false" layoutX="108.0" layoutY="400.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="177.0" text="Relay 3">
+         <effect>
+            <DropShadow />
+         </effect>
+      </Button>
 	</children>
 </Pane>
