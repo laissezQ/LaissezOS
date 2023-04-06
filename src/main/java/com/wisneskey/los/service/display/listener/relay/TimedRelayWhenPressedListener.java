@@ -29,13 +29,19 @@ public class TimedRelayWhenPressedListener implements ChangeListener<Boolean> {
 	 */
 	private Duration duration;
 
+	/**
+	 * Optional message to display when pressed.
+	 */
+	private String message;
+
 	// ----------------------------------------------------------------------------------------
 	// Constructors.
 	// ----------------------------------------------------------------------------------------
 
-	public TimedRelayWhenPressedListener(RelayId relayId, Duration duration) {
+	public TimedRelayWhenPressedListener(RelayId relayId, Duration duration, String message) {
 		this.relayId = relayId;
 		this.duration = duration;
+		this.message = message;
 	}
 
 	// ----------------------------------------------------------------------------------------
@@ -46,6 +52,7 @@ public class TimedRelayWhenPressedListener implements ChangeListener<Boolean> {
 	public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean pressed) {
 
 		if (pressed) {
+			Kernel.kernel().message(message);
 			((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOn(relayId, duration);
 		}
 	}
@@ -65,7 +72,22 @@ public class TimedRelayWhenPressedListener implements ChangeListener<Boolean> {
 	 *          Duration to turn relay on for.
 	 */
 	public static void add(Node node, RelayId relayId, Duration duration) {
-		node.pressedProperty().addListener(new TimedRelayWhenPressedListener(relayId, duration));
+		node.pressedProperty().addListener(new TimedRelayWhenPressedListener(relayId, duration, null));
 	}
 
+	/**
+	 * Static utility method to add the listener to a JavaFX node.
+	 * 
+	 * @param node
+	 *          Node to add the listener to.
+	 * @param relayId
+	 *          Id of the relay to toggle.
+	 * @param duration
+	 *          Duration to turn relay on for.
+	 * @param message
+	 *          Message to display.
+	 */
+	public static void add(Node node, RelayId relayId, Duration duration, String message) {
+		node.pressedProperty().addListener(new TimedRelayWhenPressedListener(relayId, duration, message));
+	}
 }

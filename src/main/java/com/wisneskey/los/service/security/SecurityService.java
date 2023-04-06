@@ -70,7 +70,7 @@ public class SecurityService extends AbstractService<SecurityState> {
 
 		// Now display lock screens.
 		((DisplayService) Kernel.kernel().getService(ServiceId.DISPLAY)).showScene(SceneId.CP_LOCK_SCREEN);
-		// TODO: Show lock screen on HUD too.
+		((DisplayService) Kernel.kernel().getService(ServiceId.DISPLAY)).showScene(SceneId.HUD_LOCK_SCREEN);
 	}
 
 	public boolean unlockChair(String pinEntered) {
@@ -85,7 +85,8 @@ public class SecurityService extends AbstractService<SecurityState> {
 			if (unlockedScript != null) {
 				((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(unlockedScript);
 			} else {
-				// TODO: Set the main panel as the scene here.
+				((DisplayService) Kernel.kernel().getService(ServiceId.DISPLAY)).showScene(SceneId.CP_MAIN_SCREEN);
+				((DisplayService) Kernel.kernel().getService(ServiceId.DISPLAY)).showScene(SceneId.HUD_MAIN_SCREEN);
 			}
 
 			return true;

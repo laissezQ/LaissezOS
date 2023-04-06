@@ -22,12 +22,18 @@ public class RelayWhilePressedListener implements ChangeListener<Boolean> {
 	 */
 	private RelayId relayId;
 
+	/**
+	 * Optional message to display when pressed.
+	 */
+	private String message;
+
 	// ----------------------------------------------------------------------------------------
 	// Constructors.
 	// ----------------------------------------------------------------------------------------
 
-	public RelayWhilePressedListener(RelayId relayId) {
+	public RelayWhilePressedListener(RelayId relayId, String message) {
 		this.relayId = relayId;
+		this.message = message;
 	}
 
 	// ----------------------------------------------------------------------------------------
@@ -38,6 +44,7 @@ public class RelayWhilePressedListener implements ChangeListener<Boolean> {
 	public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean pressed) {
 
 		if (pressed) {
+			Kernel.kernel().message(message);
 			((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOn(relayId);
 		} else {
 			((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOff(relayId);
@@ -57,6 +64,21 @@ public class RelayWhilePressedListener implements ChangeListener<Boolean> {
 	 *          Id of the relay to toggle.
 	 */
 	public static void add(Node node, RelayId relayId) {
-		node.pressedProperty().addListener(new RelayWhilePressedListener(relayId));
+		node.pressedProperty().addListener(new RelayWhilePressedListener(relayId, null));
 	}
+
+	/**
+	 * Static utility method to add the listener to a JavaFX node.
+	 * 
+	 * @param node
+	 *          Node to add the listener to.
+	 * @param relayId
+	 *          Id of the relay to toggle.
+	 * @param message
+	 *          Message to display.
+	 */
+	public static void add(Node node, RelayId relayId, String message) {
+		node.pressedProperty().addListener(new RelayWhilePressedListener(relayId, message));
+	}
+
 }

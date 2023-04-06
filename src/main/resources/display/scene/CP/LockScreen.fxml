@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
@@ -14,7 +15,7 @@
 
 <Pane id="pane" maxHeight="1280.0" maxWidth="400.0" minHeight="1280.0" minWidth="400.0" prefHeight="1280.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.wisneskey.los.service.display.controller.cp.LockScreen">
 	<children>
-		<Label layoutX="49.0" layoutY="60.0" text="SYSTEM LOCKED">
+		<Label layoutX="49.0" layoutY="288.0" text="SYSTEM LOCKED">
 			<font>
 				<Font name="Avenir Black Oblique" size="36.0" />
 			</font>
@@ -22,7 +23,7 @@
 				<DropShadow />
 			</effect>
 		</Label>
-		<Button fx:id="buttonOne" focusTraversable="false" layoutX="44.0" layoutY="322.0" mnemonicParsing="false" onAction="#buttonOnePressed" prefHeight="90.0" prefWidth="87.0" text="1">
+		<Button fx:id="buttonOne" focusTraversable="false" layoutX="44.0" layoutY="550.0" mnemonicParsing="false" onAction="#buttonOnePressed" prefHeight="90.0" prefWidth="87.0" text="1">
 			<font>
 				<Font size="36.0" />
 			</font>
@@ -30,7 +31,7 @@
 				<DropShadow />
 			</effect>
 		</Button>
-		<Button fx:id="buttonTwo" focusTraversable="false" layoutX="158.0" layoutY="322.0" mnemonicParsing="false" onAction="#buttonTwoPressed" prefHeight="90.0" prefWidth="87.0" text="2">
+		<Button fx:id="buttonTwo" focusTraversable="false" layoutX="158.0" layoutY="550.0" mnemonicParsing="false" onAction="#buttonTwoPressed" prefHeight="90.0" prefWidth="87.0" text="2">
 			<font>
 				<Font size="36.0" />
 			</font>
@@ -38,7 +39,7 @@
 				<DropShadow />
 			</effect>
 		</Button>
-		<Button fx:id="buttonThree" focusTraversable="false" layoutX="269.0" layoutY="322.0" mnemonicParsing="false" onAction="#buttonThreePressed" prefHeight="90.0" prefWidth="87.0" text="3">
+		<Button fx:id="buttonThree" focusTraversable="false" layoutX="269.0" layoutY="550.0" mnemonicParsing="false" onAction="#buttonThreePressed" prefHeight="90.0" prefWidth="87.0" text="3">
 			<font>
 				<Font size="36.0" />
 			</font>
@@ -46,7 +47,7 @@
 				<DropShadow />
 			</effect>
 		</Button>
-		<Button fx:id="buttonFour" focusTraversable="false" layoutX="45.0" layoutY="440.0" mnemonicParsing="false" onAction="#buttonFourPressed" prefHeight="90.0" prefWidth="87.0" text="4">
+		<Button fx:id="buttonFour" focusTraversable="false" layoutX="45.0" layoutY="668.0" mnemonicParsing="false" onAction="#buttonFourPressed" prefHeight="90.0" prefWidth="87.0" text="4">
 			<font>
 				<Font size="36.0" />
 			</font>
@@ -54,7 +55,7 @@
 				<DropShadow />
 			</effect>
 		</Button>
-		<Button fx:id="buttonFive" focusTraversable="false" layoutX="159.0" layoutY="440.0" mnemonicParsing="false" onAction="#buttonFivePressed" prefHeight="90.0" prefWidth="87.0" text="5">
+		<Button fx:id="buttonFive" focusTraversable="false" layoutX="159.0" layoutY="668.0" mnemonicParsing="false" onAction="#buttonFivePressed" prefHeight="90.0" prefWidth="87.0" text="5">
 			<font>
 				<Font size="36.0" />
 			</font>
@@ -62,7 +63,7 @@
 				<DropShadow />
 			</effect>
 		</Button>
-		<Button fx:id="buttonSix" focusTraversable="false" layoutX="270.0" layoutY="440.0" mnemonicParsing="false" onAction="#buttonSixPressed" prefHeight="90.0" prefWidth="87.0" text="6">
+		<Button fx:id="buttonSix" focusTraversable="false" layoutX="270.0" layoutY="668.0" mnemonicParsing="false" onAction="#buttonSixPressed" prefHeight="90.0" prefWidth="87.0" text="6">
 			<font>
 				<Font size="36.0" />
 			</font>
@@ -70,7 +71,7 @@
 				<DropShadow />
 			</effect>
 		</Button>
-		<Button fx:id="buttonSeven" focusTraversable="false" layoutX="45.0" layoutY="556.0" mnemonicParsing="false" onAction="#buttonSevenPressed" prefHeight="90.0" prefWidth="87.0" text="7">
+		<Button fx:id="buttonSeven" focusTraversable="false" layoutX="45.0" layoutY="784.0" mnemonicParsing="false" onAction="#buttonSevenPressed" prefHeight="90.0" prefWidth="87.0" text="7">
 			<font>
 				<Font size="36.0" />
 			</font>
@@ -78,7 +79,7 @@
 				<DropShadow />
 			</effect>
 		</Button>
-		<Button fx:id="buttonEight" focusTraversable="false" layoutX="159.0" layoutY="556.0" mnemonicParsing="false" onAction="#buttonEightPressed" prefHeight="90.0" prefWidth="87.0" text="8">
+		<Button fx:id="buttonEight" focusTraversable="false" layoutX="159.0" layoutY="784.0" mnemonicParsing="false" onAction="#buttonEightPressed" prefHeight="90.0" prefWidth="87.0" text="8">
 			<font>
 				<Font size="36.0" />
 			</font>
@@ -86,7 +87,7 @@
 				<DropShadow />
 			</effect>
 		</Button>
-		<Button fx:id="buttonNine" focusTraversable="false" layoutX="269.0" layoutY="556.0" mnemonicParsing="false" onAction="#buttonNinePressed" prefHeight="90.0" prefWidth="87.0" text="9">
+		<Button fx:id="buttonNine" focusTraversable="false" layoutX="269.0" layoutY="784.0" mnemonicParsing="false" onAction="#buttonNinePressed" prefHeight="90.0" prefWidth="87.0" text="9">
 			<font>
 				<Font size="36.0" />
 			</font>
@@ -94,7 +95,7 @@
 				<DropShadow />
 			</effect>
 		</Button>
-		<Button fx:id="buttonZero" focusTraversable="false" layoutX="159.0" layoutY="675.0" mnemonicParsing="false" onAction="#buttonZeroPressed" prefHeight="90.0" prefWidth="87.0" text="0">
+		<Button fx:id="buttonZero" focusTraversable="false" layoutX="159.0" layoutY="903.0" mnemonicParsing="false" onAction="#buttonZeroPressed" prefHeight="90.0" prefWidth="87.0" text="0">
 			<font>
 				<Font size="36.0" />
 			</font>
@@ -102,10 +103,18 @@
 				<DropShadow />
 			</effect>
 		</Button>
-		<TextField fx:id="pinDisplay" editable="false" focusTraversable="false" layoutX="143.0" layoutY="162.0" maxHeight="50.0" maxWidth="120.0" minHeight="50.0" minWidth="120.0" prefHeight="50.0" prefWidth="120.0">
+		<TextField fx:id="pinDisplay" editable="false" focusTraversable="false" layoutX="143.0" layoutY="390.0" maxHeight="50.0" maxWidth="120.0" minHeight="50.0" minWidth="120.0" prefHeight="50.0" prefWidth="120.0">
 			<font>
 				<Font name="Monospaced Regular" size="36.0" />
 			</font>
 		</TextField>
+      <ImageView fx:id="logo" fitHeight="181.0" fitWidth="373.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../images/laissez-boys-header.png" />
+         </image>
+         <effect>
+            <DropShadow />
+         </effect>
+      </ImageView>
 	</children>
 </Pane>

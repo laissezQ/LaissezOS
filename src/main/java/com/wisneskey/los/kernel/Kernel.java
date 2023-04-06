@@ -199,13 +199,15 @@ public class Kernel {
 	/**
 	 * Write a message to the kernel for reporting on chair operations. The
 	 * message property is observed by the UI controller's to report on status in
-	 * the UI.
+	 * the UI.  The message may be null.
 	 * 
 	 * @param message
-	 *          Message to report for latest status.
+	 *          Message to report for latest status (ignored if null).
 	 */
 	public void message(String message) {
-		chairState.setMessage(message);
+		if( message != null ) {
+			chairState.setMessage(message);
+		}
 	}
 
 	/**

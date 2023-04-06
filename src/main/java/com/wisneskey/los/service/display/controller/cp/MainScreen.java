@@ -1,16 +1,17 @@
 package com.wisneskey.los.service.display.controller.cp;
 
-import java.time.Duration;
-
+import com.wisneskey.los.kernel.Kernel;
+import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.display.controller.AbstractController;
 import com.wisneskey.los.service.display.listener.message.MessagesToTextAreaListener;
 import com.wisneskey.los.service.display.listener.relay.RelayWhilePressedListener;
-import com.wisneskey.los.service.display.listener.relay.TimedRelayWhenPressedListener;
 import com.wisneskey.los.service.relay.RelayId;
+import com.wisneskey.los.service.security.SecurityService;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.ImageView;
 
 /**
  * Controller for the control panel boot screen.
@@ -25,20 +26,36 @@ public class MainScreen extends AbstractController {
 	private static final int MAX_LINE_COUNT = 10;
 
 	/**
+	 * Laissez Boy logo.
+	 */
+	@FXML
+	private ImageView logo;
+	
+	/**
 	 * Text area for displaying messages.
 	 */
 	@FXML
 	private TextArea messages;
 
 	@FXML
-	private Button relayOne;
+	private Button barDownButton;
 
 	@FXML
-	private Button relayTwo;
+	private Button barUpButton;
 
 	@FXML
-	private Button relayThree;
+	private Button backrestDownButton;
 
+	@FXML
+	private Button backrestUpButton;
+
+	@FXML
+	private Button footrestDownButton;
+
+	@FXML
+	private Button footrestUpButton;
+
+	
 	// ----------------------------------------------------------------------------------------
 	// Public methods.
 	// ----------------------------------------------------------------------------------------
@@ -51,13 +68,21 @@ public class MainScreen extends AbstractController {
 
 		chairState().message().addListener(new MessagesToTextAreaListener(messages, MAX_LINE_COUNT));
 
-		RelayWhilePressedListener.add(relayOne, RelayId.RELAY_1);
-		RelayWhilePressedListener.add(relayTwo, RelayId.RELAY_2);
-		TimedRelayWhenPressedListener.add(relayThree, RelayId.RELAY_3, Duration.ofSeconds(5));
+		RelayWhilePressedListener.add(barDownButton, RelayId.RELAY_1, "Lowering bar...\n");
+		RelayWhilePressedListener.add(barUpButton, RelayId.RELAY_2, "Raising bar...\n");
+		
+		RelayWhilePressedListener.add(backrestDownButton, RelayId.RELAY_3, "Raising backrest...\n");
+		RelayWhilePressedListener.add(backrestUpButton, RelayId.RELAY_4, "Lowering backrest...\n");
+
+		RelayWhilePressedListener.add(footrestDownButton, RelayId.RELAY_5, "Lowering footrest...\n");
+		RelayWhilePressedListener.add(footrestUpButton, RelayId.RELAY_6, "Raising footrest...\n");
 	}
-
-	// ----------------------------------------------------------------------------------------
-	// Inner classes.
-	// ----------------------------------------------------------------------------------------
-
+	
+	/**
+	 * Method invoked by lock chair button.
+	 */
+	public void lockChair() {
+		
+		((SecurityService) Kernel.kernel().getService(ServiceId.SECURITY)).lockChair();
+	}
 }

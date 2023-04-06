@@ -16,6 +16,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 
 /**
  * Controller for the control panel lock screen.
@@ -24,6 +25,9 @@ import javafx.scene.control.TextField;
  */
 public class LockScreen extends AbstractController {
 
+	@FXML
+	private ImageView logo;
+	
 	@FXML
 	private TextField pinDisplay;
 
@@ -101,7 +105,7 @@ public class LockScreen extends AbstractController {
 		// entry buttons.
 		chairState().masterState().addListener(new MasterStateListener());
 
-		// Put focus on the PIN display.
+		// Put focus on the logo.
 		redirectFocus();
 	}
 
@@ -230,11 +234,11 @@ public class LockScreen extends AbstractController {
 	// ----------------------------------------------------------------------------------------
 
 	/**
-	 * Method used by event handlers to send focus back to the PIN code entry so
+	 * Method used by event handlers to send focus back to the logo
 	 * that the last button pressed does not remain selected on the screen.
 	 */
 	private void redirectFocus() {
-		Platform.runLater(() -> pinDisplay.requestFocus());
+		Platform.runLater(() -> logo.requestFocus());
 	}
 
 	/**

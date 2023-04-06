@@ -19,6 +19,8 @@
 		{
 			"message": {
 				"messages": [
+					"LaissezOS 1.0 booting...\n",
+					"\u00A92023 Laissez-Q Industries...\n",
 					"Bringing flux capacitor online...\n",
 					"Inventorying whiskey...\n",
 					"Accessing lighting subsystem.",
@@ -27,7 +29,7 @@
 					".connected!\n",
 					"Scheduing poker...\n",
 					"WARNING: Cigar module not installed.\n",
-					"Taunting Happy Fun Ball (tm)...\n",
+					"Taunting Happy Fun Ball\u2122...\n",
 					"Callibrating retro-entabulator...\n",
 					"Cyber Chair 2.0 is now online!\n"
 				],
