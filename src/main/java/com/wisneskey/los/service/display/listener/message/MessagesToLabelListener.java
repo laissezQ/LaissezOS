@@ -1,4 +1,4 @@
-package com.wisneskey.los.service.display.listener;
+package com.wisneskey.los.service.display.listener.message;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;

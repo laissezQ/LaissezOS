@@ -1,7 +1,7 @@
 package com.wisneskey.los.service.display.controller.hud;
 
 import com.wisneskey.los.service.display.controller.AbstractController;
-import com.wisneskey.los.service.display.listener.MessagesToLabelListener;
+import com.wisneskey.los.service.display.listener.message.MessagesToLabelListener;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

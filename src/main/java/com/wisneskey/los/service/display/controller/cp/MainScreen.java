@@ -2,15 +2,12 @@ package com.wisneskey.los.service.display.controller.cp;
 
 import java.time.Duration;
 
-import com.wisneskey.los.kernel.Kernel;
-import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.display.controller.AbstractController;
-import com.wisneskey.los.service.display.listener.MessagesToTextAreaListener;
+import com.wisneskey.los.service.display.listener.message.MessagesToTextAreaListener;
+import com.wisneskey.los.service.display.listener.relay.RelayWhilePressedListener;
+import com.wisneskey.los.service.display.listener.relay.TimedRelayWhenPressedListener;
 import com.wisneskey.los.service.relay.RelayId;
-import com.wisneskey.los.service.relay.RelayService;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -54,50 +51,13 @@ public class MainScreen extends AbstractController {
 
 		chairState().message().addListener(new MessagesToTextAreaListener(messages, MAX_LINE_COUNT));
 
-		relayOne.pressedProperty().addListener(new RelayButtonListener(RelayId.RELAY_1));
-		relayTwo.pressedProperty().addListener(new RelayButtonListener(RelayId.RELAY_2));
-		relayThree.pressedProperty().addListener(new TimedRelayButtonListener(RelayId.RELAY_3, Duration.ofSeconds(5)));
+		RelayWhilePressedListener.add(relayOne, RelayId.RELAY_1);
+		RelayWhilePressedListener.add(relayTwo, RelayId.RELAY_2);
+		TimedRelayWhenPressedListener.add(relayThree, RelayId.RELAY_3, Duration.ofSeconds(5));
 	}
 
 	// ----------------------------------------------------------------------------------------
 	// Inner classes.
 	// ----------------------------------------------------------------------------------------
 
-	private static class RelayButtonListener implements ChangeListener<Boolean> {
-
-		private RelayId relayId;
-
-		private RelayButtonListener(RelayId relayId) {
-			this.relayId = relayId;
-		}
-
-		@Override
-		public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean pressed) {
-
-			if (pressed) {
-				((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOn(relayId);
-			} else {
-				((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOff(relayId);
-			}
-		}
-	}
-
-	private static class TimedRelayButtonListener implements ChangeListener<Boolean> {
-
-		private RelayId relayId;
-		private Duration duration;
-
-		private TimedRelayButtonListener(RelayId relayId, Duration duration) {
-			this.relayId = relayId;
-			this.duration = duration;
-		}
-
-		@Override
-		public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean pressed) {
-
-			if (pressed) {
-				((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOn(relayId, duration);
-			}
-		}
-	}
 }

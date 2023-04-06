@@ -1,7 +1,7 @@
 package com.wisneskey.los.service.display.controller.cp;
 
 import com.wisneskey.los.service.display.controller.AbstractController;
-import com.wisneskey.los.service.display.listener.MessagesToTextAreaListener;
+import com.wisneskey.los.service.display.listener.message.MessagesToTextAreaListener;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
