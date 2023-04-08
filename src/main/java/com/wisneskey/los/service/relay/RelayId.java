@@ -10,10 +10,10 @@ public enum RelayId {
 	// Driver board A relays:
 	BAR_LOWER(0, "Lower armrest bar."),
 	BAR_RAISE(1, "Raise armest bar."),
-	BACKREST_RAISE(2, "Third relay."),
-	BACKREST_LOWER(3, "Fourth relay."),
-	FOOTREST_LOWER(4, "Fifth relay."),
-	FOOTREST_RAISE(5, "Sixth relay."),
+	BACKREST_RAISE(2, "Raise backrest."),
+	BACKREST_LOWER(3, "Lower backrest."),
+	FOOTREST_LOWER(4, "Lower footrest."),
+	FOOTREST_RAISE(5, "Raise footrest."),
 	RELAY_7(6, "Seventh relay."),
 	RELAY_8(7, "Eight relay."),
 
