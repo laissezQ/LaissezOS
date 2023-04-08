@@ -7,14 +7,25 @@ package com.wisneskey.los.service.relay;
  */
 public enum RelayId {
 
-	RELAY_1(0, "First relay."),
-	RELAY_2(1, "Second relay."),
-	RELAY_3(2, "Third relay."),
-	RELAY_4(3, "Fourth relay."),
-	RELAY_5(4, "Fifth relay."),
-	RELAY_6(5, "Sixth relay."),
+	// Driver board A relays:
+	BAR_LOWER(0, "Lower armrest bar."),
+	BAR_RAISE(1, "Raise armest bar."),
+	BACKREST_RAISE(2, "Third relay."),
+	BACKREST_LOWER(3, "Fourth relay."),
+	FOOTREST_LOWER(4, "Fifth relay."),
+	FOOTREST_RAISE(5, "Sixth relay."),
 	RELAY_7(6, "Seventh relay."),
-	RELAY_8(7, "Eight relay.");
+	RELAY_8(7, "Eight relay."),
+
+	// Driver board B relays:
+	RELAY_9(8, "Ninth relay."),
+	RELAY_10(9, "Tenth relay."),
+	RELAY_11(10, "Eleventh relay."),
+	RELAY_12(11, "Twelf relay."),
+	RELAY_13(12, "Thirteenth relay."),
+	RELAY_14(13, "Fourteenth relay."),
+	RELAY_15(14, "Fifteenth relay."),
+	RELAY_16(15, "Sixteenth relay.");
 
 	// ----------------------------------------------------------------------------------------
 	// Variables.
@@ -39,7 +50,7 @@ public enum RelayId {
 	public int getIndex() {
 		return index;
 	}
-	
+
 	public String getDescription() {
 		return description;
 	}

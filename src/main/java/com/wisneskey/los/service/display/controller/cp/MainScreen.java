@@ -68,14 +68,14 @@ public class MainScreen extends AbstractController {
 
 		chairState().message().addListener(new MessagesToTextAreaListener(messages, MAX_LINE_COUNT));
 
-		RelayWhilePressedListener.add(barDownButton, RelayId.RELAY_1, "Lowering bar...\n");
-		RelayWhilePressedListener.add(barUpButton, RelayId.RELAY_2, "Raising bar...\n");
+		RelayWhilePressedListener.add(barDownButton, RelayId.BAR_LOWER, "Lowering bar...\n");
+		RelayWhilePressedListener.add(barUpButton, RelayId.BAR_RAISE, "Raising bar...\n");
 		
-		RelayWhilePressedListener.add(backrestDownButton, RelayId.RELAY_3, "Raising backrest...\n");
-		RelayWhilePressedListener.add(backrestUpButton, RelayId.RELAY_4, "Lowering backrest...\n");
+		RelayWhilePressedListener.add(backrestDownButton, RelayId.BACKREST_RAISE, "Raising backrest...\n");
+		RelayWhilePressedListener.add(backrestUpButton, RelayId.BACKREST_LOWER, "Lowering backrest...\n");
 
-		RelayWhilePressedListener.add(footrestDownButton, RelayId.RELAY_5, "Lowering footrest...\n");
-		RelayWhilePressedListener.add(footrestUpButton, RelayId.RELAY_6, "Raising footrest...\n");
+		RelayWhilePressedListener.add(footrestDownButton, RelayId.FOOTREST_LOWER, "Lowering footrest...\n");
+		RelayWhilePressedListener.add(footrestUpButton, RelayId.FOOTREST_RAISE, "Raising footrest...\n");
 	}
 	
 	/**

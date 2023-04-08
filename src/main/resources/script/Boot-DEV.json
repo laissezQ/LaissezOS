@@ -27,7 +27,7 @@
 					".",
 					".",
 					".connected!\n",
-					"Scheduing poker...\n",
+					"Scheduling poker...\n",
 					"WARNING: Cigar module not installed.\n",
 					"Taunting Happy Fun Ball\u2122...\n",
 					"Callibrating retro-entabulator...\n",
@@ -47,8 +47,15 @@
 			}
 		},
 		{
-			"lockChair": {
+			"showScene": {
+				"sceneId": "CP_MAIN_SCREEN"
+			}
+		},
+				{
+			"showScene": {
+				"sceneId": "HUD_MAIN_SCREEN"
 			}
 		}
+		
 	]
 }

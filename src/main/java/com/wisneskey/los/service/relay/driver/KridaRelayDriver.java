@@ -30,14 +30,24 @@ public class KridaRelayDriver implements RelayDriver {
 	private static final int I2C_BUS = 1;
 
 	/**
-	 * Default I2C address for the relay driver board.
+	 * Default I2C address for the relay driver board A.
 	 */
-	private static final int DEFAULT_I2C_ADDRESS = 0x27;
+	private static final int I2C_ADDRESS_BOARD_A = 0x27;
 
 	/**
-	 * I2C connection to the board.
+	 * Default I2C address for the relay driver board A.
 	 */
-	private I2C kridaI2C;
+	private static final int I2C_ADDRESS_BOARD_B = 0x23;
+
+	/**
+	 * I2C connection to the board A.
+	 */
+	private I2C boardA;
+
+	/**
+	 * I2C connection to the board B.
+	 */
+	private I2C boardB;
 
 	// ----------------------------------------------------------------------------------------
 	// RelayDriver methods.
@@ -47,32 +57,30 @@ public class KridaRelayDriver implements RelayDriver {
 	public Map<RelayId, Boolean> initialize(Profile profile) {
 
 		LOGGER.debug("Initializing KRIDA I2C Board relay driver...");
-
-		int address = DEFAULT_I2C_ADDRESS;
-		if (profile.getRelayAddress() != null) {
-			address = Integer.decode(profile.getRelayAddress());
-		}
-
-		LOGGER.trace("Using I2C address: " + Integer.toHexString(address));
+		LOGGER.trace("Board A I2C address: " + Integer.toHexString(I2C_ADDRESS_BOARD_A));
+		LOGGER.trace("Board B I2C address: " + Integer.toHexString(I2C_ADDRESS_BOARD_B));
 
 		Context pi4jContext = Pi4J.newAutoContext();
 		I2CProvider i2cProvider = pi4jContext.provider("linuxfs-i2c");
-		I2CConfig i2cConfig = I2C.newConfigBuilder(pi4jContext).id("krida").bus(I2C_BUS).device(address).build();
+		
+		I2CConfig i2cConfigA = I2C.newConfigBuilder(pi4jContext).id("relayBoardA").bus(I2C_BUS).device(I2C_ADDRESS_BOARD_A).build();
+		I2CConfig i2cConfigB = I2C.newConfigBuilder(pi4jContext).id("relayBoardB").bus(I2C_BUS).device(I2C_ADDRESS_BOARD_B).build();
 
 		try {
-			kridaI2C = i2cProvider.create(i2cConfig);
+			boardA = i2cProvider.create(i2cConfigA);
+			boardB = i2cProvider.create(i2cConfigB);
 		} catch (Exception e) {
-			throw new LaissezException("Failed to connect to I2C relay driver board.");
+			throw new LaissezException("Failed to create I2C connection to driver board.", e);
 		}
-
-		int state = kridaI2C.read();
 
 		Map<RelayId, Boolean> stateMap = new HashMap<>();
-		for (RelayId id : RelayId.values()) {
-			stateMap.put(id, (state & getMask(id)) != 0);
+		for (RelayId relayId : RelayId.values()) {
+			
+			// Make sure everything is off to start.
+			turnOff(relayId);
+			stateMap.put(relayId, Boolean.FALSE);
 		}
 
-		LOGGER.info("Initial state: " + state + " map=" + stateMap);
 		return stateMap;
 	}
 
@@ -80,33 +88,42 @@ public class KridaRelayDriver implements RelayDriver {
 	public void turnOn(RelayId relayId) {
 
 		// Get the state and mask out the bit for the relay being turned on.
-		int state = kridaI2C.read();
+		I2C board = getBoard(relayId);
+		int state = board.read();
 
 		int enableMask = 0xFF ^ getMask(relayId);
 		int newState = state & enableMask;
 
 		LOGGER.debug("Turning relay on: id={} oldState={} enableMask={} newState={}", relayId, state, enableMask, newState);
-		kridaI2C.write((byte) newState);
+		board.write((byte) newState);
 	}
 
 	@Override
 	public void turnOff(RelayId relayId) {
 
 		// Get the state and use the mask for the bit for the relay being turned on.
-		int state = kridaI2C.read();
+		I2C board = getBoard(relayId);
+		int state = board.read();
 
 		int disableMask = getMask(relayId);
 		int newState = state | disableMask;
 
 		LOGGER.debug("Turning relay off: id={} oldState={} disableMask={} newState={}", relayId, state, disableMask,
 				newState);
-		kridaI2C.write((byte) newState);
+		board.write((byte) newState);
 	}
 
 	// ----------------------------------------------------------------------------------------
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
 
+	/** 
+	 * Get the appropriate board connector for the relay id.
+	 */
+	private I2C getBoard(RelayId relayId) {
+		return relayId.getIndex() < 8 ? boardA : boardB;
+	}
+	
 	/**
 	 * Generate the bit mask for the specified relay.
 	 * 
@@ -115,6 +132,7 @@ public class KridaRelayDriver implements RelayDriver {
 	 * @return Bit mask for designated relay.
 	 */
 	private int getMask(RelayId relayId) {
-		return 1 << relayId.getIndex();
+		// Modulo the index since they are spread across boards with 8 relays each.
+		return 1 << (relayId.getIndex() % 8);
 	}
 }
