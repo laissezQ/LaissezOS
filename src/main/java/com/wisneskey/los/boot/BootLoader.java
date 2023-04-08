@@ -10,6 +10,7 @@ import com.wisneskey.los.kernel.RunMode;
 import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.audio.AudioService;
 import com.wisneskey.los.service.display.DisplayService;
+import com.wisneskey.los.service.location.LocationService;
 import com.wisneskey.los.service.profile.ProfileService;
 import com.wisneskey.los.service.profile.model.Profile;
 import com.wisneskey.los.service.relay.RelayService;
@@ -72,6 +73,7 @@ public class BootLoader extends Application {
 		// configure themselves.
 		kernel.registerService(AudioService.createService(profile));
 		kernel.registerService(DisplayService.createService(runMode, profile));
+		kernel.registerService(LocationService.createService(runMode, profile));
 		kernel.registerService(RelayService.createService(runMode, profile));
 		kernel.registerService(ScriptService.createService(profile));
 		kernel.registerService(SecurityService.createService(profile));

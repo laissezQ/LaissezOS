@@ -22,6 +22,11 @@ import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.util.Pair;
 
+/**
+ * Service for turning relays on and off.
+ * 
+ * @author paul.wisneskey@gmail.com
+ */
 public class RelayService extends AbstractService<RelayState> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(RelayService.class);
@@ -43,7 +48,7 @@ public class RelayService extends AbstractService<RelayState> {
 	/**
 	 * Private constructor to request use of static service creation method.
 	 */
-	public RelayService() {
+	private RelayService() {
 		super(ServiceId.RELAY);
 	}
 
@@ -163,7 +168,7 @@ public class RelayService extends AbstractService<RelayState> {
 			throw new LaissezException("Unknown run mode during relay driver selection: " + runMode);
 		}
 
-		// Give the service a chance to
+		// Give the service a chance to initialize.
 		RelayState state = service.initialize(runMode, profile);
 		return new Pair<>(service, state);
 	}
