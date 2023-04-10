@@ -53,6 +53,21 @@ public class RelayService extends AbstractService<RelayState> {
 	}
 
 	// ----------------------------------------------------------------------------------------
+	// Service methods.
+	// ----------------------------------------------------------------------------------------
+
+	@Override
+	public void terminate() {
+		
+		// Turn all relays off during service termination.
+		for( RelayId relayId: RelayId.values()) {
+			turnOff(relayId);
+		}
+		
+		LOGGER.trace("Relay service terminated.");
+	}
+
+	// ----------------------------------------------------------------------------------------
 	// Public methods.
 	// ----------------------------------------------------------------------------------------
 

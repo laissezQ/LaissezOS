@@ -6,7 +6,10 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.pi4j.Pi4J;
+import com.pi4j.context.Context;
 import com.wisneskey.los.error.LaissezException;
+import com.wisneskey.los.kernel.RunMode.Platform;
 import com.wisneskey.los.service.Service;
 import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.state.ChairState;
@@ -56,6 +59,11 @@ public class Kernel {
 	 */
 	private InternalChairState chairState = new InternalChairState();
 
+	/**
+	 * Context for PI4J library (if run mode means running on a Raspberry Pi).
+	 */
+	private Context pi4jContext;
+
 	// ----------------------------------------------------------------------------------------
 	// Constructors.
 	// ----------------------------------------------------------------------------------------
@@ -67,7 +75,7 @@ public class Kernel {
 	}
 
 	// ----------------------------------------------------------------------------------------
-	// Public static kernel initialization methods.
+	// Public static kernel lifecycle methods.
 	// ----------------------------------------------------------------------------------------
 
 	/**
@@ -98,6 +106,27 @@ public class Kernel {
 		LOGGER.info("Kernel initialized.");
 	}
 
+	/**
+	 * Method invoke to terminate the kernel and its services.
+	 */
+	public void shutdown() {
+		
+		LOGGER.info("Shutting down kernel...");
+
+		// Shut down the services in particular order because of dependencies based on phases.
+		for( ShutdownPhase phase : ShutdownPhase.values()) {
+			
+			for( ServiceId serviceId : ServiceId.values()) {
+			
+				if (serviceId.getShutdownPhase() == phase) {
+					LOGGER.info("Terminating service {} in phase {}...", serviceId, phase);
+				}
+			}
+		}
+		
+		LOGGER.info("Kernel shutdown.");
+	}
+	
 	// ----------------------------------------------------------------------------------------
 	// Public kernel operation methods.
 	// ----------------------------------------------------------------------------------------
@@ -166,6 +195,16 @@ public class Kernel {
 
 		runMode = mode;
 		LOGGER.debug("Run mode set: {}", runMode.getDescription());
+
+		// If the run mode means we are actually on a Raspberry PI, then we need to
+		// create the pi4jContext;
+		if (mode.getPlatform() == Platform.RaspberryPi) {
+			LOGGER.info("Initializing PI4J context...");
+			pi4jContext = Pi4J.newAutoContext();
+		} else
+		{
+			LOGGER.info("PI4J context not needed for this run mode.");
+		}
 	}
 
 	/**
@@ -197,15 +236,29 @@ public class Kernel {
 	// ----------------------------------------------------------------------------------------
 
 	/**
+	 * Return the Pi4J context to be used by any drivers necessary to actually run
+	 * on a Raspberry Pi.
+	 * 
+	 * @return Pi4J context for the Pi4J library.
+	 */
+	public Context getPi4jContext() {
+		if (pi4jContext == null) {
+			throw new LaissezException("Request for Pi4jContext but context not initialized.");
+		}
+
+		return pi4jContext;
+	}
+
+	/**
 	 * Write a message to the kernel for reporting on chair operations. The
 	 * message property is observed by the UI controller's to report on status in
-	 * the UI.  The message may be null.
+	 * the UI. The message may be null.
 	 * 
 	 * @param message
 	 *          Message to report for latest status (ignored if null).
 	 */
 	public void message(String message) {
-		if( message != null ) {
+		if (message != null) {
 			chairState.setMessage(message);
 		}
 	}

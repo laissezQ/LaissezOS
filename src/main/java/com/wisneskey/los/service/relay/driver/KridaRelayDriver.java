@@ -6,12 +6,12 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.pi4j.Pi4J;
 import com.pi4j.context.Context;
 import com.pi4j.io.i2c.I2C;
 import com.pi4j.io.i2c.I2CConfig;
 import com.pi4j.io.i2c.I2CProvider;
 import com.wisneskey.los.error.LaissezException;
+import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.service.profile.model.Profile;
 import com.wisneskey.los.service.relay.RelayId;
 
@@ -60,7 +60,7 @@ public class KridaRelayDriver implements RelayDriver {
 		LOGGER.trace("Board A I2C address: " + Integer.toHexString(I2C_ADDRESS_BOARD_A));
 		LOGGER.trace("Board B I2C address: " + Integer.toHexString(I2C_ADDRESS_BOARD_B));
 
-		Context pi4jContext = Pi4J.newAutoContext();
+		Context pi4jContext = Kernel.kernel().getPi4jContext();
 		I2CProvider i2cProvider = pi4jContext.provider("linuxfs-i2c");
 		
 		I2CConfig i2cConfigA = I2C.newConfigBuilder(pi4jContext).id("relayBoardA").bus(I2C_BUS).device(I2C_ADDRESS_BOARD_A).build();

@@ -62,6 +62,25 @@ public class ScriptService extends AbstractService<ScriptState> {
 	}
 
 	// ----------------------------------------------------------------------------------------
+	// Service methods.
+	// ----------------------------------------------------------------------------------------
+
+	@Override
+	public void terminate() {
+		if (scriptRunning.get()) {
+
+			runner.interrupt();
+			try {
+				runner.join();
+			} catch (InterruptedException e) {
+				LOGGER.warn("Interrupted waiting for script runner thread to terminate.");
+			}
+		}
+		
+		LOGGER.trace("Script service terminated.");
+	}
+
+	// ----------------------------------------------------------------------------------------
 	// Public methods.
 	// ----------------------------------------------------------------------------------------
 

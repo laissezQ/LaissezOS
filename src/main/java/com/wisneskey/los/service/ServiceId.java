@@ -1,5 +1,6 @@
 package com.wisneskey.los.service;
 
+import com.wisneskey.los.kernel.ShutdownPhase;
 import com.wisneskey.los.service.audio.AudioService;
 import com.wisneskey.los.service.display.DisplayService;
 import com.wisneskey.los.service.location.LocationService;
@@ -23,13 +24,13 @@ import com.wisneskey.los.state.State;
  */
 public enum ServiceId {
 
-	AUDIO(AudioService.class, AudioState.class, "This service goes to 11."),
-	DISPLAY(DisplayService.class, DisplayState.class, "Looking good there!"),
-	LOCATION(LocationService.class, LocationState.class, "Where the hell am I?"),
-	PROFILE(ProfileService.class, ProfileState.class, "Keep it low."),
-	RELAY(RelayService.class, RelayState.class, "Have you tried turning it off and on again?"),
-	SCRIPT(ScriptService.class, ScriptState.class, "Don't tell me what to do!"),
-	SECURITY(SecurityService.class, SecurityState.class, "1000 times no!");
+	AUDIO(AudioService.class, AudioState.class, ShutdownPhase.Two, "This service goes to 11."),
+	DISPLAY(DisplayService.class, DisplayState.class, ShutdownPhase.Two, "Looking good there!"),
+	LOCATION(LocationService.class, LocationState.class, ShutdownPhase.Two, "Where the hell am I?"),
+	PROFILE(ProfileService.class, ProfileState.class, ShutdownPhase.Three, "Keep it low."),
+	RELAY(RelayService.class, RelayState.class, ShutdownPhase.Three, "Have you tried turning it off and on again?"),
+	SCRIPT(ScriptService.class, ScriptState.class, ShutdownPhase.One, "Don't tell me what to do!"),
+	SECURITY(SecurityService.class, SecurityState.class, ShutdownPhase.Three, "1000 times no!");
 
 	// ----------------------------------------------------------------------------------------
 	// Variables.
@@ -50,13 +51,20 @@ public enum ServiceId {
 	 */
 	private Class<? extends State> serviceStateClass;
 
+	/**
+	 * Which shutdown phase to terminate service in.
+	 */
+	private ShutdownPhase shutdownPhase;
+
 	// ----------------------------------------------------------------------------------------
 	// Constructors.
 	// ----------------------------------------------------------------------------------------
 
-	private ServiceId(Class<? extends Service<?>> serviceClass, Class<? extends State> serviceStateClass, String description) {
+	private ServiceId(Class<? extends Service<?>> serviceClass, Class<? extends State> serviceStateClass,
+			ShutdownPhase shutdownPhase, String description) {
 		this.serviceClass = serviceClass;
 		this.serviceStateClass = serviceStateClass;
+		this.shutdownPhase = shutdownPhase;
 		this.description = description;
 	}
 
@@ -67,7 +75,8 @@ public enum ServiceId {
 	/**
 	 * Returns the class that implements the service.
 	 * 
-	 * @param <T> Type of service.
+	 * @param <T>
+	 *          Type of service.
 	 * @return Class for the service.
 	 */
 	@SuppressWarnings("unchecked")
@@ -77,12 +86,27 @@ public enum ServiceId {
 
 	/**
 	 * Returns the class the provides the service's state.
+	 * 
 	 * @return Class providing services state.
 	 */
 	public Class<? extends State> getServiceStateClass() {
 		return serviceStateClass;
 	}
-	
+
+	/**
+	 * Return what shutdown phase the service should be terminated in.
+	 * 
+	 * @return Shutdown phase to terminate the service in.
+	 */
+	public ShutdownPhase getShutdownPhase() {
+		return shutdownPhase;
+	}
+
+	/**
+	 * Returns a brief description for the service the id is for.
+	 * 
+	 * @return Description of the service for the id.
+	 */
 	public String getDescription() {
 		return description;
 	}

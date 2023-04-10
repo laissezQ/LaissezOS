@@ -13,6 +13,12 @@ import com.wisneskey.los.service.location.driver.SparkFunGpsDriver;
 import com.wisneskey.los.service.profile.model.Profile;
 import com.wisneskey.los.state.LocationState;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.util.Pair;
 
 /**
@@ -25,15 +31,25 @@ public class LocationService extends AbstractService<LocationState> {
 	private static final Logger LOGGER = LoggerFactory.getLogger(LocationService.class);
 
 	/**
+	 * Interval to poll the GPS driver on.
+	 */
+	private static final long GPS_POLL_INTERVAL_MS = 5000;
+
+	/**
 	 * Internal state object for tracking the location information.
 	 */
 	private InternalLocationState locationState;
-	
+
 	/**
 	 * GPS driver to use for communicating with GPS.
 	 */
 	private GpsDriver gpsDriver;
-	
+
+	/**
+	 * Thread for polling the GPS driver.
+	 */
+	private DriverPoller driverPoller;
+
 	// ----------------------------------------------------------------------------------------
 	// Constructors.
 	// ----------------------------------------------------------------------------------------
@@ -43,6 +59,24 @@ public class LocationService extends AbstractService<LocationState> {
 	 */
 	private LocationService() {
 		super(ServiceId.LOCATION);
+	}
+
+	// ----------------------------------------------------------------------------------------
+	// Service methods.
+	// ----------------------------------------------------------------------------------------
+
+	@Override
+	public void terminate() {
+		
+		// Stop the driver polling thread.
+		driverPoller.interrupt();
+		try {
+			driverPoller.join();
+		} catch (InterruptedException e) {
+			LOGGER.warn("Interrupted exception waiting for driver poller thread to shutdown.");
+		}
+
+		LOGGER.trace("Location service terminated.");
 	}
 
 	// ----------------------------------------------------------------------------------------
@@ -56,7 +90,7 @@ public class LocationService extends AbstractService<LocationState> {
 	private void setGpsDriver(GpsDriver gpsDriver) {
 		this.gpsDriver = gpsDriver;
 	}
-	
+
 	/**
 	 * Initializes the service and its relay driver and returns the initial state.
 	 * 
@@ -71,14 +105,19 @@ public class LocationService extends AbstractService<LocationState> {
 		if (gpsDriver == null) {
 			throw new LaissezException("GPS driver not set.");
 		}
-		
+
 		// Let the driver initialize.
 		gpsDriver.initialize(profile);
 
 		locationState = new InternalLocationState();
+
+		// Start the poller thread for the driver polling.
+		driverPoller = new DriverPoller();
+		driverPoller.start();
+
 		return locationState;
 	}
-	
+
 	// ----------------------------------------------------------------------------------------
 	// Static service creation methods.
 	// ----------------------------------------------------------------------------------------
@@ -120,9 +159,84 @@ public class LocationService extends AbstractService<LocationState> {
 	// ----------------------------------------------------------------------------------------
 
 	/**
+	 * Thread for polling the GPS driver for data on a fixed interval.
+	 */
+	private class DriverPoller extends Thread {
+
+		// ----------------------------------------------------------------------------------------
+		// Constructors.
+		// ----------------------------------------------------------------------------------------
+
+		private DriverPoller() {
+			setName("gpsDriverPoller");
+			setDaemon(true);
+		}
+
+		// ----------------------------------------------------------------------------------------
+		// Thread methods.
+		// ----------------------------------------------------------------------------------------
+
+		@Override
+		public void run() {
+
+			LOGGER.info("GPS poller thread started.");
+
+			while (!isInterrupted()) {
+
+				try {
+					Thread.sleep(GPS_POLL_INTERVAL_MS);
+				} catch (InterruptedException e) {
+					LOGGER.warn("Interrupted duriog driver poller sleep.");
+					break;
+				}
+
+				Location latest = gpsDriver.getCurrentLocation();
+
+				LOGGER.debug("GPS location poll: location={}", latest);
+				locationState.updateLocation(latest);
+			}
+
+			LOGGER.info("GPS poller thread shutdown.");
+		}
+
+	}
+
+	/**
 	 * Internal state object for the location state.
 	 */
 	private static class InternalLocationState implements LocationState {
 
+		private BooleanProperty hasFix = new SimpleBooleanProperty(false);
+
+		private ObjectProperty<Location> location = new SimpleObjectProperty<Location>();
+
+		// ----------------------------------------------------------------------------------------
+		// LocationState methods.
+		// ----------------------------------------------------------------------------------------
+
+		@Override
+		public ReadOnlyBooleanProperty hasGpsFix() {
+
+			return hasFix;
+		}
+
+		@Override
+		public ReadOnlyObjectProperty<Location> location() {
+			return location;
+		}
+
+		// ----------------------------------------------------------------------------------------
+		// Supporting methods.
+		// ----------------------------------------------------------------------------------------
+
+		private void updateLocation(Location latest) {
+			if (latest == null) {
+				hasFix.setValue(Boolean.FALSE);
+				location.setValue(null);
+			} else {
+				hasFix.setValue(Boolean.TRUE);
+				location.setValue(latest);
+			}
+		}
 	}
 }

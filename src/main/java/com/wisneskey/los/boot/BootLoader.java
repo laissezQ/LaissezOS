@@ -86,7 +86,11 @@ public class BootLoader extends Application {
 
 		Application.launch();
 
-		LOGGER.info("UI shutdown; exiting...");
+		LOGGER.info("UI shutdown; shutting down kernel...");
+		Kernel.kernel().shutdown();
+		
+		LOGGER.info("Exiting...");
+
 	}
 
 	// ----------------------------------------------------------------------------------------

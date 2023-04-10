@@ -2,6 +2,9 @@ package com.wisneskey.los.service.security;
 
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.service.AbstractService;
 import com.wisneskey.los.service.ServiceId;
@@ -21,6 +24,8 @@ import javafx.util.Pair;
  * @author paul.wisneskey@gmail.com
  */
 public class SecurityService extends AbstractService<SecurityState> {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(SecurityService.class);
 
 	/**
 	 * Object for the state of the audio service.
@@ -52,6 +57,16 @@ public class SecurityService extends AbstractService<SecurityState> {
 	private SecurityService() {
 		super(ServiceId.SECURITY);
 	}
+	
+	// ----------------------------------------------------------------------------------------
+	// Service methods.
+	// ----------------------------------------------------------------------------------------
+
+	@Override
+	public void terminate() {
+		LOGGER.trace("Security service terminated.");
+	}
+
 
 	// ----------------------------------------------------------------------------------------
 	// Public methods.
@@ -61,8 +76,11 @@ public class SecurityService extends AbstractService<SecurityState> {
 
 		if (Kernel.kernel().chairState().masterState().getValue() == MasterState.LOCKED) {
 			// Chair already locked.
+			LOGGER.info("Lock chair request: chair already locked.");
 			return;
 		}
+
+		LOGGER.info("Lock chair request: locking chair...");
 
 		// Lock the chair.
 		Kernel.kernel().message("System locked.\n");
@@ -83,8 +101,13 @@ public class SecurityService extends AbstractService<SecurityState> {
 			Kernel.kernel().message("System unlocked.\n");
 			Kernel.kernel().setMasterState(MasterState.RUNNING);
 			if (unlockedScript != null) {
+
+				LOGGER.info("Unlock chair request: unlocking chair with script...");
 				((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(unlockedScript);
+				
 			} else {
+
+				LOGGER.info("Unlock chair request: unlocking chair...");
 				((DisplayService) Kernel.kernel().getService(ServiceId.DISPLAY)).showScene(SceneId.CP_MAIN_SCREEN);
 				((DisplayService) Kernel.kernel().getService(ServiceId.DISPLAY)).showScene(SceneId.HUD_MAIN_SCREEN);
 			}
@@ -93,6 +116,8 @@ public class SecurityService extends AbstractService<SecurityState> {
 		} else {
 			// PIN code was incorrect so play the unlock failed script (if there is
 			// one).
+			LOGGER.info("Unlock chair request: invalid PIN...");
+
 			Kernel.kernel().message("System unlock denied: invalid PIN.\n");
 			if (unlockFailedScript != null) {
 				((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(unlockFailedScript);
