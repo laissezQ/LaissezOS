@@ -23,7 +23,22 @@ public class Profile {
 	 * Default to a fast boot.
 	 */
 	public static final ScriptId DEFAULT_BOOT_SCRIPT = ScriptId.BOOT_FAST;
+
+	/**
+	 * Default latitude for initial location.
+	 */
+	private static final double DEFAULT_LATITUDE = 35.6420206;
 	
+	/**
+	 * Default longitude for initial location.
+	 */
+	private static final double DEFAULT_LONGITUDE = -105.9889903;
+	
+	/**
+	 * Default altitude for initial location.
+	 */
+	private static final double DEFAULT_ALTITUDE = 2044.982;
+
 	/**
 	 * Unique id for the profile.
 	 */
@@ -45,15 +60,30 @@ public class Profile {
 	private DisplayStyle displayStyle = DEFAULT_DISPLAY_STYLE;
 	
 	/**
-	 * Script to run at boot.
-	 */
-	private ScriptId bootScript = DEFAULT_BOOT_SCRIPT;
-	
-	/**
 	 * 4 digit PIN code to unlock chair.
 	 */
 	private String pinCode;
-		
+
+	/**
+	 * Latitude for initial chair location.
+	 */
+	private double initialLatitude = DEFAULT_LATITUDE;
+	
+	/**
+	 * Longitude for initial chair location.
+	 */
+	private double initialLongitude = DEFAULT_LONGITUDE;
+	
+	/**
+	 * Altitude for initial chair location.
+	 */
+	private double initialAltitude = DEFAULT_ALTITUDE;
+	
+	/**
+	 * Script to run at boot.
+	 */
+	private ScriptId bootScript = DEFAULT_BOOT_SCRIPT;
+			
 	/**
 	 * Optional script to run when chair is unlocked.
 	 */
@@ -105,6 +135,27 @@ public class Profile {
 	}
 
 	/**
+	 * 4 digit numeric code required to unlock chair.
+	 * 
+	 * @return Code required to unlock chair.
+	 */
+	public String getPinCode() {
+		return pinCode;
+	}
+
+	public double getInitialLatitude() {
+		return initialLatitude;
+	}
+
+	public double getInitialLongitude() {
+		return initialLongitude;
+	}
+
+	public double getInitialAltitude() {
+		return initialAltitude;
+	}
+
+	/**
 	 * Returns the script to run for the boot sequence.
 	 * 
 	 * @return Id of the script to run for boot sequence.
@@ -113,9 +164,6 @@ public class Profile {
 		return bootScript;
 	}
 
-	public String getPinCode() {
-		return pinCode;
-	}
 
 	public ScriptId getUnlockedScript() {
 		return unlockedScript;

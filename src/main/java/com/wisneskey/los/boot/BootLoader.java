@@ -72,11 +72,14 @@ public class BootLoader extends Application {
 		// Register the other services which will use the active profile to
 		// configure themselves.
 		kernel.registerService(AudioService.createService(profile));
-		kernel.registerService(DisplayService.createService(runMode, profile));
 		kernel.registerService(LocationService.createService(runMode, profile));
 		kernel.registerService(RelayService.createService(runMode, profile));
 		kernel.registerService(ScriptService.createService(profile));
 		kernel.registerService(SecurityService.createService(profile));
+
+		// Register display service last so all the other services are ready and
+		// have initial states that can be displayed.
+		kernel.registerService(DisplayService.createService(runMode, profile));
 
 		// Initialize the kernel now that its set up.
 		Kernel.kernel().initialize();
@@ -88,7 +91,7 @@ public class BootLoader extends Application {
 
 		LOGGER.info("UI shutdown; shutting down kernel...");
 		Kernel.kernel().shutdown();
-		
+
 		LOGGER.info("Exiting...");
 
 	}
@@ -103,8 +106,9 @@ public class BootLoader extends Application {
 		// JavaFX is ready to display now so initialize the display manager and
 		// start the boot script that is specified in the profile.
 		((DisplayService) Kernel.kernel().getService(ServiceId.DISPLAY)).initialize(stage);
-		
-		Profile profile = ((ProfileState) Kernel.kernel().chairState().getServiceState(ServiceId.PROFILE)).activeProfile().get();
+
+		Profile profile = ((ProfileState) Kernel.kernel().chairState().getServiceState(ServiceId.PROFILE)).activeProfile()
+				.get();
 		((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(profile.getBootScript());
 	}
 }

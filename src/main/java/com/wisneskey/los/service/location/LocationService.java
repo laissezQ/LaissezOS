@@ -67,7 +67,7 @@ public class LocationService extends AbstractService<LocationState> {
 
 	@Override
 	public void terminate() {
-		
+
 		// Stop the driver polling thread.
 		driverPoller.interrupt();
 		try {
@@ -110,6 +110,13 @@ public class LocationService extends AbstractService<LocationState> {
 		gpsDriver.initialize(profile);
 
 		locationState = new InternalLocationState();
+
+		// Set the location but then set the hasFix property to false. This will
+		// enable the initial display to show a location on the map but indicate
+		// that the location is not based on a GPS fix.
+		locationState.updateLocation(
+				Location.of(profile.getInitialLatitude(), profile.getInitialLongitude(), profile.getInitialAltitude()));
+		locationState.hasFix.set(false);
 
 		// Start the poller thread for the driver polling.
 		driverPoller = new DriverPoller();

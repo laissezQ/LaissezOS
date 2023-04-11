@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.wisneskey</groupId>
@@ -26,6 +27,11 @@
 		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-media</artifactId>
+			<version>19</version>
+		</dependency>
+		<dependency>
+			<groupId>org.openjfx</groupId>
+			<artifactId>javafx-swing</artifactId>
 			<version>19</version>
 		</dependency>
 		<!-- Jackson JSON dependencies -->
@@ -89,6 +95,13 @@
 			<artifactId>marineapi</artifactId>
 			<version>0.12.0</version>
 		</dependency>
+		<!--JxMapViewer2 -->
+		<dependency>
+			<groupId>org.jxmapviewer</groupId>
+			<artifactId>jxmapviewer2</artifactId>
+			<version>2.0</version>
+		</dependency>
+
 	</dependencies>
 	<build>
 		<plugins>
@@ -112,13 +125,15 @@
 						</goals>
 						<configuration>
 							<transformers>
-								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									<mainClass>com.wisneskey.los.LaissezOS</mainClass>
 									<manifestEntries>
 										<Multi-Release>true</Multi-Release>
 									</manifestEntries>
 								</transformer>
-								<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
 							</transformers>
 						</configuration>
 					</execution>
