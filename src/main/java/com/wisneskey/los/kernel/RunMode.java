@@ -8,7 +8,8 @@ public enum RunMode {
 
 	DEV(Platform.OsX, "Off chair development where chair system interfaces are simulated."),
 	PI2B_CP(Platform.RaspberryPi, "Raspberry PI2B prototyping (control panel display only)."),
-	PI2B_HUD(Platform.RaspberryPi, "Raspberry PI2B prototyping (heads up display only).");
+	PI2B_HUD(Platform.RaspberryPi, "Raspberry PI2B prototyping (heads up display only)."),
+	PI4B_CP(Platform.RaspberryPi, "Raspberry PI4B on chair (control panel display only).");
 
 	// ----------------------------------------------------------------------------------------
 	// Variables.

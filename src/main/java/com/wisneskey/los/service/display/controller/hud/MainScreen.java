@@ -76,6 +76,7 @@ public class MainScreen extends AbstractController {
 				mapViewer = new JXMapViewer();
 
 				// Create a TileFactoryInfo for OpenStreetMap
+				
 				TileFactoryInfo info = new OSMTileFactoryInfo();
 				DefaultTileFactory tileFactory = new DefaultTileFactory(info);
 				mapViewer.setTileFactory(tileFactory);

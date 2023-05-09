@@ -125,7 +125,7 @@ public class SparkFunGpsDriver implements GpsDriver {
 				SentenceFactory sf = SentenceFactory.getInstance();
 				GGASentence gsa = (GGASentence) sf.createParser(line);
 
-				LOGGER.debug("GPS: {} quality={}", gsa.getPosition(), gsa.getFixQuality());
+				LOGGER.trace("GPS: {} quality={}", gsa.getPosition(), gsa.getFixQuality());
 				updateSampleHistory(gsa);
 
 			} catch (Exception e) {
@@ -158,11 +158,16 @@ public class SparkFunGpsDriver implements GpsDriver {
 					sampleIndex = 0;
 					Arrays.fill(sampleHistory, locationFrom(latestSample));
 
+					haveFix = true;
+					
 				} else {
+					
 					LOGGER.debug("Fix lost; clearing history.");
 
 					sampleIndex = 0;
 					Arrays.fill(sampleHistory, null);
+					
+					haveFix = false;
 				}
 
 			} else {

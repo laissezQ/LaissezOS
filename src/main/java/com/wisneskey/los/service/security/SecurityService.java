@@ -121,7 +121,7 @@ public class SecurityService extends AbstractService<SecurityState> {
 			Kernel.kernel().message("System unlock denied: invalid PIN.\n");
 			if (unlockFailedScript != null) {
 				((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(unlockFailedScript);
-			}
+			} 
 
 			return false;
 		}

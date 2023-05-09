@@ -238,6 +238,7 @@ public class DisplayService extends AbstractService<DisplayState> {
 			cpStage.show();
 			break;
 		case PI2B_CP:
+		case PI4B_CP:
 			cpStage.initStyle(StageStyle.UNDECORATED);
 			cpStage.setFullScreenExitHint("");
 			cpStage.setFullScreen(true);

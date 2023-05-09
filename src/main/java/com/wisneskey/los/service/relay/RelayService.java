@@ -174,6 +174,7 @@ public class RelayService extends AbstractService<RelayState> {
 		switch (runMode) {
 		case PI2B_CP:
 		case PI2B_HUD:
+		case PI4B_CP:
 			service.setRelayDriver(new KridaRelayDriver());
 			break;
 		case DEV:

@@ -171,7 +171,7 @@
 					<workingDirectory>${project.build.directory}</workingDirectory>
 					<arguments>
 						<argument>laissezos-0.0.1-SNAPSHOT.jar</argument>
-						<argument>pwisneskey@192.168.86.12:./lbos.jar</argument>
+						<argument>pwisneskey@192.168.86.13:./lbos.jar</argument>
 					</arguments>
 				</configuration>
 			</plugin>

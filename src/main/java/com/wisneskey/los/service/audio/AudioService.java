@@ -162,13 +162,13 @@ public class AudioService extends AbstractService<AudioState> {
 				PLAYER_LOGGER.trace("Audio clip playback starting; load time: {}", timer.elapsedAsString());
 				clip.start();
 				PLAYER_LOGGER.trace("Audio clip playback started; total time: {}", timer.elapsedAsString());
+				
 			} catch (Exception e) {
 				PLAYER_LOGGER.error("Failed to play sound effect.", e);
 			}
 
 			PLAYER_LOGGER.trace("Player thread ended.");
 		}
-
 	}
 
 	/**
