@@ -14,7 +14,7 @@
 
 <Pane id="pane" maxHeight="1280.0" maxWidth="400.0" minHeight="1280.0" minWidth="400.0" prefHeight="1280.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.wisneskey.los.service.display.controller.cp.SplashScreen">
 	<children>
-		<Label layoutX="56.0" layoutY="335.0" text="Cyber Chair 2.0">
+		<Label layoutX="36.0" layoutY="295.0" text="Cyber Chair 2000">
 			<font>
 				<Font name="Avenir Next Heavy Italic" size="36.0" />
 			</font>
@@ -46,5 +46,13 @@
             <DropShadow />
          </effect>
       </ImageView>
+      <Label layoutX="102.0" layoutY="347.0" text="The Future of Leisure">
+         <effect>
+            <DropShadow />
+         </effect>
+         <font>
+            <Font name="Avenir Next Heavy Italic" size="18.0" />
+         </font>
+      </Label>
 	</children>
 </Pane>

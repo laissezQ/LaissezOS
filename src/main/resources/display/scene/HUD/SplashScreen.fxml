@@ -22,7 +22,7 @@
             <DropShadow />
          </effect>
       </ImageView>
-      <Label layoutX="125.0" layoutY="14.0" text="Cyber Chair 2.0">
+      <Label layoutX="103.0" layoutY="14.0" text="Cyber Chair 2000">
          <font>
             <Font name="Avenir Next Heavy Italic" size="48.0" />
          </font>
@@ -30,9 +30,9 @@
             <DropShadow />
          </effect>
       </Label>
-      <Label layoutX="197.0" layoutY="71.0" text="(c) 2023 Laissez-Q Industries">
+      <Label layoutX="197.0" layoutY="74.0" text="The Future of Leisure">
          <font>
-            <Font name="Avenir Black" size="18.0" />
+            <Font name="Avenir Black" size="24.0" />
          </font>
          <effect>
             <DropShadow />
