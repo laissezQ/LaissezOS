@@ -6,8 +6,7 @@
 	"description": "Default profile for development of LaissezOS.",
 	"supportedRunModes": [
 		"DEV",
-		"PI2B_CP",
-		"PI4B_CP"
+		"CHAIR"
 	],
 	//
 	// Boot settings:

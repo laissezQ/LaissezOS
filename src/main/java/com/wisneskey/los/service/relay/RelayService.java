@@ -58,12 +58,12 @@ public class RelayService extends AbstractService<RelayState> {
 
 	@Override
 	public void terminate() {
-		
+
 		// Turn all relays off during service termination.
-		for( RelayId relayId: RelayId.values()) {
+		for (RelayId relayId : RelayId.values()) {
 			turnOff(relayId);
 		}
-		
+
 		LOGGER.trace("Relay service terminated.");
 	}
 
@@ -172,9 +172,7 @@ public class RelayService extends AbstractService<RelayState> {
 
 		// Set the relay driver based on the run mode.
 		switch (runMode) {
-		case PI2B_CP:
-		case PI2B_HUD:
-		case PI4B_CP:
+		case CHAIR:
 			service.setRelayDriver(new KridaRelayDriver());
 			break;
 		case DEV:

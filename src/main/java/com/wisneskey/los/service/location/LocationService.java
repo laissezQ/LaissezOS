@@ -145,9 +145,7 @@ public class LocationService extends AbstractService<LocationState> {
 
 		// Set the relay driver based on the run mode.
 		switch (runMode) {
-		case PI2B_CP:
-		case PI2B_HUD:
-		case PI4B_CP:
+		case CHAIR:
 			service.setGpsDriver(new SparkFunGpsDriver());
 			break;
 		case DEV:

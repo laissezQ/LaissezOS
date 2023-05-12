@@ -1,6 +1,7 @@
 package com.wisneskey.los.state;
 
 import com.wisneskey.los.service.display.DisplayStyle;
+import com.wisneskey.los.service.display.SceneId;
 
 import javafx.beans.property.ReadOnlyObjectProperty;
 
@@ -19,4 +20,18 @@ public interface DisplayState extends State {
 	 *         display style.
 	 */
 	ReadOnlyObjectProperty<DisplayStyle> currentStyle();
+
+	/**
+	 * Returns the id of the current scene on the heads up display.
+	 * 
+	 * @return Id of current HUD scene.
+	 */
+	ReadOnlyObjectProperty<SceneId> hudScene();
+
+	/**
+	 * Returns the id of the current scene on the control panel.
+	 * 
+	 * @return Id of the current control panel scene.
+	 */
+	ReadOnlyObjectProperty<SceneId> cpScene();
 }

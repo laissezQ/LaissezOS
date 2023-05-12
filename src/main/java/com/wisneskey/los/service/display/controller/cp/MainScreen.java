@@ -6,6 +6,7 @@ import com.wisneskey.los.service.display.controller.AbstractController;
 import com.wisneskey.los.service.display.listener.message.MessagesToTextAreaListener;
 import com.wisneskey.los.service.display.listener.relay.RelayWhilePressedListener;
 import com.wisneskey.los.service.relay.RelayId;
+import com.wisneskey.los.service.script.ScriptId;
 import com.wisneskey.los.service.security.SecurityService;
 
 import javafx.event.EventHandler;
@@ -96,6 +97,7 @@ public class MainScreen extends AbstractController {
 	 */
 	public void lockChair() {
 
-		((SecurityService) Kernel.kernel().getService(ServiceId.SECURITY)).lockChair();
+		((SecurityService) Kernel.kernel().getService(ServiceId.SECURITY)).lockChair(SecurityService.DEFAULT_LOCK_MESSAGE,
+				ScriptId.SECURITY_UNLOCKED, null, null, null);
 	}
 }

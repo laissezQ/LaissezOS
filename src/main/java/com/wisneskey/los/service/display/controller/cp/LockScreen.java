@@ -6,8 +6,10 @@ import java.util.List;
 import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.display.controller.AbstractController;
+import com.wisneskey.los.service.display.listener.message.MessagesToLabelListener;
 import com.wisneskey.los.service.security.SecurityService;
 import com.wisneskey.los.state.ChairState.MasterState;
+import com.wisneskey.los.state.SecurityState;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -15,6 +17,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 
@@ -26,8 +29,11 @@ import javafx.scene.image.ImageView;
 public class LockScreen extends AbstractController {
 
 	@FXML
+	private Label lockMessage;
+
+	@FXML
 	private ImageView logo;
-	
+
 	@FXML
 	private TextField pinDisplay;
 
@@ -99,11 +105,16 @@ public class LockScreen extends AbstractController {
 		entryButtons.add(buttonNine);
 		entryButtons.add(buttonZero);
 
+		// Set the initial lock message.
+		SecurityState state = chairState().getServiceState(ServiceId.SECURITY);
+		lockMessage.setText(state.lockMessage().getValue());
+		
 		// Add a listener for the chair state so that if the chair is set to a
-		// master state of LOCKED,
-		// we can assume we will be getting displayed and we need to enable the PIN
-		// entry buttons.
+		// master state of LOCKED, we can assume we will be getting displayed and we
+		// need to enable the PIN entry buttons.
 		chairState().masterState().addListener(new MasterStateListener());
+
+		state.lockMessage().addListener(new MessagesToLabelListener(lockMessage));
 
 		// Put focus on the logo.
 		redirectFocus();
@@ -234,8 +245,8 @@ public class LockScreen extends AbstractController {
 	// ----------------------------------------------------------------------------------------
 
 	/**
-	 * Method used by event handlers to send focus back to the logo
-	 * that the last button pressed does not remain selected on the screen.
+	 * Method used by event handlers to send focus back to the logo that the last
+	 * button pressed does not remain selected on the screen.
 	 */
 	private void redirectFocus() {
 		Platform.runLater(() -> logo.requestFocus());

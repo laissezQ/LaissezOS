@@ -13,7 +13,6 @@ import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.kernel.RunMode;
 import com.wisneskey.los.service.AbstractService;
 import com.wisneskey.los.service.ServiceId;
-import com.wisneskey.los.service.display.Displays.DisplayConfiguration;
 import com.wisneskey.los.service.profile.model.Profile;
 import com.wisneskey.los.state.DisplayState;
 
@@ -22,9 +21,10 @@ import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Cursor;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Pair;
@@ -39,6 +39,16 @@ public class DisplayService extends AbstractService<DisplayState> {
 	private static final Logger LOGGER = LoggerFactory.getLogger(DisplayService.class);
 
 	/**
+	 * Default starting scene for the heads up display.
+	 */
+	public static final SceneId STARTING_HUD_SCENE = SceneId.HUD_SPLASH_SCREEN;
+
+	/**
+	 * Default starting scene for the control panel.
+	 */
+	public static final SceneId STARTING_CP_SCENE = SceneId.CP_SPLASH_SCREEN;
+
+	/**
 	 * Base path for where stylesheets are saved in the resources.
 	 */
 	private static final String STYLESHEET_RESOURCE_BASE = "/display/stylesheet/";
@@ -51,7 +61,7 @@ public class DisplayService extends AbstractService<DisplayState> {
 	/**
 	 * Width of the heads up display.
 	 */
-	private static final double HUD_WIDTH = 640.0;
+	private static final double HUD_WIDTH = 800.0;
 
 	/**
 	 * Height of the heads up display.
@@ -131,19 +141,22 @@ public class DisplayService extends AbstractService<DisplayState> {
 			throw new RuntimeException("Display manager already initialized.");
 		}
 
+		// Log the screens
+		for (Screen screen : Screen.getScreens()) {
+
+			boolean isPrimary = screen.equals(Screen.getPrimary());
+			Rectangle2D bounds = screen.getVisualBounds();
+			LOGGER.info("Screen: minX={} minY={} primary={}", bounds.getMinX(), bounds.getMinY(), isPrimary);
+		}
+
 		// Determine the run mode since that governs how and what is shown.
 		RunMode runMode = Kernel.kernel().getRunMode();
 
 		// Apply the style set in our state
 		applyStyle(displayState.currentStyle().getValue());
 
-		// Get the display settings for our run mode.
-		Displays displays = Displays.loadDisplays();
-		DisplayConfiguration displayConfig = displays.getDisplayConfiguration(runMode);
-
 		// Load all of the scenes so that we can start displaying them once the
-		// stages
-		// are set up.
+		// stages are set up.
 		loadScenes();
 
 		// Create the stages for both screens but the run mode will dictate which
@@ -153,19 +166,23 @@ public class DisplayService extends AbstractService<DisplayState> {
 
 		// Control panel stage:
 		cpStage = stage;
-		cpStage.setScene(new Scene(sceneMap.get(SceneId.CP_SPLASH_SCREEN), CONTROL_PANEL_WIDTH, CONTROL_PANEL_HEIGHT));
-		cpStage.setX(displayConfig.getControlPanelX());
-		cpStage.setY(displayConfig.getControlPanelY());
+		cpStage.setScene(
+				new Scene(sceneMap.get(displayState.cpScene().getValue()), CONTROL_PANEL_WIDTH, CONTROL_PANEL_HEIGHT));
 
 		// Heads up display stage:
 		hudStage = new Stage();
-		hudStage.setScene(new Scene(sceneMap.get(SceneId.HUD_SPLASH_SCREEN), HUD_WIDTH, HUD_HEIGHT));
-		hudStage.setX(displayConfig.getHudX());
-		hudStage.setY(displayConfig.getHudY());
+		hudStage.setScene(new Scene(sceneMap.get(displayState.hudScene().getValue()), HUD_WIDTH, HUD_HEIGHT));
 
-		// Show each stage depending on run mode and screen availability.
-		showControlPanel(runMode);
-		showHeadsUpDisplay(runMode);
+		switch (runMode) {
+		case DEV:
+			initDisplaysForDev();
+			break;
+		case CHAIR:
+			initDisplaysForChair();
+			break;
+		default:
+			throw new LaissezException("Unhandled chair mode in display initialization: " + runMode);
+		}
 
 		initialized = true;
 	}
@@ -198,6 +215,9 @@ public class DisplayService extends AbstractService<DisplayState> {
 			Platform.runLater(() -> hudStage.getScene().setRoot(content));
 			Platform.runLater(() -> hudStage.requestFocus());
 		}
+
+		// Update the display state for any change listeners.
+		displayState.updateScene(sceneId);
 	}
 
 	/**
@@ -226,51 +246,40 @@ public class DisplayService extends AbstractService<DisplayState> {
 	// ----------------------------------------------------------------------------------------
 
 	/**
-	 * Optionally show the control panel based on the run mode.
-	 * 
-	 * @param runMode
-	 *          Run mode for the operating system.
+	 * Configure the two display windows for development mode.
 	 */
-	private void showControlPanel(RunMode runMode) {
+	private void initDisplaysForDev() {
 
-		switch (runMode) {
-		case DEV:
-			cpStage.show();
-			break;
-		case PI2B_CP:
-		case PI4B_CP:
-			cpStage.initStyle(StageStyle.UNDECORATED);
-			cpStage.setFullScreenExitHint("");
-			cpStage.setFullScreen(true);
-			cpStage.show();
-			cpStage.toFront();
-			cpStage.getScene().setCursor(Cursor.NONE);
-			break;
-		default:
-			LOGGER.info("Control panel not being shown in run mode: " + runMode);
-		}
+		hudStage.setX(100.0);
+		hudStage.setY(100.0);
+		hudStage.show();
+
+		cpStage.setX(1100.0);
+		cpStage.setY(40.0);
+		cpStage.show();
 	}
 
 	/**
-	 * Optionally show the heads up display based on the run mode.
-	 * 
-	 * @param runMode
-	 *          Run mode for the operating system.
+	 * Configure the two display windows to map the appropriate displays that are
+	 * hooked up on the actual chair.
 	 */
-	private void showHeadsUpDisplay(RunMode runMode) {
+	private void initDisplaysForChair() {
 
-		switch (runMode) {
-		case DEV:
-			hudStage.show();
-			break;
-		case PI2B_HUD:
-			hudStage.show();
-			hudStage.setFullScreen(true);
-			hudStage.toFront();
-			break;
-		default:
-			LOGGER.info("Heads up display not being shown in run mode: " + runMode);
-		}
+		// Technique to get both screens with no window controls visible:
+		// https://stackoverflow.com/questions/13030556/multiple-javafx-stages-in-fullscreen-mode
+
+		Screen cpScreen = Screen.getPrimary();
+		cpStage.setX(cpScreen.getVisualBounds().getMinX());
+		cpStage.setY(cpScreen.getVisualBounds().getMinY());
+		cpStage.setFullScreenExitHint("");
+		cpStage.setFullScreen(true);
+		cpStage.show();
+
+		Screen hudScreen = Screen.getScreens().get(1);
+		hudStage.setX(hudScreen.getBounds().getMinX());
+		hudStage.setY(hudScreen.getBounds().getMinY());
+		hudStage.initStyle(StageStyle.UNDECORATED);
+		hudStage.show();
 	}
 
 	/**
@@ -379,6 +388,15 @@ public class DisplayService extends AbstractService<DisplayState> {
 	private static class InternalDisplayState implements DisplayState {
 
 		/**
+		 * Current HUD scene.
+		 */
+		private SimpleObjectProperty<SceneId> hudScene = new SimpleObjectProperty<>(STARTING_HUD_SCENE);
+
+		/**
+		 * Current control panel scene.
+		 */
+		private SimpleObjectProperty<SceneId> cpScene = new SimpleObjectProperty<>(STARTING_CP_SCENE);
+		/**
 		 * Current display style.
 		 */
 		private SimpleObjectProperty<DisplayStyle> currentStyle = new SimpleObjectProperty<>(this, "currentStyle");
@@ -386,6 +404,16 @@ public class DisplayService extends AbstractService<DisplayState> {
 		// ----------------------------------------------------------------------------------------
 		// DisplayState methods.
 		// ----------------------------------------------------------------------------------------
+
+		@Override
+		public ReadOnlyObjectProperty<SceneId> hudScene() {
+			return hudScene;
+		}
+
+		@Override
+		public ReadOnlyObjectProperty<SceneId> cpScene() {
+			return cpScene;
+		}
 
 		@Override
 		public ReadOnlyObjectProperty<DisplayStyle> currentStyle() {
@@ -398,6 +426,20 @@ public class DisplayService extends AbstractService<DisplayState> {
 
 		private void setCurrentStyle(DisplayStyle newStyle) {
 			currentStyle.setValue(newStyle);
+		}
+
+		private void updateScene(SceneId sceneId) {
+			switch (sceneId.getDisplayId()) {
+			case CP:
+				cpScene.setValue(sceneId);
+				break;
+			case HUD:
+				hudScene.setValue(sceneId);
+				break;
+			default:
+				throw new LaissezException("Unknown display id while changing scene: " + sceneId.getDisplayId());
+
+			}
 		}
 	}
 }
