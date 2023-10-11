@@ -68,7 +68,7 @@ public class MainScreen extends AbstractController {
 
 		swingNode = new SwingNode();
 
-    // create a map view and set the map to it
+		// create a map view and set the map to it
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
@@ -76,7 +76,7 @@ public class MainScreen extends AbstractController {
 				mapViewer = new JXMapViewer();
 
 				// Create a TileFactoryInfo for OpenStreetMap
-				
+
 				TileFactoryInfo info = new OSMTileFactoryInfo();
 				DefaultTileFactory tileFactory = new DefaultTileFactory(info);
 				mapViewer.setTileFactory(tileFactory);
@@ -87,12 +87,12 @@ public class MainScreen extends AbstractController {
 				// Set the focus
 				mapViewer.setZoom(1);
 				mapViewer.setAddressLocation(locationToGeoPosition(initialLocation));
-				
-        MouseInputListener mia = new PanMouseInputListener(mapViewer);
-        mapViewer.addMouseListener(mia);
-        mapViewer.addMouseMotionListener(mia);
-        mapViewer.addMouseListener(new CenterMapListener(mapViewer));
-        mapViewer.addMouseWheelListener(new ZoomMouseWheelListenerCenter(mapViewer));
+
+				MouseInputListener mia = new PanMouseInputListener(mapViewer);
+				mapViewer.addMouseListener(mia);
+				mapViewer.addMouseMotionListener(mia);
+				mapViewer.addMouseListener(new CenterMapListener(mapViewer));
+				mapViewer.addMouseWheelListener(new ZoomMouseWheelListenerCenter(mapViewer));
 
 				swingNode.setContent(mapViewer);
 			}
@@ -103,6 +103,14 @@ public class MainScreen extends AbstractController {
 		chairState().message().addListener(new MessagesToLabelListener(message));
 	}
 
+	/**
+	 * Converts a location with coordinates to a GeoPosition object used by the
+	 * map viewer.
+	 * 
+	 * @param location
+	 *          Location object with coordinates.
+	 * @return The equivalent GeoPosition object.
+	 */
 	private GeoPosition locationToGeoPosition(Location location) {
 
 		return new GeoPosition(location.getLatitude(), location.getLongitude());

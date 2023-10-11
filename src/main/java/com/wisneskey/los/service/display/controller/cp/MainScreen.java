@@ -71,8 +71,8 @@ public class MainScreen extends AbstractController {
 
 		chairState().message().addListener(new MessagesToTextAreaListener(messages, MAX_LINE_COUNT));
 
-		RelayWhilePressedListener.add(barDownButton, RelayId.BAR_LOWER, "Lowering bar...\n");
-		RelayWhilePressedListener.add(barUpButton, RelayId.BAR_RAISE, "Raising bar...\n");
+		RelayWhilePressedListener.add(barDownButton, RelayId.BAR_A, "Lowering bar...\n");
+		RelayWhilePressedListener.add(barUpButton, RelayId.BAR_B, "Raising bar...\n");
 
 		RelayWhilePressedListener.add(backrestDownButton, RelayId.BACKREST_RAISE, "Raising backrest...\n");
 		RelayWhilePressedListener.add(backrestUpButton, RelayId.BACKREST_LOWER, "Lowering backrest...\n");

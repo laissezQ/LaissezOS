@@ -14,6 +14,7 @@ import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.service.location.Location;
 import com.wisneskey.los.service.profile.model.Profile;
 
+import net.sf.marineapi.nmea.parser.DataNotAvailableException;
 import net.sf.marineapi.nmea.parser.SentenceFactory;
 import net.sf.marineapi.nmea.sentence.GGASentence;
 import net.sf.marineapi.nmea.util.GpsFixQuality;
@@ -126,8 +127,13 @@ public class SparkFunGpsDriver implements GpsDriver {
 				GGASentence gsa = (GGASentence) sf.createParser(line);
 
 				LOGGER.trace("GPS: {} quality={}", gsa.getPosition(), gsa.getFixQuality());
-				updateSampleHistory(gsa);
+				updateSampleHistory(gsa, false);
 
+			} catch (DataNotAvailableException e) {
+				
+				// GPS is online but not returning a location yet.
+				updateSampleHistory(null, true);
+				
 			} catch (Exception e) {
 
 				LOGGER.warn("Failed to parse GPS location.", e);
@@ -136,16 +142,22 @@ public class SparkFunGpsDriver implements GpsDriver {
 	}
 
 	/**
-	 * Processes the latest sample and updates the sample history as appropriate based on the
-	 * sample and fix status in it.
+	 * Processes the latest sample and updates the sample history as appropriate
+	 * based on the sample and fix status in it.
 	 * 
-	 * @param latestSample Latest sample from the GPS hardware.
+	 * @param latestSample
+	 *          Latest sample from the GPS hardware.
 	 */
-	private void updateSampleHistory(GGASentence latestSample) {
+	private void updateSampleHistory(GGASentence latestSample, boolean dataUnavailableError) {
 
 		synchronized (sampleLock) {
 
-			boolean latestHasFix = latestSample.getFixQuality() != GpsFixQuality.INVALID;
+			boolean latestHasFix;
+			if (dataUnavailableError) {
+				latestHasFix = false;
+			} else {
+				latestHasFix = latestSample.getFixQuality() != GpsFixQuality.INVALID;
+			}
 
 			if (latestHasFix != haveFix) {
 
@@ -159,14 +171,14 @@ public class SparkFunGpsDriver implements GpsDriver {
 					Arrays.fill(sampleHistory, locationFrom(latestSample));
 
 					haveFix = true;
-					
+
 				} else {
-					
+
 					LOGGER.debug("Fix lost; clearing history.");
 
 					sampleIndex = 0;
 					Arrays.fill(sampleHistory, null);
-					
+
 					haveFix = false;
 				}
 
