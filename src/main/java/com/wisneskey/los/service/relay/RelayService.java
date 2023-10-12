@@ -46,7 +46,7 @@ public class RelayService extends AbstractService<RelayState> {
 	// ----------------------------------------------------------------------------------------
 
 	/**
-	 * Private constructor to request use of static service creation method.
+	 * Private constructor to require use of static service creation method.
 	 */
 	private RelayService() {
 		super(ServiceId.RELAY);

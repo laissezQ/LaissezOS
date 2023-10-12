@@ -3,6 +3,7 @@ package com.wisneskey.los.service;
 import com.wisneskey.los.kernel.ShutdownPhase;
 import com.wisneskey.los.service.audio.AudioService;
 import com.wisneskey.los.service.display.DisplayService;
+import com.wisneskey.los.service.lighting.LightingService;
 import com.wisneskey.los.service.location.LocationService;
 import com.wisneskey.los.service.profile.ProfileService;
 import com.wisneskey.los.service.relay.RelayService;
@@ -10,6 +11,7 @@ import com.wisneskey.los.service.script.ScriptService;
 import com.wisneskey.los.service.security.SecurityService;
 import com.wisneskey.los.state.AudioState;
 import com.wisneskey.los.state.DisplayState;
+import com.wisneskey.los.state.LightingState;
 import com.wisneskey.los.state.LocationState;
 import com.wisneskey.los.state.ProfileState;
 import com.wisneskey.los.state.RelayState;
@@ -26,6 +28,7 @@ public enum ServiceId {
 
 	AUDIO(AudioService.class, AudioState.class, ShutdownPhase.Two, "This service goes to 11."),
 	DISPLAY(DisplayService.class, DisplayState.class, ShutdownPhase.Two, "Looking good there!"),
+	LIGHTING(LightingService.class, LightingState.class, ShutdownPhase.Two, "Let there be lighting!"),
 	LOCATION(LocationService.class, LocationState.class, ShutdownPhase.Two, "Where the hell am I?"),
 	PROFILE(ProfileService.class, ProfileState.class, ShutdownPhase.Three, "Keep it low."),
 	RELAY(RelayService.class, RelayState.class, ShutdownPhase.Three, "Have you tried turning it off and on again?"),
