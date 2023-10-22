@@ -1,6 +1,6 @@
 package com.wisneskey.los.service.relay.driver;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -57,14 +57,18 @@ public class KridaRelayDriver implements RelayDriver {
 	public Map<RelayId, Boolean> initialize(Profile profile) {
 
 		LOGGER.debug("Initializing KRIDA I2C Board relay driver...");
-		LOGGER.trace("Board A I2C address: " + Integer.toHexString(I2C_ADDRESS_BOARD_A));
-		LOGGER.trace("Board B I2C address: " + Integer.toHexString(I2C_ADDRESS_BOARD_B));
+		if (LOGGER.isTraceEnabled()) {
+			LOGGER.trace("Board A I2C address: {}", Integer.toHexString(I2C_ADDRESS_BOARD_A));
+			LOGGER.trace("Board B I2C address: {}", Integer.toHexString(I2C_ADDRESS_BOARD_B));
+		}
 
 		Context pi4jContext = Kernel.kernel().getPi4jContext();
 		I2CProvider i2cProvider = pi4jContext.provider("linuxfs-i2c");
-		
-		I2CConfig i2cConfigA = I2C.newConfigBuilder(pi4jContext).id("relayBoardA").bus(I2C_BUS).device(I2C_ADDRESS_BOARD_A).build();
-		I2CConfig i2cConfigB = I2C.newConfigBuilder(pi4jContext).id("relayBoardB").bus(I2C_BUS).device(I2C_ADDRESS_BOARD_B).build();
+
+		I2CConfig i2cConfigA = I2C.newConfigBuilder(pi4jContext).id("relayBoardA").bus(I2C_BUS).device(I2C_ADDRESS_BOARD_A)
+				.build();
+		I2CConfig i2cConfigB = I2C.newConfigBuilder(pi4jContext).id("relayBoardB").bus(I2C_BUS).device(I2C_ADDRESS_BOARD_B)
+				.build();
 
 		try {
 			boardA = i2cProvider.create(i2cConfigA);
@@ -73,9 +77,9 @@ public class KridaRelayDriver implements RelayDriver {
 			throw new LaissezException("Failed to create I2C connection to driver board.", e);
 		}
 
-		Map<RelayId, Boolean> stateMap = new HashMap<>();
+		Map<RelayId, Boolean> stateMap = new EnumMap<>(RelayId.class);
 		for (RelayId relayId : RelayId.values()) {
-			
+
 			// Make sure everything is off to start.
 			turnOff(relayId);
 			stateMap.put(relayId, Boolean.FALSE);
@@ -117,13 +121,13 @@ public class KridaRelayDriver implements RelayDriver {
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
 
-	/** 
+	/**
 	 * Get the appropriate board connector for the relay id.
 	 */
 	private I2C getBoard(RelayId relayId) {
 		return relayId.getIndex() < 8 ? boardA : boardB;
 	}
-	
+
 	/**
 	 * Generate the bit mask for the specified relay.
 	 * 

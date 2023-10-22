@@ -104,6 +104,10 @@ public class SecurityService extends AbstractService<SecurityState> {
 		// Set the lock message.
 		securityState.setLockMessage(lockMessage);
 		
+		// Save the lock scripts
+		this.unlockedScript = unlockScript;
+		this.unlockFailedScript = unlockFailedScript;
+		
 		// If scenes are specified, use them as the unlock scenes to use if an unlock
 		// script is not provided.   If no scenes are provided, the unlock scenes will
 		// default to going back to the scenes active when the chair was locked (unless

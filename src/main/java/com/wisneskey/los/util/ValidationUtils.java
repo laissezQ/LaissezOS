@@ -47,7 +47,7 @@ public class ValidationUtils {
 			if (value instanceof String) {
 				valid = String.class.cast(value).length() > 0;
 			} else if (value instanceof Collection<?>) {
-				valid = Collection.class.cast(value).size() > 0;
+				valid = ! Collection.class.cast(value).isEmpty();
 			} else {
 				valid = true;
 			}

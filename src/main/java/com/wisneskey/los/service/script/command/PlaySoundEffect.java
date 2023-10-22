@@ -22,6 +22,11 @@ public class PlaySoundEffect extends AbstractScriptCommand {
 	private static final Logger LOGGER = LoggerFactory.getLogger(PlaySoundEffect.class);
 
 	/**
+	 * Random generator to use to randomly select audio clips.
+	 */
+	private Random random = new Random();
+
+	/**
 	 * Id of a single sound effect to play.
 	 */
 	private SoundEffectId effectId;
@@ -64,7 +69,6 @@ public class PlaySoundEffect extends AbstractScriptCommand {
 			if ((effectIds == null) || effectIds.isEmpty()) {
 				LOGGER.warn("No sound effects configured to play.");
 			} else {
-				Random random = new Random();
 				int randomIndex = random.nextInt(effectIds.size());
 				playId = effectIds.get(randomIndex);
 			}

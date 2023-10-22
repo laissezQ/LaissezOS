@@ -98,8 +98,7 @@ public class Kernel {
 
 		// Set the initialized flag and update the master state of the chair for
 		// anyone that might be listening for master state changes. We start with
-		// the
-		// assumption that Q has started the chair so it will be fully enabled.
+		// the assumption that Q has started the chair so it will be fully enabled.
 		initialized = true;
 		chairState.setMasterState(MasterState.RUNNING);
 
@@ -110,23 +109,24 @@ public class Kernel {
 	 * Method invoke to terminate the kernel and its services.
 	 */
 	public void shutdown() {
-		
+
 		LOGGER.info("Shutting down kernel...");
 
-		// Shut down the services in particular order because of dependencies based on phases.
-		for( ShutdownPhase phase : ShutdownPhase.values()) {
-			
-			for( ServiceId serviceId : ServiceId.values()) {
-			
+		// Shut down the services in particular order because of dependencies based
+		// on phases.
+		for (ShutdownPhase phase : ShutdownPhase.values()) {
+
+			for (ServiceId serviceId : ServiceId.values()) {
+
 				if (serviceId.getShutdownPhase() == phase) {
 					LOGGER.info("Terminating service {} in phase {}...", serviceId, phase);
 				}
 			}
 		}
-		
+
 		LOGGER.info("Kernel shutdown.");
 	}
-	
+
 	// ----------------------------------------------------------------------------------------
 	// Public kernel operation methods.
 	// ----------------------------------------------------------------------------------------
@@ -197,12 +197,11 @@ public class Kernel {
 		LOGGER.debug("Run mode set: {}", runMode.getDescription());
 
 		// If the run mode means we are actually on a Raspberry PI, then we need to
-		// create the pi4jContext;
+		// construct the pi4jContext;
 		if (mode.getPlatform() == Platform.RaspberryPi) {
 			LOGGER.info("Initializing PI4J context...");
 			pi4jContext = Pi4J.newAutoContext();
-		} else
-		{
+		} else {
 			LOGGER.info("PI4J context not needed for this run mode.");
 		}
 	}
@@ -324,7 +323,7 @@ public class Kernel {
 		/**
 		 * Current master state of the chair.
 		 */
-		private ObjectProperty<MasterState> masterState = new SimpleObjectProperty<MasterState>(this, "masterState",
+		private ObjectProperty<MasterState> masterState = new SimpleObjectProperty<>(this, "masterState",
 				MasterState.BOOTING);
 
 		/**

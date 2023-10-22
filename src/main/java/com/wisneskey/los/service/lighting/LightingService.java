@@ -4,13 +4,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.wisneskey.los.error.LaissezException;
+import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.kernel.RunMode;
 import com.wisneskey.los.service.AbstractService;
 import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.lighting.driver.DummyLightingDriver;
 import com.wisneskey.los.service.lighting.driver.LightingDriver;
-import com.wisneskey.los.service.lighting.driver.NeoPixelLightingDriver;
+import com.wisneskey.los.service.lighting.driver.WLEDLightingDriver;
 import com.wisneskey.los.service.profile.model.Profile;
+import com.wisneskey.los.service.relay.RelayId;
+import com.wisneskey.los.service.relay.RelayService;
 import com.wisneskey.los.state.LightingState;
 
 import javafx.util.Pair;
@@ -59,6 +62,14 @@ public class LightingService extends AbstractService<LightingState> {
 	// Public methods.
 	// ----------------------------------------------------------------------------------------
 
+	public void runTest() {
+		
+		// Enable power to the lighting strip.
+		((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOn(RelayId.RELAY_7);
+		
+		lightingDriver.runTest();
+	}
+	
 	// ----------------------------------------------------------------------------------------
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
@@ -90,9 +101,8 @@ public class LightingService extends AbstractService<LightingState> {
 
 		lightingState = new InternalLightingState();
 
-		// Let the relay driver initialize itself based on the profile.
-		//Map<RelayId, Boolean> initialState = relayDriver.initialize(profile);
-		//relayState.setInitialState(initialState);
+		// Let the lighting driver initialize itself based on the profile.
+		lightingDriver.initialize(profile);
 
 		return lightingState;
 	}
@@ -119,7 +129,7 @@ public class LightingService extends AbstractService<LightingState> {
 		// Set the lighting driver based on the run mode.
 		switch (runMode) {
 		case CHAIR:
-			service.setLightingDriver(new NeoPixelLightingDriver(null, 0, 0));
+			service.setLightingDriver(new WLEDLightingDriver());
 			break;
 		case DEV:
 			service.setLightingDriver(new DummyLightingDriver());

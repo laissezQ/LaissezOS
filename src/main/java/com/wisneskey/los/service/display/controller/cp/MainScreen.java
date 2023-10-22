@@ -5,6 +5,7 @@ import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.display.controller.AbstractController;
 import com.wisneskey.los.service.display.listener.message.MessagesToTextAreaListener;
 import com.wisneskey.los.service.display.listener.relay.RelayWhilePressedListener;
+import com.wisneskey.los.service.lighting.LightingService;
 import com.wisneskey.los.service.relay.RelayId;
 import com.wisneskey.los.service.script.ScriptId;
 import com.wisneskey.los.service.security.SecurityService;
@@ -80,6 +81,7 @@ public class MainScreen extends AbstractController {
 				if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
 					if (mouseEvent.getClickCount() == 2) {
 						System.out.println("Double clicked");
+						((LightingService) Kernel.kernel().getService(ServiceId.LIGHTING)).runTest();
 					}
 				}
 			}

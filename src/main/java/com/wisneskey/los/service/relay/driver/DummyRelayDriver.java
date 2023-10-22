@@ -1,6 +1,6 @@
 package com.wisneskey.los.service.relay.driver;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -28,7 +28,7 @@ public class DummyRelayDriver implements RelayDriver {
 
 		LOGGER.debug("Initialized dummy relay driver.");
 
-		Map<RelayId, Boolean> stateMap = new HashMap<>();
+		Map<RelayId, Boolean> stateMap = new EnumMap<>(RelayId.class);
 		for (RelayId id : RelayId.values()) {
 			stateMap.put(id, Boolean.FALSE);
 		}

@@ -85,7 +85,7 @@ public class SparkFunGpsDriver implements GpsDriver {
 	public void initialize(Profile profile) {
 
 		LOGGER.debug("Initializing SparkFun GPS board driver...");
-		LOGGER.trace("Board I2C address: " + Integer.toHexString(I2C_ADDRESS));
+		LOGGER.trace("Board I2C address: {}", Integer.toHexString(I2C_ADDRESS));
 
 		Context pi4jContext = Kernel.kernel().getPi4jContext();
 		I2CProvider i2cProvider = pi4jContext.provider("linuxfs-i2c");
@@ -130,10 +130,10 @@ public class SparkFunGpsDriver implements GpsDriver {
 				updateSampleHistory(gsa, false);
 
 			} catch (DataNotAvailableException e) {
-				
+
 				// GPS is online but not returning a location yet.
 				updateSampleHistory(null, true);
-				
+
 			} catch (Exception e) {
 
 				LOGGER.warn("Failed to parse GPS location.", e);
@@ -228,9 +228,9 @@ public class SparkFunGpsDriver implements GpsDriver {
 			}
 
 			return Location.of(//
-					totalLatitude / (double) SMOOTHING_SAMPLES, //
-					totalLongitude / (double) SMOOTHING_SAMPLES, //
-					totalAltitude / (double) SMOOTHING_SAMPLES);
+					totalLatitude / SMOOTHING_SAMPLES, //
+					totalLongitude / SMOOTHING_SAMPLES, //
+					totalAltitude / SMOOTHING_SAMPLES);
 		}
 	}
 

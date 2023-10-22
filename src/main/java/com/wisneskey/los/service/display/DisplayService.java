@@ -2,7 +2,7 @@ package com.wisneskey.los.service.display;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -101,7 +101,7 @@ public class DisplayService extends AbstractService<DisplayState> {
 	/**
 	 * Map of scene id's to their loaded scenes.
 	 */
-	private Map<SceneId, Parent> sceneMap = new HashMap<>();
+	private Map<SceneId, Parent> sceneMap = new EnumMap<>(SceneId.class);
 
 	// ----------------------------------------------------------------------------------------
 	// Constructors.
@@ -135,10 +135,10 @@ public class DisplayService extends AbstractService<DisplayState> {
 	 *          Main stage for the SpringFX application.
 	 * @throws IOException
 	 */
-	public void initialize(Stage stage) throws IOException {
+	public void initialize(Stage stage) {
 
 		if (initialized) {
-			throw new RuntimeException("Display manager already initialized.");
+			throw new LaissezException("Display manager already initialized.");
 		}
 
 		// Log the screens
@@ -200,7 +200,7 @@ public class DisplayService extends AbstractService<DisplayState> {
 
 		Parent content = sceneMap.get(sceneId);
 		if (content == null) {
-			LOGGER.error("Scene not found: " + sceneId);
+			LOGGER.error("Scene not found: {}", sceneId);
 			return;
 		}
 
@@ -228,7 +228,7 @@ public class DisplayService extends AbstractService<DisplayState> {
 	 */
 	public void changeDisplayStyle(DisplayStyle newStyle) {
 
-		LOGGER.info("Changing display style: " + newStyle);
+		LOGGER.info("Changing display style: {}", newStyle);
 
 		if (newStyle == displayState.currentStyle().getValue()) {
 			// No change in styles so nothing to do.
@@ -291,7 +291,7 @@ public class DisplayService extends AbstractService<DisplayState> {
 	 */
 	private void applyStyle(DisplayStyle style) {
 
-		LOGGER.debug("Applying stylesheet: " + style);
+		LOGGER.debug("Applying stylesheet: {}", style);
 
 		String stylesheetLocation = null;
 
@@ -302,7 +302,7 @@ public class DisplayService extends AbstractService<DisplayState> {
 			if (stylesheetURL != null) {
 				stylesheetLocation = stylesheetURL.toString();
 			} else {
-				LOGGER.error("Stylesheet not found found for style: " + stylesheetPath);
+				LOGGER.error("Stylesheet not found found for style: {}", stylesheetPath);
 			}
 		}
 
@@ -337,7 +337,7 @@ public class DisplayService extends AbstractService<DisplayState> {
 		for (SceneId sceneId : SceneId.values()) {
 
 			String scenePath = SCENE_RESOURCE_BASE + sceneId.getDisplayId() + "/" + sceneId.getFxmlName() + ".fxml";
-			LOGGER.debug("Loading scene: " + scenePath);
+			LOGGER.debug("Loading scene: {}", scenePath);
 
 			URL sceneURL = this.getClass().getResource(scenePath);
 			if (sceneURL == null) {

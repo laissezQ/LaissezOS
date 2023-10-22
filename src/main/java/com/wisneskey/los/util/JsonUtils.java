@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.wisneskey.los.error.LaissezException;
 import com.wisneskey.los.service.script.command.ScriptCommand;
 
 /**
@@ -69,7 +70,7 @@ public class JsonUtils {
 		try {
 			return JSON_MAPPER.writeValueAsString(object);
 		} catch (JsonProcessingException e) {
-			throw new RuntimeException("Failed to write object as JSON string.", e);
+			throw new LaissezException("Failed to write object as JSON string.", e);
 		}
 	}
 
@@ -88,7 +89,7 @@ public class JsonUtils {
 		try {
 			return JSON_MAPPER.readValue(source, objectClass);
 		} catch (Exception e) {
-			throw new RuntimeException("Failed to parse JSON string to object.", e);
+			throw new LaissezException("Failed to parse JSON string to object.", e);
 		}
 	}
 
@@ -108,7 +109,7 @@ public class JsonUtils {
 		try {
 			return JSON_MAPPER.readValue(input, objectClass);
 		} catch (Exception e) {
-			throw new RuntimeException("Failed to parse JSON string to object.", e);
+			throw new LaissezException("Failed to parse JSON string to object.", e);
 		}
 	}
 

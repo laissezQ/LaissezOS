@@ -44,8 +44,8 @@ public class LaissezOS {
 		// Parse the CLI to set the boot configuration
 		try {
 			parseCommandLine(args, bootConfig);
-		} catch (Throwable t) {
-			LOGGER.error("Failed to parse command line: " + t.getMessage());
+		} catch (Exception t) {
+			LOGGER.error("Failed to parse command line: {}", t.getMessage());
 			return;
 		}
 

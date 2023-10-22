@@ -214,7 +214,7 @@ public class LocationService extends AbstractService<LocationState> {
 
 		private BooleanProperty hasFix = new SimpleBooleanProperty(false);
 
-		private ObjectProperty<Location> location = new SimpleObjectProperty<Location>();
+		private ObjectProperty<Location> location = new SimpleObjectProperty<>();
 
 		// ----------------------------------------------------------------------------------------
 		// LocationState methods.

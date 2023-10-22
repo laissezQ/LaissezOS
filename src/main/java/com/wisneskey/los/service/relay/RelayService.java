@@ -219,7 +219,7 @@ public class RelayService extends AbstractService<RelayState> {
 
 		private void setInitialState(Map<RelayId, Boolean> initialStateMap) {
 			stateMap = initialStateMap.entrySet().stream()
-					.collect(Collectors.toMap(Map.Entry::getKey, (e) -> new SimpleBooleanProperty(e.getValue())));
+					.collect(Collectors.toMap(Map.Entry::getKey, e -> new SimpleBooleanProperty(e.getValue())));
 		}
 
 		private void updateState(RelayId relayId, boolean state) {

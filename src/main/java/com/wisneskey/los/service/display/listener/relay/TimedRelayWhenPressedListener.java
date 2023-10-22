@@ -51,7 +51,7 @@ public class TimedRelayWhenPressedListener implements ChangeListener<Boolean> {
 	@Override
 	public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean pressed) {
 
-		if (pressed) {
+		if (pressed.booleanValue()) {
 			Kernel.kernel().message(message);
 			((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOn(relayId, duration);
 		}

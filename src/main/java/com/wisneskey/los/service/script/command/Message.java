@@ -23,6 +23,11 @@ public class Message extends AbstractScriptCommand {
 	public static final double DEFAULT_MESSAGE_INTERVAL_VARIANCE = 0.25;
 
 	/**
+	 * Random generator to use to generate randomized message output intervals.
+	 */
+	private Random random = new Random();
+
+	/**
 	 * Single message to write (takes precedence over multiple messages.)
 	 */
 	private String message;
@@ -89,14 +94,14 @@ public class Message extends AbstractScriptCommand {
 		if (getMessage() != null) {
 			Kernel.kernel().message(message);
 		} else if (getMessages() != null) {
-
+			
 			for (int index = 0; index < messages.size(); index++) {
 
 				Kernel.kernel().message(messages.get(index));
 
 				// Only pause between messages; do not pause after last message.
 				if (index < messages.size() - 1) {
-					double variance = new Random().doubles(getMessageIntervalVariance() * -1.0, getMessageIntervalVariance())
+					double variance = random.doubles(getMessageIntervalVariance() * -1.0, getMessageIntervalVariance())
 							.findFirst().getAsDouble();
 					sleepForSecond(getMessageInterval() + variance);
 				}

@@ -28,12 +28,12 @@ public class Profile {
 	 * Default latitude for initial location.
 	 */
 	private static final double DEFAULT_LATITUDE = 35.6420206;
-	
+
 	/**
 	 * Default longitude for initial location.
 	 */
 	private static final double DEFAULT_LONGITUDE = -105.9889903;
-	
+
 	/**
 	 * Default altitude for initial location.
 	 */
@@ -58,7 +58,7 @@ public class Profile {
 	 * Style for the UI on the displays.
 	 */
 	private DisplayStyle displayStyle = DEFAULT_DISPLAY_STYLE;
-	
+
 	/**
 	 * 4 digit PIN code to unlock chair.
 	 */
@@ -68,34 +68,29 @@ public class Profile {
 	 * Latitude for initial chair location.
 	 */
 	private double initialLatitude = DEFAULT_LATITUDE;
-	
+
 	/**
 	 * Longitude for initial chair location.
 	 */
 	private double initialLongitude = DEFAULT_LONGITUDE;
-	
+
 	/**
 	 * Altitude for initial chair location.
 	 */
 	private double initialAltitude = DEFAULT_ALTITUDE;
-	
+
 	/**
 	 * Script to run at boot.
 	 */
 	private ScriptId bootScript = DEFAULT_BOOT_SCRIPT;
-			
-	/**
-	 * Optional script to run when chair is unlocked.
-	 */
-	private ScriptId unlockedScript;
 
 	/**
-	 * Optional script to run when wrong PIN code is entered.
+	 * Address of the WLED host for controlling the lighting.
 	 */
-	private ScriptId unlockFailedScript;
+	private String wledHostAddress;
 
 	// ----------------------------------------------------------------------------------------
-	// Property getters/setters.
+	// General property getters.
 	// ----------------------------------------------------------------------------------------
 
 	/**
@@ -125,6 +120,10 @@ public class Profile {
 		return supportedRunModes;
 	}
 
+	// ----------------------------------------------------------------------------------------
+	// Display service property getters.
+	// ----------------------------------------------------------------------------------------
+
 	/**
 	 * Returns the style to use for the UI displays.
 	 * 
@@ -133,6 +132,54 @@ public class Profile {
 	public DisplayStyle getDisplayStyle() {
 		return displayStyle;
 	}
+
+	// ----------------------------------------------------------------------------------------
+	// Lighting service property getters.
+	// ----------------------------------------------------------------------------------------
+
+	/**
+	 * Returns the name or address of the host for the WLED lighting controller.
+	 * 
+	 * @return Host name or IP address for the WLED lighting controller.
+	 */
+	public String getWledHostAddress() {
+		return wledHostAddress;
+	}
+
+	// ----------------------------------------------------------------------------------------
+	// Location service property getters.
+	// ----------------------------------------------------------------------------------------
+
+	/**
+	 * Returns the initial latitude to be reported from the location service.
+	 * 
+	 * @return Latitude of the initial chair position.
+	 */
+	public double getInitialLatitude() {
+		return initialLatitude;
+	}
+
+	/**
+	 * Returns the initial longitude to be reported from the location service.
+	 * 
+	 * @return Longitude of the initial chair position.
+	 */
+	public double getInitialLongitude() {
+		return initialLongitude;
+	}
+
+	/**
+	 * Returns the initial altitude to be reported from the location service.
+	 * 
+	 * @return Altitude of the initial chair position.
+	 */
+	public double getInitialAltitude() {
+		return initialAltitude;
+	}
+
+	// ----------------------------------------------------------------------------------------
+	// Security service property getters.
+	// ----------------------------------------------------------------------------------------
 
 	/**
 	 * 4 digit numeric code required to unlock chair.
@@ -143,18 +190,6 @@ public class Profile {
 		return pinCode;
 	}
 
-	public double getInitialLatitude() {
-		return initialLatitude;
-	}
-
-	public double getInitialLongitude() {
-		return initialLongitude;
-	}
-
-	public double getInitialAltitude() {
-		return initialAltitude;
-	}
-
 	/**
 	 * Returns the script to run for the boot sequence.
 	 * 
@@ -162,14 +197,5 @@ public class Profile {
 	 */
 	public ScriptId getBootScript() {
 		return bootScript;
-	}
-
-
-	public ScriptId getUnlockedScript() {
-		return unlockedScript;
-	}
-
-	public ScriptId getUnlockFailedScript() {
-		return unlockFailedScript;
 	}
 }
