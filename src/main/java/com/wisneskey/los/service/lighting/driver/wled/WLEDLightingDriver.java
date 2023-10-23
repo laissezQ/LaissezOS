@@ -1,7 +1,13 @@
-package com.wisneskey.los.service.lighting.driver;
+package com.wisneskey.los.service.lighting.driver.wled;
 
+import com.wisneskey.los.service.lighting.driver.LightingDriver;
 import com.wisneskey.los.service.profile.model.Profile;
 
+/**
+ * Driver for controlling lights with the WLED application running on a host.
+ * 
+ * @author paul.wisneskey@gmail.com
+ */
 public class WLEDLightingDriver implements LightingDriver {
 
 	@Override

@@ -10,7 +10,7 @@ import com.wisneskey.los.service.AbstractService;
 import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.lighting.driver.DummyLightingDriver;
 import com.wisneskey.los.service.lighting.driver.LightingDriver;
-import com.wisneskey.los.service.lighting.driver.WLEDLightingDriver;
+import com.wisneskey.los.service.lighting.driver.wled.WLEDLightingDriver;
 import com.wisneskey.los.service.profile.model.Profile;
 import com.wisneskey.los.service.relay.RelayId;
 import com.wisneskey.los.service.relay.RelayService;
