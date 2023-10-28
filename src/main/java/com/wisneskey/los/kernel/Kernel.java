@@ -119,7 +119,10 @@ public class Kernel {
 			for (ServiceId serviceId : ServiceId.values()) {
 
 				if (serviceId.getShutdownPhase() == phase) {
+					
 					LOGGER.info("Terminating service {} in phase {}...", serviceId, phase);
+					Service<?> service = getService(serviceId);
+					service.terminate();
 				}
 			}
 		}
@@ -131,6 +134,15 @@ public class Kernel {
 	// Public kernel operation methods.
 	// ----------------------------------------------------------------------------------------
 
+	/**
+	 * Returns true if the kernel is initialized and false otherwise.
+	 * 
+	 * @return True iff the kernel is initialized.
+	 */
+	public boolean isInitialized() {
+		return initialized;
+	}
+	
 	/**
 	 * Returns the indicator that designates what environment the application is
 	 * being run in.

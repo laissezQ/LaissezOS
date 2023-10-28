@@ -54,6 +54,10 @@ public class BootLoader extends Application {
 
 		LOGGER.info("Boot loader starting: runMode={} profile={}", runMode, profileName);
 
+		// Install a shutdown hook with the JVM to catch when the JVM is interrupted and we
+		// may need to shutdown the kernel.
+		Runtime.getRuntime().addShutdownHook(new FallbackShutdownHook());
+		
 		// Get what should be the uninitialized kernel.
 		Kernel kernel = Kernel.kernel();
 
@@ -71,7 +75,7 @@ public class BootLoader extends Application {
 		Profile profile = profileServiceDetails.getValue().activeProfile().getValue();
 
 		// Register the other services which will use the active profile to
-		// configure themselves.  Initialize the relay service first since some
+		// configure themselves. Initialize the relay service first since some
 		// of the other services may need to energize supporting circuits when
 		// the initialize (e.g. lighting and audio).
 		kernel.registerService(RelayService.createService(runMode, profile));
@@ -113,5 +117,28 @@ public class BootLoader extends Application {
 		Profile profile = ((ProfileState) Kernel.kernel().chairState().getServiceState(ServiceId.PROFILE)).activeProfile()
 				.get();
 		((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(profile.getBootScript());
+	}
+
+	// ----------------------------------------------------------------------------------------
+	// Inner classes.
+	// ----------------------------------------------------------------------------------------
+
+	/**
+	 * Shutdown hook that is called when the JVM is shutting down. If the kernel
+	 * is still initialized, it tells the kernel to shutdown. This occurs when the
+	 * JVM was interrupted with something like a control break.
+	 */
+	private static class FallbackShutdownHook extends Thread {
+
+		@Override
+		public void run() {
+
+			Kernel kernel = Kernel.kernel();
+
+			if ((kernel != null) && kernel.isInitialized()) {
+				LOGGER.warn("JVM was interrupted; invoking fallback kernel shutdown...");
+				kernel.shutdown();
+			}
+		}
 	}
 }

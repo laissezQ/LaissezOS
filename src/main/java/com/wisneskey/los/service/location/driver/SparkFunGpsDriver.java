@@ -321,6 +321,7 @@ public class SparkFunGpsDriver implements GpsDriver {
 						Thread.sleep(GPS_SLEEP_MS);
 					} catch (InterruptedException e) {
 						LOGGER.info("Interrupted during GPS sleep.");
+						Thread.currentThread().interrupt();
 						break;
 					}
 				}

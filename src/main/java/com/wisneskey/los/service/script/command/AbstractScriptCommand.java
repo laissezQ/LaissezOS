@@ -44,6 +44,7 @@ public abstract class AbstractScriptCommand implements ScriptCommand {
 			Thread.sleep((long) (seconds * MILLISECONDS_PER_SECOND));
 		} catch (InterruptedException e) {
 			LOGGER.warn("Interrupted while sleeping.");
+			Thread.currentThread().interrupt();
 		}
 	}
 }

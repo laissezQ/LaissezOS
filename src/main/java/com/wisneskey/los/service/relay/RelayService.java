@@ -254,6 +254,7 @@ public class RelayService extends AbstractService<RelayState> {
 				Thread.sleep(duration.toMillis());
 			} catch (InterruptedException e) {
 				LOGGER.warn("Interrupted waiting for relay duration to elapsed.");
+				Thread.currentThread().interrupt();
 			} finally {
 
 				// Turn off relay no matter what.

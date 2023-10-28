@@ -74,6 +74,7 @@ public class LocationService extends AbstractService<LocationState> {
 			driverPoller.join();
 		} catch (InterruptedException e) {
 			LOGGER.warn("Interrupted exception waiting for driver poller thread to shutdown.");
+			Thread.currentThread().interrupt();
 		}
 
 		LOGGER.trace("Location service terminated.");
@@ -193,6 +194,7 @@ public class LocationService extends AbstractService<LocationState> {
 					Thread.sleep(GPS_POLL_INTERVAL_MS);
 				} catch (InterruptedException e) {
 					LOGGER.warn("Interrupted duriog driver poller sleep.");
+					Thread.currentThread().interrupt();
 					break;
 				}
 

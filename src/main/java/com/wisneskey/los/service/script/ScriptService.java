@@ -74,9 +74,10 @@ public class ScriptService extends AbstractService<ScriptState> {
 				runner.join();
 			} catch (InterruptedException e) {
 				LOGGER.warn("Interrupted waiting for script runner thread to terminate.");
+				Thread.currentThread().interrupt();
 			}
 		}
-		
+
 		LOGGER.trace("Script service terminated.");
 	}
 
@@ -221,6 +222,7 @@ public class ScriptService extends AbstractService<ScriptState> {
 						Thread.sleep((long) (command.getPostCommandPause() * MILLISECONDS_PER_SECOND));
 					} catch (InterruptedException e) {
 						LOGGER.warn("Interrupted while in pause.");
+						Thread.currentThread().interrupt();
 					}
 				}
 			}
