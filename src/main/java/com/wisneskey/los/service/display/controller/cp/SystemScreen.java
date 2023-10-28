@@ -2,10 +2,12 @@ package com.wisneskey.los.service.display.controller.cp;
 
 import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.service.ServiceId;
+import com.wisneskey.los.service.display.DisplayId;
 import com.wisneskey.los.service.display.DisplayService;
 import com.wisneskey.los.service.display.SceneId;
 import com.wisneskey.los.service.display.controller.AbstractController;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
@@ -30,12 +32,6 @@ public class SystemScreen extends AbstractController {
 	private Button exitButton;
 
 	/**
-	 * Button to shutdown the Raspberry Pi.
-	 */
-	@FXML
-	private Button shutdownButton;
-
-	/**
 	 * Button to return to normal chair operation.
 	 */
 	@FXML
@@ -58,13 +54,22 @@ public class SystemScreen extends AbstractController {
 	 */
 	public void exitPressed() {
 
-	}
+		boolean confirmed = ((DisplayService) Kernel.kernel().getService(ServiceId.DISPLAY)) //
+				.showConfirmation(DisplayId.CP, //
+						"Confirm Exit", //
+						"LaissezOS exit has been requested!", "Do you want to exit LaissezOS?");
 
-	/**
-	 * Method invoked by the shutdown button.
-	 */
-	public void shutdownPressed() {
+		if (confirmed) {
+			Kernel.kernel().message("Exiting LaissezOS...\n");
+			
+			// Switch back to main screens so the termination messages are visible.
+			((DisplayService) Kernel.kernel().getService(ServiceId.DISPLAY)).showScene(SceneId.CP_MAIN_SCREEN);
+			((DisplayService) Kernel.kernel().getService(ServiceId.DISPLAY)).showScene(SceneId.HUD_MAIN_SCREEN);
 
+			// Exit the JavaFX application and then make sure the Swing windows are gone.
+			Platform.exit();
+			System.exit(0);
+		}
 	}
 
 	/**

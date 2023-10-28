@@ -25,14 +25,6 @@
             <DropShadow />
          </effect>
       </ImageView>
-      <Button fx:id="shutdownButton" layoutX="53.0" layoutY="345.0" mnemonicParsing="false" onAction="#shutdownPressed" prefHeight="80.0" prefWidth="294.0" text="Shutdown ">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-         <effect>
-            <DropShadow />
-         </effect>
-      </Button>
       <Button fx:id="exitButton" layoutX="53.0" layoutY="248.0" mnemonicParsing="false" onAction="#exitPressed" prefHeight="80.0" prefWidth="294.0" text="Exit LaissezOS">
          <font>
             <Font name="System Bold" size="18.0" />
@@ -41,7 +33,7 @@
             <DropShadow />
          </effect>
       </Button>
-      <Line endX="190.0" layoutX="195.0" layoutY="480.0" startX="-180.0">
+      <Line endX="190.0" layoutX="196.0" layoutY="384.0" startX="-180.0">
          <effect>
             <DropShadow />
          </effect>

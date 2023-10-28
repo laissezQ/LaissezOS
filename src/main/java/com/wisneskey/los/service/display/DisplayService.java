@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -239,6 +242,39 @@ public class DisplayService extends AbstractService<DisplayState> {
 		// Apply the style and then update our state.
 		applyStyle(newStyle);
 		displayState.setCurrentStyle(newStyle);
+	}
+
+	/**
+	 * Presents a confirmation dialog. Intended to be used only for hidden system
+	 * processing and not normal chair operation.
+	 * 
+	 * @return True if operation is confirmed; false otherwise.
+	 */
+	public boolean showConfirmation(DisplayId displayId, String title, String header, String content) {
+
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+		alert.setTitle(title);
+		alert.setHeaderText(header);
+		alert.setContentText(content);
+		alert.setResizable(false);
+		alert.setWidth(CONTROL_PANEL_WIDTH);
+
+		switch (displayId) {
+		case CP:
+			alert.initOwner(cpStage);
+			break;
+		case HUD:
+			alert.initOwner(hudStage);
+			break;
+		}
+		
+		Optional<ButtonType> option = alert.showAndWait();
+
+		if (option.isPresent() && (option.get() == ButtonType.OK)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	// ----------------------------------------------------------------------------------------
