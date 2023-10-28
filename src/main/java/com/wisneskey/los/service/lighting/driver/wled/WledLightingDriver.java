@@ -22,7 +22,15 @@ public class WledLightingDriver implements LightingDriver {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(WledLightingDriver.class);
 
+	/**
+	 * Flag indicating if we found the WLED controller and could communicate with
+	 * it.
+	 */
 	private boolean online = false;
+
+	/**
+	 * Client to use for communicating with the WLED controller via its JSON API.
+	 */
 	private WledClient controllerClient;
 
 	// ----------------------------------------------------------------------------------------

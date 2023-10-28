@@ -13,9 +13,13 @@ import javax.sound.sampled.DataLine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.wisneskey.los.kernel.Kernel;
+import com.wisneskey.los.kernel.RunMode;
 import com.wisneskey.los.service.AbstractService;
 import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.profile.model.Profile;
+import com.wisneskey.los.service.relay.RelayId;
+import com.wisneskey.los.service.relay.RelayService;
 import com.wisneskey.los.state.AudioState;
 import com.wisneskey.los.util.StopWatch;
 
@@ -81,14 +85,23 @@ public class AudioService extends AbstractService<AudioState> {
 	// ----------------------------------------------------------------------------------------
 
 	/**
-	 * Creates the initial state of the service using the supplied profile for
-	 * configuration.
+	 * Initializes the audio services and returns its initial state.
 	 * 
 	 * @param profile
 	 *          Profile to use for configuring initial service state.
 	 * @return Configured state object for the service.
 	 */
-	private AudioState createInitialState(Profile profile) {
+	private AudioState initialize(Profile profile) {
+		
+		LOGGER.info("Initializing audio service...");
+		
+		if( Kernel.kernel().getRunMode() == RunMode.CHAIR ) {
+
+			// If we are running on the chair itself, we need to toggle the relay that
+			// enables power to the amplifier board.			
+			((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOn(RelayId.AMPLIFIER);
+		}
+		
 		audioState = new InternalAudioState();
 		return audioState;
 	}
@@ -108,7 +121,7 @@ public class AudioService extends AbstractService<AudioState> {
 	public static Pair<AudioService, AudioState> createService(Profile profile) {
 
 		AudioService service = new AudioService();
-		AudioState state = service.createInitialState(profile);
+		AudioState state = service.initialize(profile);
 		return new Pair<>(service, state);
 	}
 
