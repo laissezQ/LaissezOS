@@ -12,8 +12,7 @@ public enum SoundEffectId {
 	MISC_PIXABAY_SHUTDOWN("misc/pixabay_shutdown.wav", "Shut it all down."),
 
 	MOVIE_ALIEN_GAME_OVER("movie/alien_game_over.wav", "Game over man!"),
-	MOVIE_BLADE_RUNNER_TIME_TO_DIE("movie/blade_runner_time_to_die/wav", "...time to die."),
-	
+	MOVIE_BLADE_RUNNER_TIME_TO_DIE("movie/blade_runner_time_to_die.wav", "...time to die."),
 	MOVIE_HAL_OPERATIONAL("movie/hal_operational.wav", "I'm completely operational..."),
 	MOVIE_HAL_SORRY_DAVE("movie/hal_sorry_dave.wav", "I'm afraid I can't do that..."),
 	MOVIE_IJ_CHOSEN_WISELY("movie/indianajones_chosen_wisely.wav", "You have chosen wisely..."),

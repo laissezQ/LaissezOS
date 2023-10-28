@@ -110,6 +110,10 @@ public class Kernel {
 	 */
 	public void shutdown() {
 
+		if( ! initialized ) {
+			return;
+		}
+		
 		LOGGER.info("Shutting down kernel...");
 
 		// Shut down the services in particular order because of dependencies based
@@ -127,6 +131,7 @@ public class Kernel {
 			}
 		}
 
+		initialized = false;
 		LOGGER.info("Kernel shutdown.");
 	}
 

@@ -54,10 +54,11 @@ public class BootLoader extends Application {
 
 		LOGGER.info("Boot loader starting: runMode={} profile={}", runMode, profileName);
 
-		// Install a shutdown hook with the JVM to catch when the JVM is interrupted and we
+		// Install a shutdown hook with the JVM to catch when the JVM is interrupted
+		// and we
 		// may need to shutdown the kernel.
 		Runtime.getRuntime().addShutdownHook(new FallbackShutdownHook());
-		
+
 		// Get what should be the uninitialized kernel.
 		Kernel kernel = Kernel.kernel();
 
@@ -119,6 +120,19 @@ public class BootLoader extends Application {
 		((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(profile.getBootScript());
 	}
 
+	@Override
+	public void stop() {
+
+		// Shut down the kernel.
+		Kernel.kernel().shutdown();
+
+		// Finally we must use System.exit() because the Swing Event Dispatch Thread
+		// is not terminated. This thread exists because of the JavaFX swing
+		// component we use for the map display. I have not found a way
+		// to dispose of this component that causes the AWS thread to be terminated.
+		System.exit(0);
+
+	}
 	// ----------------------------------------------------------------------------------------
 	// Inner classes.
 	// ----------------------------------------------------------------------------------------
