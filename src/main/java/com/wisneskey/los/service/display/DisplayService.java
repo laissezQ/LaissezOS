@@ -82,6 +82,16 @@ public class DisplayService extends AbstractService<DisplayState> {
 	private static final double CONTROL_PANEL_HEIGHT = 1280.0;
 
 	/**
+	 * Height of the behind the scenes alert dialog.
+	 */
+	private static final double ALERT_WIDTH = 380.0;
+
+	/**
+	 * Height of the behind the scenes alert dialog.
+	 */
+	private static final double ALERT_HEIGHT = 240.0;
+
+	/**
 	 * Internal service state object.
 	 */
 	private InternalDisplayState displayState;
@@ -252,22 +262,17 @@ public class DisplayService extends AbstractService<DisplayState> {
 	 */
 	public boolean showConfirmation(DisplayId displayId, String title, String header, String content) {
 
-		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION, content, ButtonType.OK, ButtonType.CANCEL);
 		alert.setTitle(title);
 		alert.setHeaderText(header);
-		alert.setContentText(content);
 		alert.setResizable(false);
-		alert.setWidth(CONTROL_PANEL_WIDTH);
+		alert.setWidth(ALERT_WIDTH);
+		alert.setHeight(ALERT_HEIGHT);
 
-		switch (displayId) {
-		case CP:
-			alert.initOwner(cpStage);
-			break;
-		case HUD:
-			alert.initOwner(hudStage);
-			break;
-		}
-		
+		Stage targetStage = (displayId == DisplayId.CP) ? cpStage : hudStage;
+		alert.initOwner(targetStage);
+		alert.setX(centerOn(targetStage.getX(), targetStage.getWidth(), alert.getWidth()));
+		alert.setX(centerOn(targetStage.getY(), targetStage.getHeight(), alert.getHeight()));
 		Optional<ButtonType> option = alert.showAndWait();
 
 		if (option.isPresent() && (option.get() == ButtonType.OK)) {
@@ -280,6 +285,20 @@ public class DisplayService extends AbstractService<DisplayState> {
 	// ----------------------------------------------------------------------------------------
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
+
+	/**
+	 * Calculate the offset necessary to center a component on top of another one.
+	 * 
+	 * @param targetPosition Position of the target that is being centered on.
+	 * @param targetMeasurement
+	 *          Measurement of the target that is being centered on.
+	 * @param measurement
+	 *          Measurement of what is being centered.
+	 * @return Position that will center the component on top of the target.
+	 */
+	private double centerOn(double targetPosition, double targetMeasurement, double measurement) {
+		return targetPosition + (targetMeasurement / 2.0) - (measurement / 2.0);
+	}
 
 	/**
 	 * Configure the two display windows for development mode.
