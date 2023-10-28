@@ -8,8 +8,7 @@ import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.lighting.driver.LightingDriver;
 import com.wisneskey.los.service.lighting.driver.wled.client.WledClient;
-import com.wisneskey.los.service.lighting.driver.wled.client.model.info.Info;
-import com.wisneskey.los.service.lighting.driver.wled.client.model.state.State;
+import com.wisneskey.los.service.lighting.driver.wled.client.model.Summary;
 import com.wisneskey.los.service.profile.model.Profile;
 import com.wisneskey.los.service.relay.RelayId;
 import com.wisneskey.los.service.relay.RelayService;
@@ -56,26 +55,29 @@ public class WledLightingDriver implements LightingDriver {
 
 		controllerClient = WledClient.create(profile.getWledHostAddress());
 
+		Summary summary;
 		try {
 			// Verify the connection by requesting the info from the controller.
-			Info info = controllerClient.getInfo();
-			State state = controllerClient.getState();
+			summary = controllerClient.getSummary();
 			online = true;
-			LOGGER.info("Connected to WLED lighting driver: name={}", info.getName());
+			LOGGER.info("Connected to WLED lighting driver: name={}", summary.getInfo().getName());
 
-			
 		} catch (Exception e) {
 			LOGGER.error("Failed to initialize lighting driver: {}", e.getMessage());
 			online = false;
 		}
 
-		if (online) {
-
-			// If we were able to talk to the controller, go ahead and energize
-			// the relays to enable power to the LED lighting on both sides of the
-			// chair.
-			((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOn(RelayId.LIGHTING_A);
-			((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOn(RelayId.LIGHTING_B);
+		if (!online) {
+			return;
 		}
+
+		// TODO: Validate the information we obtained from the controller to make
+		// sure its configuration matches what we expect in terms of lighting segments, etc.
+
+		// If we were able to talk to the controller, go ahead and energize
+		// the relays to enable power to the LED lighting on both sides of the
+		// chair.
+		((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOn(RelayId.LIGHTING_A);
+		((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOn(RelayId.LIGHTING_B);
 	}
 }

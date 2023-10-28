@@ -1,5 +1,6 @@
 package com.wisneskey.los.service.lighting.driver.wled.client.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wisneskey.los.service.lighting.driver.wled.client.model.info.Info;
 import com.wisneskey.los.service.lighting.driver.wled.client.model.state.State;
 
@@ -15,9 +16,16 @@ import com.wisneskey.los.service.lighting.driver.wled.client.model.state.State;
  */
 public class Summary {
 
+	@JsonProperty("effects")
 	private Effects effects;
+	
+	@JsonProperty("info")
 	private Info info;
+	
+	@JsonProperty("palettes")
 	private Palettes palettes;
+
+	@JsonProperty("state")
 	private State state;
 
 	// ----------------------------------------------------------------------------------------

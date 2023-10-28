@@ -12,12 +12,14 @@ import com.mashape.unirest.request.HttpRequestWithBody;
 import com.wisneskey.los.error.LaissezException;
 import com.wisneskey.los.service.lighting.driver.wled.client.model.Effects;
 import com.wisneskey.los.service.lighting.driver.wled.client.model.Palettes;
+import com.wisneskey.los.service.lighting.driver.wled.client.model.Summary;
 import com.wisneskey.los.service.lighting.driver.wled.client.model.info.Info;
 import com.wisneskey.los.service.lighting.driver.wled.client.model.state.State;
 import com.wisneskey.los.service.lighting.driver.wled.client.request.GetEffectsRequest;
 import com.wisneskey.los.service.lighting.driver.wled.client.request.GetInfoRequest;
 import com.wisneskey.los.service.lighting.driver.wled.client.request.GetPalettesRequest;
 import com.wisneskey.los.service.lighting.driver.wled.client.request.GetStateRequest;
+import com.wisneskey.los.service.lighting.driver.wled.client.request.GetSummaryRequest;
 import com.wisneskey.los.service.lighting.driver.wled.client.request.Request;
 import com.wisneskey.los.service.lighting.driver.wled.client.request.Request.RequestParameter;
 import com.wisneskey.los.service.lighting.driver.wled.client.request.Request.RequestType;
@@ -48,6 +50,11 @@ public class WledClient {
 	 * Request to use to get the state from the controller.
 	 */
 	private static final GetStateRequest GET_STATE_REQUEST = new GetStateRequest();
+
+	/**
+	 * Request to use to get the summary of all information from the controller.
+	 */
+	private static final GetSummaryRequest GET_SUMMARY_REQUEST = new GetSummaryRequest();
 
 	/**
 	 * URL of the WLED instance the client is for.
@@ -108,6 +115,15 @@ public class WledClient {
 	 */
 	public State getState() {
 		return request(GET_STATE_REQUEST);
+	}
+
+	/**
+	 * Return the summary of the controller.
+	 * 
+	 * @return Summary object representing all information from the controller.
+	 */
+	public Summary getSummary() {
+		return request(GET_SUMMARY_REQUEST);
 	}
 
 	// ----------------------------------------------------------------------------------------
