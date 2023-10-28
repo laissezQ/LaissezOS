@@ -2,10 +2,11 @@ package com.wisneskey.los.service.display.controller.cp;
 
 import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.service.ServiceId;
+import com.wisneskey.los.service.display.DisplayService;
+import com.wisneskey.los.service.display.SceneId;
 import com.wisneskey.los.service.display.controller.AbstractController;
 import com.wisneskey.los.service.display.listener.message.MessagesToTextAreaListener;
 import com.wisneskey.los.service.display.listener.relay.RelayWhilePressedListener;
-import com.wisneskey.los.service.lighting.LightingService;
 import com.wisneskey.los.service.relay.RelayId;
 import com.wisneskey.los.service.script.ScriptId;
 import com.wisneskey.los.service.security.SecurityService;
@@ -81,17 +82,7 @@ public class MainScreen extends AbstractController {
 		RelayWhilePressedListener.add(footrestDownButton, RelayId.B_RETRACT, "B retract...\n");
 		RelayWhilePressedListener.add(footrestUpButton, RelayId.B_EXTEND, "B extend...\n");
 
-		logo.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent mouseEvent) {
-				if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
-					if (mouseEvent.getClickCount() == 2) {
-						System.out.println("Double clicked");
-						((LightingService) Kernel.kernel().getService(ServiceId.LIGHTING)).runTest();
-					}
-				}
-			}
-		});
+		logo.setOnMouseClicked(new LogoClickHandler());
 	}
 
 	/**
@@ -101,5 +92,27 @@ public class MainScreen extends AbstractController {
 
 		((SecurityService) Kernel.kernel().getService(ServiceId.SECURITY)).lockChair(SecurityService.DEFAULT_LOCK_MESSAGE,
 				ScriptId.SECURITY_UNLOCKED, ScriptId.SECURITY_UNLOCK_FAILED, null, null);
+	}
+
+	// ----------------------------------------------------------------------------------------
+	// Inner classes.
+	// ----------------------------------------------------------------------------------------
+
+	/**
+	 * Mouse event handler that opens the secret system menu if the logo is
+	 * double-clicked.
+	 */
+	private static class LogoClickHandler implements EventHandler<MouseEvent> {
+
+		public void handle(MouseEvent mouseEvent) {
+
+			if ((mouseEvent.getButton().equals(MouseButton.PRIMARY)) && (mouseEvent.getClickCount() == 2)) {
+
+				Kernel.kernel().message("Chair operation suspended...\n");
+				((DisplayService) Kernel.kernel().getService(ServiceId.DISPLAY)).showScene(SceneId.CP_SYSTEM_SCREEN);
+				((DisplayService) Kernel.kernel().getService(ServiceId.DISPLAY)).showScene(SceneId.HUD_SPLASH_SCREEN);
+			}
+		}
+
 	}
 }
