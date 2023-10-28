@@ -64,12 +64,9 @@ public class TimedRelayWhenPressedListener implements ChangeListener<Boolean> {
 	/**
 	 * Static utility method to add the listener to a JavaFX node.
 	 * 
-	 * @param node
-	 *          Node to add the listener to.
-	 * @param relayId
-	 *          Id of the relay to toggle.
-	 * @param duration
-	 *          Duration to turn relay on for.
+	 * @param node     Node to add the listener to.
+	 * @param relayId  Id of the relay to toggle.
+	 * @param duration Duration to turn relay on for.
 	 */
 	public static void add(Node node, RelayId relayId, Duration duration) {
 		node.pressedProperty().addListener(new TimedRelayWhenPressedListener(relayId, duration, null));
@@ -78,14 +75,10 @@ public class TimedRelayWhenPressedListener implements ChangeListener<Boolean> {
 	/**
 	 * Static utility method to add the listener to a JavaFX node.
 	 * 
-	 * @param node
-	 *          Node to add the listener to.
-	 * @param relayId
-	 *          Id of the relay to toggle.
-	 * @param duration
-	 *          Duration to turn relay on for.
-	 * @param message
-	 *          Message to display.
+	 * @param node     Node to add the listener to.
+	 * @param relayId  Id of the relay to toggle.
+	 * @param duration Duration to turn relay on for.
+	 * @param message  Message to display.
 	 */
 	public static void add(Node node, RelayId relayId, Duration duration, String message) {
 		node.pressedProperty().addListener(new TimedRelayWhenPressedListener(relayId, duration, message));

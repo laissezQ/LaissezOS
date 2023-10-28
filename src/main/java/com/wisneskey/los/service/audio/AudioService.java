@@ -64,11 +64,9 @@ public class AudioService extends AbstractService<AudioState> {
 	/**
 	 * Play a sound effect.
 	 * 
-	 * @param effectId
-	 *          Id of the sound effect to play.
-	 * @param waitForCompletion
-	 *          Flag indicating if the call should not return until the playback
-	 *          is completed.
+	 * @param effectId          Id of the sound effect to play.
+	 * @param waitForCompletion Flag indicating if the call should not return
+	 *                            until the playback is completed.
 	 */
 	public void playEffect(SoundEffectId effectId, boolean waitForCompletion) {
 
@@ -102,9 +100,8 @@ public class AudioService extends AbstractService<AudioState> {
 	/**
 	 * Initializes the audio services and returns its initial state.
 	 * 
-	 * @param profile
-	 *          Profile to use for configuring initial service state.
-	 * @return Configured state object for the service.
+	 * @param  profile Profile to use for configuring initial service state.
+	 * @return         Configured state object for the service.
 	 */
 	private AudioState initialize(Profile profile) {
 
@@ -129,9 +126,9 @@ public class AudioService extends AbstractService<AudioState> {
 	 * Creates an instance of the audio service along with its initial state as
 	 * set from the supplied profile.
 	 * 
-	 * @param profile
-	 *          Profile to use for configuring initial state of the audio service.
-	 * @return Audio service instance and its initial state object.
+	 * @param  profile Profile to use for configuring initial state of the audio
+	 *                   service.
+	 * @return         Audio service instance and its initial state object.
 	 */
 	public static Pair<AudioService, AudioState> createService(Profile profile) {
 

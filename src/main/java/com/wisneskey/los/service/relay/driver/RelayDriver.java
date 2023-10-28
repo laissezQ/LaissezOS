@@ -17,19 +17,17 @@ public interface RelayDriver {
 	/**
 	 * Initialize the relay driver based on the profile.
 	 * 
-	 * @param profile
-	 *          Profile with settings for the relay driver.
+	 * @param profile Profile with settings for the relay driver.
 	 */
 	Map<RelayId, Boolean> initialize(Profile profile);
 
 	/**
 	 * Turn on the specified relay.
 	 * 
-	 * @param relayId
-	 *          Id of the relay to turn on.
+	 * @param relayId Id of the relay to turn on.
 	 */
 	void turnOn(RelayId relayId);
-	
+
 	/**
 	 * Turn off the specified relay.
 	 * 

@@ -6,8 +6,8 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Model object representing the info returned for a WLED controller.  This information
- * is all considered to be read only from the controller.
+ * Model object representing the info returned for a WLED controller. This
+ * information is all considered to be read only from the controller.
  * 
  * @author paul.wisneskey@gmail.com
  *
@@ -224,6 +224,5 @@ public class Info {
 	// ----------------------------------------------------------------------------------------
 	// Inner classes.
 	// ----------------------------------------------------------------------------------------
-
 
 }

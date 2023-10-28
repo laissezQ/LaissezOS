@@ -44,10 +44,8 @@ public class MessagesToTextAreaListener implements ChangeListener<String> {
 	 * Creates a listener that uses the supplied text area with the specified
 	 * maximum number of lines.
 	 * 
-	 * @param textArea
-	 *          Text area to use for displaying messages.
-	 * @param maxLines
-	 *          Maximum number of lines to keep in the text area.
+	 * @param textArea Text area to use for displaying messages.
+	 * @param maxLines Maximum number of lines to keep in the text area.
 	 */
 	public MessagesToTextAreaListener(TextArea textArea, int maxLines) {
 		this.textArea = textArea;
@@ -89,9 +87,8 @@ public class MessagesToTextAreaListener implements ChangeListener<String> {
 	 * Count the number of new lines in the latest message by counting the number
 	 * of newline characters it contains.
 	 * 
-	 * @param message
-	 *          Message to count the newlines in.
-	 * @return Number of newline characters found in the message.
+	 * @param  message Message to count the newlines in.
+	 * @return         Number of newline characters found in the message.
 	 */
 	private int countNewLines(String message) {
 

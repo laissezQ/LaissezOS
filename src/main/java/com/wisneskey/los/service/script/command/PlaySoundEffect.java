@@ -47,7 +47,6 @@ public class PlaySoundEffect extends AbstractScriptCommand {
 	 */
 	private boolean waitForCompletion = DEFAULT_WAIT_FOR_COMPLETION;
 
-
 	// ----------------------------------------------------------------------------------------
 	// Property getters/setters.
 	// ----------------------------------------------------------------------------------------

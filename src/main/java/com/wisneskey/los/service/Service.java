@@ -5,10 +5,9 @@ import com.wisneskey.los.state.State;
 /**
  * Interface designation a service for LBOS.
  * 
- * @param <T>
- *          Type of state object used by the service.
+ * @param  <T> Type of state object used by the service.
  * 
- * @author paul.wisneskey@gmail.com
+ * @author     paul.wisneskey@gmail.com
  */
 public interface Service<T extends State> {
 
@@ -18,7 +17,7 @@ public interface Service<T extends State> {
 	 * @return Id of the service.
 	 */
 	ServiceId getServiceId();
-	
+
 	/**
 	 * Method invoked by the kernel to terminate the service.
 	 */

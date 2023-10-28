@@ -74,8 +74,7 @@ public class RelayService extends AbstractService<RelayState> {
 	/**
 	 * Turn on the relay with the specified id.
 	 * 
-	 * @param relayId
-	 *          Id of the relay to turn on.
+	 * @param relayId Id of the relay to turn on.
 	 */
 	public void turnOn(RelayId relayId) {
 
@@ -88,10 +87,8 @@ public class RelayService extends AbstractService<RelayState> {
 	/**
 	 * Turns on the specified relay for the given duration and then turns it off.
 	 * 
-	 * @param relayId
-	 *          Id of the relay to turn on.
-	 * @param duration
-	 *          Duration the relay should be on.
+	 * @param relayId  Id of the relay to turn on.
+	 * @param duration Duration the relay should be on.
 	 */
 	public void turnOn(RelayId relayId, Duration duration) {
 
@@ -103,8 +100,7 @@ public class RelayService extends AbstractService<RelayState> {
 	/**
 	 * Turn off the relay with the specified id.
 	 * 
-	 * @param relayId
-	 *          Id of the relay to turn off.
+	 * @param relayId Id of the relay to turn off.
 	 */
 	public void turnOff(RelayId relayId) {
 
@@ -121,8 +117,7 @@ public class RelayService extends AbstractService<RelayState> {
 	/**
 	 * Set the driver to use for communicating with the relays.
 	 * 
-	 * @param relayDriver
-	 *          Relay driver to use to communicate with relay hardware.
+	 * @param relayDriver Relay driver to use to communicate with relay hardware.
 	 */
 	private void setRelayDriver(RelayDriver relayDriver) {
 		this.relayDriver = relayDriver;
@@ -131,11 +126,9 @@ public class RelayService extends AbstractService<RelayState> {
 	/**
 	 * Initializes the service and its relay driver and returns the initial state.
 	 * 
-	 * @param runMode
-	 *          Run mode for the operating system.
-	 * @param profile
-	 *          Profile to use to configure the relay state.
-	 * @return Configured display state object.
+	 * @param  runMode Run mode for the operating system.
+	 * @param  profile Profile to use to configure the relay state.
+	 * @return         Configured display state object.
 	 */
 	private RelayState initialize(RunMode runMode, Profile profile) {
 
@@ -160,11 +153,10 @@ public class RelayService extends AbstractService<RelayState> {
 	 * Creates an instance of the relay service along with its initial state as
 	 * set from the supplied profile.
 	 * 
-	 * @param runMode
-	 *          Run mode for the operating system.
-	 * @param profile
-	 *          Profile to use for configuring initial state of the relay service.
-	 * @return Relay service instance and its initial state object.
+	 * @param  runMode Run mode for the operating system.
+	 * @param  profile Profile to use for configuring initial state of the relay
+	 *                   service.
+	 * @return         Relay service instance and its initial state object.
 	 */
 	public static Pair<RelayService, RelayState> createService(RunMode runMode, Profile profile) {
 

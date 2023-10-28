@@ -108,7 +108,7 @@ public class LockScreen extends AbstractController {
 		// Set the initial lock message.
 		SecurityState state = chairState().getServiceState(ServiceId.SECURITY);
 		lockMessage.setText(state.lockMessage().getValue());
-		
+
 		// Add a listener for the chair state so that if the chair is set to a
 		// master state of LOCKED, we can assume we will be getting displayed and we
 		// need to enable the PIN entry buttons.
@@ -123,8 +123,7 @@ public class LockScreen extends AbstractController {
 	/**
 	 * Action listener for button 1 being pressed.
 	 * 
-	 * @param event
-	 *          Button 1 event.
+	 * @param event Button 1 event.
 	 */
 	@FXML
 	public void buttonOnePressed(ActionEvent event) {
@@ -135,8 +134,7 @@ public class LockScreen extends AbstractController {
 	/**
 	 * Action listener for button 2 being pressed.
 	 * 
-	 * @param event
-	 *          Button 2 event.
+	 * @param event Button 2 event.
 	 */
 	@FXML
 	public void buttonTwoPressed(ActionEvent event) {
@@ -147,8 +145,7 @@ public class LockScreen extends AbstractController {
 	/**
 	 * Action listener for button 3 being pressed.
 	 * 
-	 * @param event
-	 *          Button 3 event.
+	 * @param event Button 3 event.
 	 */
 	@FXML
 	public void buttonThreePressed(ActionEvent event) {
@@ -159,8 +156,7 @@ public class LockScreen extends AbstractController {
 	/**
 	 * Action listener for button 4 being pressed.
 	 * 
-	 * @param event
-	 *          Button 4 event.
+	 * @param event Button 4 event.
 	 */
 	@FXML
 	public void buttonFourPressed(ActionEvent event) {
@@ -171,8 +167,7 @@ public class LockScreen extends AbstractController {
 	/**
 	 * Action listener for button 5 being pressed.
 	 * 
-	 * @param event
-	 *          Button 5 event.
+	 * @param event Button 5 event.
 	 */
 	@FXML
 	public void buttonFivePressed(ActionEvent event) {
@@ -183,8 +178,7 @@ public class LockScreen extends AbstractController {
 	/**
 	 * Action listener for button 6 being pressed.
 	 * 
-	 * @param event
-	 *          Button 6 event.
+	 * @param event Button 6 event.
 	 */
 	@FXML
 	public void buttonSixPressed(ActionEvent event) {
@@ -195,8 +189,7 @@ public class LockScreen extends AbstractController {
 	/**
 	 * Action listener for button 7 being pressed.
 	 * 
-	 * @param event
-	 *          Button 7 event.
+	 * @param event Button 7 event.
 	 */
 	@FXML
 	public void buttonSevenPressed(ActionEvent event) {
@@ -207,8 +200,7 @@ public class LockScreen extends AbstractController {
 	/**
 	 * Action listener for button 8 being pressed.
 	 * 
-	 * @param event
-	 *          Button 8 event.
+	 * @param event Button 8 event.
 	 */
 	@FXML
 	public void buttonEightPressed(ActionEvent event) {
@@ -219,8 +211,7 @@ public class LockScreen extends AbstractController {
 	/**
 	 * Action listener for button 9 being pressed.
 	 * 
-	 * @param event
-	 *          Button 9 event.
+	 * @param event Button 9 event.
 	 */
 	@FXML
 	public void buttonNinePressed(ActionEvent event) {
@@ -231,8 +222,7 @@ public class LockScreen extends AbstractController {
 	/**
 	 * Action listener for button 0 being pressed.
 	 * 
-	 * @param event
-	 *          Button 0 event.
+	 * @param event Button 0 event.
 	 */
 	@FXML
 	public void buttonZeroPressed(ActionEvent event) {
@@ -255,8 +245,7 @@ public class LockScreen extends AbstractController {
 	/**
 	 * Sets the enabled state for all of the PIN code entry buttons.
 	 * 
-	 * @param enabled
-	 *          Flag indicating if buttons should be enabled or not.
+	 * @param enabled Flag indicating if buttons should be enabled or not.
 	 */
 	private void setEntryPadState(boolean enabled) {
 
@@ -270,8 +259,7 @@ public class LockScreen extends AbstractController {
 	 * Method invoked by the button pressed event handlers to submit their value
 	 * as entered.
 	 * 
-	 * @param buttonValue
-	 *          Value of the button that was pressed.
+	 * @param buttonValue Value of the button that was pressed.
 	 */
 	private void buttonPressed(String buttonValue) {
 

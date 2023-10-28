@@ -144,8 +144,7 @@ public class DisplayService extends AbstractService<DisplayState> {
 	 * Method called by SpringFX once the application is launched by the boot
 	 * loader.
 	 * 
-	 * @param stage
-	 *          Main stage for the SpringFX application.
+	 * @param  stage       Main stage for the SpringFX application.
 	 * @throws IOException
 	 */
 	public void initialize(Stage stage) {
@@ -204,8 +203,7 @@ public class DisplayService extends AbstractService<DisplayState> {
 	 * Shows the requested scene in the appropriate display (as designated by the
 	 * scene id).
 	 * 
-	 * @param sceneId
-	 *          Id of the scene to show.
+	 * @param sceneId Id of the scene to show.
 	 */
 	public void showScene(SceneId sceneId) {
 
@@ -236,8 +234,7 @@ public class DisplayService extends AbstractService<DisplayState> {
 	/**
 	 * Change the style of the UI displays.
 	 * 
-	 * @param newStyle
-	 *          New style for the UI displays.
+	 * @param newStyle New style for the UI displays.
 	 */
 	public void changeDisplayStyle(DisplayStyle newStyle) {
 
@@ -289,12 +286,12 @@ public class DisplayService extends AbstractService<DisplayState> {
 	/**
 	 * Calculate the offset necessary to center a component on top of another one.
 	 * 
-	 * @param targetPosition Position of the target that is being centered on.
-	 * @param targetMeasurement
-	 *          Measurement of the target that is being centered on.
-	 * @param measurement
-	 *          Measurement of what is being centered.
-	 * @return Position that will center the component on top of the target.
+	 * @param  targetPosition    Position of the target that is being centered on.
+	 * @param  targetMeasurement Measurement of the target that is being centered
+	 *                             on.
+	 * @param  measurement       Measurement of what is being centered.
+	 * @return                   Position that will center the component on top of
+	 *                           the target.
 	 */
 	private double centerOn(double targetPosition, double targetMeasurement, double measurement) {
 		return targetPosition + (targetMeasurement / 2.0) - (measurement / 2.0);
@@ -341,8 +338,7 @@ public class DisplayService extends AbstractService<DisplayState> {
 	 * Apply a designated style to the UI by activating its corresponding
 	 * stylesheet (or clearing the stylesheet for the NONE style).
 	 * 
-	 * @param style
-	 *          Style to apply to the UI.
+	 * @param style Style to apply to the UI.
 	 */
 	private void applyStyle(DisplayStyle style) {
 
@@ -372,9 +368,8 @@ public class DisplayService extends AbstractService<DisplayState> {
 	 * Creates the initial display state object as configured by the supplied
 	 * profile.
 	 * 
-	 * @param profile
-	 *          Profile to use to configure the display state.
-	 * @return Configured display state object.
+	 * @param  profile Profile to use to configure the display state.
+	 * @return         Configured display state object.
 	 */
 	private DisplayState createInitialState(Profile profile) {
 		displayState = new InternalDisplayState();
@@ -419,12 +414,10 @@ public class DisplayService extends AbstractService<DisplayState> {
 	 * Creates an instance of the display service along with its initial state as
 	 * set from the supplied profile.
 	 * 
-	 * @param runMode
-	 *          Run mode for the operating system.
-	 * @param profile
-	 *          Profile to use for configuring initial state of the display
-	 *          service.
-	 * @return Display service instance and its initial state object.
+	 * @param  runMode Run mode for the operating system.
+	 * @param  profile Profile to use for configuring initial state of the display
+	 *                   service.
+	 * @return         Display service instance and its initial state object.
 	 */
 	public static Pair<DisplayService, DisplayState> createService(RunMode runMode, Profile profile) {
 

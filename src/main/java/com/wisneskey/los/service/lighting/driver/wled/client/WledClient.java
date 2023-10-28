@@ -70,8 +70,7 @@ public class WledClient {
 	/**
 	 * Private constructor to force use of static constructor method.
 	 * 
-	 * @param endpoint
-	 *          URL of the WLED instance.
+	 * @param endpoint URL of the WLED instance.
 	 */
 	private WledClient(String endpoint) {
 		this.endpoint = endpoint;
@@ -131,14 +130,15 @@ public class WledClient {
 	/**
 	 * Send updates for the state to the controller.
 	 * 
-	 * @param stateUpdates State object containing values only for the properties to update.
+	 * @param  stateUpdates State object containing values only for the properties
+	 *                        to update.
 	 * 
-	 * @return Result from updating the state of the controller.
+	 * @return              Result from updating the state of the controller.
 	 */
 	public UpdateStateResult updateState(State stateUpdates) {
 		return request(new UpdateStateRequest(stateUpdates));
 	}
-	
+
 	// ----------------------------------------------------------------------------------------
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
@@ -146,11 +146,10 @@ public class WledClient {
 	/**
 	 * Make a request to the WLED instance.
 	 * 
-	 * @param request
-	 *          Request object for the function to be called.
-	 * @return The result object parsed from the response to the request.
-	 * @throws LaissezException
-	 *           If the request fails.
+	 * @param  request          Request object for the function to be called.
+	 * @return                  The result object parsed from the response to the
+	 *                          request.
+	 * @throws LaissezException If the request fails.
 	 */
 	private <T> T request(Request<T> request) throws LaissezException {
 
@@ -216,10 +215,9 @@ public class WledClient {
 	/**
 	 * Create a client for a given instance.
 	 *
-	 * @param endpoint
-	 *          URL for instance.
+	 * @param  endpoint URL for instance.
 	 * 
-	 * @return Client configured for the designated endpoint.
+	 * @return          Client configured for the designated endpoint.
 	 */
 	public static WledClient create(String endpoint) {
 

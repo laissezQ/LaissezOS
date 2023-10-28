@@ -102,14 +102,13 @@ public class MainScreen extends AbstractController {
 
 		chairState().message().addListener(new MessagesToLabelListener(message));
 	}
-	
+
 	/**
 	 * Converts a location with coordinates to a GeoPosition object used by the
 	 * map viewer.
 	 * 
-	 * @param location
-	 *          Location object with coordinates.
-	 * @return The equivalent GeoPosition object.
+	 * @param  location Location object with coordinates.
+	 * @return          The equivalent GeoPosition object.
 	 */
 	private GeoPosition locationToGeoPosition(Location location) {
 

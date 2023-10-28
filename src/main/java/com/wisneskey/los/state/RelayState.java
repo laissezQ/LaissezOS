@@ -14,10 +14,9 @@ public interface RelayState extends State {
 	/**
 	 * Returns the state property for the relay with the given if.
 	 * 
-	 * @param relayId
-	 *          Id of the relay to return the state property for.
+	 * @param  relayId Id of the relay to return the state property for.
 	 * 
-	 * @return Boolean state property for the specified relay.
+	 * @return         Boolean state property for the specified relay.
 	 */
 	ReadOnlyBooleanProperty getState(RelayId relayId);
 }

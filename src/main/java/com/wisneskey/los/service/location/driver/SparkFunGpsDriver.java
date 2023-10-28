@@ -114,8 +114,7 @@ public class SparkFunGpsDriver implements GpsDriver {
 	/**
 	 * Receives a line from the GPS reader thread.
 	 * 
-	 * @param line
-	 *          Line from the GPS to process.
+	 * @param line Line from the GPS to process.
 	 */
 	private void processGpsLine(String line) {
 
@@ -145,8 +144,7 @@ public class SparkFunGpsDriver implements GpsDriver {
 	 * Processes the latest sample and updates the sample history as appropriate
 	 * based on the sample and fix status in it.
 	 * 
-	 * @param latestSample
-	 *          Latest sample from the GPS hardware.
+	 * @param latestSample Latest sample from the GPS hardware.
 	 */
 	private void updateSampleHistory(GGASentence latestSample, boolean dataUnavailableError) {
 
@@ -237,9 +235,8 @@ public class SparkFunGpsDriver implements GpsDriver {
 	/**
 	 * Returns a location object populate from a supplied GPS GGA sentence.
 	 * 
-	 * @param sentance
-	 *          GGA sentence from the GPS.
-	 * @return Location object with same position as the GGS sentence.
+	 * @param  sentance GGA sentence from the GPS.
+	 * @return          Location object with same position as the GGS sentence.
 	 */
 	private Location locationFrom(GGASentence sentance) {
 

@@ -10,10 +10,9 @@ import com.wisneskey.los.error.LaissezException;
 /**
  * Abstract base class for requests to the WLED controller application.
  *
- * @author paul.wisneskey@gmail.com
+ * @author     paul.wisneskey@gmail.com
  * 
- * @param <T>
- *          Type of response from request.
+ * @param  <T> Type of response from request.
  */
 public abstract class Request<T> {
 

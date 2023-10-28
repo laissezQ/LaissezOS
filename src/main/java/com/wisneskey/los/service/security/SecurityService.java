@@ -57,15 +57,17 @@ public class SecurityService extends AbstractService<SecurityState> {
 	private ScriptId unlockFailedScript;
 
 	/**
-	 * Optional scene to set HUD to it when unlocking (if no unlock script specified).
+	 * Optional scene to set HUD to it when unlocking (if no unlock script
+	 * specified).
 	 */
 	private SceneId unlockSceneHUD;
-	
+
 	/**
-	 * Optional scene to set control panel to when unlocking (if not unlock script specified).
+	 * Optional scene to set control panel to when unlocking (if not unlock script
+	 * specified).
 	 */
 	private SceneId unlockSceneCP;
-		
+
 	// ----------------------------------------------------------------------------------------
 	// Constructors.
 	// ----------------------------------------------------------------------------------------
@@ -90,8 +92,8 @@ public class SecurityService extends AbstractService<SecurityState> {
 	// Public methods.
 	// ----------------------------------------------------------------------------------------
 
-	public void lockChair(String lockMessage, ScriptId unlockScript, ScriptId unlockFailedScript,
-			SceneId hudScene, SceneId cpScene) {
+	public void lockChair(String lockMessage, ScriptId unlockScript, ScriptId unlockFailedScript, SceneId hudScene,
+			SceneId cpScene) {
 
 		if (Kernel.kernel().chairState().masterState().getValue() == MasterState.LOCKED) {
 			// Chair already locked.
@@ -103,20 +105,23 @@ public class SecurityService extends AbstractService<SecurityState> {
 
 		// Set the lock message.
 		securityState.setLockMessage(lockMessage);
-		
+
 		// Save the lock scripts
 		this.unlockedScript = unlockScript;
 		this.unlockFailedScript = unlockFailedScript;
-		
-		// If scenes are specified, use them as the unlock scenes to use if an unlock
-		// script is not provided.   If no scenes are provided, the unlock scenes will
-		// default to going back to the scenes active when the chair was locked (unless
-		// an unlock script is provided).  An unlock script takes precedence over these
+
+		// If scenes are specified, use them as the unlock scenes to use if an
+		// unlock
+		// script is not provided. If no scenes are provided, the unlock scenes will
+		// default to going back to the scenes active when the chair was locked
+		// (unless
+		// an unlock script is provided). An unlock script takes precedence over
+		// these
 		// scenes.
 		DisplayState displayState = Kernel.kernel().chairState().getServiceState(ServiceId.DISPLAY);
 		unlockSceneCP = cpScene != null ? cpScene : displayState.cpScene().getValue();
 		unlockSceneHUD = hudScene != null ? hudScene : displayState.hudScene().getValue();
-		
+
 		// Lock the chair.
 		Kernel.kernel().message("System locked.\n");
 		Kernel.kernel().setMasterState(MasterState.LOCKED);
@@ -170,9 +175,8 @@ public class SecurityService extends AbstractService<SecurityState> {
 	 * Creates the initial state of the service using the supplied profile for
 	 * configuration.
 	 * 
-	 * @param profile
-	 *          Profile to use for configuring initial service state.
-	 * @return Configured state object for the service.
+	 * @param  profile Profile to use for configuring initial service state.
+	 * @return         Configured state object for the service.
 	 */
 	private SecurityState createInitialState(Profile profile) {
 		securityState = new InternalSecurityState();
@@ -187,10 +191,9 @@ public class SecurityService extends AbstractService<SecurityState> {
 	 * Creates an instance of the security service along with its initial state as
 	 * set from the supplied profile.
 	 * 
-	 * @param profile
-	 *          Profile to use for configuring initial state of the security
-	 *          service.
-	 * @return Security service instance and its initial state object.
+	 * @param  profile Profile to use for configuring initial state of the
+	 *                   security service.
+	 * @return         Security service instance and its initial state object.
 	 */
 	public static Pair<SecurityService, SecurityState> createService(Profile profile) {
 
@@ -225,8 +228,7 @@ public class SecurityService extends AbstractService<SecurityState> {
 		/**
 		 * Set the message to displayed on the lock screen.
 		 * 
-		 * @param message
-		 *          Message to display on the lock screen.
+		 * @param message Message to display on the lock screen.
 		 */
 		private void setLockMessage(String message) {
 			this.lockMessage.setValue(message);

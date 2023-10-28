@@ -22,7 +22,6 @@ public class LockScreen extends AbstractController {
 	@FXML
 	private ImageView logo;
 
-
 	// ----------------------------------------------------------------------------------------
 	// Public methods.
 	// ----------------------------------------------------------------------------------------
@@ -36,7 +35,7 @@ public class LockScreen extends AbstractController {
 		// Set the initial lock message.
 		SecurityState state = chairState().getServiceState(ServiceId.SECURITY);
 		lockMessage.setText(state.lockMessage().getValue());
-		
+
 		state.lockMessage().addListener(new MessagesToLabelListener(lockMessage));
 	}
 }

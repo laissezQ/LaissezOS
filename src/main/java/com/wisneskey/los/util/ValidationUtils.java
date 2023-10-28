@@ -30,13 +30,11 @@ public class ValidationUtils {
 	 * <ul>
 	 * <li>Not-null.
 	 * <li>If it is a string, it is not empty.
-	 * <li>If it is a collection, it has at least one element.
-	 * </ul>
+	 * <li>If it is a collection, it has at least one element.</ul>
 	 * 
-	 * @param value
-	 *          Value to verify.
-	 * @param failureMessage
-	 *          Message to use in thrown exception if validation fails.
+	 * @param value          Value to verify.
+	 * @param failureMessage Message to use in thrown exception if validation
+	 *                         fails.
 	 */
 	public static void requireValue(Object value, String failureMessage) {
 
@@ -47,7 +45,7 @@ public class ValidationUtils {
 			if (value instanceof String) {
 				valid = String.class.cast(value).length() > 0;
 			} else if (value instanceof Collection<?>) {
-				valid = ! Collection.class.cast(value).isEmpty();
+				valid = !Collection.class.cast(value).isEmpty();
 			} else {
 				valid = true;
 			}

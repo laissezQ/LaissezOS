@@ -94,7 +94,7 @@ public class Message extends AbstractScriptCommand {
 		if (getMessage() != null) {
 			Kernel.kernel().message(message);
 		} else if (getMessages() != null) {
-			
+
 			for (int index = 0; index < messages.size(); index++) {
 
 				Kernel.kernel().message(messages.get(index));

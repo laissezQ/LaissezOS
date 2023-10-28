@@ -60,7 +60,7 @@ public class SystemScreen extends AbstractController {
 						"Confirm Exit", //
 						"LaissezOS exit has been requested!", "Do you want to exit LaissezOS?");
 
-		if (confirmed) {			
+		if (confirmed) {
 			((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.SHUTDOWN);
 		}
 	}

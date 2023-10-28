@@ -19,8 +19,7 @@ public class LaissezException extends RuntimeException {
 	/**
 	 * Constructor for an exception with just a message.
 	 * 
-	 * @param message
-	 *          Message for the exception.
+	 * @param message Message for the exception.
 	 */
 	public LaissezException(String message) {
 		super(message);
@@ -29,10 +28,8 @@ public class LaissezException extends RuntimeException {
 	/**
 	 * Constructor for an exception with a wrapped exception.
 	 * 
-	 * @param message
-	 *          Message for the exception.
-	 * @param cause
-	 *          Exception to wrap.
+	 * @param message Message for the exception.
+	 * @param cause   Exception to wrap.
 	 */
 	public LaissezException(String message, Throwable cause) {
 		super(message, cause);

@@ -78,9 +78,8 @@ public enum ServiceId {
 	/**
 	 * Returns the class that implements the service.
 	 * 
-	 * @param <T>
-	 *          Type of service.
-	 * @return Class for the service.
+	 * @param  <T> Type of service.
+	 * @return     Class for the service.
 	 */
 	@SuppressWarnings("unchecked")
 	public <T extends Service<?>> Class<T> getServiceClass() {

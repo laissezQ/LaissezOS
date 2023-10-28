@@ -95,11 +95,9 @@ public class LocationService extends AbstractService<LocationState> {
 	/**
 	 * Initializes the service and its relay driver and returns the initial state.
 	 * 
-	 * @param runMode
-	 *          Run mode for the operating system.
-	 * @param profile
-	 *          Profile to use to configure the relay state.
-	 * @return Configured display state object.
+	 * @param  runMode Run mode for the operating system.
+	 * @param  profile Profile to use to configure the relay state.
+	 * @return         Configured display state object.
 	 */
 	private LocationState initialize(RunMode runMode, Profile profile) {
 
@@ -134,11 +132,10 @@ public class LocationService extends AbstractService<LocationState> {
 	 * Creates an instance of the relay service along with its initial state as
 	 * set from the supplied profile.
 	 * 
-	 * @param runMode
-	 *          Run mode for the operating system.
-	 * @param profile
-	 *          Profile to use for configuring initial state of the relay service.
-	 * @return Relay service instance and its initial state object.
+	 * @param  runMode Run mode for the operating system.
+	 * @param  profile Profile to use for configuring initial state of the relay
+	 *                   service.
+	 * @return         Relay service instance and its initial state object.
 	 */
 	public static Pair<LocationService, LocationState> createService(RunMode runMode, Profile profile) {
 

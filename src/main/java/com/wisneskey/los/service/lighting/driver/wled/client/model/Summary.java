@@ -18,10 +18,10 @@ public class Summary {
 
 	@JsonProperty("effects")
 	private Effects effects;
-	
+
 	@JsonProperty("info")
 	private Info info;
-	
+
 	@JsonProperty("palettes")
 	private Palettes palettes;
 

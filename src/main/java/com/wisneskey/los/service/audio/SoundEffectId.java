@@ -18,7 +18,7 @@ public enum SoundEffectId {
 	MOVIE_IJ_CHOSEN_WISELY("movie/indianajones_chosen_wisely.wav", "You have chosen wisely..."),
 	MOVIE_MACHINE_GOES_PING("movie/machine_goes_ping.wav", "Machine that goes ping!"),
 	MOVIE_WHAT_IS_THY_BIDDING("movie/what_is_thy_bidding_master.wav", "What is thy bidding, Master?"),
-	
+
 	TV_THATS_ALL_FOLKS("tv/looney_tunes_thats_all_folks.wav", "Th-th-that's all folks!");
 
 	// ----------------------------------------------------------------------------------------

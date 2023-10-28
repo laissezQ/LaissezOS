@@ -46,8 +46,7 @@ public class LaissezOS {
 	/**
 	 * Main entry point for starting the application.
 	 * 
-	 * @param args
-	 *          Command line arguments to pass into the boot loader.
+	 * @param args Command line arguments to pass into the boot loader.
 	 */
 	public static void main(String[] args) {
 
@@ -66,14 +65,20 @@ public class LaissezOS {
 
 		BootLoader loader = new BootLoader();
 		loader.boot(bootConfig);
-
-		LOGGER.info("LaissesOS shutdown normally.");
 	}
 
 	// ----------------------------------------------------------------------------------------
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
 
+	/**
+	 * Parses the command line option to set the initial boot configuration.
+	 * 
+	 * @param  args           Command line arguments to parse.
+	 * @param  bootConfig     Boot configuration set from any supplied command
+	 *                          line options.
+	 * @throws ParseException If the supplied options were invalid.
+	 */
 	private static void parseCommandLine(String[] args, BootConfiguration bootConfig) throws ParseException {
 
 		Options options = new Options();

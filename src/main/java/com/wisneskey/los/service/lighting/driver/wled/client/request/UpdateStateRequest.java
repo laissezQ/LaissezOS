@@ -33,11 +33,11 @@ public class UpdateStateRequest extends Request<UpdateStateResult> {
 
 	@Override
 	public String getPostBody() {
-		
-		if( stateUpdates == null) {
+
+		if (stateUpdates == null) {
 			throw new LaissezException("No state updates supplied to update state request.");
 		}
-		
+
 		return JsonUtils.toJSONString(stateUpdates);
 	}
 }

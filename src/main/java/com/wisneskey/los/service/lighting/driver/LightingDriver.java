@@ -13,8 +13,7 @@ public interface LightingDriver {
 	/**
 	 * Initialize the lighting driver based on the profile.
 	 * 
-	 * @param profile
-	 *          Profile with settings for the lighting driver.
+	 * @param profile Profile with settings for the lighting driver.
 	 */
 	void initialize(Profile profile);
 
@@ -22,7 +21,7 @@ public interface LightingDriver {
 	 * Shutdown the driver when terminating the service.
 	 */
 	void terminate();
-	
+
 	/**
 	 * Initial test implementation.
 	 */

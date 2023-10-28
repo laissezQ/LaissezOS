@@ -85,13 +85,10 @@ public class Location {
 	/**
 	 * Returns a location object for the given coordinates.
 	 * 
-	 * @param latitude
-	 *          Latitude of location.
-	 * @param longitude
-	 *          Longitude of location.
-	 * @param altitude
-	 *          Altitude of location.
-	 * @return Location object with the specified coordinates.
+	 * @param  latitude  Latitude of location.
+	 * @param  longitude Longitude of location.
+	 * @param  altitude  Altitude of location.
+	 * @return           Location object with the specified coordinates.
 	 */
 	public static Location of(double latitude, double longitude, double altitude) {
 		return new Location(latitude, longitude, altitude);

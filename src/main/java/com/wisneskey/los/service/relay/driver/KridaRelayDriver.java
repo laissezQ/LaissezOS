@@ -131,9 +131,8 @@ public class KridaRelayDriver implements RelayDriver {
 	/**
 	 * Generate the bit mask for the specified relay.
 	 * 
-	 * @param relayId
-	 *          Id of the relay to generate the mask for.
-	 * @return Bit mask for designated relay.
+	 * @param  relayId Id of the relay to generate the mask for.
+	 * @return         Bit mask for designated relay.
 	 */
 	private int getMask(RelayId relayId) {
 		// Modulo the index since they are spread across boards with 8 relays each.

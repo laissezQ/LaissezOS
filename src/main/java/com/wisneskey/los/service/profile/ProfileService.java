@@ -79,9 +79,8 @@ public class ProfileService extends AbstractService<ProfileState> {
 	/**
 	 * Creates the initial profile state by loading the profile with the given id.
 	 * 
-	 * @param profileId
-	 *          Id of the profile to load for the initial profile state.
-	 * @return Profile state object with the specified profile loaded.
+	 * @param  profileId Id of the profile to load for the initial profile state.
+	 * @return           Profile state object with the specified profile loaded.
 	 */
 	private ProfileState createInitialState(String profileId) {
 		profileState = new InternalProfileState();
@@ -93,9 +92,8 @@ public class ProfileService extends AbstractService<ProfileState> {
 	/**
 	 * Loads the profile with the specified profile id.
 	 * 
-	 * @param profileId
-	 *          Id of the profile to load.
-	 * @return The loaded profile
+	 * @param  profileId Id of the profile to load.
+	 * @return           The loaded profile
 	 */
 	private Profile loadProfile(String profileId) {
 
@@ -125,8 +123,7 @@ public class ProfileService extends AbstractService<ProfileState> {
 	 * Checks to make sure a loaded profile is valid and throws an exception of
 	 * there are any issues with the profile.
 	 * 
-	 * @param profile
-	 *          Profile to validate.
+	 * @param profile Profile to validate.
 	 */
 	private void validateProfile(Profile profile) {
 
@@ -152,9 +149,8 @@ public class ProfileService extends AbstractService<ProfileState> {
 	 * Creates an instance of the profile service along with its initial state as
 	 * set from the supplied profile.
 	 * 
-	 * @param profileId
-	 *          Id of the profile to load for the profile state.
-	 * @return Audio service instance and its initial state object.
+	 * @param  profileId Id of the profile to load for the profile state.
+	 * @return           Audio service instance and its initial state object.
 	 */
 	public static Pair<ProfileService, ProfileState> createService(String profileId) {
 
@@ -193,8 +189,7 @@ public class ProfileService extends AbstractService<ProfileState> {
 		/**
 		 * Update the active profile.
 		 * 
-		 * @param profile
-		 *          Profile to make the active profile.
+		 * @param profile Profile to make the active profile.
 		 */
 		private void setActiveProfile(Profile profile) {
 			this.activeProfile.set(profile);

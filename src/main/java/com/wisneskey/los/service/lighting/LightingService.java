@@ -78,8 +78,8 @@ public class LightingService extends AbstractService<LightingState> {
 	/**
 	 * Sets the driver to use for communicating with the lights.
 	 * 
-	 * @param lightingDriver
-	 *          Lighting driver to use to communicate with the lighting strips.
+	 * @param lightingDriver Lighting driver to use to communicate with the
+	 *                         lighting strips.
 	 */
 	private void setLightingDriver(LightingDriver lightingDriver) {
 		this.lightingDriver = lightingDriver;
@@ -89,11 +89,9 @@ public class LightingService extends AbstractService<LightingState> {
 	 * Initializes the service and its lighting driver and returns the initial
 	 * state.
 	 * 
-	 * @param runMode
-	 *          Run mode for the operating system.
-	 * @param profile
-	 *          Profile to use to configure the relay state.
-	 * @return Configured display state object.
+	 * @param  runMode Run mode for the operating system.
+	 * @param  profile Profile to use to configure the relay state.
+	 * @return         Configured display state object.
 	 */
 	private LightingState initialize(RunMode runMode, Profile profile) {
 
@@ -117,12 +115,10 @@ public class LightingService extends AbstractService<LightingState> {
 	 * Creates an instance of the lighting service along with its initial state as
 	 * set from the supplied profile.
 	 * 
-	 * @param runMode
-	 *          Run mode for the operating system.
-	 * @param profile
-	 *          Profile to use for configuring initial state of the lighting
-	 *          service.
-	 * @return Lighting service instance and its initial state object.
+	 * @param  runMode Run mode for the operating system.
+	 * @param  profile Profile to use for configuring initial state of the
+	 *                   lighting service.
+	 * @return         Lighting service instance and its initial state object.
 	 */
 	public static Pair<LightingService, LightingState> createService(RunMode runMode, Profile profile) {
 
@@ -134,7 +130,7 @@ public class LightingService extends AbstractService<LightingState> {
 			service.setLightingDriver(new WledLightingDriver());
 
 		} else {
-			
+
 			// Set the lighting driver based on the run mode.
 			switch (runMode) {
 			case CHAIR:

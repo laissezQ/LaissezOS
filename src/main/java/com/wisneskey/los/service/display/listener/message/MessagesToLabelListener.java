@@ -26,8 +26,7 @@ public class MessagesToLabelListener implements ChangeListener<String> {
 	/**
 	 * Creates a lister that sets the specified label.
 	 * 
-	 * @param label
-	 *          Label to use to display the chair message.
+	 * @param label Label to use to display the chair message.
 	 */
 	public MessagesToLabelListener(Label label) {
 		this.label = label;

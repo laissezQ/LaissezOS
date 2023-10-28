@@ -6,10 +6,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Model object representing the state of a WLED controller.  This object is read/write and
- * can be used to update the state of the controller.  It is designed so that only state
- * properties to change need to be set in a state object that is being sent back to the 
- * controller.
+ * Model object representing the state of a WLED controller. This object is
+ * read/write and can be used to update the state of the controller. It is
+ * designed so that only state properties to change need to be set in a state
+ * object that is being sent back to the controller.
  * 
  * @author paul.wisneskey@gmail.com
  */
@@ -21,28 +21,28 @@ public class State {
 
 	@JsonProperty("lor")
 	private Integer lor;
-	
+
 	@JsonProperty("mainseg")
 	private Integer mainSegment;
-	
+
 	@JsonProperty("nl")
 	private NlState nl;
-	
+
 	@JsonProperty("on")
 	private Boolean on;
-	
+
 	@JsonProperty("ps")
 	private Integer ps;
-	
+
 	@JsonProperty("pl")
 	private Integer pl;
-	
+
 	@JsonProperty("seg")
 	private List<SegmentState> segments;
-	
+
 	@JsonProperty("transition")
 	private Integer transition;
-	
+
 	@JsonProperty("udpn")
 	private UdpNetworkState udpNetworkState;
 

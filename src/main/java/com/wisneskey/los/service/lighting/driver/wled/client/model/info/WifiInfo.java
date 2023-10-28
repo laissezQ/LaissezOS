@@ -3,8 +3,8 @@ package com.wisneskey.los.service.lighting.driver.wled.client.model.info;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Model object for the WIFI connection information. Considered to be a read only
- * object from the controller.
+ * Model object for the WIFI connection information. Considered to be a read
+ * only object from the controller.
  * 
  * @author paul.wisneskey@gmail.com
  */

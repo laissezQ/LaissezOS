@@ -14,8 +14,7 @@ public interface GpsDriver {
 	/**
 	 * Initialize the GPS driver based on the profile.
 	 * 
-	 * @param profile
-	 *          Profile with settings for the GPS driver.
+	 * @param profile Profile with settings for the GPS driver.
 	 */
 	void initialize(Profile profile);
 

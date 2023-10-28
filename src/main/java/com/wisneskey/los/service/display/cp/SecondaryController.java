@@ -6,6 +6,7 @@ public class SecondaryController {
 
 	@FXML
 	private void switchToPrimary() {
-		// ((DisplayService) Kernel.kernel().getService(ServiceId.DISPLAY)).setRoot("primary");
+		// ((DisplayService)
+		// Kernel.kernel().getService(ServiceId.DISPLAY)).setRoot("primary");
 	}
 }

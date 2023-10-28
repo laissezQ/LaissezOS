@@ -41,8 +41,7 @@ public class BootConfiguration {
 	/**
 	 * Sets the run mode to be used for the kernel.
 	 * 
-	 * @param runMode
-	 *          Run mode to use for operating system run.
+	 * @param runMode Run mode to use for operating system run.
 	 */
 	public void setRunMode(RunMode runMode) {
 		this.runMode = runMode;
@@ -62,8 +61,8 @@ public class BootConfiguration {
 	/**
 	 * Sets the name of the profile to use to configure the operating system.
 	 * 
-	 * @param profileName
-	 *          Name of profile to use for configuring the operating system.
+	 * @param profileName Name of profile to use for configuring the operating
+	 *                      system.
 	 */
 	public void setProfileName(String profileName) {
 		this.profileName = profileName;

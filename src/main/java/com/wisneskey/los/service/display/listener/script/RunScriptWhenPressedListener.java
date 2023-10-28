@@ -49,10 +49,8 @@ public class RunScriptWhenPressedListener implements ChangeListener<Boolean> {
 	/**
 	 * Static utility method to add the listener to a JavaFX node.
 	 * 
-	 * @param node
-	 *          Node to add the listener to.
-	 * @param scriptId
-	 *          Id of the relay to toggle.
+	 * @param node     Node to add the listener to.
+	 * @param scriptId Id of the relay to toggle.
 	 */
 	public static void add(Node node, ScriptId scriptId) {
 		node.pressedProperty().addListener(new RunScriptWhenPressedListener(scriptId));

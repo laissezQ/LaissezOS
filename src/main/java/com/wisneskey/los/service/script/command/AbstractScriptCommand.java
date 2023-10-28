@@ -41,6 +41,7 @@ public abstract class AbstractScriptCommand implements ScriptCommand {
 
 	/**
 	 * Lets script commands sleep for any fractional number of seconds.
+	 * 
 	 * @param seconds Number of seconds to sleep.
 	 */
 	protected void sleepForSeconds(double seconds) {

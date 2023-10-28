@@ -57,9 +57,8 @@ public class JsonUtils {
 	/**
 	 * Serializes an object into JSON.
 	 * 
-	 * @param object
-	 *          Object to serialize into JSON.
-	 * @return String container serialized JSON.
+	 * @param  object Object to serialize into JSON.
+	 * @return        String container serialized JSON.
 	 */
 	public static String toJSONString(Object object) {
 
@@ -77,13 +76,11 @@ public class JsonUtils {
 	/**
 	 * Deserializes JSON into an object of the specified type.
 	 * 
-	 * @param <T>
-	 *          Type of object.
-	 * @param source
-	 *          String containing source JSON to deserialize.
-	 * @param objectClass
-	 *          Class of the object to create from JSON.
-	 * @return Object of the specified class created from deserialized JSON.
+	 * @param  <T>         Type of object.
+	 * @param  source      String containing source JSON to deserialize.
+	 * @param  objectClass Class of the object to create from JSON.
+	 * @return             Object of the specified class created from deserialized
+	 *                     JSON.
 	 */
 	public static <T> T toObject(String source, Class<T> objectClass) {
 		try {
@@ -96,13 +93,11 @@ public class JsonUtils {
 	/**
 	 * Deserializes JSON into an object of the specified type.
 	 * 
-	 * @param <T>
-	 *          Type of object.
-	 * @param input
-	 *          Input stream to read JSON from.
-	 * @param objectClass
-	 *          Class of the object to create from JSON.
-	 * @return Object of the specified class created from deserialized JSON.
+	 * @param  <T>         Type of object.
+	 * @param  input       Input stream to read JSON from.
+	 * @param  objectClass Class of the object to create from JSON.
+	 * @return             Object of the specified class created from deserialized
+	 *                     JSON.
 	 */
 
 	public static <T> T toObject(InputStream input, Class<T> objectClass) {
@@ -117,14 +112,12 @@ public class JsonUtils {
 	 * Creates a deserializer that use the @JsonSubType annotation to map from
 	 * incoming source JSON to an subclass of a supplied target class.
 	 * 
-	 * @param <T>
-	 *          Base class of the result objects that the deserializer will
-	 *          produce.
-	 * @param targetClass
-	 *          Base class of the result objects (used to get sub-type
-	 *          annotations).
-	 * @return Deserializer that is auto-configured from annotations on specified
-	 *         base class.
+	 * @param  <T>         Base class of the result objects that the deserializer
+	 *                       will produce.
+	 * @param  targetClass Base class of the result objects (used to get sub-type
+	 *                       annotations).
+	 * @return             Deserializer that is auto-configured from annotations
+	 *                     on specified base class.
 	 */
 	public static <T> JsonDeserializer<T> createTypedDeserializer(Class<T> targetClass) {
 
@@ -140,8 +133,7 @@ public class JsonUtils {
 	 * subclass an instance should be in the JSON. The annotation should be on the
 	 * root class and is used to map from a name to one of the defined subclasses.
 	 *
-	 * @param <R>
-	 *          Root class that is being deserialized.
+	 * @param <R> Root class that is being deserialized.
 	 */
 	private static class TypedDeserializer<T> extends StdDeserializer<T> {
 

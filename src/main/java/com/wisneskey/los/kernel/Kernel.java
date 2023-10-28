@@ -110,10 +110,10 @@ public class Kernel {
 	 */
 	public void shutdown() {
 
-		if( ! initialized ) {
+		if (!initialized) {
 			return;
 		}
-		
+
 		LOGGER.info("Shutting down kernel...");
 
 		// Shut down the services in particular order because of dependencies based
@@ -123,7 +123,7 @@ public class Kernel {
 			for (ServiceId serviceId : ServiceId.values()) {
 
 				if (serviceId.getShutdownPhase() == phase) {
-					
+
 					LOGGER.info("Terminating service {} in phase {}...", serviceId, phase);
 					Service<?> service = getService(serviceId);
 					service.terminate();
@@ -147,7 +147,7 @@ public class Kernel {
 	public boolean isInitialized() {
 		return initialized;
 	}
-	
+
 	/**
 	 * Returns the indicator that designates what environment the application is
 	 * being run in.
@@ -167,11 +167,9 @@ public class Kernel {
 	/**
 	 * Returns the service with the given id.
 	 * 
-	 * @param <T>
-	 *          Type of service.
-	 * @param id
-	 *          Id for the service to return.
-	 * @return Service for the requested id.
+	 * @param  <T> Type of service.
+	 * @param  id  Id for the service to return.
+	 * @return     Service for the requested id.
 	 */
 	@SuppressWarnings("unchecked")
 	public <T extends Service<?>> T getService(ServiceId id) {
@@ -199,8 +197,7 @@ public class Kernel {
 	/**
 	 * Used by boot loader to set the run mode of the operating system.
 	 * 
-	 * @param mode
-	 *          Run mode of the operating
+	 * @param mode Run mode of the operating
 	 */
 	public void setRunMode(RunMode mode) {
 
@@ -226,13 +223,10 @@ public class Kernel {
 	/**
 	 * Registers a service with the kernel.
 	 * 
-	 * @param <S>
-	 *          Class service uses for its state.
-	 * @param <T>
-	 *          Type of service.
-	 * @param serviceDetails
-	 *          Pair consisting of service and its state to register with the
-	 *          kernel.
+	 * @param <S>            Class service uses for its state.
+	 * @param <T>            Type of service.
+	 * @param serviceDetails Pair consisting of service and its state to register
+	 *                         with the kernel.
 	 */
 	public <S extends Service<T>, T extends State> void registerService(Pair<S, T> serviceDetails) {
 
@@ -270,8 +264,7 @@ public class Kernel {
 	 * message property is observed by the UI controller's to report on status in
 	 * the UI. The message may be null.
 	 * 
-	 * @param message
-	 *          Message to report for latest status (ignored if null).
+	 * @param message Message to report for latest status (ignored if null).
 	 */
 	public void message(String message) {
 		if (message != null) {
@@ -282,8 +275,7 @@ public class Kernel {
 	/**
 	 * Sets the master state of the chair.
 	 * 
-	 * @param state
-	 *          New master start for the chair.
+	 * @param state New master start for the chair.
 	 */
 	public void setMasterState(MasterState state) {
 		chairState.setMasterState(state);
@@ -383,8 +375,7 @@ public class Kernel {
 		/**
 		 * Sets the master state of the chair.
 		 * 
-		 * @param newState
-		 *          New master state for the chair.
+		 * @param newState New master state for the chair.
 		 */
 		private void setMasterState(MasterState newState) {
 			masterState.setValue(newState);
@@ -393,10 +384,8 @@ public class Kernel {
 		/**
 		 * Sets the state object for a service (during boot loading).
 		 * 
-		 * @param serviceId
-		 *          If of the service to set the state for.
-		 * @param state
-		 *          State object for the service.
+		 * @param serviceId If of the service to set the state for.
+		 * @param state     State object for the service.
 		 */
 		private void setServiceState(ServiceId serviceId, Object state) {
 			stateMap.put(serviceId, state);
@@ -405,8 +394,7 @@ public class Kernel {
 		/**
 		 * Sets the current message.
 		 * 
-		 * @param message
-		 *          Message to set or null to clear message.
+		 * @param message Message to set or null to clear message.
 		 */
 		private void setMessage(String message) {
 			bootMessage.setValue(message);

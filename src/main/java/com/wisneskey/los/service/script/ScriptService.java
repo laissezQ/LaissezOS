@@ -129,9 +129,9 @@ public class ScriptService extends AbstractService<ScriptState> {
 	/**
 	 * Load the script for the given script id.
 	 * 
-	 * @param scriptId
-	 *          Id of the script to load.
-	 * @return Script for the given script id or null if it could not be loaded.
+	 * @param  scriptId Id of the script to load.
+	 * @return          Script for the given script id or null if it could not be
+	 *                  loaded.
 	 */
 	private Script loadScript(ScriptId scriptId) {
 
@@ -150,9 +150,8 @@ public class ScriptService extends AbstractService<ScriptState> {
 	 * Creates the initial state of the service using the supplied profile for
 	 * configuration.
 	 * 
-	 * @param profile
-	 *          Profile to use for configuring initial service state.
-	 * @return Configured state object for the service.
+	 * @param  profile Profile to use for configuring initial service state.
+	 * @return         Configured state object for the service.
 	 */
 	private ScriptState createInitialState(Profile profile) {
 		scriptState = new InternalScriptState();
@@ -167,10 +166,9 @@ public class ScriptService extends AbstractService<ScriptState> {
 	 * Creates an instance of the script service along with its initial state as
 	 * set from the supplied profile.
 	 * 
-	 * @param profile
-	 *          Profile to use for configuring initial state of the script
-	 *          service.
-	 * @return Script service instance and its initial state object.
+	 * @param  profile Profile to use for configuring initial state of the script
+	 *                   service.
+	 * @return         Script service instance and its initial state object.
 	 */
 	public static Pair<ScriptService, ScriptState> createService(Profile profile) {
 

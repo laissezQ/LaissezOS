@@ -3,7 +3,8 @@ package com.wisneskey.los.service.lighting.driver;
 import com.wisneskey.los.service.profile.model.Profile;
 
 /**
- * Dummy lighting driver used in development environments with no actual lighting control.
+ * Dummy lighting driver used in development environments with no actual
+ * lighting control.
  * 
  * @author paul.wisneskey@gmail.com
  */
@@ -13,12 +14,11 @@ public class DummyLightingDriver implements LightingDriver {
 	public void initialize(Profile profile) {
 		// Nothing to do here
 	}
-	
+
 	@Override
 	public void terminate() {
-		
+
 	}
-	
 
 	@Override
 	public void runTest() {

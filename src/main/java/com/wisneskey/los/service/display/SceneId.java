@@ -14,8 +14,8 @@ public enum SceneId {
 	CP_LOCK_SCREEN(DisplayId.CP, "LockScreen"),
 	CP_MAIN_SCREEN(DisplayId.CP, "MainScreen"),
 	CP_SPLASH_SCREEN(DisplayId.CP, "SplashScreen"),
-  CP_SYSTEM_SCREEN(DisplayId.CP, "SystemScreen"),
-  
+	CP_SYSTEM_SCREEN(DisplayId.CP, "SystemScreen"),
+
 	//
 	// Heads Up Display scenes:
 	//

@@ -42,10 +42,8 @@ public class BootLoader extends Application {
 	 * Main entry point of the boot loader that handles configuration loading,
 	 * initializes the kernel and performs the configured boot sequence.
 	 * 
-	 * @param kernel
-	 *          Kernel to be configured during boot.
-	 * @param bootConfig
-	 *          Configuration for bootstrap the LBOS instance.
+	 * @param kernel     Kernel to be configured during boot.
+	 * @param bootConfig Configuration for bootstrap the LBOS instance.
 	 */
 	public void boot(BootConfiguration bootConfig) {
 

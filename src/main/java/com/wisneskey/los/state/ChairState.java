@@ -17,22 +17,22 @@ public interface ChairState extends State {
 	 * @return Master state property of the chair.
 	 */
 	ReadOnlyObjectProperty<MasterState> masterState();
-	
+
 	/**
-	 * Message property that is used to feed messages into the chair display system.  Display
-	 * scenes can listen to the property to receive messages as they are set.  It is up to them
-	 * to decide how to display them.
+	 * Message property that is used to feed messages into the chair display
+	 * system. Display scenes can listen to the property to receive messages as
+	 * they are set. It is up to them to decide how to display them.
 	 * 
 	 * @return Message property for the chair.
 	 */
 	ReadOnlyStringProperty message();
-	
+
 	// ----------------------------------------------------------------------------------------
 	// Service state properties.
 	// ----------------------------------------------------------------------------------------
 
 	<T extends State> T getServiceState(ServiceId serviceId);
-	
+
 	// ----------------------------------------------------------------------------------------
 	// Inner classes.
 	// ----------------------------------------------------------------------------------------
