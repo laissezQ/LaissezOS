@@ -55,6 +55,7 @@ public class LightingService extends AbstractService<LightingState> {
 	@Override
 	public void terminate() {
 
+		lightingDriver.terminate();
 		LOGGER.trace("Lighting service terminated.");
 	}
 

@@ -88,4 +88,12 @@ public class WledLightingDriver implements LightingDriver {
 		((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOn(RelayId.LIGHTING_A);
 		((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOn(RelayId.LIGHTING_B);
 	}
+
+	@Override
+	public void terminate() {
+
+		// Turn off the power to the LED strips.
+		((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOff(RelayId.LIGHTING_A);
+		((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOff(RelayId.LIGHTING_B);
+	}
 }

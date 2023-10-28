@@ -19,6 +19,11 @@ public interface LightingDriver {
 	void initialize(Profile profile);
 
 	/**
+	 * Shutdown the driver when terminating the service.
+	 */
+	void terminate();
+	
+	/**
 	 * Initial test implementation.
 	 */
 	void runTest();

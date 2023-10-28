@@ -13,6 +13,12 @@ public class DummyLightingDriver implements LightingDriver {
 	public void initialize(Profile profile) {
 		// Nothing to do here
 	}
+	
+	@Override
+	public void terminate() {
+		
+	}
+	
 
 	@Override
 	public void runTest() {
