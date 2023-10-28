@@ -8,8 +8,8 @@ import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.lighting.driver.LightingDriver;
 import com.wisneskey.los.service.lighting.driver.wled.client.WledClient;
-import com.wisneskey.los.service.lighting.driver.wled.client.model.Effects;
-import com.wisneskey.los.service.lighting.driver.wled.client.model.Info;
+import com.wisneskey.los.service.lighting.driver.wled.client.model.info.Info;
+import com.wisneskey.los.service.lighting.driver.wled.client.model.state.State;
 import com.wisneskey.los.service.profile.model.Profile;
 import com.wisneskey.los.service.relay.RelayId;
 import com.wisneskey.los.service.relay.RelayService;
@@ -59,7 +59,7 @@ public class WledLightingDriver implements LightingDriver {
 		try {
 			// Verify the connection by requesting the info from the controller.
 			Info info = controllerClient.getInfo();
-			Effects effects = controllerClient.getEffects();
+			State state = controllerClient.getState();
 			online = true;
 			LOGGER.info("Connected to WLED lighting driver: name={}", info.getName());
 

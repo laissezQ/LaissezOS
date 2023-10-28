@@ -1,19 +1,19 @@
 package com.wisneskey.los.service.lighting.driver.wled.client.request;
 
-import com.wisneskey.los.service.lighting.driver.wled.client.model.info.Info;
+import com.wisneskey.los.service.lighting.driver.wled.client.model.state.State;
 
 /**
- * Request for getting the information object from a WLED controller.
+ * Request for getting the state object from a WLED controller.
  * 
  * @author paul.wisneskey@gmail.com
  */
-public class GetInfoRequest extends Request<Info> {
+public class GetStateRequest extends Request<State> {
 
 	// ----------------------------------------------------------------------------------------
 	// Constructors.
 	// ----------------------------------------------------------------------------------------
 
-	public GetInfoRequest() {
-		super(RequestType.GET, "/json/info", Info.class);
+	public GetStateRequest() {
+		super(RequestType.GET, "/json/state", State.class);
 	}
 }

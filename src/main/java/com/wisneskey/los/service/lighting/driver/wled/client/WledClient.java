@@ -11,11 +11,13 @@ import com.mashape.unirest.request.HttpRequest;
 import com.mashape.unirest.request.HttpRequestWithBody;
 import com.wisneskey.los.error.LaissezException;
 import com.wisneskey.los.service.lighting.driver.wled.client.model.Effects;
-import com.wisneskey.los.service.lighting.driver.wled.client.model.Info;
 import com.wisneskey.los.service.lighting.driver.wled.client.model.Palettes;
+import com.wisneskey.los.service.lighting.driver.wled.client.model.info.Info;
+import com.wisneskey.los.service.lighting.driver.wled.client.model.state.State;
 import com.wisneskey.los.service.lighting.driver.wled.client.request.GetEffectsRequest;
 import com.wisneskey.los.service.lighting.driver.wled.client.request.GetInfoRequest;
 import com.wisneskey.los.service.lighting.driver.wled.client.request.GetPalettesRequest;
+import com.wisneskey.los.service.lighting.driver.wled.client.request.GetStateRequest;
 import com.wisneskey.los.service.lighting.driver.wled.client.request.Request;
 import com.wisneskey.los.service.lighting.driver.wled.client.request.Request.RequestParameter;
 import com.wisneskey.los.service.lighting.driver.wled.client.request.Request.RequestType;
@@ -41,6 +43,11 @@ public class WledClient {
 	 * Request to use to get the palettes from the controller.
 	 */
 	private static final GetPalettesRequest GET_PALETTES_REQUEST = new GetPalettesRequest();
+
+	/**
+	 * Request to use to get the state from the controller.
+	 */
+	private static final GetStateRequest GET_STATE_REQUEST = new GetStateRequest();
 
 	/**
 	 * URL of the WLED instance the client is for.
@@ -92,6 +99,15 @@ public class WledClient {
 	 */
 	public Palettes getPalettes() {
 		return request(GET_PALETTES_REQUEST);
+	}
+
+	/**
+	 * Return the state of the controller.
+	 * 
+	 * @return State object representing the current state of the controller.
+	 */
+	public State getState() {
+		return request(GET_STATE_REQUEST);
 	}
 
 	// ----------------------------------------------------------------------------------------

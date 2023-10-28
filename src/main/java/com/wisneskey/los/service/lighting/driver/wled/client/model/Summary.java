@@ -1,5 +1,8 @@
 package com.wisneskey.los.service.lighting.driver.wled.client.model;
 
+import com.wisneskey.los.service.lighting.driver.wled.client.model.info.Info;
+import com.wisneskey.los.service.lighting.driver.wled.client.model.state.State;
+
 /**
  * Model object representing all of the information returned from a WLED
  * controller. The sub-objects in this class may not be replaced - it is
