@@ -61,7 +61,6 @@ public class WledLightingDriver implements LightingDriver {
 			summary = controllerClient.getSummary();
 			online = true;
 			LOGGER.info("Connected to WLED lighting driver: name={}", summary.getInfo().getName());
-
 		} catch (Exception e) {
 			LOGGER.error("Failed to initialize lighting driver: {}", e.getMessage());
 			online = false;
@@ -72,7 +71,8 @@ public class WledLightingDriver implements LightingDriver {
 		}
 
 		// TODO: Validate the information we obtained from the controller to make
-		// sure its configuration matches what we expect in terms of lighting segments, etc.
+		// sure its configuration matches what we expect in terms of lighting
+		// segments, etc.
 
 		// If we were able to talk to the controller, go ahead and energize
 		// the relays to enable power to the LED lighting on both sides of the

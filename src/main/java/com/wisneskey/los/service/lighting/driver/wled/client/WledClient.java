@@ -13,6 +13,7 @@ import com.wisneskey.los.error.LaissezException;
 import com.wisneskey.los.service.lighting.driver.wled.client.model.Effects;
 import com.wisneskey.los.service.lighting.driver.wled.client.model.Palettes;
 import com.wisneskey.los.service.lighting.driver.wled.client.model.Summary;
+import com.wisneskey.los.service.lighting.driver.wled.client.model.UpdateStateResult;
 import com.wisneskey.los.service.lighting.driver.wled.client.model.info.Info;
 import com.wisneskey.los.service.lighting.driver.wled.client.model.state.State;
 import com.wisneskey.los.service.lighting.driver.wled.client.request.GetEffectsRequest;
@@ -23,6 +24,7 @@ import com.wisneskey.los.service.lighting.driver.wled.client.request.GetSummaryR
 import com.wisneskey.los.service.lighting.driver.wled.client.request.Request;
 import com.wisneskey.los.service.lighting.driver.wled.client.request.Request.RequestParameter;
 import com.wisneskey.los.service.lighting.driver.wled.client.request.Request.RequestType;
+import com.wisneskey.los.service.lighting.driver.wled.client.request.UpdateStateRequest;
 
 /**
  * Rest client for accessing a WLED controller application.
@@ -126,6 +128,17 @@ public class WledClient {
 		return request(GET_SUMMARY_REQUEST);
 	}
 
+	/**
+	 * Send updates for the state to the controller.
+	 * 
+	 * @param stateUpdates State object containing values only for the properties to update.
+	 * 
+	 * @return Result from updating the state of the controller.
+	 */
+	public UpdateStateResult updateState(State stateUpdates) {
+		return request(new UpdateStateRequest(stateUpdates));
+	}
+	
 	// ----------------------------------------------------------------------------------------
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
