@@ -103,7 +103,7 @@ public class Message extends AbstractScriptCommand {
 				if (index < messages.size() - 1) {
 					double variance = random.doubles(getMessageIntervalVariance() * -1.0, getMessageIntervalVariance())
 							.findFirst().getAsDouble();
-					sleepForSecond(getMessageInterval() + variance);
+					sleepForSeconds(getMessageInterval() + variance);
 				}
 			}
 		}

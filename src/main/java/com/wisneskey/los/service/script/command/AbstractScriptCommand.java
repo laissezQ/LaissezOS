@@ -39,7 +39,11 @@ public abstract class AbstractScriptCommand implements ScriptCommand {
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
 
-	protected void sleepForSecond(double seconds) {
+	/**
+	 * Lets script commands sleep for any fractional number of seconds.
+	 * @param seconds Number of seconds to sleep.
+	 */
+	protected void sleepForSeconds(double seconds) {
 		try {
 			Thread.sleep((long) (seconds * MILLISECONDS_PER_SECOND));
 		} catch (InterruptedException e) {

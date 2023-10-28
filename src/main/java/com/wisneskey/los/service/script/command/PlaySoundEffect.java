@@ -22,6 +22,11 @@ public class PlaySoundEffect extends AbstractScriptCommand {
 	private static final Logger LOGGER = LoggerFactory.getLogger(PlaySoundEffect.class);
 
 	/**
+	 * Default value of the wait for completion flag.
+	 */
+	private static final boolean DEFAULT_WAIT_FOR_COMPLETION = false;
+
+	/**
 	 * Random generator to use to randomly select audio clips.
 	 */
 	private Random random = new Random();
@@ -35,6 +40,13 @@ public class PlaySoundEffect extends AbstractScriptCommand {
 	 * List of sound effects ids to pick one randomly to play.
 	 */
 	private List<SoundEffectId> effectIds;
+
+	/**
+	 * Flag indicating if the command should wait for the audio clip playback to
+	 * complete before ending execution.
+	 */
+	private boolean waitForCompletion = DEFAULT_WAIT_FOR_COMPLETION;
+
 
 	// ----------------------------------------------------------------------------------------
 	// Property getters/setters.
@@ -56,6 +68,14 @@ public class PlaySoundEffect extends AbstractScriptCommand {
 		this.effectIds = effectIds;
 	}
 
+	public boolean isWaitForCompletion() {
+		return waitForCompletion;
+	}
+
+	public void setWaitForCompletion(boolean waitForCompletion) {
+		this.waitForCompletion = waitForCompletion;
+	}
+
 	// ----------------------------------------------------------------------------------------
 	// ScriptCommand methods.
 	// ----------------------------------------------------------------------------------------
@@ -75,7 +95,7 @@ public class PlaySoundEffect extends AbstractScriptCommand {
 		}
 
 		if (playId != null) {
-			((AudioService) Kernel.kernel().getService(ServiceId.AUDIO)).playEffect(playId);
+			((AudioService) Kernel.kernel().getService(ServiceId.AUDIO)).playEffect(playId, waitForCompletion);
 		}
 	}
 

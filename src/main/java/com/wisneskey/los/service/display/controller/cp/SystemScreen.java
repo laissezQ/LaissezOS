@@ -6,8 +6,9 @@ import com.wisneskey.los.service.display.DisplayId;
 import com.wisneskey.los.service.display.DisplayService;
 import com.wisneskey.los.service.display.SceneId;
 import com.wisneskey.los.service.display.controller.AbstractController;
+import com.wisneskey.los.service.script.ScriptId;
+import com.wisneskey.los.service.script.ScriptService;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
@@ -59,16 +60,8 @@ public class SystemScreen extends AbstractController {
 						"Confirm Exit", //
 						"LaissezOS exit has been requested!", "Do you want to exit LaissezOS?");
 
-		if (confirmed) {
-			Kernel.kernel().message("Exiting LaissezOS...\n");
-			
-			// Switch back to main screens so the termination messages are visible.
-			((DisplayService) Kernel.kernel().getService(ServiceId.DISPLAY)).showScene(SceneId.CP_MAIN_SCREEN);
-			((DisplayService) Kernel.kernel().getService(ServiceId.DISPLAY)).showScene(SceneId.HUD_MAIN_SCREEN);
-
-			// Exit the JavaFX application and then make sure the Swing windows are gone.
-			Platform.exit();
-			System.exit(0);
+		if (confirmed) {			
+			((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.SHUTDOWN);
 		}
 	}
 

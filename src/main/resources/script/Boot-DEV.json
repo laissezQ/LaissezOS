@@ -42,8 +42,7 @@
 					"MOVIE_HAL_OPERATIONAL",
 					"MOVIE_MACHINE_GOES_PING",
 					"MOVIE_WHAT_IS_THY_BIDDING"
-				],
-				"postCommandPause": 5.0
+				]
 			}
 		},
 		{

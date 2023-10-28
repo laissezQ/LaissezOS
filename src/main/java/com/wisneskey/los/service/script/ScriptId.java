@@ -9,6 +9,7 @@ public enum ScriptId {
 
 	BOOT_FAST("Fasted possible boot sequence.", "Boot-Fast"),
 	BOOT_DEV("Test boot sequence for development.", "Boot-DEV"),
+  SHUTDOWN("The party is over.", "Shutdown"),	
 	SECURITY_UNLOCKED("Chair was unlocked.", "Security-Unlocked"),
 	SECURITY_UNLOCK_FAILED("Invalid PIN entered for chair unlock.", "Security-UnlockFailed");
 

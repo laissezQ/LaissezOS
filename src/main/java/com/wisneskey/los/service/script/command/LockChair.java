@@ -20,7 +20,7 @@ public class LockChair extends AbstractScriptCommand {
 	private SceneId cpScene;
 
 	// ----------------------------------------------------------------------------------------
-	// ScriptCommands methods.
+	// Property getters/setters.
 	// ----------------------------------------------------------------------------------------
 
 	public String getLockMessage() {

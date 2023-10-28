@@ -3,12 +3,14 @@ package com.wisneskey.los.service.audio;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.CountDownLatch;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
+import javax.sound.sampled.LineEvent;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,11 +66,24 @@ public class AudioService extends AbstractService<AudioState> {
 	 * 
 	 * @param effectId
 	 *          Id of the sound effect to play.
+	 * @param waitForCompletion
+	 *          Flag indicating if the call should not return until the playback
+	 *          is completed.
 	 */
-	public void playEffect(SoundEffectId effectId) {
+	public void playEffect(SoundEffectId effectId, boolean waitForCompletion) {
 
 		LOGGER.debug("Playing sound effect: {}", effectId);
-		new SoundEffectPlayerThread(effectId).start();
+		Thread playerThread = new SoundEffectPlayerThread(effectId);
+		playerThread.start();
+
+		if (waitForCompletion) {
+			try {
+				playerThread.join();
+			} catch (InterruptedException e) {
+				LOGGER.warn("Interrupted waiting for audio clip to complete.");
+				Thread.currentThread().interrupt();
+			}
+		}
 	}
 
 	// ----------------------------------------------------------------------------------------
@@ -79,7 +94,7 @@ public class AudioService extends AbstractService<AudioState> {
 	public void terminate() {
 		LOGGER.trace("Audio service terminated.");
 	}
-	
+
 	// ----------------------------------------------------------------------------------------
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
@@ -92,16 +107,16 @@ public class AudioService extends AbstractService<AudioState> {
 	 * @return Configured state object for the service.
 	 */
 	private AudioState initialize(Profile profile) {
-		
+
 		LOGGER.info("Initializing audio service...");
-		
-		if( Kernel.kernel().getRunMode() == RunMode.CHAIR ) {
+
+		if (Kernel.kernel().getRunMode() == RunMode.CHAIR) {
 
 			// If we are running on the chair itself, we need to toggle the relay that
-			// enables power to the amplifier board.			
+			// enables power to the amplifier board.
 			((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOn(RelayId.AMPLIFIER);
 		}
-		
+
 		audioState = new InternalAudioState();
 		return audioState;
 	}
@@ -138,7 +153,7 @@ public class AudioService extends AbstractService<AudioState> {
 
 		private SoundEffectId effectId;
 
-		public SoundEffectPlayerThread( SoundEffectId effectId) {
+		public SoundEffectPlayerThread(SoundEffectId effectId) {
 			this.effectId = effectId;
 
 			setDaemon(true);
@@ -155,6 +170,7 @@ public class AudioService extends AbstractService<AudioState> {
 
 			try {
 
+				CountDownLatch waitLatch = new CountDownLatch(1);
 				StopWatch timer = new StopWatch();
 
 				// Load the resource to play back as a clip. Put it in a buffered input
@@ -170,12 +186,31 @@ public class AudioService extends AbstractService<AudioState> {
 				AudioFormat format = audioIn.getFormat();
 				DataLine.Info info = new DataLine.Info(Clip.class, format);
 				Clip clip = (Clip) AudioSystem.getLine(info);
-				clip.open(audioIn);
 
-				PLAYER_LOGGER.trace("Audio clip playback starting; load time: {}", timer.elapsedAsString());
+				// Add a listener so we can wait until the clip stops playing.
+				clip.addLineListener(e -> {
+					if (e.getType() == LineEvent.Type.STOP) {
+						waitLatch.countDown();
+					}
+				});
+
+				clip.open(audioIn);
 				clip.start();
-				PLAYER_LOGGER.trace("Audio clip playback started; total time: {}", timer.elapsedAsString());
-				
+
+				if (PLAYER_LOGGER.isTraceEnabled()) {
+					PLAYER_LOGGER.trace("Audio clip playback started; time until start: {}", timer.elapsedAsString());
+				}
+
+				// Now wait for the clip to complete playing.
+				waitLatch.await();
+
+				if (PLAYER_LOGGER.isTraceEnabled()) {
+					PLAYER_LOGGER.trace("Audio clip playback completed; total time: {}", timer.elapsedAsString());
+				}
+
+			} catch (InterruptedException e) {
+				PLAYER_LOGGER.error("Interrupted while playing sound effect.");
+				Thread.currentThread().interrupt();
 			} catch (Exception e) {
 				PLAYER_LOGGER.error("Failed to play sound effect.", e);
 			}

@@ -1,0 +1,29 @@
+{
+	// 
+	// Script that exits the Laissez OS application.
+	//
+	"name": "Shutdown Laissez OS",
+	//
+	"commands": [
+		{
+			"message": {
+				"message": "Shutting down...\n",
+				"postCommandPause": 1.0
+			}
+		},
+		{
+			"playSoundEffect": {
+				"effectIds": [
+					"MOVIE_ALIEN_GAME_OVER",
+					"MOVIE_BLADE_RUNNER_TIME_TO_DIE",
+					"MISC_PIXABAY_SHUTDOWN"
+				],
+				"waitForCompletion": true
+			}
+		},
+		{
+			"shutdown": {
+			}
+		}
+	]
+}

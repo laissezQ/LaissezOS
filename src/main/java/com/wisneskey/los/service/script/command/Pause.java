@@ -31,7 +31,7 @@ public class Pause extends AbstractScriptCommand {
 	@Override
 	public void perform() {
 
-		sleepForSecond(getSeconds());
+		sleepForSeconds(getSeconds());
 	}
 	
 	// ----------------------------------------------------------------------------------------
