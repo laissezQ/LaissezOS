@@ -8,24 +8,24 @@ package com.wisneskey.los.service.relay;
 public enum RelayId {
 
 	// Driver board A relays:
-	RELAY_0(0, "First relay."),
-	RELAY_1(1, "Second relaye."),
-	RELAY_2(2, "Third relay."),
-	RELAY_3(3, "Fouth relay."),
+	A_RETRACT(0, "A retract."),
+	A_EXTEND(1, "A extend."),
+	B_RETRACT(2, "B retract."),
+	B_EXTEND(3, "B extend."),
 	BAR_LOWER(4, "Lower armrest bar.."),
 	BAR_RAISE(5, "Raise armest bar."),
 	RELAY_6(6, "Seventh relay."),
 	RELAY_7(7, "Eight relay."),
 
 	// Driver board B relays:
-	RELAY_8(8, "Ninth relay."),
+	AMPLIFIER(8, "Audio amplifier on."),
 	RELAY_9(9, "Tenth relay."),
 	RELAY_10(10, "Eleventh relay."),
 	RELAY_11(11, "Twelf relay."),
 	RELAY_12(12, "Thirteenth relay."),
 	RELAY_13(13, "Fourteenth relay."),
-	RELAY_14(14, "Fifteenth relay."),
-	RELAY_15(15, "Sixteenth relay.");
+	LIGHTING_A(14, "LED Lighting for A side."),
+	LIGHTING_B(15, "LED Lighting for B side.");
 
 	// ----------------------------------------------------------------------------------------
 	// Variables.

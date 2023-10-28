@@ -16,10 +16,13 @@
 	// Display service settings:
 	//
 	"displayStyle": "LAISSEZ_OS",
+	//
+	// Lighting service settings:
+	//
+	"useRealLighting": true,
+	"wledHostAddress": "http://192.168.86.21",
 	// 
 	// Security service settings:
 	//
-	"pinCode" : "6294",
-	"unlockedScript" : "SECURITY_UNLOCKED",
-	"unlockFailedScript" : "SECURITY_UNLOCK_FAILED"
+	"pinCode": "6294"
 }

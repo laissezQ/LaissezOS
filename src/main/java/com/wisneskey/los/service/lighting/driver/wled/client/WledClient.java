@@ -10,6 +10,8 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.HttpRequest;
 import com.mashape.unirest.request.HttpRequestWithBody;
 import com.wisneskey.los.error.LaissezException;
+import com.wisneskey.los.service.lighting.driver.wled.client.model.Info;
+import com.wisneskey.los.service.lighting.driver.wled.client.request.GetInfoRequest;
 import com.wisneskey.los.service.lighting.driver.wled.client.request.Request;
 import com.wisneskey.los.service.lighting.driver.wled.client.request.Request.RequestParameter;
 import com.wisneskey.los.service.lighting.driver.wled.client.request.Request.RequestType;
@@ -19,7 +21,7 @@ import com.wisneskey.los.service.lighting.driver.wled.client.request.Request.Req
  * 
  * @author paul.wisneskey@bigbear.ai
  */
-public class WLEDClient {
+public class WledClient {
 
 	/**
 	 * URL of the WLED instance the client is for.
@@ -36,12 +38,25 @@ public class WLEDClient {
 	 * @param endpoint
 	 *          URL of the WLED instance.
 	 */
-	private WLEDClient(String endpoint) {
+	private WledClient(String endpoint) {
 		this.endpoint = endpoint;
 	}
 
 	// ----------------------------------------------------------------------------------------
 	// Public methods.
+	// ----------------------------------------------------------------------------------------
+
+	/**
+	 * Return the info for the controller.
+	 * 
+	 * @return Info object with information returned by the controller.
+	 */
+	public Info getInfo() {
+		return request(new GetInfoRequest());
+	}
+	
+	// ----------------------------------------------------------------------------------------
+	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
 
 	/**
@@ -53,7 +68,7 @@ public class WLEDClient {
 	 * @throws LaissezException
 	 *           If the request fails.
 	 */
-	public <T> T request(Request<T> request) throws LaissezException {
+	private <T> T request(Request<T> request) throws LaissezException {
 
 		// Set up the final request path.
 		String requestPath = endpoint + request.getRequestPath();
@@ -122,8 +137,8 @@ public class WLEDClient {
 	 * 
 	 * @return Client configured for the designated endpoint.
 	 */
-	public static WLEDClient create(String endpoint) {
+	public static WledClient create(String endpoint) {
 
-		return new WLEDClient(endpoint);
+		return new WledClient(endpoint);
 	}
 }

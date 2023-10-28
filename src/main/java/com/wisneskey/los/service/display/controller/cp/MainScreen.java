@@ -75,6 +75,12 @@ public class MainScreen extends AbstractController {
 		RelayWhilePressedListener.add(barDownButton, RelayId.BAR_LOWER, "Lowering bar...\n");
 		RelayWhilePressedListener.add(barUpButton, RelayId.BAR_RAISE, "Raising bar...\n");
 
+		RelayWhilePressedListener.add(backrestDownButton, RelayId.A_RETRACT, "A retract...\n");
+		RelayWhilePressedListener.add(backrestUpButton, RelayId.A_EXTEND, "A extend...\n");
+
+		RelayWhilePressedListener.add(footrestDownButton, RelayId.B_RETRACT, "B retract...\n");
+		RelayWhilePressedListener.add(footrestUpButton, RelayId.B_EXTEND, "B extend...\n");
+
 		logo.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent mouseEvent) {

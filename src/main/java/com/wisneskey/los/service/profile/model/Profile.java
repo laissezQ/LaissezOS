@@ -89,6 +89,12 @@ public class Profile {
 	 */
 	private String wledHostAddress;
 
+	/**
+	 * Flag to force the user of the real lighting driver even in development.  This is
+	 * possible since the ESP32 can run independently of the rest of the system.
+	 */
+	private boolean useRealLighting;
+	
 	// ----------------------------------------------------------------------------------------
 	// General property getters.
 	// ----------------------------------------------------------------------------------------
@@ -146,6 +152,16 @@ public class Profile {
 		return wledHostAddress;
 	}
 
+	/**
+	 * Returns a flag indicating if the real lighting driver should be used instead of
+	 * the dummy lighting driver in the development mode.
+	 * 
+	 * @return True if real lighting driver should be used regardless of chair mode.
+	 */
+	public boolean getUseRealLighting() {
+		return useRealLighting;
+	}
+	
 	// ----------------------------------------------------------------------------------------
 	// Location service property getters.
 	// ----------------------------------------------------------------------------------------

@@ -10,7 +10,7 @@ import com.wisneskey.los.service.AbstractService;
 import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.lighting.driver.DummyLightingDriver;
 import com.wisneskey.los.service.lighting.driver.LightingDriver;
-import com.wisneskey.los.service.lighting.driver.wled.WLEDLightingDriver;
+import com.wisneskey.los.service.lighting.driver.wled.WledLightingDriver;
 import com.wisneskey.los.service.profile.model.Profile;
 import com.wisneskey.los.service.relay.RelayId;
 import com.wisneskey.los.service.relay.RelayService;
@@ -63,13 +63,13 @@ public class LightingService extends AbstractService<LightingState> {
 	// ----------------------------------------------------------------------------------------
 
 	public void runTest() {
-		
+
 		// Enable power to the lighting strip.
 		((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOn(RelayId.RELAY_7);
-		
+
 		lightingDriver.runTest();
 	}
-	
+
 	// ----------------------------------------------------------------------------------------
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
@@ -85,7 +85,8 @@ public class LightingService extends AbstractService<LightingState> {
 	}
 
 	/**
-	 * Initializes the service and its lighting driver and returns the initial state.
+	 * Initializes the service and its lighting driver and returns the initial
+	 * state.
 	 * 
 	 * @param runMode
 	 *          Run mode for the operating system.
@@ -126,16 +127,24 @@ public class LightingService extends AbstractService<LightingState> {
 
 		LightingService service = new LightingService();
 
-		// Set the lighting driver based on the run mode.
-		switch (runMode) {
-		case CHAIR:
-			service.setLightingDriver(new WLEDLightingDriver());
-			break;
-		case DEV:
-			service.setLightingDriver(new DummyLightingDriver());
-			break;
-		default:
-			throw new LaissezException("Unknown run mode during lighting driver selection: " + runMode);
+		if (profile.getUseRealLighting()) {
+
+			// Use the ESP32 regardless of the mode.
+			service.setLightingDriver(new WledLightingDriver());
+
+		} else {
+			
+			// Set the lighting driver based on the run mode.
+			switch (runMode) {
+			case CHAIR:
+				service.setLightingDriver(new WledLightingDriver());
+				break;
+			case DEV:
+				service.setLightingDriver(new DummyLightingDriver());
+				break;
+			default:
+				throw new LaissezException("Unknown run mode during lighting driver selection: " + runMode);
+			}
 		}
 
 		// Give the service a chance to initialize.

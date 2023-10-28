@@ -71,11 +71,13 @@ public class BootLoader extends Application {
 		Profile profile = profileServiceDetails.getValue().activeProfile().getValue();
 
 		// Register the other services which will use the active profile to
-		// configure themselves.
-		kernel.registerService(AudioService.createService(profile));
+		// configure themselves.  Initialize the relay service first since some
+		// of the other services may need to energize supporting circuits when
+		// the initialize (e.g. lighting and audio).
+		kernel.registerService(RelayService.createService(runMode, profile));
 		kernel.registerService(LightingService.createService(runMode, profile));
 		kernel.registerService(LocationService.createService(runMode, profile));
-		kernel.registerService(RelayService.createService(runMode, profile));
+		kernel.registerService(AudioService.createService(profile));
 		kernel.registerService(ScriptService.createService(profile));
 		kernel.registerService(SecurityService.createService(profile));
 
