@@ -10,8 +10,12 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.HttpRequest;
 import com.mashape.unirest.request.HttpRequestWithBody;
 import com.wisneskey.los.error.LaissezException;
+import com.wisneskey.los.service.lighting.driver.wled.client.model.Effects;
 import com.wisneskey.los.service.lighting.driver.wled.client.model.Info;
+import com.wisneskey.los.service.lighting.driver.wled.client.model.Palettes;
+import com.wisneskey.los.service.lighting.driver.wled.client.request.GetEffectsRequest;
 import com.wisneskey.los.service.lighting.driver.wled.client.request.GetInfoRequest;
+import com.wisneskey.los.service.lighting.driver.wled.client.request.GetPalettesRequest;
 import com.wisneskey.los.service.lighting.driver.wled.client.request.Request;
 import com.wisneskey.los.service.lighting.driver.wled.client.request.Request.RequestParameter;
 import com.wisneskey.los.service.lighting.driver.wled.client.request.Request.RequestType;
@@ -22,6 +26,21 @@ import com.wisneskey.los.service.lighting.driver.wled.client.request.Request.Req
  * @author paul.wisneskey@bigbear.ai
  */
 public class WledClient {
+
+	/**
+	 * Request to use to get the available effects from the controller.
+	 */
+	private static final GetEffectsRequest GET_EFFECTS_REQUEST = new GetEffectsRequest();
+
+	/**
+	 * Request to use to get the info from the controller.
+	 */
+	private static final GetInfoRequest GET_INFO_REQUEST = new GetInfoRequest();
+
+	/**
+	 * Request to use to get the palettes from the controller.
+	 */
+	private static final GetPalettesRequest GET_PALETTES_REQUEST = new GetPalettesRequest();
 
 	/**
 	 * URL of the WLED instance the client is for.
@@ -47,14 +66,34 @@ public class WledClient {
 	// ----------------------------------------------------------------------------------------
 
 	/**
+	 * Return the effects available from the controller.
+	 * 
+	 * @return Effects object with list of all effects supported by the
+	 *         controller.
+	 */
+	public Effects getEffects() {
+		return request(GET_EFFECTS_REQUEST);
+	}
+
+	/**
 	 * Return the info for the controller.
 	 * 
 	 * @return Info object with information returned by the controller.
 	 */
 	public Info getInfo() {
-		return request(new GetInfoRequest());
+		return request(GET_INFO_REQUEST);
 	}
-	
+
+	/**
+	 * Return the preset palettes available from the controller.
+	 * 
+	 * @return Palettes object with list of available palettes supported by the
+	 *         controller.
+	 */
+	public Palettes getPalettes() {
+		return request(GET_PALETTES_REQUEST);
+	}
+
 	// ----------------------------------------------------------------------------------------
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
