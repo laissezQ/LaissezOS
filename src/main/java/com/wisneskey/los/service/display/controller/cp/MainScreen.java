@@ -100,6 +100,6 @@ public class MainScreen extends AbstractController {
 	public void lockChair() {
 
 		((SecurityService) Kernel.kernel().getService(ServiceId.SECURITY)).lockChair(SecurityService.DEFAULT_LOCK_MESSAGE,
-				ScriptId.SECURITY_UNLOCKED, null, null, null);
+				ScriptId.SECURITY_UNLOCKED, ScriptId.SECURITY_UNLOCK_FAILED, null, null);
 	}
 }
