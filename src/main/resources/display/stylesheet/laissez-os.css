@@ -337,42 +337,36 @@ Text {
   -fx-background-insets: 0, 1px 0 1px 1px;
 }
 .button.left-pill:hover, .button.left-pill:focused {
-  -fx-background-insets: 0, 1px;
 }
 .button.center-pill {
   -fx-background-radius: 0;
   -fx-background-insets: 0, 1px 0 1px 0;
 }
 .button.center-pill:hover, .button.center-pill:focused {
-  -fx-background-insets: 0, 1px;
 }
 .button.right-pill {
   -fx-background-radius: 0 1 1 0, 0 0px 0px 0;
   -fx-background-insets: 0, 1px 1px 1px 0;
 }
 .button.right-pill:hover, .button.right-pill:focused {
-  -fx-background-insets: 0, 1px;
+
 }
 .button:hover {
-  -fx-background-color: -color-button-border-hover, -color-button-bg-hover;
-  -fx-text-fill: -color-button-fg-hover;
-  -fx-opacity: 0.9;
+  
 }
 .button:hover:focused {
-  -fx-background-color: -color-button-border-focused, -color-button-bg-hover;
+  
 }
 .button:hover .font-icon, .button:hover .ikonli-font-icon {
-  -fx-icon-color: -color-button-fg-hover;
-  -fx-fill: -color-button-fg-hover;
+  
 }
 .button:focused {
-  -fx-background-color: -color-button-border-focused, -color-button-bg-focused;
-  -fx-text-fill: -color-button-fg-focused;
+  
 }
 .button:focused .font-icon, .button:focused .ikonli-font-icon {
-  -fx-icon-color: -color-button-fg-focused;
-  -fx-fill: -color-button-fg-focused;
+
 }
+
 .button:armed, .button:focused:armed {
   -fx-background-color: -color-button-border-pressed, -color-button-bg-pressed;
   -fx-text-fill: -color-button-fg-pressed;
@@ -3668,8 +3662,6 @@ Text {
   -fx-cursor: text;
 }
 .text-input:focused {
-  -fx-background-color: -color-input-border-focused, -color-input-bg-focused;
-  -fx-prompt-text-fill: transparent;
 }
 .text-input:disabled {
   -fx-opacity: 0.55;
@@ -3694,21 +3686,18 @@ Text {
   -fx-background-insets: 0, 1px 0 1px 1px;
 }
 .text-input.left-pill:focused {
-  -fx-background-insets: 0, 1px;
 }
 .text-input.center-pill {
   -fx-background-radius: 0;
   -fx-background-insets: 0, 1px 0 1px 0;
 }
 .text-input.center-pill:focused {
-  -fx-background-insets: 0, 1px;
 }
 .text-input.right-pill {
   -fx-background-radius: 0 1 1 0, 0 0px 0px 0;
   -fx-background-insets: 0, 1px 1px 1px 0;
 }
 .text-input.right-pill:focused {
-  -fx-background-insets: 0, 1px;
 }
 .text-input .context-menu {
   -fx-font-size: 14px;
