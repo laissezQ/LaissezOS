@@ -22,7 +22,6 @@ import com.wisneskey.los.service.profile.model.Profile;
 import com.wisneskey.los.state.MapState;
 
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.util.Pair;
 
@@ -145,7 +144,7 @@ public class MapService extends AbstractService<MapState> {
 
 		// If we still didn't find it and we are allowed to go online, try to get
 		// it from Open Street Map.
-		if (mapState.getOnline().getValue().booleanValue()) {
+		if (mapState.getOnline().get()) {
 
 			tileImage = fetchTileImage(x, y, zoom);
 		}
@@ -352,7 +351,7 @@ public class MapService extends AbstractService<MapState> {
 		// ----------------------------------------------------------------------------------------
 
 		@Override
-		public ReadOnlyBooleanProperty getOnline() {
+		public BooleanProperty getOnline() {
 			return online;
 		}
 	}

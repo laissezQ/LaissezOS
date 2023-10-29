@@ -8,9 +8,11 @@ import com.wisneskey.los.service.display.SceneId;
 import com.wisneskey.los.service.display.controller.AbstractController;
 import com.wisneskey.los.service.script.ScriptId;
 import com.wisneskey.los.service.script.ScriptService;
+import com.wisneskey.los.state.MapState;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.image.ImageView;
 
 /**
@@ -53,6 +55,12 @@ public class SystemScreen extends AbstractController {
 	@FXML
 	private Button resumeButton;
 
+	/**
+	 * Check box that controls if online map download is allowed.
+	 */
+	@FXML
+	private CheckBox onlineMapCheckBox;
+
 	// ----------------------------------------------------------------------------------------
 	// Public methods.
 	// ----------------------------------------------------------------------------------------
@@ -63,6 +71,9 @@ public class SystemScreen extends AbstractController {
 	@FXML
 	public void initialize() {
 
+		// Bind the online map download check box to the map state property.
+		MapState mapState = chairState().getServiceState(ServiceId.MAP);
+		onlineMapCheckBox.selectedProperty().bindBidirectional(mapState.getOnline());
 	}
 
 	/**

@@ -1,6 +1,6 @@
 package com.wisneskey.los.state;
 
-import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.property.BooleanProperty;
 
 /**
  * State object with the state of the map service.
@@ -25,10 +25,10 @@ import javafx.beans.property.ReadOnlyBooleanProperty;
 public interface MapState extends State {
 
 	/**
-	 * Returns if the map service is running in online where mode where it is allowed
-	 * to fetch tiles from a server if they are not found in the cache.
+	 * Property that controls if the map map service is allowed to download map tiles
+	 * from Open Street Maps online.  Can be set by anyone.
 	 * 
 	 * @return True if map service can fetch tiles online; false otherwise.
 	 */
-	ReadOnlyBooleanProperty getOnline();
+	BooleanProperty getOnline();
 }

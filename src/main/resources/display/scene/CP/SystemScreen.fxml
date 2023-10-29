@@ -25,7 +25,7 @@
             <DropShadow />
          </effect>
       </ImageView>
-      <Button fx:id="exitButton" layoutX="53.0" layoutY="248.0" mnemonicParsing="false" onAction="#exitPressed" prefHeight="80.0" prefWidth="294.0" text="Exit LaissezOS">
+      <Button fx:id="exitButton" layoutX="53.0" layoutY="216.0" mnemonicParsing="false" onAction="#exitPressed" prefHeight="80.0" prefWidth="294.0" text="Exit LaissezOS">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -33,7 +33,7 @@
             <DropShadow />
          </effect>
       </Button>
-      <Line endX="190.0" layoutX="196.0" layoutY="384.0" startX="-180.0">
+      <Line endX="190.0" layoutX="196.0" layoutY="321.0" startX="-180.0">
          <effect>
             <DropShadow />
          </effect>
@@ -51,5 +51,10 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
+      <CheckBox fx:id="onlineMapCheckBox" layoutX="101.0" layoutY="353.0" mnemonicParsing="false" text="Online Map Download">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </CheckBox>
 	</children>
 </Pane>
