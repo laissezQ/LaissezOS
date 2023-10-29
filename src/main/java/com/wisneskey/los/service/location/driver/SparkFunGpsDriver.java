@@ -149,12 +149,15 @@ public class SparkFunGpsDriver implements GpsDriver {
 			} catch (DataNotAvailableException e) {
 
 				// GPS is online but not returning a location yet.
+				LOGGER.trace("Data not available error from GPS.");
 				updateSampleHistory(null, true);
 
 			} catch (Exception e) {
 
 				LOGGER.warn("Failed to parse GPS location.", e);
 			}
+		} else {
+			LOGGER.trace("GPS: Ignoring {}", line);
 		}
 	}
 
