@@ -84,4 +84,14 @@ public class DummyGpsDriver implements GpsDriver {
 
 		return hasFix ? Location.of(latitude, longitude, altitude) : null;
 	}
+
+	@Override
+	public int getSatellitesInFix() {
+		return 0;
+	}
+
+	@Override
+	public int getSatellitesInView() {
+		return 0;
+	}
 }

@@ -40,4 +40,18 @@ public interface GpsDriver {
 	 * @return Current location or null if GPS has no fix.
 	 */
 	Location getCurrentLocation();
+	
+	/**
+	 * Returns the number of satellites that were used for fast fix.
+	 * 
+	 * @return Number of satellites in last fix; zero if no fix.
+	 */
+	int getSatellitesInFix();
+	
+	/**
+	 * Returns the last number of satellites reported in view by the GPS.
+	 * 
+	 * @return Number of satellites last reported as in view by GPS.
+	 */
+	int getSatellitesInView();
 }

@@ -1,6 +1,7 @@
 package com.wisneskey.los.service.location.driver;
 
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,7 @@ import com.wisneskey.los.service.profile.model.Profile;
 import net.sf.marineapi.nmea.parser.DataNotAvailableException;
 import net.sf.marineapi.nmea.parser.SentenceFactory;
 import net.sf.marineapi.nmea.sentence.GGASentence;
+import net.sf.marineapi.nmea.sentence.GSVSentence;
 import net.sf.marineapi.nmea.util.GpsFixQuality;
 import net.sf.marineapi.nmea.util.Position;
 
@@ -92,6 +94,16 @@ public class SparkFunGpsDriver implements GpsDriver {
 	 */
 	private Object sampleLock = new Object();
 
+	/**
+	 * Number of satellites that were used to obtain the last position.
+	 */
+	private AtomicInteger satellitesInFix = new AtomicInteger(0);
+
+	/**
+	 * Number of satellites that are in view of the GPS.
+	 */
+	private AtomicInteger satellitesInView = new AtomicInteger(0);
+
 	// ----------------------------------------------------------------------------------------
 	// GpsDriver methods.
 	// ----------------------------------------------------------------------------------------
@@ -100,8 +112,8 @@ public class SparkFunGpsDriver implements GpsDriver {
 	public void initialize(Profile profile) {
 
 		LOGGER.debug("Initializing SparkFun GPS board driver...");
-		
-		if( LOGGER.isTraceEnabled()) {
+
+		if (LOGGER.isTraceEnabled()) {
 			LOGGER.trace("Board I2C address: {}", Integer.toHexString(I2C_ADDRESS));
 		}
 
@@ -125,41 +137,19 @@ public class SparkFunGpsDriver implements GpsDriver {
 		return getSmoothedLocation();
 	}
 
+	@Override
+	public int getSatellitesInFix() {
+		return satellitesInFix.get();
+	}
+
+	@Override
+	public int getSatellitesInView() {
+		return satellitesInView.get();
+	}
+	
 	// ----------------------------------------------------------------------------------------
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
-
-	/**
-	 * Receives a line from the GPS reader thread.
-	 * 
-	 * @param line Line from the GPS to process.
-	 */
-	private void processGpsLine(String line) {
-
-		// Only pull out position reports for parsing.
-		if (line.startsWith("$GNGGA")) {
-
-			try {
-				SentenceFactory sf = SentenceFactory.getInstance();
-				GGASentence gsa = (GGASentence) sf.createParser(line);
-
-				LOGGER.trace("GPS: {} quality={}", gsa.getPosition(), gsa.getFixQuality());
-				updateSampleHistory(gsa, false);
-
-			} catch (DataNotAvailableException e) {
-
-				// GPS is online but not returning a location yet.
-				LOGGER.trace("Data not available error from GPS.");
-				updateSampleHistory(null, true);
-
-			} catch (Exception e) {
-
-				LOGGER.warn("Failed to parse GPS location.", e);
-			}
-		} else {
-			LOGGER.trace("GPS: Ignoring {}", line);
-		}
-	}
 
 	/**
 	 * Processes the latest sample and updates the sample history as appropriate
@@ -338,7 +328,7 @@ public class SparkFunGpsDriver implements GpsDriver {
 						LOGGER.trace("Empty response from GPS module: sleeping...");
 						Thread.sleep(GPS_SLEEP_MS);
 					} catch (InterruptedException e) {
-						LOGGER.info("Interrupted during GPS sleep.");
+						LOGGER.warn("Interrupted during GPS sleep.");
 						Thread.currentThread().interrupt();
 						break;
 					}
@@ -347,5 +337,66 @@ public class SparkFunGpsDriver implements GpsDriver {
 
 			LOGGER.info("GPS reader thread shutdown.");
 		}
+
+		/**
+		 * Receives a line from the GPS reader thread.
+		 * 
+		 * @param line Line from the GPS to process.
+		 */
+		private void processGpsLine(String line) {
+
+			if (line.startsWith("$GNGGA")) {
+				// Pull out position reports.
+				processPositionLine(line);
+			} else if (line.startsWith("$GPGSV")) {
+				// Capture details from the System Fix Data
+				processSatellitesInViewLine(line);
+			} else {
+				LOGGER.trace("GPS: Ignoring {}", line);
+			}
+		}
+
+		private void processPositionLine(String line) {
+
+			try {
+				SentenceFactory sf = SentenceFactory.getInstance();
+				GGASentence gsa = (GGASentence) sf.createParser(line);
+
+				LOGGER.debug("GPS Location: {} quality={} numSatellites={}", gsa.getPosition(), gsa.getFixQuality(),
+						gsa.getSatelliteCount());
+				updateSampleHistory(gsa, false);
+				satellitesInFix.set(gsa.getSatelliteCount());
+
+			} catch (DataNotAvailableException e) {
+
+				// GPS is online but not returning a location yet.
+				LOGGER.debug("Data not available error from GPS.");
+				updateSampleHistory(null, true);
+
+			} catch (Exception e) {
+
+				LOGGER.warn("Failed to parse GPS location.", e);
+			}
+		}
+
+		private void processSatellitesInViewLine(String line) {
+
+			try {
+				SentenceFactory sf = SentenceFactory.getInstance();
+				GSVSentence gsv = (GSVSentence) sf.createParser(line);
+
+				LOGGER.debug("GPS Satellite: inView={}", gsv.getSatelliteCount());
+				satellitesInView.set(gsv.getSatelliteCount());
+
+			} catch (DataNotAvailableException e) {
+
+				// GPS is online but not returning data yet.
+				LOGGER.debug("Data not available error from GPS.");
+
+			} catch (Exception e) {
+				LOGGER.warn("Failed to parse GPS satellite data.", e);
+			}
+		}
+
 	}
 }

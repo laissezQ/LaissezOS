@@ -14,7 +14,6 @@ import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.OSMTileFactoryInfo;
 import org.jxmapviewer.input.CenterMapListener;
 import org.jxmapviewer.input.PanMouseInputListener;
-import org.jxmapviewer.viewer.DefaultTileFactory;
 import org.jxmapviewer.viewer.GeoPosition;
 import org.jxmapviewer.viewer.TileFactoryInfo;
 import org.jxmapviewer.viewer.Waypoint;
@@ -27,6 +26,7 @@ import com.wisneskey.los.service.display.controller.AbstractController;
 import com.wisneskey.los.service.display.listener.message.MessagesToLabelListener;
 import com.wisneskey.los.service.location.Location;
 import com.wisneskey.los.state.LocationState;
+import com.wisneskey.los.util.map.LocalFileCacheTileFactory;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -147,7 +147,7 @@ public class MainScreen extends AbstractController {
 			// Create a TileFactoryInfo for OpenStreetMap
 
 			TileFactoryInfo info = new OSMTileFactoryInfo();
-			DefaultTileFactory tileFactory = new DefaultTileFactory(info);
+			LocalFileCacheTileFactory tileFactory = new LocalFileCacheTileFactory("/tmp/tilecache", info);
 			mapViewer.setTileFactory(tileFactory);
 
 			// Use 8 threads in parallel to load the tiles
