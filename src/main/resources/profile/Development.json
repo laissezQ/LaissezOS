@@ -19,7 +19,7 @@
 	//
 	// Lighting service settings:
 	//
-	"useRealLighting": true,
+	"useRealLighting": false,
 	"wledHostAddress": "http://192.168.86.21",
 	// 
 	// Security service settings:

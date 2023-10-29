@@ -109,8 +109,12 @@ public class BootLoader extends Application {
 		// Finally, launch the JavaFX application as the "desktop" for LBOS.
 		LOGGER.info("Launching UI...");
 
-		Application.launch();
-
+		try {
+			Application.launch();
+		} catch( Exception e ) {
+			LOGGER.error("Failed to launch JavaFX application.", e);
+		}
+		
 		LOGGER.info("UI shutdown; shutting down kernel...");
 		Kernel.kernel().shutdown();
 

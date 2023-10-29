@@ -252,7 +252,7 @@ public class LocationService extends AbstractService<LocationState> {
 		private void updateLocation(Location latest) {
 			if (latest == null) {
 				hasFix.setValue(Boolean.FALSE);
-				location.setValue(null);
+				// Do not update location - just leave it as the last known location.
 			} else {
 				hasFix.setValue(Boolean.TRUE);
 				location.setValue(latest);

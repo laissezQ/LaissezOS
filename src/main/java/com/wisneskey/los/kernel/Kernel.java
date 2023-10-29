@@ -167,7 +167,7 @@ public class Kernel {
 	 * Returns the indicator that designates what environment the application is
 	 * being run in.
 	 * 
-	 * @return Enumerated type designated the environment the application is being
+	 * @return Enumerated type designating the environment the application is being
 	 *         run in.
 	 */
 	public RunMode getRunMode() {
