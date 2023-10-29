@@ -139,10 +139,13 @@ public class MapService extends AbstractService<MapState> {
 
 		// If the image is not found in the cache, try the local tile store.
 		tileImage = loadFromStore(x, y, zoom);
+		if (tileImage != null) {
+			return tileImage;
+		}
 
 		// If we still didn't find it and we are allowed to go online, try to get
 		// it from Open Street Map.
-		if ((tileImage == null) && mapState.getOnline().getValue().booleanValue()) {
+		if (mapState.getOnline().getValue().booleanValue()) {
 
 			tileImage = fetchTileImage(x, y, zoom);
 		}
