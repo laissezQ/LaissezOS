@@ -39,7 +39,9 @@ public enum SoundEffectId {
 	MOVIE_MATRIX_THE_DOOR("movie/matrix_the_door.wav", "I can only show you the door..."),
 	MOVIE_MATRIX_WELCOME_TO_THE_REAL_WORLD("movie/matrix_welcome_to_real_world.wav", "Welcome to the real world..."),
 	MOVIE_WHAT_IS_THY_BIDDING("movie/what_is_thy_bidding_master.wav", "What is thy bidding, Master?"),
+	MOVIE_YOU_LOSE("movie/willy_wonka_you_lose.wav", "You get nothing!"),
 	MOVIE_WORKING("movie/young_frankenstein_working.wav", "Never interrupt me while I'm working!"),
+	MOVIE_WRONG("movie/willy_wonka_wrong.wav", "Wrong!"),
 	MOVIE_SNOW_WHITE_HI_HO("movie/snow_white_off_to_work_we_go.wav", "Hi Ho, Hi Ho, its off to work we go!"),
 
 	TV_COMPLETELY_DIFFERENT("tv/monty_python_completely_different.wav", "And now for something completely different..."),
