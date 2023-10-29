@@ -1,0 +1,33 @@
+{
+	// 
+	// Script for playing when somone accesses the hidden system screen.
+	//
+	"name": "User has opened the system screen.",
+	//
+	"commands": [
+		{
+			"playSoundEffect": {
+				"effectIds": [
+					"MOVIE_HARRY_POTTER_CHAMBER_OF_SECRETS",
+					"MOVIE_MATRIX_SEE_IT_FOR_YOURSELF",
+					"MOVIE_MATRIX_WELCOME_TO_THE_REAL_WORLD"
+				]
+			}
+		},
+		{
+			"message": {
+				"message": "Chair operation suspended...\n"
+			}
+		},
+		{
+			"showScene": {
+				"sceneId": "CP_SYSTEM_SCREEN"
+			}
+		},
+		{
+			"showScene": {
+				"sceneId": "HUD_SPLASH_SCREEN"
+			}
+		}
+	]
+}

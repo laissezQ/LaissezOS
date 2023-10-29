@@ -4,7 +4,6 @@ import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.display.DisplayId;
 import com.wisneskey.los.service.display.DisplayService;
-import com.wisneskey.los.service.display.SceneId;
 import com.wisneskey.los.service.display.controller.AbstractController;
 import com.wisneskey.los.service.script.ScriptId;
 import com.wisneskey.los.service.script.ScriptService;
@@ -95,9 +94,6 @@ public class SystemScreen extends AbstractController {
 	 * Method invoked by the resume operation button.
 	 */
 	public void resumePressed() {
-
-		Kernel.kernel().message("Chair operation resumed.\n");
-		((DisplayService) Kernel.kernel().getService(ServiceId.DISPLAY)).showScene(SceneId.CP_MAIN_SCREEN);
-		((DisplayService) Kernel.kernel().getService(ServiceId.DISPLAY)).showScene(SceneId.HUD_MAIN_SCREEN);
+		((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.SYSTEM_SCREEN_CLOSE);
 	}
 }

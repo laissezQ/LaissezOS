@@ -40,8 +40,11 @@
 			"playSoundEffect": {
 				"effectIds": [
 					"MOVIE_HAL_OPERATIONAL",
+					"MOVIE_ITS_ALIVE",
 					"MOVIE_MACHINE_GOES_PING",
-					"MOVIE_WHAT_IS_THY_BIDDING"
+					"MOVIE_WHAT_IS_THY_BIDDING",
+					"MOVIE_SNOW_WHITE_HI_HO",
+					"TV_COMFY_CHAIR"
 				]
 			}
 		},

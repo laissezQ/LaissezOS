@@ -224,7 +224,7 @@ public class AudioService extends AbstractService<AudioState> {
 				PLAYER_LOGGER.error("Interrupted while playing sound effect.");
 				Thread.currentThread().interrupt();
 			} catch (Exception e) {
-				PLAYER_LOGGER.error("Failed to play sound effect.", e);
+				PLAYER_LOGGER.error("Failed to play sound effect: " + effectId, e);
 			}
 
 			PLAYER_LOGGER.trace("Player thread ended.");

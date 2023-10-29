@@ -24,9 +24,11 @@ public enum ScriptId {
 
 	BOOT_FAST("Fasted possible boot sequence.", "Boot-Fast"),
 	BOOT_DEV("Test boot sequence for development.", "Boot-DEV"),
-	SHUTDOWN("The party is over.", "Shutdown"),
 	SECURITY_UNLOCKED("Chair was unlocked.", "Security-Unlocked"),
-	SECURITY_UNLOCK_FAILED("Invalid PIN entered for chair unlock.", "Security-UnlockFailed");
+	SECURITY_UNLOCK_FAILED("Invalid PIN entered for chair unlock.", "Security-UnlockFailed"),
+	SYSTEM_SCREEN_OPEN("Is this an easter egg?", "SystemScreen-Open"),
+	SYSTEM_SCREEN_CLOSE("Let's get back to work!", "SystemScreen-Close"),
+	SHUTDOWN("The party is over.", "Shutdown");
 
 	// ----------------------------------------------------------------------------------------
 	// Variables.

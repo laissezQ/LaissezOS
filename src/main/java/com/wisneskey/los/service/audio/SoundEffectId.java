@@ -28,12 +28,21 @@ public enum SoundEffectId {
 
 	MOVIE_ALIEN_GAME_OVER("movie/alien_game_over.wav", "Game over man!"),
 	MOVIE_BLADE_RUNNER_TIME_TO_DIE("movie/blade_runner_time_to_die.wav", "...time to die."),
+	MOVIE_ESPRESSO("movie/young_frankensten_espresso.wav", "I was going to make espressso!"),
 	MOVIE_HAL_OPERATIONAL("movie/hal_operational.wav", "I'm completely operational..."),
 	MOVIE_HAL_SORRY_DAVE("movie/hal_sorry_dave.wav", "I'm afraid I can't do that..."),
+	MOVIE_HARRY_POTTER_CHAMBER_OF_SECRETS("movie/harry_potter_chamber_of_secrets.wav", "The chamber of secrets has been opened..."),
 	MOVIE_IJ_CHOSEN_WISELY("movie/indianajones_chosen_wisely.wav", "You have chosen wisely..."),
+	MOVIE_ITS_ALIVE("movie/young_frankenstein_alive.wav", "It's alive!"),
 	MOVIE_MACHINE_GOES_PING("movie/machine_goes_ping.wav", "Machine that goes ping!"),
+	MOVIE_MATRIX_SEE_IT_FOR_YOURSELF("movie/matrix_see_it_for_yourself.wav","You have to see it for yourself..."),
+	MOVIE_MATRIX_THE_DOOR("movie/matrix_the_door.wav", "I can only show you the door..."),
+	MOVIE_MATRIX_WELCOME_TO_THE_REAL_WORLD("movie/matrix_welcome_to_real_world.wav", "Welcome to the real world..."),
 	MOVIE_WHAT_IS_THY_BIDDING("movie/what_is_thy_bidding_master.wav", "What is thy bidding, Master?"),
+	MOVIE_SNOW_WHITE_HI_HO("movie/snow_white_off_to_work_we_go.wav", "Hi Ho, Hi Ho, its off to work we go!"),
 
+	TV_COMPLETELY_DIFFERENT("tv/monty_python_get_the_comfy_chair.wav", "And now for something completely different..."),
+	TV_COMFY_CHAIR("tv/monty_python_get_the_comfy_chair.wav", "Get the comfy chair!"),
 	TV_THATS_ALL_FOLKS("tv/looney_tunes_thats_all_folks.wav", "Th-th-that's all folks!");
 
 	// ----------------------------------------------------------------------------------------

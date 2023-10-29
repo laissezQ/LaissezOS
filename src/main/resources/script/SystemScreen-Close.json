@@ -1,0 +1,33 @@
+{
+	// 
+	// Script for playing when somone exits the hidden system screen.
+	//
+	"name": "User has closed the system screen.",
+	//
+	"commands": [
+		{
+			"playSoundEffect": {
+				"effectIds": [
+					"MOVIE_ESPRESSO",
+					"MOVIE_MATRIX_THE_DOOR",
+					"TV_COMPLETELY_DIFFERENT"
+				]
+			}
+		},
+		{
+			"message": {
+				"message": "Chair operation resumed...\n"
+			}
+		},
+		{
+			"showScene": {
+				"sceneId": "CP_MAIN_SCREEN"
+			}
+		},
+		{
+			"showScene": {
+				"sceneId": "HUD_MAIN_SCREEN"
+			}
+		}
+	]
+}

@@ -2,13 +2,12 @@ package com.wisneskey.los.service.display.controller.cp;
 
 import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.service.ServiceId;
-import com.wisneskey.los.service.display.DisplayService;
-import com.wisneskey.los.service.display.SceneId;
 import com.wisneskey.los.service.display.controller.AbstractController;
 import com.wisneskey.los.service.display.listener.message.MessagesToTextAreaListener;
 import com.wisneskey.los.service.display.listener.relay.RelayWhilePressedListener;
 import com.wisneskey.los.service.relay.RelayId;
 import com.wisneskey.los.service.script.ScriptId;
+import com.wisneskey.los.service.script.ScriptService;
 import com.wisneskey.los.service.security.SecurityService;
 
 import javafx.event.EventHandler;
@@ -123,11 +122,8 @@ public class MainScreen extends AbstractController {
 
 			if ((mouseEvent.getButton().equals(MouseButton.PRIMARY)) && (mouseEvent.getClickCount() == 2)) {
 
-				Kernel.kernel().message("Chair operation suspended...\n");
-				((DisplayService) Kernel.kernel().getService(ServiceId.DISPLAY)).showScene(SceneId.CP_SYSTEM_SCREEN);
-				((DisplayService) Kernel.kernel().getService(ServiceId.DISPLAY)).showScene(SceneId.HUD_SPLASH_SCREEN);
+				((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.SYSTEM_SCREEN_OPEN);
 			}
 		}
-
 	}
 }
