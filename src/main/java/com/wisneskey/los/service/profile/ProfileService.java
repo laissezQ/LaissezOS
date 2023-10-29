@@ -1,5 +1,6 @@
 package com.wisneskey.los.service.profile;
 
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 import org.slf4j.Logger;
@@ -122,6 +123,10 @@ public class ProfileService extends AbstractService<ProfileState> {
 		Profile profile = null;
 		try {
 			InputStream input = getClass().getResourceAsStream(profilePath);
+			if( input == null ) {
+				throw new FileNotFoundException("Resouce " + profilePath + " not found.");
+			}
+			
 			profile = JsonUtils.toObject(input, Profile.class);
 		} catch (Exception e) {
 			throw new LaissezException("Failed to load profile.", e);

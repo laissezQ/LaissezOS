@@ -11,11 +11,9 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputListener;
 
 import org.jxmapviewer.JXMapViewer;
-import org.jxmapviewer.OSMTileFactoryInfo;
 import org.jxmapviewer.input.CenterMapListener;
 import org.jxmapviewer.input.PanMouseInputListener;
 import org.jxmapviewer.viewer.GeoPosition;
-import org.jxmapviewer.viewer.TileFactoryInfo;
 import org.jxmapviewer.viewer.Waypoint;
 import org.jxmapviewer.viewer.WaypointPainter;
 import org.jxmapviewer.viewer.WaypointRenderer;
@@ -24,9 +22,9 @@ import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.display.controller.AbstractController;
 import com.wisneskey.los.service.display.listener.message.MessagesToLabelListener;
+import com.wisneskey.los.service.display.map.MapServiceTileFactory;
 import com.wisneskey.los.service.location.Location;
 import com.wisneskey.los.state.LocationState;
-import com.wisneskey.los.util.map.LocalFileCacheTileFactory;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -144,14 +142,10 @@ public class MainScreen extends AbstractController {
 
 			mapViewer = new JXMapViewer();
 
-			// Create a TileFactoryInfo for OpenStreetMap
-
-			TileFactoryInfo info = new OSMTileFactoryInfo();
-			LocalFileCacheTileFactory tileFactory = new LocalFileCacheTileFactory("/tmp/tilecache", info);
+			// Use our Map service as the tile factory.  This is not particularly efficient
+			// when everything is being fetched online but will be fine with the local cache.
+			MapServiceTileFactory tileFactory = new MapServiceTileFactory();
 			mapViewer.setTileFactory(tileFactory);
-
-			// Use 8 threads in parallel to load the tiles
-			tileFactory.setThreadPoolSize(8);
 
 			// Set the focus
 			mapViewer.setZoom(1);

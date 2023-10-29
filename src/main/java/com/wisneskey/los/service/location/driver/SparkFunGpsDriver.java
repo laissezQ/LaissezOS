@@ -356,6 +356,11 @@ public class SparkFunGpsDriver implements GpsDriver {
 			}
 		}
 
+		/**
+		 * Process a GNGGA position line from the GPS.
+		 * 
+		 * @param line Line to process.
+		 */
 		private void processPositionLine(String line) {
 
 			try {
@@ -379,6 +384,11 @@ public class SparkFunGpsDriver implements GpsDriver {
 			}
 		}
 
+		/**
+		 * Process a GNGSV satellites in view line from the GPS.
+		 * 
+		 * @param line Line to process.
+		 */
 		private void processSatellitesInViewLine(String line) {
 
 			try {

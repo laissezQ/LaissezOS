@@ -55,6 +55,16 @@ public class Profile {
 	private static final double DEFAULT_ALTITUDE = 2044.982;
 
 	/**
+	 * Default value for flag indicating map service can fetch online map tiles.
+	 */
+	private static final boolean DEFAULT_MAP_ONLINE = true;
+
+	/**
+	 * Default location for the map tile store directory.
+	 */
+	private static final String DEFAULT_TILE_STORE_PATH = "./.map_tile_store";
+
+	/**
 	 * Unique id for the profile.
 	 */
 	private String profileId;
@@ -110,6 +120,17 @@ public class Profile {
 	 * system.
 	 */
 	private boolean useRealLighting;
+
+	/**
+	 * Flag indicating if the map service can fetch tiles online or can only use
+	 * the local cache because it is offline.
+	 */
+	private boolean mapOnline = DEFAULT_MAP_ONLINE;
+
+	/**
+	 * Directory for the local map cache.
+	 */
+	private String tileStorePath = DEFAULT_TILE_STORE_PATH;
 
 	// ----------------------------------------------------------------------------------------
 	// General property getters.
@@ -210,6 +231,28 @@ public class Profile {
 		return initialAltitude;
 	}
 
+	// ----------------------------------------------------------------------------------------
+	// Map service property getters.
+	// ----------------------------------------------------------------------------------------
+
+	/**
+	 * Returns if map service is allowed to fetch tiles online.
+	 * 
+	 * @return True if map service can fetch tiles online; false otherwise.
+	 */
+	public boolean getMapOnline() {
+		return mapOnline;
+	}
+
+	/**
+	 * Return the directory to use for the local file system persistence of the map cache.
+	 * 
+	 * @return Name to use to select the map cache configuration to use.
+	 */
+	public String getTileStorePath() {
+		return tileStorePath;
+	}
+	
 	// ----------------------------------------------------------------------------------------
 	// Security service property getters.
 	// ----------------------------------------------------------------------------------------
