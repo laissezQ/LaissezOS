@@ -191,6 +191,8 @@ public class MainScreen extends AbstractController {
 		// Listen to the tracking check box so we can handle when its toggled.
 		trackingCheckBox.selectedProperty().addListener(new TrackingListener());
 
+		// Listen to the zoom slider for controlling the map zoom.
+		zoomSlider.valueProperty().addListener(new ZoomListener());
 	}
 
 	// ----------------------------------------------------------------------------------------
@@ -274,6 +276,19 @@ public class MainScreen extends AbstractController {
 				// location.
 				updateLocation(lastLocation);
 			}
+		}
+	}
+
+	/**
+	 * Listener for zoom slider that adjusts the map zoom level when the slider is
+	 * changed.
+	 */
+	private class ZoomListener implements ChangeListener<Number> {
+
+		@Override
+		public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+
+			mapViewer.setZoom(newValue.intValue());
 		}
 	}
 
