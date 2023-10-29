@@ -1,6 +1,11 @@
 package com.wisneskey.los.service.display.controller.hud;
 
+import java.awt.BasicStroke;
+import java.awt.Graphics2D;
+import java.awt.Stroke;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
+import java.util.Collections;
 
 import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputListener;
@@ -12,6 +17,9 @@ import org.jxmapviewer.input.PanMouseInputListener;
 import org.jxmapviewer.viewer.DefaultTileFactory;
 import org.jxmapviewer.viewer.GeoPosition;
 import org.jxmapviewer.viewer.TileFactoryInfo;
+import org.jxmapviewer.viewer.Waypoint;
+import org.jxmapviewer.viewer.WaypointPainter;
+import org.jxmapviewer.viewer.WaypointRenderer;
 
 import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.service.ServiceId;
@@ -51,6 +59,16 @@ import javafx.scene.paint.Color;
  * @author paul.wisneskey@gmail.com
  */
 public class MainScreen extends AbstractController {
+
+	/**
+	 * Controls the size of the X drawn for the chair on the map.
+	 */
+	private static final int CHAIR_MARKER_SIZE = 8;
+
+	/**
+	 * Controls the width of the lines in the X drawn for the chair on the map.
+	 */
+	private static final Stroke CHAIR_MARKER_THICKNESS = new BasicStroke(5);
 
 	@FXML
 	private BorderPane mainPane;
@@ -95,6 +113,13 @@ public class MainScreen extends AbstractController {
 	 */
 	private Location lastLocation;
 
+	/**
+	 * Waypoint used to render the location of the chair on the map.
+	 */
+	private Waypoint chairMarker;
+
+	private WaypointPainter<Waypoint> markerPainter;
+
 	// ----------------------------------------------------------------------------------------
 	// Public methods.
 	// ----------------------------------------------------------------------------------------
@@ -135,7 +160,27 @@ public class MainScreen extends AbstractController {
 			mapViewer.addMouseMotionListener(mia);
 			mapViewer.addMouseListener(new CenterMapListener(mapViewer));
 
+			// Create a waypoint for the chair and configure the map overlay
+			// painter to render that waypoint.
+			chairMarker = new ChairMarker();
+
+			markerPainter = new WaypointPainter<>();
+			markerPainter.setWaypoints(Collections.singleton(chairMarker));
+			markerPainter.setRenderer(new MarkerRenderer());
+
+			mapViewer.setOverlayPainter(markerPainter);
+
+			// Put the map viewer in the Swing node.
 			swingNode.setContent(mapViewer);
+
+			// Set initial rendering based on current state.
+			updateFixStatus(locationState.hasGpsFix().get());
+			updateLocation(locationState.location().get());
+
+			// Add listeners for the GPS state.
+			locationState.hasGpsFix().addListener(new FixListener());
+			locationState.location().addListener(new GpsLocationListener());
+
 		});
 
 		mainPane.centerProperty().set(swingNode);
@@ -145,14 +190,7 @@ public class MainScreen extends AbstractController {
 
 		// Listen to the tracking check box so we can handle when its toggled.
 		trackingCheckBox.selectedProperty().addListener(new TrackingListener());
-		
-		// Add listeners for the GPS state.
-		locationState.hasGpsFix().addListener(new FixListener());
-		locationState.location().addListener(new GpsLocationListener());
 
-		// Finally, set initial rendering based on current state.
-		updateFixStatus(locationState.hasGpsFix().get());
-		updateLocation(locationState.location().get());
 	}
 
 	// ----------------------------------------------------------------------------------------
@@ -185,7 +223,7 @@ public class MainScreen extends AbstractController {
 
 		lastLocation = location;
 		mapViewer.setAddressLocation(locationToGeoPosition(location));
-		
+
 		if (trackingCheckBox.isPressed()) {
 
 			// Tracking check box is selected so center the map on the new position.
@@ -221,19 +259,28 @@ public class MainScreen extends AbstractController {
 		}
 	}
 
+	/**
+	 * Listener for monitor the checked state of the tracking check box.
+	 * Re-centers the map on the current location when tracking is re-enabled.
+	 */
 	private class TrackingListener implements ChangeListener<Boolean> {
 
 		@Override
 		public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-			
-			if( newValue.booleanValue() ) {
-				
-				// Tracking has been selected so re-center the map on the last known location.
+
+			if (newValue.booleanValue()) {
+
+				// Tracking has been selected so re-center the map on the last known
+				// location.
 				updateLocation(lastLocation);
 			}
 		}
 	}
 
+	/**
+	 * Listener for updating the address location of the map with the latest GPS
+	 * coordinates.
+	 */
 	private class GpsLocationListener implements ChangeListener<Location> {
 
 		@Override
@@ -242,6 +289,10 @@ public class MainScreen extends AbstractController {
 		}
 	}
 
+	/**
+	 * Listener that monitors the user's interaction with the map via the HUD and
+	 * turns off the tracking check box if the user manually pans the map viewer.
+	 */
 	private class TrackingMouseListener extends PanMouseInputListener {
 
 		private TrackingMouseListener(JXMapViewer mapViewer) {
@@ -256,6 +307,38 @@ public class MainScreen extends AbstractController {
 
 			// Let the pan mouse listener handle the actual drag.
 			super.mouseDragged(evt);
+		}
+	}
+
+	/**
+	 * Waypoint implementation that places a waypoint at the last known location
+	 * of the GPS (e.g. where the chair presumably is).
+	 */
+	private class ChairMarker implements Waypoint {
+
+		@Override
+		public GeoPosition getPosition() {
+			return locationToGeoPosition(lastLocation);
+		}
+	}
+
+	/**
+	 * Waypoint renderer that paints an X at the chair location.
+	 */
+	private static class MarkerRenderer implements WaypointRenderer<Waypoint> {
+
+		@Override
+		public void paintWaypoint(Graphics2D g, JXMapViewer map, Waypoint waypoint) {
+
+			Point2D point = map.getTileFactory().geoToPixel(waypoint.getPosition(), map.getZoom());
+
+			int x = (int) point.getX();
+			int y = (int) point.getY();
+
+			g.setColor(java.awt.Color.BLUE);
+			g.setStroke(CHAIR_MARKER_THICKNESS);
+			g.drawLine(x - CHAIR_MARKER_SIZE, y - CHAIR_MARKER_SIZE, x + CHAIR_MARKER_SIZE, y + CHAIR_MARKER_SIZE);
+			g.drawLine(x - CHAIR_MARKER_SIZE, y + CHAIR_MARKER_SIZE, x + CHAIR_MARKER_SIZE, y - CHAIR_MARKER_SIZE);
 		}
 	}
 }
