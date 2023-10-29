@@ -3,6 +3,7 @@ package com.wisneskey.los.kernel;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -148,6 +149,9 @@ public class Kernel {
 
 		initialized = false;
 		LOGGER.info("Kernel shutdown.");
+		
+		// Shut down the log manager to ensure all buffered messages get flushed for the JVM exits.
+		LogManager.shutdown();
 	}
 
 	// ----------------------------------------------------------------------------------------

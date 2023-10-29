@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.text.*?>
@@ -14,11 +15,11 @@
 
 <BorderPane id="pane" fx:id="mainPane" maxHeight="480.0" maxWidth="800.0" minHeight="480.0" minWidth="800.0" prefHeight="480.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.wisneskey.los.service.display.controller.hud.MainScreen">
 	<top>
-		<VBox prefHeight="41.0" prefWidth="640.0" BorderPane.alignment="CENTER">
+		<VBox prefHeight="41.0" prefWidth="640.0" style="-fx-border-color: black; -fx-border-width: 1; -fx-border-style: solid; -fx-background-color: gray;" BorderPane.alignment="CENTER">
 			<children>
 				<Label text="Cyber Chair 2000: The Future of Leisure">
 					<font>
-						<Font name="Avenir Black" size="24.0" />
+						<Font name="MinionPro-Bold" size="24.0" />
 					</font>
 					<effect>
 						<DropShadow />
@@ -26,6 +27,9 @@
 					<opaqueInsets>
 						<Insets />
 					</opaqueInsets>
+               <VBox.margin>
+                  <Insets top="4.0" />
+               </VBox.margin>
 				</Label>
 			</children>
 			<opaqueInsets>
@@ -36,86 +40,95 @@
 			</padding>
 		</VBox>
 	</top>
-		<right>
-			<VBox prefHeight="395.0" prefWidth="98.0" spacing="10.0" BorderPane.alignment="CENTER">
-				<children>
-					<Button mnemonicParsing="false" prefHeight="60.0" prefWidth="80.0" text="Bar">
-               <font>
-                  <Font size="18.0" />
-               </font>
-               <effect>
-                  <DropShadow />
-               </effect></Button>
-            <Line endX="30.0" startX="-50.0">
+
+	<right>
+		<VBox prefHeight="395.0" prefWidth="98.0" spacing="10.0" BorderPane.alignment="CENTER">
+			<children>
+				<Button mnemonicParsing="false" prefHeight="60.0" prefWidth="80.0" text="Bar">
+					<font>
+						<Font size="18.0" />
+					</font>
+					<effect>
+						<DropShadow />
+					</effect>
+					<VBox.margin>
+						<Insets top="12.0" />
+					</VBox.margin>
+				</Button>
+				<Pane minWidth="60.0" prefHeight="303.0" prefWidth="81.0" style="-fx-border-color: black; -fx-border-width: 1; -fx-border-style: solid; -fx-background-color: gray;">
+					<VBox.margin>
+						<Insets right="10.0" />
+					</VBox.margin>
+					<effect>
+						<DropShadow />
+					</effect>
+					<opaqueInsets>
+						<Insets />
+					</opaqueInsets>
+					<children>
+						<Label fx:id="gpsStatusLabel" layoutX="18.0" layoutY="9.0" text="GPS" textAlignment="CENTER">
+							<font>
+								<Font size="24.0" />
+							</font>
+							<effect>
+								<DropShadow />
+							</effect>
+						</Label>
+						<Label layoutX="19.0" layoutY="56.0" text="Track">
+							<font>
+								<Font size="18.0" />
+							</font>
+							<effect>
+								<DropShadow />
+							</effect>
+						</Label>
+						<CheckBox fx:id="trackingCheckBox" layoutX="31.0" layoutY="84.0" mnemonicParsing="false" selected="true">
+							<effect>
+								<DropShadow />
+							</effect>
+						</CheckBox>
+						<Slider fx:id="zoomSlider" blockIncrement="1.0" layoutX="-22.0" layoutY="223.0" majorTickUnit="1.0" max="3.0" maxHeight="16.0" maxWidth="130.0" min="1.0" minHeight="16.0" minWidth="130.0" minorTickCount="0" prefHeight="16.0" prefWidth="130.0" rotate="90.0" snapToTicks="true">
+							<effect>
+								<DropShadow />
+							</effect>
+						</Slider>
+						<Label layoutX="18.0" layoutY="133.0" text="Zoom">
+							<effect>
+								<DropShadow />
+							</effect>
+							<font>
+								<Font size="18.0" />
+							</font>
+						</Label>
+					</children>
+				</Pane>
+			</children>
+			<padding>
+				<Insets left="10.0" />
+			</padding>
+		</VBox>
+	</right>
+	<bottom>
+		<VBox prefHeight="44.0" prefWidth="800.0" style="-fx-border-color: black; -fx-border-width: 1; -fx-border-style: solid; -fx-background-color: gray;" BorderPane.alignment="CENTER">
+			<children>
+				<Label fx:id="message" text="Status..">
+					<font>
+						<Font name="Consolas" size="20.0" />
+					</font>
+					<effect>
+						<DropShadow />
+					</effect>
                <VBox.margin>
-                  <Insets right="10.0" />
-               </VBox.margin>
-            </Line>
-            <Pane minWidth="60.0" prefHeight="303.0" prefWidth="81.0" style="-fx-border-color: black; -fx-border-width: 1; -fx-border-style: solid; -fx-background-color: gray;">
-               <VBox.margin>
-                  <Insets right="10.0" />
-               </VBox.margin>
-               <effect>
-                  <DropShadow />
-               </effect>
-               <opaqueInsets>
                   <Insets />
-               </opaqueInsets>
-               <children>
-                  <Label fx:id="gpsStatusLabel" layoutX="18.0" layoutY="9.0" text="GPS" textAlignment="CENTER">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                     <effect>
-                        <DropShadow />
-                     </effect>
-                  </Label>
-                  <Label layoutX="19.0" layoutY="56.0" text="Track">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                     <effect>
-                        <DropShadow />
-                     </effect>
-                  </Label>
-                  <CheckBox fx:id="trackingCheckBox" layoutX="31.0" layoutY="84.0" mnemonicParsing="false" selected="true">
-                     <effect>
-                        <DropShadow />
-                     </effect>
-                  </CheckBox>
-                  <Slider fx:id="zoomSlider" blockIncrement="1.0" layoutX="-22.0" layoutY="223.0" majorTickUnit="1.0" max="3.0" maxHeight="16.0" maxWidth="130.0" min="1.0" minHeight="16.0" minWidth="130.0" minorTickCount="0" prefHeight="16.0" prefWidth="130.0" rotate="90.0" snapToTicks="true">
-                     <effect>
-                        <DropShadow />
-                     </effect>
-                  </Slider>
-                  <Label layoutX="18.0" layoutY="133.0" text="Zoom">
-                     <effect>
-                        <DropShadow />
-                     </effect>
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
-               </children>
-            </Pane>
-				</children>
-				<padding>
-					<Insets left="10.0" />
-				</padding>
-			</VBox>
-		</right>
-		<bottom>
-			<VBox prefHeight="44.0" prefWidth="800.0" BorderPane.alignment="CENTER">
-				<children>
-					<Label fx:id="message" text="Status..">
-						<font>
-							<Font name="Consolas" size="24.0" />
-						</font>
-					</Label>
-				</children>
-				<padding>
-					<Insets left="10.0" top="10.0" />
-				</padding>
-			</VBox>
-		</bottom>
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="2.0" />
+               </padding>
+				</Label>
+			</children>
+			<padding>
+				<Insets left="10.0" top="10.0" />
+			</padding>
+		</VBox>
+	</bottom>
 </BorderPane>

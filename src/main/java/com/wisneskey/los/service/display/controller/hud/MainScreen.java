@@ -32,9 +32,11 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 
@@ -136,7 +138,7 @@ public class MainScreen extends AbstractController {
 		Location initialLocation = locationState.location().getValue();
 
 		swingNode = new SwingNode();
-
+		
 		// create a map view and set the map to it
 		SwingUtilities.invokeLater(() -> {
 
@@ -170,8 +172,13 @@ public class MainScreen extends AbstractController {
 
 			mapViewer.setOverlayPainter(markerPainter);
 
-			// Put the map viewer in the Swing node.
+			// Put the map viewer in the Swing node and style it.
 			swingNode.setContent(mapViewer);
+			swingNode.setStyle("-fx-border-color: black; -fx-border-width: 1; -fx-border-style: solid; -fx-background-color: gray;");
+			swingNode.effectProperty().set(new DropShadow());
+			
+			mainPane.centerProperty().set(swingNode);
+			BorderPane.setMargin(swingNode, new Insets(4.0, 0.0, 4.0, 2.0));
 
 			// Set initial rendering based on current state.
 			updateFixStatus(locationState.hasGpsFix().get());
@@ -182,9 +189,8 @@ public class MainScreen extends AbstractController {
 			locationState.location().addListener(new GpsLocationListener());
 
 		});
-
-		mainPane.centerProperty().set(swingNode);
-
+				
+		
 		// Show last message at bottom of the heads up display.
 		chairState().message().addListener(new MessagesToLabelListener(message));
 
