@@ -92,10 +92,9 @@ public class MapServiceTileFactory extends TileFactory {
 			this.image = image;
 		}
 
-		private MapServiceTile(int x, int y, int zoom) {
-			super(x, y, zoom);
-			this.image = null;
-		}
+		// ----------------------------------------------------------------------------------------
+		// Tile methods.
+		// ----------------------------------------------------------------------------------------
 
 		@Override
 		public BufferedImage getImage() {
@@ -106,6 +105,10 @@ public class MapServiceTileFactory extends TileFactory {
 		public synchronized boolean isLoaded() {
 			return image != null;
 		}
+
+		// ----------------------------------------------------------------------------------------
+		// Public methods.
+		// ----------------------------------------------------------------------------------------
 
 		public void setImage(BufferedImage image) {
 			this.image = image;

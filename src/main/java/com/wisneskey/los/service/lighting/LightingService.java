@@ -104,11 +104,10 @@ public class LightingService extends AbstractService<LightingState> {
 	 * Initializes the service and its lighting driver and returns the initial
 	 * state.
 	 * 
-	 * @param  runMode Run mode for the operating system.
 	 * @param  profile Profile to use to configure the relay state.
 	 * @return         Configured display state object.
 	 */
-	private LightingState initialize(RunMode runMode, Profile profile) {
+	private LightingState initialize(Profile profile) {
 
 		if (lightingDriver == null) {
 			throw new LaissezException("Lighting driver not set.");
@@ -160,7 +159,7 @@ public class LightingService extends AbstractService<LightingState> {
 		}
 
 		// Give the service a chance to initialize.
-		LightingState state = service.initialize(runMode, profile);
+		LightingState state = service.initialize(profile);
 
 		return new Pair<>(service, state);
 	}

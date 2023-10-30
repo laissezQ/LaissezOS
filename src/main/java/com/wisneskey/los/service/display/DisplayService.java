@@ -1,5 +1,6 @@
 package com.wisneskey.los.service.display;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.EnumMap;
@@ -232,12 +233,10 @@ public class DisplayService extends AbstractService<DisplayState> {
 
 		// Change the appropriate display's scene contents. We do not set a new
 		// scene because in full screen mode this causes the menu bar to reappear.
-		switch (sceneId.getDisplayId()) {
-		case CP:
+		if (sceneId.getDisplayId() == DisplayId.CP) {
 			Platform.runLater(() -> cpStage.getScene().setRoot(content));
 			Platform.runLater(() -> cpStage.requestFocus());
-			break;
-		case HUD:
+		} else {
 			Platform.runLater(() -> hudStage.getScene().setRoot(content));
 			Platform.runLater(() -> hudStage.requestFocus());
 		}
@@ -287,11 +286,7 @@ public class DisplayService extends AbstractService<DisplayState> {
 		alert.setX(centerOn(targetStage.getY(), targetStage.getHeight(), alert.getHeight()));
 		Optional<ButtonType> option = alert.showAndWait();
 
-		if (option.isPresent() && (option.get() == ButtonType.OK)) {
-			return true;
-		} else {
-			return false;
-		}
+		return option.isPresent() && (option.get() == ButtonType.OK);
 	}
 
 	// ----------------------------------------------------------------------------------------
@@ -401,7 +396,8 @@ public class DisplayService extends AbstractService<DisplayState> {
 
 		for (SceneId sceneId : SceneId.values()) {
 
-			String scenePath = SCENE_RESOURCE_BASE + sceneId.getDisplayId() + "/" + sceneId.getFxmlName() + ".fxml";
+			String scenePath = SCENE_RESOURCE_BASE + sceneId.getDisplayId() + File.separator + sceneId.getFxmlName()
+					+ ".fxml";
 			LOGGER.debug("Loading scene: {}", scenePath);
 
 			URL sceneURL = this.getClass().getResource(scenePath);
@@ -429,12 +425,11 @@ public class DisplayService extends AbstractService<DisplayState> {
 	 * Creates an instance of the display service along with its initial state as
 	 * set from the supplied profile.
 	 * 
-	 * @param  runMode Run mode for the operating system.
 	 * @param  profile Profile to use for configuring initial state of the display
 	 *                   service.
 	 * @return         Display service instance and its initial state object.
 	 */
-	public static Pair<DisplayService, DisplayState> createService(RunMode runMode, Profile profile) {
+	public static Pair<DisplayService, DisplayState> createService(Profile profile) {
 
 		DisplayService service = new DisplayService();
 		DisplayState state = service.createInitialState(profile);

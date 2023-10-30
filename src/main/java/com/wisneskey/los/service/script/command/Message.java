@@ -45,7 +45,7 @@ public class Message extends AbstractScriptCommand {
 	/**
 	 * Single message to write (takes precedence over multiple messages.)
 	 */
-	private String message;
+	private String singleMessage;
 
 	/**
 	 * List of messages to write one after another with a configurable delay
@@ -68,11 +68,11 @@ public class Message extends AbstractScriptCommand {
 	// ----------------------------------------------------------------------------------------
 
 	public String getMessage() {
-		return message;
+		return singleMessage;
 	}
 
 	public void setMessage(String message) {
-		this.message = message;
+		this.singleMessage = message;
 	}
 
 	public List<String> getMessages() {
@@ -107,7 +107,7 @@ public class Message extends AbstractScriptCommand {
 	public void perform() {
 
 		if (getMessage() != null) {
-			Kernel.kernel().message(message);
+			Kernel.kernel().message(getMessage());
 		} else if (getMessages() != null) {
 
 			for (int index = 0; index < messages.size(); index++) {
@@ -131,9 +131,9 @@ public class Message extends AbstractScriptCommand {
 	@Override
 	public String toString() {
 		if (getMessage() != null) {
-			return "Message[" + message + "]";
+			return "Message[" + getMessage() + "]";
 		} else if (getMessages() != null) {
-			return "Message[" + messages.size() + " messages]";
+			return "Message[" + getMessages() + " messages]";
 		} else {
 			return "Message[]";
 		}

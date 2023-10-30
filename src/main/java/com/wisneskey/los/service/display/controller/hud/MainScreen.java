@@ -118,6 +118,9 @@ public class MainScreen extends AbstractController {
 	 */
 	private Waypoint chairMarker;
 
+	/**
+	 * Painter for drawing the markers on the map.
+	 */
 	private WaypointPainter<Waypoint> markerPainter;
 
 	// ----------------------------------------------------------------------------------------

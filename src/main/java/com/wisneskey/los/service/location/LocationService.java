@@ -115,11 +115,10 @@ public class LocationService extends AbstractService<LocationState> {
 	/**
 	 * Initializes the service and its relay driver and returns the initial state.
 	 * 
-	 * @param  runMode Run mode for the operating system.
 	 * @param  profile Profile to use to configure the relay state.
 	 * @return         Configured display state object.
 	 */
-	private LocationState initialize(RunMode runMode, Profile profile) {
+	private LocationState initialize(Profile profile) {
 
 		if (gpsDriver == null) {
 			throw new LaissezException("GPS driver not set.");
@@ -178,7 +177,7 @@ public class LocationService extends AbstractService<LocationState> {
 		}
 
 		// Give the service a chance to initialize.
-		LocationState state = service.initialize(runMode, profile);
+		LocationState state = service.initialize(profile);
 		return new Pair<>(service, state);
 	}
 

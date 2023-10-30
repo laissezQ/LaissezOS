@@ -1,6 +1,6 @@
 package com.wisneskey.los.kernel;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
@@ -68,7 +68,7 @@ public class Kernel {
 	/**
 	 * Map of service id to their service objects.
 	 */
-	private Map<ServiceId, Service<?>> serviceMap = new HashMap<>();
+	private Map<ServiceId, Service<?>> serviceMap = new EnumMap<>(ServiceId.class);
 
 	/**
 	 * Top level state object for tracking the current state of the chair.
@@ -91,7 +91,7 @@ public class Kernel {
 	}
 
 	// ----------------------------------------------------------------------------------------
-	// Public static kernel lifecycle methods.
+	// Public static kernel life cycle methods.
 	// ----------------------------------------------------------------------------------------
 
 	/**
@@ -149,8 +149,9 @@ public class Kernel {
 
 		initialized = false;
 		LOGGER.info("Kernel shutdown.");
-		
-		// Shut down the log manager to ensure all buffered messages get flushed for the JVM exits.
+
+		// Shut down the log manager to ensure all buffered messages get flushed for
+		// the JVM exits.
 		LogManager.shutdown();
 	}
 
@@ -171,8 +172,8 @@ public class Kernel {
 	 * Returns the indicator that designates what environment the application is
 	 * being run in.
 	 * 
-	 * @return Enumerated type designating the environment the application is being
-	 *         run in.
+	 * @return Enumerated type designating the environment the application is
+	 *         being run in.
 	 */
 	public RunMode getRunMode() {
 
@@ -230,7 +231,7 @@ public class Kernel {
 		LOGGER.debug("Run mode set: {}", runMode.getDescription());
 
 		// If the run mode means we are actually on a Raspberry PI, then we need to
-		// construct the pi4jContext;
+		// create the pi4jContext.
 		if (mode.getPlatform() == Platform.RaspberryPi) {
 			LOGGER.info("Initializing PI4J context...");
 			pi4jContext = Pi4J.newAutoContext();
@@ -362,7 +363,7 @@ public class Kernel {
 		/**
 		 * Map of service id's to their state objects.
 		 */
-		private Map<ServiceId, Object> stateMap = new HashMap<>();
+		private Map<ServiceId, Object> stateMap = new EnumMap<>(ServiceId.class);
 
 		// ----------------------------------------------------------------------------------------
 		// ChairState methods.

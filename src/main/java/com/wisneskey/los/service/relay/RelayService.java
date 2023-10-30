@@ -141,11 +141,10 @@ public class RelayService extends AbstractService<RelayState> {
 	/**
 	 * Initializes the service and its relay driver and returns the initial state.
 	 * 
-	 * @param  runMode Run mode for the operating system.
 	 * @param  profile Profile to use to configure the relay state.
 	 * @return         Configured display state object.
 	 */
-	private RelayState initialize(RunMode runMode, Profile profile) {
+	private RelayState initialize(Profile profile) {
 
 		if (relayDriver == null) {
 			throw new LaissezException("Relay driver not set.");
@@ -190,7 +189,7 @@ public class RelayService extends AbstractService<RelayState> {
 		}
 
 		// Give the service a chance to initialize.
-		RelayState state = service.initialize(runMode, profile);
+		RelayState state = service.initialize(profile);
 		return new Pair<>(service, state);
 	}
 

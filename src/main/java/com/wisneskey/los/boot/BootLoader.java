@@ -104,7 +104,7 @@ public class BootLoader extends Application {
 		
 		// Register display service last so all the other services are ready and
 		// have initial states that can be displayed.
-		kernel.registerService(DisplayService.createService(runMode, profile));
+		kernel.registerService(DisplayService.createService(profile));
 
 		// Initialize the kernel now that its set up.
 		Kernel.kernel().initialize();

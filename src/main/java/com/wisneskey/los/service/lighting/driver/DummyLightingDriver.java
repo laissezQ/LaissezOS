@@ -32,7 +32,7 @@ public class DummyLightingDriver implements LightingDriver {
 
 	@Override
 	public void terminate() {
-
+		// Nothing to do here
 	}
 
 	@Override
