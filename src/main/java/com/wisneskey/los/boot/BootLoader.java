@@ -1,5 +1,6 @@
 package com.wisneskey.los.boot;
 
+import java.awt.Toolkit;
 import java.io.IOException;
 
 import org.slf4j.Logger;
@@ -111,6 +112,10 @@ public class BootLoader extends Application {
 		// Finally, launch the JavaFX application as the "desktop" for LBOS.
 		LOGGER.info("Launching UI...");
 
+		// Initialize the AWT toolkit before JavaFX starts to avoid an assertion failure.
+		// See: https://bugs.openjdk.org/browse/JDK-8318129?attachmentSortBy=dateTime
+		Toolkit.getDefaultToolkit();
+		
 		try {
 			Application.launch();
 		} catch( Exception e ) {
