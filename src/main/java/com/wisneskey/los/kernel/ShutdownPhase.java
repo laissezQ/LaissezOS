@@ -21,7 +21,7 @@ package com.wisneskey.los.kernel;
  * @author paul.wisneskey@gmail.com
  */
 public enum ShutdownPhase {
-	One,
-	Two,
-	Three;
+	ONE,
+	TWO,
+	THREE;
 }

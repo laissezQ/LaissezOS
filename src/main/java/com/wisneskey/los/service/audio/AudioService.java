@@ -19,7 +19,6 @@ import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.kernel.RunMode;
 import com.wisneskey.los.service.AbstractService;
 import com.wisneskey.los.service.ServiceId;
-import com.wisneskey.los.service.profile.model.Profile;
 import com.wisneskey.los.service.relay.RelayId;
 import com.wisneskey.los.service.relay.RelayService;
 import com.wisneskey.los.state.AudioState;
@@ -104,6 +103,11 @@ public class AudioService extends AbstractService<AudioState> {
 	// ----------------------------------------------------------------------------------------
 
 	@Override
+	public AudioState getState() {
+		return audioState;
+	}
+
+	@Override
 	public void terminate() {
 		LOGGER.trace("Audio service terminated.");
 	}
@@ -115,10 +119,9 @@ public class AudioService extends AbstractService<AudioState> {
 	/**
 	 * Initializes the audio services and returns its initial state.
 	 * 
-	 * @param  profile Profile to use for configuring initial service state.
-	 * @return         Configured state object for the service.
+	 * @return Configured state object for the service.
 	 */
-	private AudioState initialize(Profile profile) {
+	private AudioState initialize() {
 
 		LOGGER.info("Initializing audio service...");
 
@@ -141,14 +144,12 @@ public class AudioService extends AbstractService<AudioState> {
 	 * Creates an instance of the audio service along with its initial state as
 	 * set from the supplied profile.
 	 * 
-	 * @param  profile Profile to use for configuring initial state of the audio
-	 *                   service.
-	 * @return         Audio service instance and its initial state object.
+	 * @return Audio service instance and its initial state object.
 	 */
-	public static Pair<AudioService, AudioState> createService(Profile profile) {
+	public static Pair<AudioService, AudioState> createService() {
 
 		AudioService service = new AudioService();
-		AudioState state = service.initialize(profile);
+		AudioState state = service.initialize();
 		return new Pair<>(service, state);
 	}
 

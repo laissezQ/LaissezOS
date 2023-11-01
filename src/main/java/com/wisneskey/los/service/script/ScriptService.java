@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 
 import com.wisneskey.los.service.AbstractService;
 import com.wisneskey.los.service.ServiceId;
-import com.wisneskey.los.service.profile.model.Profile;
 import com.wisneskey.los.service.script.command.ScriptCommand;
 import com.wisneskey.los.state.ScriptState;
 import com.wisneskey.los.util.JsonUtils;
@@ -79,6 +78,11 @@ public class ScriptService extends AbstractService<ScriptState> {
 	// ----------------------------------------------------------------------------------------
 	// Service methods.
 	// ----------------------------------------------------------------------------------------
+
+	@Override
+	public ScriptState getState() {
+		return scriptState;
+	}
 
 	@Override
 	public void terminate() {
@@ -165,10 +169,9 @@ public class ScriptService extends AbstractService<ScriptState> {
 	 * Creates the initial state of the service using the supplied profile for
 	 * configuration.
 	 * 
-	 * @param  profile Profile to use for configuring initial service state.
-	 * @return         Configured state object for the service.
+	 * @return Configured state object for the service.
 	 */
-	private ScriptState createInitialState(Profile profile) {
+	private ScriptState createInitialState() {
 		scriptState = new InternalScriptState();
 		return scriptState;
 	}
@@ -185,10 +188,10 @@ public class ScriptService extends AbstractService<ScriptState> {
 	 *                   service.
 	 * @return         Script service instance and its initial state object.
 	 */
-	public static Pair<ScriptService, ScriptState> createService(Profile profile) {
+	public static Pair<ScriptService, ScriptState> createService() {
 
 		ScriptService service = new ScriptService();
-		ScriptState state = service.createInitialState(profile);
+		ScriptState state = service.createInitialState();
 		return new Pair<>(service, state);
 	}
 

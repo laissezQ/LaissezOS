@@ -72,6 +72,11 @@ public class RelayService extends AbstractService<RelayState> {
 	// ----------------------------------------------------------------------------------------
 
 	@Override
+	public RelayState getState() {
+		return relayState;
+	}
+	
+	@Override
 	public void terminate() {
 
 		// Turn all relays off during service termination.

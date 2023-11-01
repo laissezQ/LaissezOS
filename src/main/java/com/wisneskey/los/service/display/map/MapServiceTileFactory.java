@@ -85,11 +85,11 @@ public class MapServiceTileFactory extends TileFactory {
 
 	private static class MapServiceTile extends Tile {
 
-		private BufferedImage image;
+		private BufferedImage tileImage;
 
-		private MapServiceTile(int x, int y, int zoom, BufferedImage image) {
+		private MapServiceTile(int x, int y, int zoom, BufferedImage tileImage) {
 			super(x, y, zoom);
-			this.image = image;
+			this.tileImage = tileImage;
 		}
 
 		// ----------------------------------------------------------------------------------------
@@ -98,20 +98,20 @@ public class MapServiceTileFactory extends TileFactory {
 
 		@Override
 		public BufferedImage getImage() {
-			return image;
+			return tileImage;
 		}
 
 		@Override
 		public synchronized boolean isLoaded() {
-			return image != null;
+			return tileImage != null;
 		}
 
 		// ----------------------------------------------------------------------------------------
 		// Public methods.
 		// ----------------------------------------------------------------------------------------
 
-		public void setImage(BufferedImage image) {
-			this.image = image;
+		public void setImage(BufferedImage tileImage) {
+			this.tileImage = tileImage;
 		}
 	}
 }

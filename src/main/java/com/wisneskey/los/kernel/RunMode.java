@@ -21,8 +21,8 @@ package com.wisneskey.los.kernel;
  */
 public enum RunMode {
 
-	DEV(Platform.OsX, "Off chair development where chair system interfaces are simulated."),
-	CHAIR(Platform.RaspberryPi, "Raspberry PI4B on chair (both displays).");
+	DEV(Platform.OS_X, "Off chair development where chair system interfaces are simulated."),
+	CHAIR(Platform.RASPBERRY_PI, "Raspberry PI4B on chair (both displays).");
 
 	// ----------------------------------------------------------------------------------------
 	// Variables.
@@ -81,7 +81,7 @@ public enum RunMode {
 	 *
 	 */
 	public enum Platform {
-		RaspberryPi,
-		OsX
+		RASPBERRY_PI,
+		OS_X
 	}
 }

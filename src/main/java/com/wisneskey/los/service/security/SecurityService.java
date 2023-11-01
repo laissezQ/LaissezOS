@@ -99,6 +99,11 @@ public class SecurityService extends AbstractService<SecurityState> {
 	// ----------------------------------------------------------------------------------------
 
 	@Override
+	public SecurityState getState() {
+		return securityState;
+	}
+
+	@Override
 	public void terminate() {
 		LOGGER.trace("Security service terminated.");
 	}
@@ -193,7 +198,7 @@ public class SecurityService extends AbstractService<SecurityState> {
 	 * @param  profile Profile to use for configuring initial service state.
 	 * @return         Configured state object for the service.
 	 */
-	private SecurityState createInitialState(Profile profile) {
+	private SecurityState createInitialState() {
 		securityState = new InternalSecurityState();
 		return securityState;
 	}
@@ -215,7 +220,7 @@ public class SecurityService extends AbstractService<SecurityState> {
 		SecurityService service = new SecurityService();
 		service.pinCode = profile.getPinCode();
 
-		SecurityState state = service.createInitialState(profile);
+		SecurityState state = service.createInitialState();
 		return new Pair<>(service, state);
 	}
 

@@ -43,15 +43,15 @@ import com.wisneskey.los.state.State;
  */
 public enum ServiceId {
 
-	AUDIO(AudioService.class, AudioState.class, ShutdownPhase.Two, "This service goes to 11."),
-	DISPLAY(DisplayService.class, DisplayState.class, ShutdownPhase.Two, "Looking good there!"),
-	LIGHTING(LightingService.class, LightingState.class, ShutdownPhase.Two, "Let there be lighting!"),
-	LOCATION(LocationService.class, LocationState.class, ShutdownPhase.Two, "Where the hell am I?"),
-	MAP(MapService.class, MapState.class, ShutdownPhase.Three, "Roads? Where we are going, we don't need roads!"),
-	PROFILE(ProfileService.class, ProfileState.class, ShutdownPhase.Three, "Keep it low."),
-	RELAY(RelayService.class, RelayState.class, ShutdownPhase.Three, "Have you tried turning it off and on again?"),
-	SCRIPT(ScriptService.class, ScriptState.class, ShutdownPhase.One, "Don't tell me what to do!"),
-	SECURITY(SecurityService.class, SecurityState.class, ShutdownPhase.Three, "1000 times no!");
+	AUDIO(AudioService.class, AudioState.class, ShutdownPhase.TWO, "This service goes to 11."),
+	DISPLAY(DisplayService.class, DisplayState.class, ShutdownPhase.TWO, "Looking good there!"),
+	LIGHTING(LightingService.class, LightingState.class, ShutdownPhase.TWO, "Let there be lighting!"),
+	LOCATION(LocationService.class, LocationState.class, ShutdownPhase.TWO, "Where the hell am I?"),
+	MAP(MapService.class, MapState.class, ShutdownPhase.THREE, "Roads? Where we are going, we don't need roads!"),
+	PROFILE(ProfileService.class, ProfileState.class, ShutdownPhase.THREE, "Keep it low."),
+	RELAY(RelayService.class, RelayState.class, ShutdownPhase.THREE, "Have you tried turning it off and on again?"),
+	SCRIPT(ScriptService.class, ScriptState.class, ShutdownPhase.ONE, "Don't tell me what to do!"),
+	SECURITY(SecurityService.class, SecurityState.class, ShutdownPhase.THREE, "1000 times no!");
 
 	// ----------------------------------------------------------------------------------------
 	// Variables.

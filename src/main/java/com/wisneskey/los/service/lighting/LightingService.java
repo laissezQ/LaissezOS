@@ -68,6 +68,11 @@ public class LightingService extends AbstractService<LightingState> {
 	// ----------------------------------------------------------------------------------------
 
 	@Override
+	public LightingState getState() {
+		return lightingState;
+	}
+
+	@Override
 	public void terminate() {
 
 		lightingDriver.terminate();

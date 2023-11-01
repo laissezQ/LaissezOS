@@ -34,6 +34,13 @@ public interface Service<T extends State> {
 	ServiceId getServiceId();
 
 	/**
+	 * Returns the state object for the service.
+	 * 
+	 * @return State object for the service.
+	 */
+	T getState();
+	
+	/**
 	 * Method invoked by the kernel to terminate the service.
 	 */
 	void terminate();

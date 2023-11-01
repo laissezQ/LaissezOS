@@ -116,6 +116,15 @@ public class MapService extends AbstractService<MapState> {
 	// Service methods.
 	// ----------------------------------------------------------------------------------------
 
+	@Override
+	public MapState getState() {
+		return mapState;
+	}
+
+	// ----------------------------------------------------------------------------------------
+	// Public methods.
+	// ----------------------------------------------------------------------------------------
+
 	/**
 	 * Returns the tile image for the specified coordinates and zoom level if one
 	 * can be retrieved. Tries in order: the in memory cache, local store (if

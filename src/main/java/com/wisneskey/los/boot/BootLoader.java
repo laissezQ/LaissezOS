@@ -97,8 +97,8 @@ public class BootLoader extends Application {
 		kernel.registerService(RelayService.createService(runMode, profile));
 		kernel.registerService(LightingService.createService(runMode, profile));
 		kernel.registerService(LocationService.createService(runMode, profile));
-		kernel.registerService(AudioService.createService(profile));
-		kernel.registerService(ScriptService.createService(profile));
+		kernel.registerService(AudioService.createService());
+		kernel.registerService(ScriptService.createService());
 		kernel.registerService(SecurityService.createService(profile));
 		kernel.registerService(MapService.createService(profile));
 		

@@ -148,6 +148,11 @@ public class DisplayService extends AbstractService<DisplayState> {
 	// ----------------------------------------------------------------------------------------
 
 	@Override
+	public DisplayState getState() {
+		return displayState;
+	}
+
+	@Override
 	public void terminate() {
 		LOGGER.trace("Display service terminated.");
 	}

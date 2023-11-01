@@ -77,6 +77,11 @@ public class ProfileService extends AbstractService<ProfileState> {
 	// ----------------------------------------------------------------------------------------
 
 	@Override
+	public ProfileState getState() {
+		return profileState;
+	}
+	
+	@Override
 	public void terminate() {
 		LOGGER.trace("Profile service terminated.");
 	}

@@ -1,12 +1,9 @@
 package com.wisneskey.los.service.location;
 
-import java.util.Objects;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.wisneskey.los.error.LaissezException;
-import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.kernel.RunMode;
 import com.wisneskey.los.service.AbstractService;
 import com.wisneskey.los.service.ServiceId;
@@ -22,8 +19,6 @@ import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.util.Pair;
 
 /**
@@ -86,6 +81,11 @@ public class LocationService extends AbstractService<LocationState> {
 	// ----------------------------------------------------------------------------------------
 
 	@Override
+	public LocationState getState() {
+		return locationState;
+	}
+
+	@Override
 	public void terminate() {
 
 		// Stop the driver polling thread.
@@ -140,10 +140,6 @@ public class LocationService extends AbstractService<LocationState> {
 		driverPoller = new DriverPoller();
 		driverPoller.start();
 
-		// Hook up a listener for the fix status so we can write to the chair
-		// console when a GPS fix is lost or acquired.
-		locationState.hasGpsFix().addListener(new FixListener());
-
 		return locationState;
 	}
 
@@ -184,21 +180,6 @@ public class LocationService extends AbstractService<LocationState> {
 	// ----------------------------------------------------------------------------------------
 	// Inner classes.
 	// ----------------------------------------------------------------------------------------
-
-	/**
-	 * Listener that monitors the state of the GPS fix and writes a message to the
-	 * chair console when a fix is lost or gained.
-	 */
-	private class FixListener implements ChangeListener<Boolean> {
-
-		@Override
-		public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-			if (!Objects.equals(oldValue, newValue)) {
-				String fixMessage = newValue.booleanValue() ? "GPS location fix acquired." : "GPS location fix lost.";
-				Kernel.kernel().message(fixMessage);
-			}
-		}
-	}
 
 	/**
 	 * Thread for polling the GPS driver for data on a fixed interval.

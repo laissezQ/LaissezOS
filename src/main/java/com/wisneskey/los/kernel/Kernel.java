@@ -232,7 +232,7 @@ public class Kernel {
 
 		// If the run mode means we are actually on a Raspberry PI, then we need to
 		// create the pi4jContext.
-		if (mode.getPlatform() == Platform.RaspberryPi) {
+		if (mode.getPlatform() == Platform.RASPBERRY_PI) {
 			LOGGER.info("Initializing PI4J context...");
 			pi4jContext = Pi4J.newAutoContext();
 		} else {
