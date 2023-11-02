@@ -5,12 +5,12 @@ import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.display.DisplayId;
 import com.wisneskey.los.service.display.DisplayService;
 import com.wisneskey.los.service.display.controller.AbstractController;
+import com.wisneskey.los.service.display.listener.label.UpdateLabelListener;
 import com.wisneskey.los.service.script.ScriptId;
 import com.wisneskey.los.service.script.ScriptService;
 import com.wisneskey.los.state.LocationState;
 import com.wisneskey.los.state.MapState;
 
-import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -106,8 +106,8 @@ public class SystemScreen extends AbstractController {
 		// Add listeners for the GPS state.
 		locationState.hasGpsFix().addListener(new FixListener());
 		
-		locationState.satellitesInView().addListener(new UpdateValueListener<>(satelliteInViewLabel.textProperty()));
-		locationState.satellitesInFix().addListener(new UpdateValueListener<>(satelliteInFixLabel.textProperty()));	
+		locationState.satellitesInView().addListener(new UpdateLabelListener<>(satelliteInViewLabel));
+		locationState.satellitesInFix().addListener(new UpdateLabelListener<>(satelliteInFixLabel));	
 	}
 
 	/**
@@ -130,13 +130,6 @@ public class SystemScreen extends AbstractController {
 	 */
 	public void resumePressed() {
 		((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.SYSTEM_SCREEN_CLOSE);
-	}
-
-	/**
-	 * Method invoked by the sound effects test button.
-	 */
-	public void soundEffectsTestPressed() {
-
 	}
 
 	// ----------------------------------------------------------------------------------------
@@ -166,20 +159,6 @@ public class SystemScreen extends AbstractController {
 		@Override
 		public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
 			updateFixStatus(newValue.booleanValue());
-		}
-	}
-
-	private class UpdateValueListener<T extends Number> implements ChangeListener<T> {
-
-		private StringProperty valueProperty;
-
-		private UpdateValueListener(StringProperty valueProperty) {
-			this.valueProperty = valueProperty;
-		}
-
-		@Override
-		public void changed(ObservableValue<? extends T> observable, T oldValue, T newValue) {
-			valueProperty.set(String.valueOf(newValue));
 		}
 	}
 }
