@@ -51,10 +51,66 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
-      <CheckBox fx:id="onlineMapCheckBox" layoutX="101.0" layoutY="353.0" mnemonicParsing="false" text="Online Map Download">
+      <CheckBox fx:id="onlineMapCheckBox" layoutX="100.0" layoutY="1084.0" mnemonicParsing="false" text="Online Map Download">
          <font>
             <Font size="18.0" />
          </font>
+         <effect>
+            <DropShadow />
+         </effect>
       </CheckBox>
+      <Line endX="190.0" layoutX="196.0" layoutY="904.0" startX="-180.0">
+         <effect>
+            <DropShadow />
+         </effect>
+      </Line>
+      <Button layoutX="53.0" layoutY="341.0" mnemonicParsing="false" onAction="#soundEffectsTestPressed" prefHeight="80.0" prefWidth="294.0" text="Sound Effect Tests">
+         <effect>
+            <DropShadow />
+         </effect>
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Button>
+      <Label fx:id="gpsStatusLabel" layoutX="177.0" layoutY="925.0" text="GPS" textAlignment="CENTER">
+         <effect>
+            <DropShadow />
+         </effect>
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="104.0" layoutY="982.0" text="Satellites In View:">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <effect>
+            <DropShadow />
+         </effect>
+      </Label>
+      <Label layoutX="120.0" layoutY="1025.0" text="Satellites In Fix:">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <effect>
+            <DropShadow />
+         </effect>
+      </Label>
+      <Label fx:id="satelliteInViewLabel" alignment="CENTER_RIGHT" layoutX="252.0" layoutY="982.0" prefHeight="17.0" prefWidth="29.0" text="0">
+         <font>
+            <Font name="Consolas" size="18.0" />
+         </font>
+         <effect>
+            <DropShadow />
+         </effect>
+      </Label>
+      <Label fx:id="satelliteInFixLabel" alignment="CENTER_RIGHT" layoutX="252.0" layoutY="1025.0" prefHeight="17.0" prefWidth="29.0" text="0">
+         <font>
+            <Font name="Consolas" size="18.0" />
+         </font>
+         <effect>
+            <DropShadow />
+         </effect>
+      </Label>
 	</children>
 </Pane>

@@ -3,6 +3,7 @@ package com.wisneskey.los.state;
 import com.wisneskey.los.service.location.Location;
 
 import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 
 /**
@@ -40,4 +41,18 @@ public interface LocationState extends State {
 	 * @return Current location if there is a GPS fix.
 	 */
 	ReadOnlyObjectProperty<Location> location();
+	
+	/**
+	 * Number of satellites seen by the GPS.
+	 * 
+	 * @return Last measured number of satellites seen.
+	 */
+	ReadOnlyIntegerProperty satellitesInView();
+	
+	/**
+	 * Number of satellites that were used for the last GPS fix.
+	 * 
+	 * @return Number of satellites used for the last GPS fix.
+	 */
+	ReadOnlyIntegerProperty satellitesInFix();
 }

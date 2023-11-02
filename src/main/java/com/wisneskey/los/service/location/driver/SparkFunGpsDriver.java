@@ -246,12 +246,12 @@ public class SparkFunGpsDriver implements GpsDriver {
 	/**
 	 * Returns a location object populate from a supplied GPS GGA sentence.
 	 * 
-	 * @param  sentance GGA sentence from the GPS.
+	 * @param  sentence GGA sentence from the GPS.
 	 * @return          Location object with same position as the GGS sentence.
 	 */
-	private Location locationFrom(GGASentence sentance) {
+	private Location locationFrom(GGASentence sentence) {
 
-		Position position = sentance.getPosition();
+		Position position = sentence.getPosition();
 		return Location.of(position.getLatitude(), position.getLongitude(), position.getAltitude());
 	}
 
@@ -289,9 +289,7 @@ public class SparkFunGpsDriver implements GpsDriver {
 			while (!isInterrupted()) {
 
 				// Fill with garbage byte
-				for (int i = 0; i < 255; i++) {
-					buffer[i] = 0x0a;
-				}
+				Arrays.fill(buffer, (byte) 0x0a);
 
 				// Read up to the maximum packet size.
 				board.read(buffer);
@@ -407,6 +405,5 @@ public class SparkFunGpsDriver implements GpsDriver {
 				LOGGER.warn("Failed to parse GPS satellite data.", e);
 			}
 		}
-
 	}
 }

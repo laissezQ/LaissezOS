@@ -14,10 +14,13 @@ import com.wisneskey.los.service.profile.model.Profile;
 import com.wisneskey.los.state.LocationState;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.util.Pair;
 
@@ -218,6 +221,8 @@ public class LocationService extends AbstractService<LocationState> {
 
 				LOGGER.debug("GPS location poll: location={}", latest);
 				locationState.updateLocation(latest);
+				locationState.updateSatellitesInView(gpsDriver.getSatellitesInView());
+				locationState.updateSatellitesInFix(gpsDriver.getSatellitesInFix());
 			}
 
 			LOGGER.info("GPS poller thread shutdown.");
@@ -230,10 +235,27 @@ public class LocationService extends AbstractService<LocationState> {
 	 */
 	private static class InternalLocationState implements LocationState {
 
+		/**
+		 * Flag indicating if the GPS currently has a fix.
+		 */
 		private BooleanProperty hasFix = new SimpleBooleanProperty(false);
 
+		/**
+		 * Last location reported by the GPS. If no fix, this is the last known
+		 * location.
+		 */
 		private ObjectProperty<Location> location = new SimpleObjectProperty<>();
 
+		/**
+		 * Number of satellites seen by the GPS.
+		 */
+		private IntegerProperty satellitesInView = new SimpleIntegerProperty(0);
+		
+		/**
+		 * Number of satellites that were used for the last GPS position.
+		 */
+		private IntegerProperty satellitesInFix = new SimpleIntegerProperty(0);
+		
 		// ----------------------------------------------------------------------------------------
 		// LocationState methods.
 		// ----------------------------------------------------------------------------------------
@@ -249,6 +271,16 @@ public class LocationService extends AbstractService<LocationState> {
 			return location;
 		}
 
+		@Override
+		public ReadOnlyIntegerProperty satellitesInView() {
+			return satellitesInView;
+		}
+
+		@Override
+		public ReadOnlyIntegerProperty satellitesInFix() {
+			return satellitesInFix;
+		}
+
 		// ----------------------------------------------------------------------------------------
 		// Supporting methods.
 		// ----------------------------------------------------------------------------------------
@@ -261,6 +293,14 @@ public class LocationService extends AbstractService<LocationState> {
 				hasFix.setValue(Boolean.TRUE);
 				location.setValue(latest);
 			}
+		}
+
+		private void updateSatellitesInView(int satellitesInView) {
+			this.satellitesInView.set(satellitesInView);
+		}
+		
+		private void updateSatellitesInFix(int satellitesInFix) {
+			this.satellitesInFix.set(satellitesInFix);
 		}
 	}
 }
