@@ -200,9 +200,10 @@ public class AudioService extends AbstractService<AudioState> {
 				DataLine.Info info = new DataLine.Info(Clip.class, format);
 				Clip clip = (Clip) AudioSystem.getLine(info);
 
-				// Add a listener so we can wait until the clip stops playing.
+				// Add a listener so we can wait until the clip stops playing and then close it.
 				clip.addLineListener(e -> {
 					if (e.getType() == LineEvent.Type.STOP) {
+						clip.close();
 						waitLatch.countDown();
 					}
 				});
