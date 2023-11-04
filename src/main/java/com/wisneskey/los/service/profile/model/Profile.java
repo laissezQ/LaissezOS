@@ -29,15 +29,41 @@ import com.wisneskey.los.service.script.ScriptId;
  */
 public class Profile {
 
-	/**
-	 * Default style for the displays.
-	 */
-	public static final DisplayStyle DEFAULT_DISPLAY_STYLE = DisplayStyle.LAISSEZ_OS;
+	// ----------------------------------------------------------------------------------------
+	// General defaults.
+	// ----------------------------------------------------------------------------------------
 
 	/**
 	 * Default to a fast boot.
 	 */
 	public static final ScriptId DEFAULT_BOOT_SCRIPT = ScriptId.BOOT_FAST;
+
+	// ----------------------------------------------------------------------------------------
+	// Audio service defaults.
+	// ----------------------------------------------------------------------------------------
+
+	/**
+	 * Default volume for the audio service in normal chair operation.
+	 */
+	private static final int DEFAULT_CHAIR_VOLUME = 7;
+
+	/**
+	 * Default volume for the audio service when in chap mode.
+	 */
+	private static final int DEFAULT_CHAP_MODE_VOLUME = 7;
+
+	// ----------------------------------------------------------------------------------------
+	// Display service defaults.
+	// ----------------------------------------------------------------------------------------
+
+	/**
+	 * Default style for the displays.
+	 */
+	public static final DisplayStyle DEFAULT_DISPLAY_STYLE = DisplayStyle.LAISSEZ_OS;
+
+	// ----------------------------------------------------------------------------------------
+	// Location service defaults.
+	// ----------------------------------------------------------------------------------------
 
 	/**
 	 * Default latitude for initial location.
@@ -59,10 +85,18 @@ public class Profile {
 	 */
 	private static final boolean DEFAULT_MAP_ONLINE = true;
 
+	// ----------------------------------------------------------------------------------------
+	// Map service defaults.
+	// ----------------------------------------------------------------------------------------
+
 	/**
 	 * Default location for the map tile store directory.
 	 */
 	private static final String DEFAULT_TILE_STORE_PATH = "./.map_tile_store";
+
+	// ----------------------------------------------------------------------------------------
+	// General settings.
+	// ----------------------------------------------------------------------------------------
 
 	/**
 	 * Unique id for the profile.
@@ -80,14 +114,52 @@ public class Profile {
 	private Set<RunMode> supportedRunModes;
 
 	/**
+	 * Script to run at boot.
+	 */
+	private ScriptId bootScript = DEFAULT_BOOT_SCRIPT;
+
+	// ----------------------------------------------------------------------------------------
+	// Audio service settings.
+	// ----------------------------------------------------------------------------------------
+
+	/**
+	 * Volume of the audio in normal chair operation.
+	 */
+	private int volume = DEFAULT_CHAIR_VOLUME;
+
+	/**
+	 * Volume of the chair in chap mode.
+	 */
+	private int chapModeVolume = DEFAULT_CHAP_MODE_VOLUME;
+
+	// ----------------------------------------------------------------------------------------
+	// Display service settings.
+	// ----------------------------------------------------------------------------------------
+
+	/**
 	 * Style for the UI on the displays.
 	 */
 	private DisplayStyle displayStyle = DEFAULT_DISPLAY_STYLE;
 
+	// ----------------------------------------------------------------------------------------
+	// Lighting service settings.
+	// ----------------------------------------------------------------------------------------
+
 	/**
-	 * 4 digit PIN code to unlock chair.
+	 * Address of the WLED host for controlling the lighting.
 	 */
-	private String pinCode;
+	private String wledHostAddress;
+
+	/**
+	 * Flag to force the user of the real lighting driver even in development.
+	 * This is possible since the ESP32 can run independently of the rest of the
+	 * system.
+	 */
+	private boolean useRealLighting;
+
+	// ----------------------------------------------------------------------------------------
+	// Location service settings.
+	// ----------------------------------------------------------------------------------------
 
 	/**
 	 * Latitude for initial chair location.
@@ -104,22 +176,9 @@ public class Profile {
 	 */
 	private double initialAltitude = DEFAULT_ALTITUDE;
 
-	/**
-	 * Script to run at boot.
-	 */
-	private ScriptId bootScript = DEFAULT_BOOT_SCRIPT;
-
-	/**
-	 * Address of the WLED host for controlling the lighting.
-	 */
-	private String wledHostAddress;
-
-	/**
-	 * Flag to force the user of the real lighting driver even in development.
-	 * This is possible since the ESP32 can run independently of the rest of the
-	 * system.
-	 */
-	private boolean useRealLighting;
+	// ----------------------------------------------------------------------------------------
+	// Map service settings.
+	// ----------------------------------------------------------------------------------------
 
 	/**
 	 * Flag indicating if the map service can fetch tiles online or can only use
@@ -131,6 +190,15 @@ public class Profile {
 	 * Directory for the local map cache.
 	 */
 	private String tileStorePath = DEFAULT_TILE_STORE_PATH;
+
+	// ----------------------------------------------------------------------------------------
+	// Security service settings.
+	// ----------------------------------------------------------------------------------------
+
+	/**
+	 * 4 digit PIN code to unlock chair.
+	 */
+	private String pinCode;
 
 	// ----------------------------------------------------------------------------------------
 	// General property getters.
@@ -161,6 +229,37 @@ public class Profile {
 	 */
 	public Set<RunMode> getSupportedRunModes() {
 		return supportedRunModes;
+	}
+
+	/**
+	 * Returns the script to run for the boot sequence.
+	 * 
+	 * @return Id of the script to run for boot sequence.
+	 */
+	public ScriptId getBootScript() {
+		return bootScript;
+	}
+
+	// ----------------------------------------------------------------------------------------
+	// Audio service property getters.
+	// ----------------------------------------------------------------------------------------
+
+	/**
+	 * Returns the volume of chair in normal operating mode.
+	 * 
+	 * @return Volume of chair from 0 to 11.
+	 */
+	public int getVolume() {
+		return volume;
+	}
+
+	/**
+	 * Returns the volume of the chair in chap mode.
+	 * 
+	 * @return Volume of chair from 0 to 11.
+	 */
+	public int getChapModeVolume() {
+		return chapModeVolume;
 	}
 
 	// ----------------------------------------------------------------------------------------
@@ -245,14 +344,15 @@ public class Profile {
 	}
 
 	/**
-	 * Return the directory to use for the local file system persistence of the map cache.
+	 * Return the directory to use for the local file system persistence of the
+	 * map cache.
 	 * 
 	 * @return Name to use to select the map cache configuration to use.
 	 */
 	public String getTileStorePath() {
 		return tileStorePath;
 	}
-	
+
 	// ----------------------------------------------------------------------------------------
 	// Security service property getters.
 	// ----------------------------------------------------------------------------------------
@@ -264,14 +364,5 @@ public class Profile {
 	 */
 	public String getPinCode() {
 		return pinCode;
-	}
-
-	/**
-	 * Returns the script to run for the boot sequence.
-	 * 
-	 * @return Id of the script to run for boot sequence.
-	 */
-	public ScriptId getBootScript() {
-		return bootScript;
 	}
 }

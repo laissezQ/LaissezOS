@@ -10,6 +10,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
+import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineEvent;
 
 import org.slf4j.Logger;
@@ -19,11 +20,15 @@ import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.kernel.RunMode;
 import com.wisneskey.los.service.AbstractService;
 import com.wisneskey.los.service.ServiceId;
+import com.wisneskey.los.service.profile.model.Profile;
 import com.wisneskey.los.service.relay.RelayId;
 import com.wisneskey.los.service.relay.RelayService;
 import com.wisneskey.los.state.AudioState;
+import com.wisneskey.los.state.ChairState.MasterState;
 import com.wisneskey.los.util.StopWatch;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.util.Pair;
 
 /**
@@ -49,6 +54,26 @@ import javafx.util.Pair;
 public class AudioService extends AbstractService<AudioState> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AudioService.class);
+
+	/**
+	 * Minimum supported volume.
+	 */
+	private static final int MIN_VOLUME = 0;
+
+	/**
+	 * Maximum supported volume.
+	 */
+	private static final int MAX_VOLUME = 11;
+
+	/**
+	 * Minimum allowed gain adjustment (e.g. none).
+	 */
+	private float MIN_GAIN_ADJUSTMENT = 0.0f;
+
+	/**
+	 * Maximum allowed gain adjustment (e.g. silent).
+	 */
+	private float MAX_GAIN_ADJUSTMENT = -80.0f;
 
 	/**
 	 * Base path for where audio clips are saved in the resources.
@@ -84,8 +109,20 @@ public class AudioService extends AbstractService<AudioState> {
 	 */
 	public void playEffect(SoundEffectId effectId, boolean waitForCompletion) {
 
-		LOGGER.debug("Playing sound effect: {}", effectId);
-		Thread playerThread = new SoundEffectPlayerThread(effectId);
+		IntegerProperty volumeProperty;
+		if( Kernel.kernel().chairState().masterState().getValue() == MasterState.CHAP_MODE) {
+			volumeProperty = audioState.chapModeVolume();
+		} else
+		{
+			volumeProperty = audioState.volume();
+		}
+
+		float gainAdjustment = getGainAdjustment(volumeProperty.get());
+		
+		LOGGER.debug("Playing sound effect: id={} volume={} gainAdjustment={}", effectId,
+				volumeProperty.getValue(), gainAdjustment);
+		
+		Thread playerThread = new SoundEffectPlayerThread(effectId, gainAdjustment);
 		playerThread.start();
 
 		if (waitForCompletion) {
@@ -119,9 +156,10 @@ public class AudioService extends AbstractService<AudioState> {
 	/**
 	 * Initializes the audio services and returns its initial state.
 	 * 
-	 * @return Configured state object for the service.
+	 * @param  profile Profile with initial audio settings.
+	 * @return         Configured state object for the service.
 	 */
-	private AudioState initialize() {
+	private AudioState initialize(Profile profile) {
 
 		LOGGER.info("Initializing audio service...");
 
@@ -132,8 +170,27 @@ public class AudioService extends AbstractService<AudioState> {
 			((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOn(RelayId.AMPLIFIER);
 		}
 
-		audioState = new InternalAudioState();
+		audioState = new InternalAudioState(profile.getVolume(), profile.getChapModeVolume());
 		return audioState;
+	}
+
+	/**
+	 * Returns the gain adjustment (reduction in gain) to be applied to a sound
+	 * clip to play it at the indicated volume.
+	 * 
+	 * @param  volume Volume to calculate gain adjustment for.
+	 * @return        Gain adjustment to be applied to sound clip to reduce its
+	 *                volume.
+	 */
+	private float getGainAdjustment(int volume) {
+
+		// Make sure volume is in allowed range.
+		volume = Math.max(MIN_VOLUME, volume);
+		volume = Math.min(volume, MAX_VOLUME);
+
+		// Gain adjustment is applied to lower volume so we invert the percentage.
+		float adjustPercent = 1.0f - (volume / (float) MAX_VOLUME);		
+		return MIN_GAIN_ADJUSTMENT + adjustPercent * (MAX_GAIN_ADJUSTMENT + MIN_GAIN_ADJUSTMENT);
 	}
 
 	// ----------------------------------------------------------------------------------------
@@ -144,12 +201,13 @@ public class AudioService extends AbstractService<AudioState> {
 	 * Creates an instance of the audio service along with its initial state as
 	 * set from the supplied profile.
 	 * 
-	 * @return Audio service instance and its initial state object.
+	 * @param  profile Profile with initial audio settings.
+	 * @return         Audio service instance and its initial state object.
 	 */
-	public static Pair<AudioService, AudioState> createService() {
+	public static Pair<AudioService, AudioState> createService(Profile profile) {
 
 		AudioService service = new AudioService();
-		AudioState state = service.initialize();
+		AudioState state = service.initialize(profile);
 		return new Pair<>(service, state);
 	}
 
@@ -164,14 +222,31 @@ public class AudioService extends AbstractService<AudioState> {
 
 		private static final Logger PLAYER_LOGGER = LoggerFactory.getLogger("EffectPlayer");
 
+		/**
+		 * Id of the sound effect to play back.
+		 */
 		private SoundEffectId effectId;
+		
+		/**
+		 * Adjustment to apply to lower the volume of the clip.
+		 */
+		private float gainAdjustment;
+		
+		// ----------------------------------------------------------------------------------------
+		// Constructors.
+		// ----------------------------------------------------------------------------------------
 
-		public SoundEffectPlayerThread(SoundEffectId effectId) {
+		public SoundEffectPlayerThread(SoundEffectId effectId, float gainAdjustment) {
 			this.effectId = effectId;
-
+			this.gainAdjustment = gainAdjustment;
+			
 			setDaemon(true);
 			setName("SoundEffectPlayer[" + effectId + "]");
 		}
+
+		// ----------------------------------------------------------------------------------------
+		// Thread methods.
+		// ----------------------------------------------------------------------------------------
 
 		@Override
 		public void run() {
@@ -200,7 +275,8 @@ public class AudioService extends AbstractService<AudioState> {
 				DataLine.Info info = new DataLine.Info(Clip.class, format);
 				Clip clip = (Clip) AudioSystem.getLine(info);
 
-				// Add a listener so we can wait until the clip stops playing and then close it.
+				// Add a listener so we can wait until the clip stops playing and then
+				// close it.
 				clip.addLineListener(e -> {
 					if (e.getType() == LineEvent.Type.STOP) {
 						clip.close();
@@ -209,6 +285,13 @@ public class AudioService extends AbstractService<AudioState> {
 				});
 
 				clip.open(audioIn);
+				
+				// Adjust the volume by applying the supplied gain adjustment.
+				FloatControl gainControl = 
+				    (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+				gainControl.setValue(gainAdjustment); 
+				
+				// Start the playback.
 				clip.start();
 
 				if (PLAYER_LOGGER.isTraceEnabled()) {
@@ -238,5 +321,31 @@ public class AudioService extends AbstractService<AudioState> {
 	 */
 	private static class InternalAudioState implements AudioState {
 
+		private IntegerProperty volume;
+
+		private IntegerProperty chapModeVolume;
+
+		// ----------------------------------------------------------------------------------------
+		// Constructors.
+		// ----------------------------------------------------------------------------------------
+
+		private InternalAudioState(int volume, int chapModeVolume) {
+			this.volume = new SimpleIntegerProperty(volume);
+			this.chapModeVolume = new SimpleIntegerProperty(chapModeVolume);
+		}
+
+		// ----------------------------------------------------------------------------------------
+		// AudioState methods.
+		// ----------------------------------------------------------------------------------------
+
+		@Override
+		public IntegerProperty volume() {
+			return volume;
+		}
+
+		@Override
+		public IntegerProperty chapModeVolume() {
+			return chapModeVolume;
+		}
 	}
 }

@@ -1,5 +1,7 @@
 package com.wisneskey.los.state;
 
+import javafx.beans.property.IntegerProperty;
+
 /**
  * Interface denoting the object providing read only access to the state of the
  * Audio service.
@@ -22,5 +24,18 @@ package com.wisneskey.los.state;
  * @author paul.wisneskey@gmail.com
  */
 public interface AudioState extends State {
-
+	
+	/**
+	 * Volume of the chair when it is in its normal state.
+	 * 
+	 * @return Volume of chair from 0 - 11.
+	 */
+	IntegerProperty volume();
+	
+	/**
+	 * Volume of the chair when it is in chap mode.
+	 * 
+	 * @return Volume of chair from 0 - 11.
+	 */
+	IntegerProperty chapModeVolume();
 }
