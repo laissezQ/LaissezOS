@@ -38,12 +38,7 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
-      <Line endX="190.0" layoutX="196.0" layoutY="910.0" startX="-180.0">
-         <effect>
-            <DropShadow />
-         </effect>
-      </Line>
-      <Slider fx:id="masterVolumeSlider" blockIncrement="1.0" layoutX="36.0" layoutY="970.0" majorTickUnit="1.0" max="11.0" minorTickCount="0" opacity="0.5" prefHeight="38.0" prefWidth="329.0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
+      <Slider fx:id="masterVolumeSlider" blockIncrement="1.0" layoutX="36.0" layoutY="970.0" majorTickUnit="1.0" max="11.0" minorTickCount="0" prefHeight="38.0" prefWidth="329.0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
          <effect>
             <DropShadow />
          </effect>
@@ -69,7 +64,7 @@
             <DropShadow />
          </effect>
       </Slider>
-      <ScrollPane hbarPolicy="NEVER" layoutX="16.0" layoutY="200.0" prefHeight="687.0" prefWidth="371.0">
+      <ScrollPane hbarPolicy="NEVER" layoutX="16.0" layoutY="211.0" prefHeight="700.0" prefWidth="371.0">
          <effect>
             <DropShadow />
          </effect>
