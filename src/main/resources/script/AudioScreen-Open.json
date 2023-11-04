@@ -1,0 +1,24 @@
+{
+	// 
+	// Script for playing when somone opens the audio screen.
+	//
+	"name": "User has opened the audio screen.",
+	//
+	"commands": [
+		{
+			"playSoundEffect": {
+				"effectIds": [
+					"MOVIE_ALL_GO_TO_ELEVEN",
+					"MOVIE_ITS_ONE_LOUDER",
+					"MOVIE_WORKING",
+					"MOVIE_MACHINE_GOES_PING"
+				]
+			}
+		},
+		{
+			"showScene": {
+				"sceneId": "CP_AUDIO_SCREEN"
+			}
+		}
+	]
+}

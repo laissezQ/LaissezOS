@@ -22,6 +22,8 @@ package com.wisneskey.los.service.script;
  */
 public enum ScriptId {
 
+	AUDIO_SCREEN_OPEN("But this one goes to eleven!","AudioScreen-Open"),
+	AUDIO_SCREEN_CLOSE("The audience is now deaf.","AudioScreen-Close"),
 	BOOT_FAST("Fasted possible boot sequence.", "Boot-Fast"),
 	BOOT_DEV("Test boot sequence for development.", "Boot-DEV"),
 	SECURITY_UNLOCKED("Chair was unlocked.", "Security-Unlocked"),

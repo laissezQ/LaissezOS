@@ -1,0 +1,23 @@
+{
+	// 
+	// Script for playing when somone exits the audio screen.
+	//
+	"name": "User has exited the audio screen.",
+	//
+	"commands": [
+		{
+			"playSoundEffect": {
+				"effectIds": [
+					"MOVIE_ESPRESSO",
+					"TV_COMPLETELY_DIFFERENT",
+					"MOVIE_THE_AUDIENCE_IS_NOW_DEAF"
+				]
+			}
+		},
+		{
+			"showScene": {
+				"sceneId": "CP_MAIN_SCREEN"
+			}
+		}
+	]
+}

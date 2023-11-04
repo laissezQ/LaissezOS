@@ -108,6 +108,13 @@ public class MainScreen extends AbstractController {
 				ScriptId.SECURITY_UNLOCKED, ScriptId.SECURITY_UNLOCK_FAILED, null, null);
 	}
 
+	/**
+	 * Method invoked when the audio button is pressed.
+	 */
+	public void audioPressed() {	
+		((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.AUDIO_SCREEN_OPEN);
+	}
+	
 	// ----------------------------------------------------------------------------------------
 	// Inner classes.
 	// ----------------------------------------------------------------------------------------
