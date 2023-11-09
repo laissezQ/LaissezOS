@@ -1,5 +1,7 @@
 package com.wisneskey.los.state;
 
+import javafx.beans.property.ReadOnlyBooleanProperty;
+
 /**
  * State object for the state of the remote control interface.
  *
@@ -22,4 +24,17 @@ package com.wisneskey.los.state;
  */
 public interface RemoteState extends State {
 
+	/**
+	 * Property that is true when button A is pressed.
+	 * 
+	 * @return True if button A is currently pressed; false otherwise.
+	 */
+	ReadOnlyBooleanProperty buttonA();
+	
+	/**
+	 * Property that is true when button B is pressed.
+	 * 
+	 * @return True if button B is currently pressed; false otherwise.
+	 */
+	ReadOnlyBooleanProperty buttonB();
 }

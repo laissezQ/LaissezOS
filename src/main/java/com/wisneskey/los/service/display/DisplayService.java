@@ -17,12 +17,16 @@ import com.wisneskey.los.service.AbstractService;
 import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.display.controller.SceneController;
 import com.wisneskey.los.service.profile.model.Profile;
+import com.wisneskey.los.service.remote.RemoteButtonId;
 import com.wisneskey.los.state.DisplayState;
+import com.wisneskey.los.state.RemoteState;
 
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
@@ -137,7 +141,7 @@ public class DisplayService extends AbstractService<DisplayState> {
 	 * Map of scene id's to their controllers for that scene.
 	 */
 	private Map<SceneId, SceneController> sceneControllerMap = new EnumMap<>(SceneId.class);
-	
+
 	// ----------------------------------------------------------------------------------------
 	// Constructors.
 	// ----------------------------------------------------------------------------------------
@@ -222,6 +226,13 @@ public class DisplayService extends AbstractService<DisplayState> {
 		default:
 			throw new LaissezException("Unhandled chair mode in display initialization: " + runMode);
 		}
+
+		// Monitor the remote service state so we can detect button changes and tell
+		// the
+		// current active scenes about buttons being pressed.
+		RemoteState remoteState = Kernel.kernel().chairState().getServiceState(ServiceId.REMOTE);
+		remoteState.buttonA().addListener(new RemoteButtonListener(RemoteButtonId.REMOTE_BUTTON_A));
+		remoteState.buttonB().addListener(new RemoteButtonListener(RemoteButtonId.REMOTE_BUTTON_B));
 
 		initialized = true;
 	}
@@ -431,6 +442,29 @@ public class DisplayService extends AbstractService<DisplayState> {
 		}
 	}
 
+	/**
+	 * Method invoked by the remote button state even listeners when a remote
+	 * button is pressed.
+	 * 
+	 * @param buttonId Id of the button that was pressed.
+	 */
+	private void remoteButtonPressed(RemoteButtonId buttonId) {
+
+		SceneId cpSceneId = displayState.cpScene().getValue();
+		SceneId hudSceneId = displayState.hudScene().getValue();
+
+		SceneController cpController = cpSceneId == null ? null : sceneControllerMap.get(cpSceneId);
+		SceneController hudController = hudSceneId == null ? null : sceneControllerMap.get(hudSceneId);
+
+		if (cpController != null) {
+			cpController.remoteButtonPressed(buttonId);
+		}
+
+		if (hudController != null) {
+			hudController.remoteButtonPressed(buttonId);
+		}
+	}
+
 	// ----------------------------------------------------------------------------------------
 	// Static service creation methods.
 	// ----------------------------------------------------------------------------------------
@@ -453,6 +487,36 @@ public class DisplayService extends AbstractService<DisplayState> {
 	// ----------------------------------------------------------------------------------------
 	// Inner classes.
 	// ----------------------------------------------------------------------------------------
+
+	/**
+	 * Listener for monitoring when remote buttons are pressed.
+	 */
+	private class RemoteButtonListener implements ChangeListener<Boolean> {
+
+		/**
+		 * Id of the remote button the listener is for.
+		 */
+		private RemoteButtonId buttonId;
+
+		// ----------------------------------------------------------------------------------------
+		// Constructors.
+		// ----------------------------------------------------------------------------------------
+
+		private RemoteButtonListener(RemoteButtonId buttonId) {
+			this.buttonId = buttonId;
+		}
+
+		// ----------------------------------------------------------------------------------------
+		// ChangeListener methods.
+		// ----------------------------------------------------------------------------------------
+
+		@Override
+		public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+			if (newValue.booleanValue()) {
+				remoteButtonPressed(buttonId);
+			}
+		}
+	}
 
 	/**
 	 * Internal state object for the Display service.

@@ -1,5 +1,7 @@
 package com.wisneskey.los.service.display.controller;
 
+import com.wisneskey.los.service.remote.RemoteButtonId;
+
 /**
  * Interface designating a controller for one of the defined scenes for the system
  *
@@ -22,4 +24,11 @@ package com.wisneskey.los.service.display.controller;
  */
 public interface SceneController {
 
+	/**
+	 * Method invoked by the display service when a remote control button press is
+	 * detected.
+	 * 
+	 * @param buttonId Id of the remote control button that was pressed.
+	 */
+	void remoteButtonPressed(RemoteButtonId buttonId);
 }

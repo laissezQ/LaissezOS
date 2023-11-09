@@ -12,6 +12,8 @@ import com.wisneskey.los.service.remote.driver.GpioRemoteDriver;
 import com.wisneskey.los.service.remote.driver.RemoteDriver;
 import com.wisneskey.los.state.RemoteState;
 
+import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.util.Pair;
 
 /**
@@ -118,17 +120,18 @@ public class RemoteService extends AbstractService<RemoteState> {
 	 * @param buttonId Id of the remote button that was pressed.
 	 */
 	private void buttonPressed(RemoteButtonId buttonId) {
-		LOGGER.warn("Button pressed: {}", buttonId);
+		LOGGER.debug("Button pressed: {}", buttonId);
+		remoteState.updateButtonState(buttonId, true);
 	}
 
 	/**
 	 * Method invoked when a remote button is released.
 	 * 
-	 * @param buttonId id of the remote button that was released. 
+	 * @param buttonId id of the remote button that was released.
 	 */
 	private void buttonReleased(RemoteButtonId buttonId) {
-		LOGGER.warn("Button released: {}", buttonId);
-
+		LOGGER.debug("Button released: {}", buttonId);
+		remoteState.updateButtonState(buttonId, false);
 	}
 
 	// ----------------------------------------------------------------------------------------
@@ -142,7 +145,7 @@ public class RemoteService extends AbstractService<RemoteState> {
 		// Set the remote driver based on the run mode.
 		switch (runMode) {
 		case CHAIR:
-			//service.setRemoteDriver(new DummyRemoteDriver());
+			// service.setRemoteDriver(new DummyRemoteDriver());
 			service.setRemoteDriver(new GpioRemoteDriver());
 			break;
 		case DEV:
@@ -166,6 +169,49 @@ public class RemoteService extends AbstractService<RemoteState> {
 	 */
 	private static class InternalRemoteState implements RemoteState {
 
+		/**
+		 * Property for button A's pressed state;
+		 */
+		private SimpleBooleanProperty buttonA = new SimpleBooleanProperty(false);
+
+		/**
+		 * Property for button B's pressed state;
+		 */
+		private SimpleBooleanProperty buttonB = new SimpleBooleanProperty(false);
+
+		// ----------------------------------------------------------------------------------------
+		// RemoteState methods.
+		// ----------------------------------------------------------------------------------------
+
+		@Override
+		public ReadOnlyBooleanProperty buttonA() {
+			return buttonA;
+		}
+
+		@Override
+		public ReadOnlyBooleanProperty buttonB() {
+			return buttonB;
+		}
+
+		// ----------------------------------------------------------------------------------------
+		// Supporting methods.
+		// ----------------------------------------------------------------------------------------
+
+		private void updateButtonState(RemoteButtonId buttonId, boolean pressed) {
+
+			switch (buttonId) {
+			case REMOTE_BUTTON_A:
+				buttonA.set(pressed);
+				break;
+
+			case REMOTE_BUTTON_B:
+				buttonB.set(pressed);
+				break;
+
+			default:
+				throw new LaissezException("Unhandled button in state update.");
+			}
+		}
 	}
 
 	/**

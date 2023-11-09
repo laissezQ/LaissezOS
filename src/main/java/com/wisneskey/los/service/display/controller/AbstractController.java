@@ -1,6 +1,7 @@
 package com.wisneskey.los.service.display.controller;
 
 import com.wisneskey.los.kernel.Kernel;
+import com.wisneskey.los.service.remote.RemoteButtonId;
 import com.wisneskey.los.state.ChairState;
 
 /**
@@ -27,11 +28,15 @@ import com.wisneskey.los.state.ChairState;
 public abstract class AbstractController implements SceneController {
 
 	// ----------------------------------------------------------------------------------------
-	// Public methods.
+	// SceneController methods.
 	// ----------------------------------------------------------------------------------------
 
-	// TODO: Remote event handler.
-	
+	@Override
+	public void remoteButtonPressed(RemoteButtonId buttonId) {
+		// By default, ignore the remote buttons. Scene controllers can override
+		// this method if they want to respond to remote button presses.
+	}
+
 	// ----------------------------------------------------------------------------------------
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
