@@ -24,8 +24,14 @@ import com.wisneskey.los.state.ChairState;
  *
  * @author paul.wisneskey@gmail.com
  */
-public abstract class AbstractController {
+public abstract class AbstractController implements SceneController {
 
+	// ----------------------------------------------------------------------------------------
+	// Public methods.
+	// ----------------------------------------------------------------------------------------
+
+	// TODO: Remote event handler.
+	
 	// ----------------------------------------------------------------------------------------
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------

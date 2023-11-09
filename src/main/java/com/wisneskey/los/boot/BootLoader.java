@@ -17,6 +17,7 @@ import com.wisneskey.los.service.map.MapService;
 import com.wisneskey.los.service.profile.ProfileService;
 import com.wisneskey.los.service.profile.model.Profile;
 import com.wisneskey.los.service.relay.RelayService;
+import com.wisneskey.los.service.remote.RemoteService;
 import com.wisneskey.los.service.script.ScriptService;
 import com.wisneskey.los.service.security.SecurityService;
 import com.wisneskey.los.state.ProfileState;
@@ -101,6 +102,7 @@ public class BootLoader extends Application {
 		kernel.registerService(ScriptService.createService());
 		kernel.registerService(SecurityService.createService(profile));
 		kernel.registerService(MapService.createService(profile));
+		kernel.registerService(RemoteService.createService(runMode));
 		
 		// Register display service last so all the other services are ready and
 		// have initial states that can be displayed.

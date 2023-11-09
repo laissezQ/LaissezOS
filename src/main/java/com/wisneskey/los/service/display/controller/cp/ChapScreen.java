@@ -3,17 +3,11 @@ package com.wisneskey.los.service.display.controller.cp;
 import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.display.controller.AbstractController;
-import com.wisneskey.los.service.display.listener.message.MessagesToTextAreaListener;
-import com.wisneskey.los.service.display.listener.relay.RelayWhilePressedListener;
-import com.wisneskey.los.service.relay.RelayId;
 import com.wisneskey.los.service.script.ScriptId;
 import com.wisneskey.los.service.script.ScriptService;
-import com.wisneskey.los.service.security.SecurityService;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -38,42 +32,13 @@ import javafx.scene.input.MouseEvent;
  *
  * @author paul.wisneskey@gmail.com
  */
-public class MainScreen extends AbstractController {
+public class ChapScreen extends AbstractController {
 
 	/**
-	 * Maximum number of lines to keep in the messages text area.
-	 */
-	private static final int MAX_LINE_COUNT = 10;
-
-	/**
-	 * Laissez Boy logo.
+	 * Fisher Price logo.
 	 */
 	@FXML
 	private ImageView logo;
-
-	/**
-	 * Text area for displaying messages.
-	 */
-	@FXML
-	private TextArea messages;
-
-	@FXML
-	private Button barDownButton;
-
-	@FXML
-	private Button barUpButton;
-
-	@FXML
-	private Button backrestDownButton;
-
-	@FXML
-	private Button backrestUpButton;
-
-	@FXML
-	private Button footrestDownButton;
-
-	@FXML
-	private Button footrestUpButton;
 
 	// ----------------------------------------------------------------------------------------
 	// Public methods.
@@ -84,38 +49,10 @@ public class MainScreen extends AbstractController {
 	 */
 	@FXML
 	public void initialize() {
-
-		chairState().message().addListener(new MessagesToTextAreaListener(messages, MAX_LINE_COUNT));
-
-		RelayWhilePressedListener.add(barDownButton, RelayId.BAR_LOWER, "Lowering bar...\n");
-		RelayWhilePressedListener.add(barUpButton, RelayId.BAR_RAISE, "Raising bar...\n");
-
+		
 		logo.setOnMouseClicked(new LogoClickHandler());
 	}
 
-	/**
-	 * Method invoked by lock chair button.
-	 */
-	public void lockChair() {
-
-		((SecurityService) Kernel.kernel().getService(ServiceId.SECURITY)).lockChair(SecurityService.DEFAULT_LOCK_MESSAGE,
-				ScriptId.SECURITY_UNLOCKED, ScriptId.SECURITY_UNLOCK_FAILED, null, null);
-	}
-
-	/**
-	 * Method invoked when the audio button is pressed.
-	 */
-	public void audioPressed() {	
-		((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.AUDIO_SCREEN_OPEN);
-	}
-	
-	/**
-	 * Method invoked when the chap mode button is pressed.
-	 */
-	public void chapPressed() {
-		((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.CHAP_SCREEN_OPEN);
-	}
-	
 	// ----------------------------------------------------------------------------------------
 	// Inner classes.
 	// ----------------------------------------------------------------------------------------
@@ -130,7 +67,7 @@ public class MainScreen extends AbstractController {
 
 			if ((mouseEvent.getButton().equals(MouseButton.PRIMARY)) && (mouseEvent.getClickCount() == 2)) {
 
-				((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.SYSTEM_SCREEN_OPEN);
+				((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.CHAP_SCREEN_CLOSE);
 			}
 		}
 	}

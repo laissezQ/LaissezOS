@@ -24,7 +24,6 @@ package com.wisneskey.los.service.audio;
 public enum SoundEffectId {
 
 	MISC_WINDOWS_XP_STARTUP("misc/windows_xp_startup.wav", "Windows XP startup sound."),
-	MISC_PIXABAY_SHUTDOWN("misc/pixabay_shutdown.wav", "Shut it all down."),
 
 	MOVIE_ALL_GO_TO_ELEVEN("movie/numbers_all_go_to_eleven.wav","The numbers all go to eleven."),
 	MOVIE_ALIEN_GAME_OVER("movie/alien_game_over.wav", "Game over man!"),

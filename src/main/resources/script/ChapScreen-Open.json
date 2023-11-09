@@ -1,0 +1,21 @@
+{
+	// 
+	// Script for playing when somone opens the chap mode screen.
+	//
+	"name": "User has opened the chap mode screen.",
+	//
+	"commands": [
+		{
+			"playSoundEffect": {
+				"effectIds": [
+					"MOVIE_MACHINE_GOES_PING"
+				]
+			}
+		},
+		{
+			"showScene": {
+				"sceneId": "CP_CHAP_SCREEN"
+			}
+		}
+	]
+}

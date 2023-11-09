@@ -16,7 +16,6 @@
 				"effectIds": [
 					"MOVIE_ALIEN_GAME_OVER",
 					"MOVIE_BLADE_RUNNER_TIME_TO_DIE",
-					"MISC_PIXABAY_SHUTDOWN",
 					"TV_THATS_ALL_FOLKS"
 				],
 				"waitForCompletion": true

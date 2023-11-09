@@ -23,12 +23,11 @@ package com.wisneskey.los.service.relay;
 public enum RelayId {
 
 	// Driver board A relays:
-	A_RETRACT(0, "A retract."),
-	A_EXTEND(1, "A extend."),
-	B_RETRACT(2, "B retract."),
-	B_EXTEND(3, "B extend."),
-	BAR_LOWER(4, "Lower armrest bar.."),
-	BAR_RAISE(5, "Raise armest bar."),
+	BAR_LOWER(0, "Lower armrest bar.."),
+	BAR_RAISE(1, "Raise armest bar."),
+	RELAY_3(2, "Third relay."),
+	RELAY_4(3, "Fourth relay."),
+	RELAY_5(4, "Fifth relay."),
 	RELAY_6(6, "Seventh relay."),
 	RELAY_7(7, "Eight relay."),
 

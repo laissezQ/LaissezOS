@@ -15,6 +15,7 @@ import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.kernel.RunMode;
 import com.wisneskey.los.service.AbstractService;
 import com.wisneskey.los.service.ServiceId;
+import com.wisneskey.los.service.display.controller.SceneController;
 import com.wisneskey.los.service.profile.model.Profile;
 import com.wisneskey.los.state.DisplayState;
 
@@ -132,6 +133,11 @@ public class DisplayService extends AbstractService<DisplayState> {
 	 */
 	private Map<SceneId, Parent> sceneMap = new EnumMap<>(SceneId.class);
 
+	/**
+	 * Map of scene id's to their controllers for that scene.
+	 */
+	private Map<SceneId, SceneController> sceneControllerMap = new EnumMap<>(SceneId.class);
+	
 	// ----------------------------------------------------------------------------------------
 	// Constructors.
 	// ----------------------------------------------------------------------------------------
@@ -411,14 +417,17 @@ public class DisplayService extends AbstractService<DisplayState> {
 			}
 
 			FXMLLoader fxmlLoader = new FXMLLoader(sceneURL);
+			SceneController controller;
 			Parent parent;
 			try {
 				parent = fxmlLoader.load();
+				controller = fxmlLoader.getController();
 			} catch (Exception e) {
 				throw new LaissezException("Failed to load scene: " + sceneId, e);
 			}
 
 			sceneMap.put(sceneId, parent);
+			sceneControllerMap.put(sceneId, controller);
 		}
 	}
 

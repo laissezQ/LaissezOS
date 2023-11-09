@@ -129,7 +129,7 @@
             <DropShadow />
          </effect>
       </Button>
-      <Button layoutX="51.0" layoutY="855.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="294.0" text="Chap Mode">
+      <Button layoutX="51.0" layoutY="855.0" mnemonicParsing="false" onAction="#chapPressed" prefHeight="80.0" prefWidth="294.0" text="Chap Mode">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>

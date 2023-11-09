@@ -8,6 +8,7 @@ import com.wisneskey.los.service.location.LocationService;
 import com.wisneskey.los.service.map.MapService;
 import com.wisneskey.los.service.profile.ProfileService;
 import com.wisneskey.los.service.relay.RelayService;
+import com.wisneskey.los.service.remote.RemoteService;
 import com.wisneskey.los.service.script.ScriptService;
 import com.wisneskey.los.service.security.SecurityService;
 import com.wisneskey.los.state.AudioState;
@@ -17,6 +18,7 @@ import com.wisneskey.los.state.LocationState;
 import com.wisneskey.los.state.MapState;
 import com.wisneskey.los.state.ProfileState;
 import com.wisneskey.los.state.RelayState;
+import com.wisneskey.los.state.RemoteState;
 import com.wisneskey.los.state.ScriptState;
 import com.wisneskey.los.state.SecurityState;
 import com.wisneskey.los.state.State;
@@ -50,6 +52,7 @@ public enum ServiceId {
 	MAP(MapService.class, MapState.class, ShutdownPhase.THREE, "Roads? Where we are going, we don't need roads!"),
 	PROFILE(ProfileService.class, ProfileState.class, ShutdownPhase.THREE, "Keep it low."),
 	RELAY(RelayService.class, RelayState.class, ShutdownPhase.THREE, "Have you tried turning it off and on again?"),
+	REMOTE(RemoteService.class, RemoteState.class, ShutdownPhase.ONE, "Remotes, how do they work?"),
 	SCRIPT(ScriptService.class, ScriptState.class, ShutdownPhase.ONE, "Don't tell me what to do!"),
 	SECURITY(SecurityService.class, SecurityState.class, ShutdownPhase.THREE, "1000 times no!");
 
