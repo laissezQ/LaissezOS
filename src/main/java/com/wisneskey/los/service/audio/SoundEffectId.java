@@ -23,6 +23,7 @@ package com.wisneskey.los.service.audio;
  */
 public enum SoundEffectId {
 
+	MISC_CAR_ALARM_ARMING("misc/car_alarm_arming.wav", "No need to be alarmed!"),
 	MISC_WINDOWS_XP_STARTUP("misc/windows_xp_startup.wav", "Windows XP startup sound."),
 
 	MOVIE_ALL_GO_TO_ELEVEN("movie/numbers_all_go_to_eleven.wav","The numbers all go to eleven."),
