@@ -13,7 +13,6 @@ import com.wisneskey.los.service.AbstractService;
 import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.profile.model.Profile;
 import com.wisneskey.los.service.relay.driver.DummyRelayDriver;
-import com.wisneskey.los.service.relay.driver.KridaRelayDriver;
 import com.wisneskey.los.service.relay.driver.RelayDriver;
 import com.wisneskey.los.state.RelayState;
 
@@ -184,7 +183,8 @@ public class RelayService extends AbstractService<RelayState> {
 		// Set the relay driver based on the run mode.
 		switch (runMode) {
 		case CHAIR:
-			service.setRelayDriver(new KridaRelayDriver());
+			service.setRelayDriver(new DummyRelayDriver());
+			//service.setRelayDriver(new KridaRelayDriver());
 			break;
 		case DEV:
 			service.setRelayDriver(new DummyRelayDriver());

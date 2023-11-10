@@ -138,6 +138,12 @@ public class RemoteService extends AbstractService<RemoteState> {
 	// Static service creation methods.
 	// ----------------------------------------------------------------------------------------
 
+	/**
+	 * Creates an instance of the service with its initialized state.
+	 * 
+	 * @param  runMode Run mode of the application.
+	 * @return         Service and its initialized state.
+	 */
 	public static Pair<RemoteService, RemoteState> createService(RunMode runMode) {
 
 		RemoteService service = new RemoteService();

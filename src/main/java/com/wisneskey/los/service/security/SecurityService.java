@@ -151,9 +151,9 @@ public class SecurityService extends AbstractService<SecurityState> {
 		((DisplayService) Kernel.kernel().getService(ServiceId.DISPLAY)).showScene(SceneId.HUD_LOCK_SCREEN);
 	}
 
-	public boolean unlockChair(String pinEntered) {
+	public boolean unlockChair(String pinEntered, boolean override) {
 
-		if (Objects.equals(pinCode, pinEntered)) {
+		if (Objects.equals(pinCode, pinEntered)|| override) {
 
 			// The PIN is correct so we can unlock the chair and play the unlock
 			// script if there is one. If there is not one, we will just got back to

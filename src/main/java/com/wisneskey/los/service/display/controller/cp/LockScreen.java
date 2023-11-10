@@ -7,6 +7,7 @@ import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.display.controller.AbstractController;
 import com.wisneskey.los.service.display.listener.message.MessagesToLabelListener;
+import com.wisneskey.los.service.remote.RemoteButtonId;
 import com.wisneskey.los.service.security.SecurityService;
 import com.wisneskey.los.state.ChairState.MasterState;
 import com.wisneskey.los.state.SecurityState;
@@ -246,6 +247,19 @@ public class LockScreen extends AbstractController {
 	}
 
 	// ----------------------------------------------------------------------------------------
+	// SceneController methods.
+	// ----------------------------------------------------------------------------------------
+
+	@Override
+	public void remoteButtonPressed(RemoteButtonId buttonId) {
+		
+		// Allow remote button A to unlock the chair.
+		if( buttonId == RemoteButtonId.REMOTE_BUTTON_A) {
+			((SecurityService) Kernel.kernel().getService(ServiceId.SECURITY)).unlockChair(null, true);
+		}
+	}
+
+	// ----------------------------------------------------------------------------------------
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
 
@@ -292,7 +306,7 @@ public class LockScreen extends AbstractController {
 			pinDisplayed = "";
 			pinDisplay.setText(pinDisplayed);
 
-			boolean unlocked = ((SecurityService) Kernel.kernel().getService(ServiceId.SECURITY)).unlockChair(pinCode);
+			boolean unlocked = ((SecurityService) Kernel.kernel().getService(ServiceId.SECURITY)).unlockChair(pinCode, false);
 			if (!unlocked) {
 				// Failed to unlock so re-enable PIN code entry.
 				setEntryPadState(true);

@@ -9,7 +9,6 @@ import com.wisneskey.los.service.AbstractService;
 import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.location.driver.DummyGpsDriver;
 import com.wisneskey.los.service.location.driver.GpsDriver;
-import com.wisneskey.los.service.location.driver.SparkFunGpsDriver;
 import com.wisneskey.los.service.profile.model.Profile;
 import com.wisneskey.los.state.LocationState;
 
@@ -166,7 +165,8 @@ public class LocationService extends AbstractService<LocationState> {
 		// Set the relay driver based on the run mode.
 		switch (runMode) {
 		case CHAIR:
-			service.setGpsDriver(new SparkFunGpsDriver());
+			service.setGpsDriver(new DummyGpsDriver());
+			// service.setGpsDriver(new SparkFunGpsDriver());
 			break;
 		case DEV:
 			service.setGpsDriver(new DummyGpsDriver());
