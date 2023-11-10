@@ -1,13 +1,21 @@
 package com.wisneskey.los.service.display.controller.cp;
 
+import java.util.Random;
+import java.util.Set;
+
+import com.wisneskey.los.error.LaissezException;
 import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.service.ServiceId;
+import com.wisneskey.los.service.audio.AudioService;
+import com.wisneskey.los.service.audio.SoundEffectId;
 import com.wisneskey.los.service.display.controller.AbstractController;
 import com.wisneskey.los.service.script.ScriptId;
 import com.wisneskey.los.service.script.ScriptService;
 
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -40,6 +48,26 @@ public class ChapScreen extends AbstractController {
 	@FXML
 	private ImageView logo;
 
+	@FXML
+	private Button soundOneButton;
+
+	@FXML
+	private Button soundTwoButton;
+
+	@FXML
+	private Button soundThreeButton;
+
+	@FXML
+	private Button soundFourButton;
+
+	@FXML
+	private Button soundFiveButton;
+
+	@FXML
+	private Button soundSixButton;
+
+	private Random random = new Random();
+
 	// ----------------------------------------------------------------------------------------
 	// Public methods.
 	// ----------------------------------------------------------------------------------------
@@ -49,8 +77,56 @@ public class ChapScreen extends AbstractController {
 	 */
 	@FXML
 	public void initialize() {
-		
+
 		logo.setOnMouseClicked(new LogoClickHandler());
+
+		shuffleSoundButtons();
+	}
+
+	@FXML
+	public void shufflePressed() {
+		shuffleSoundButtons();
+	}
+
+	@FXML
+	private void soundButtonPressed(ActionEvent event) {
+		Button button = (Button) event.getSource();
+		SoundEffectId soundId = (SoundEffectId) button.getUserData();
+
+		((AudioService) Kernel.kernel().getService(ServiceId.AUDIO)).playEffect(soundId, false);
+	}
+
+	// ----------------------------------------------------------------------------------------
+	// Supporting methods.
+	// ----------------------------------------------------------------------------------------
+
+	private void shuffleSoundButtons() {
+
+		Set<SoundEffectId> chapSounds = SoundEffectId.chapModeEffects();
+		assignSoundToButton(soundOneButton, chapSounds);
+		assignSoundToButton(soundTwoButton, chapSounds);
+		assignSoundToButton(soundThreeButton, chapSounds);
+		assignSoundToButton(soundFourButton, chapSounds);
+		assignSoundToButton(soundFiveButton, chapSounds);
+		assignSoundToButton(soundSixButton, chapSounds);
+
+	}
+
+	private void assignSoundToButton(Button button, Set<SoundEffectId> chapSounds) {
+
+		if (chapSounds.isEmpty()) {
+			throw new LaissezException("No chap sounds left to pick from.");
+		}
+
+		int pick = random.nextInt(chapSounds.size());
+		SoundEffectId soundId = chapSounds.stream().skip(pick).findFirst().orElse(null);
+
+		if (soundId != null) {
+			button.setText(soundId.getShortName());
+			button.setUserData(soundId);
+
+			chapSounds.remove(soundId);
+		}
 	}
 
 	// ----------------------------------------------------------------------------------------
