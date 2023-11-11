@@ -55,7 +55,8 @@ public class ChapScreen extends AbstractController {
 	}
 
 	/**
-	 * Method invoked by the shake button to clear the Etch-a-Sketch drawing.
+	 * Method invoked by the clear the Etch-a-Sketch drawing.  Triggered by a track on
+	 * the top bar of the UI.
 	 */
 	@FXML
 	public void clearDrawing() {
