@@ -29,6 +29,11 @@
 			"showScene": {
 				"sceneId": "HUD_SPLASH_SCREEN"
 			}
+		},
+				{
+			"setChairState": {
+				"state": "SYSTEM"
+			}
 		}
 	]
 }

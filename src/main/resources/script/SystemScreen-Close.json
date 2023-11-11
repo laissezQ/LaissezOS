@@ -28,6 +28,10 @@
 			"showScene": {
 				"sceneId": "HUD_MAIN_SCREEN"
 			}
+		},		{
+			"setChairState": {
+				"state": "RUNNING"
+			}
 		}
 	]
 }

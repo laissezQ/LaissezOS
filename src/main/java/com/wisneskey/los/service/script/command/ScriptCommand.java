@@ -28,6 +28,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 		@JsonSubTypes.Type(value = Message.class, name = "message"),
 		@JsonSubTypes.Type(value = Pause.class, name = "pause"),
 		@JsonSubTypes.Type(value = PlaySoundEffect.class, name = "playSoundEffect"),
+		@JsonSubTypes.Type(value = SetChairState.class, name = "setChairState"),
 		@JsonSubTypes.Type(value = ShowScene.class, name = "showScene"),
 		@JsonSubTypes.Type(value = Shutdown.class, name = "shutdown") })
 public interface ScriptCommand {

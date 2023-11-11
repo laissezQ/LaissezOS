@@ -20,6 +20,7 @@ import com.wisneskey.los.service.relay.RelayService;
 import com.wisneskey.los.service.remote.RemoteService;
 import com.wisneskey.los.service.script.ScriptService;
 import com.wisneskey.los.service.security.SecurityService;
+import com.wisneskey.los.state.ChairState.MasterState;
 import com.wisneskey.los.state.ProfileState;
 
 import javafx.application.Application;
@@ -141,6 +142,10 @@ public class BootLoader extends Application {
 		// start the boot script that is specified in the profile.
 		((DisplayService) Kernel.kernel().getService(ServiceId.DISPLAY)).initialize(stage);
 
+		// Set the chair to its booting state.
+		Kernel.kernel().setMasterState(MasterState.BOOTING);
+		
+		// Run the boot script.
 		Profile profile = ((ProfileState) Kernel.kernel().chairState().getServiceState(ServiceId.PROFILE)).activeProfile()
 				.get();
 		((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(profile.getBootScript());

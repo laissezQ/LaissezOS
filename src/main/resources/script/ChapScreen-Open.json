@@ -21,6 +21,11 @@
 			"showScene": {
 				"sceneId": "HUD_CHAP_SCREEN"
 			}
+		},
+		{
+			"setChairState": {
+				"state": "CHAP"
+			}
 		}
 	]
 }

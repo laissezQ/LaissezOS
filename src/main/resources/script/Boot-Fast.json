@@ -12,7 +12,17 @@
 		},
 		{
 			"showScene": {
-				"sceneId": "CP_LOCK_SCREEN"
+				"sceneId": "CP_MAIN_SCREEN"
+			}
+		},
+		{
+			"showScene": {
+				"sceneId": "HUD_MAIN_SCREEN"
+			}
+		},
+		{
+			"setChairState": {
+				"state": "RUNNING"
 			}
 		}
 	]

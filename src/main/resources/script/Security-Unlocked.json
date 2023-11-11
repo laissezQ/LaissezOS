@@ -21,6 +21,11 @@
 			"showScene": {
 				"sceneId": "CP_MAIN_SCREEN"
 			}
+		},
+		{
+			"setChairState": {
+				"state": "RUNNING"
+			}
 		}
 	]
 }

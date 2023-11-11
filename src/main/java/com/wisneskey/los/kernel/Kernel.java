@@ -298,6 +298,7 @@ public class Kernel {
 	 * @param state New master start for the chair.
 	 */
 	public void setMasterState(MasterState state) {
+		LOGGER.debug("Changing chair state to {}.", state);
 		chairState.setMasterState(state);
 	}
 

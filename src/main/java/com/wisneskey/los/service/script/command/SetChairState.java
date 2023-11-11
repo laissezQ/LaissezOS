@@ -1,13 +1,11 @@
-package com.wisneskey.los.state;
+package com.wisneskey.los.service.script.command;
 
-import com.wisneskey.los.service.ServiceId;
-
-import javafx.beans.property.ReadOnlyObjectProperty;
-import javafx.beans.property.ReadOnlyStringProperty;
+import com.wisneskey.los.kernel.Kernel;
+import com.wisneskey.los.state.ChairState.MasterState;
 
 /**
- * State object for the overall state of the chair.
- * 
+ * Command to set the current master state of the chair.
+ *
  * Copyright (C) 2023 Paul Wisneskey
  * 
  * This program is free software: you can redistribute it and/or modify it under
@@ -25,43 +23,36 @@ import javafx.beans.property.ReadOnlyStringProperty;
  *
  * @author paul.wisneskey@gmail.com
  */
-public interface ChairState extends State {
-
-	// ----------------------------------------------------------------------------------------
-	// Top level state properties.
-	// ----------------------------------------------------------------------------------------
+public class SetChairState extends AbstractScriptCommand {
 
 	/**
-	 * Return the master state of the chair.
-	 * 
-	 * @return Master state property of the chair.
+	 * Default state for the chair.
 	 */
-	ReadOnlyObjectProperty<MasterState> masterState();
-
+	public static final MasterState DEFAULT_CHAIR_STATE = MasterState.RUNNING;
+	
 	/**
-	 * Message property that is used to feed messages into the chair display
-	 * system. Display scenes can listen to the property to receive messages as
-	 * they are set. It is up to them to decide how to display them.
-	 * 
-	 * @return Message property for the chair.
+	 * Master state to set for the chair.
 	 */
-	ReadOnlyStringProperty message();
-
+	private MasterState state = DEFAULT_CHAIR_STATE;
+	
 	// ----------------------------------------------------------------------------------------
-	// Service state properties.
-	// ----------------------------------------------------------------------------------------
-
-	<T extends State> T getServiceState(ServiceId serviceId);
-
-	// ----------------------------------------------------------------------------------------
-	// Inner classes.
+	// Property getters/setters.
 	// ----------------------------------------------------------------------------------------
 
-	public enum MasterState {
-		BOOTING,
-		RUNNING,
-		LOCKED,
-		CHAP,
-		SYSTEM
+	public MasterState getState() {
+		return state;
+	}
+
+	public void setState(MasterState state) {
+		this.state = state;
+	}
+
+	// ----------------------------------------------------------------------------------------
+	// ScriptCommand methods.
+	// ----------------------------------------------------------------------------------------
+
+	@Override
+	public void perform() {
+		Kernel.kernel().setMasterState(getState());
 	}
 }

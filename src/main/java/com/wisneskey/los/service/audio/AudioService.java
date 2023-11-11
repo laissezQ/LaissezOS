@@ -110,7 +110,7 @@ public class AudioService extends AbstractService<AudioState> {
 	public void playEffect(SoundEffectId effectId, boolean waitForCompletion) {
 
 		IntegerProperty volumeProperty;
-		if( Kernel.kernel().chairState().masterState().getValue() == MasterState.CHAP_MODE) {
+		if( Kernel.kernel().chairState().masterState().getValue() == MasterState.CHAP) {
 			volumeProperty = audioState.chapModeVolume();
 		} else
 		{
