@@ -36,6 +36,7 @@ public enum SceneId {
 	//
 	// Heads Up Display scenes:
 	//
+	HUD_CHAP_SCREEN(DisplayId.HUD, "ChapScreen"),
 	HUD_MAIN_SCREEN(DisplayId.HUD, "MainScreen"),
 	HUD_SPLASH_SCREEN(DisplayId.HUD, "SplashScreen"),
 	HUD_LOCK_SCREEN(DisplayId.HUD, "LockScreen");

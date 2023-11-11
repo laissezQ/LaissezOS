@@ -9,6 +9,7 @@ import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.audio.AudioService;
 import com.wisneskey.los.service.audio.SoundEffectId;
 import com.wisneskey.los.service.display.controller.AbstractController;
+import com.wisneskey.los.service.remote.RemoteButtonId;
 import com.wisneskey.los.service.script.ScriptId;
 import com.wisneskey.los.service.script.ScriptService;
 
@@ -94,6 +95,19 @@ public class ChapScreen extends AbstractController {
 		SoundEffectId soundId = (SoundEffectId) button.getUserData();
 
 		((AudioService) Kernel.kernel().getService(ServiceId.AUDIO)).playEffect(soundId, false);
+	}
+
+	// ----------------------------------------------------------------------------------------
+	// SceneController methods.
+	// ----------------------------------------------------------------------------------------
+
+	@Override
+	public void remoteButtonPressed(RemoteButtonId buttonId) {
+		
+		// Allow remote button A to leave chap mode.
+		if( buttonId == RemoteButtonId.REMOTE_BUTTON_A) {
+			((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.CHAP_SCREEN_CLOSE);
+		}
 	}
 
 	// ----------------------------------------------------------------------------------------

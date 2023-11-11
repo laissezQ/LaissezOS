@@ -17,6 +17,11 @@
 			"showScene": {
 				"sceneId": "CP_MAIN_SCREEN"
 			}
+		},
+		{
+			"showScene": {
+				"sceneId": "HUD_MAIN_SCREEN"
+			}
 		}
 	]
 }

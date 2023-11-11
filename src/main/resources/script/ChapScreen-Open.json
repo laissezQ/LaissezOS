@@ -16,6 +16,11 @@
 			"showScene": {
 				"sceneId": "CP_CHAP_SCREEN"
 			}
+		},
+		{
+			"showScene": {
+				"sceneId": "HUD_CHAP_SCREEN"
+			}
 		}
 	]
 }
