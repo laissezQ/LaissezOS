@@ -1,11 +1,13 @@
 package com.wisneskey.los.service.script;
 
 import java.io.InputStream;
+import java.util.EnumMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.wisneskey.los.error.LaissezException;
 import com.wisneskey.los.service.AbstractService;
 import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.script.command.ScriptCommand;
@@ -64,6 +66,11 @@ public class ScriptService extends AbstractService<ScriptState> {
 	 */
 	private ScriptRunnerThread runner;
 
+	/**
+	 * Map of script id to its loaded script.
+	 */
+	private EnumMap<ScriptId, Script> scriptCache = new EnumMap<>(ScriptId.class);
+
 	// ----------------------------------------------------------------------------------------
 	// Constructors.
 	// ----------------------------------------------------------------------------------------
@@ -118,9 +125,9 @@ public class ScriptService extends AbstractService<ScriptState> {
 
 		// Load the script. If we get back a null here, we can assume the script was
 		// not found or failed to load.
-		Script script = loadScript(scriptId);
+		Script script = scriptCache.get(scriptId);
 		if (script == null) {
-			LOGGER.trace("No script returned from load; not running script.");
+			LOGGER.trace("No script returned from cache; not running script.");
 			return;
 		}
 
@@ -136,34 +143,6 @@ public class ScriptService extends AbstractService<ScriptState> {
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
 
-	/**
-	 * Method called by the script runner thread when its done running its script.
-	 */
-	private void scriptRunEnded() {
-		// Indicate there is no longer a script running.
-		runner = null;
-		scriptRunning.set(false);
-	}
-
-	/**
-	 * Load the script for the given script id.
-	 * 
-	 * @param  scriptId Id of the script to load.
-	 * @return          Script for the given script id or null if it could not be
-	 *                  loaded.
-	 */
-	private Script loadScript(ScriptId scriptId) {
-
-		try {
-			String scriptLocation = SCRIPT_RESOURCE_BASE + scriptId.getName() + ".json";
-			InputStream inputStream = this.getClass().getResourceAsStream(scriptLocation);
-			return JsonUtils.toObject(inputStream, Script.class);
-		} catch (Exception e) {
-			LOGGER.error("Failed to load {} script.", scriptId, e);
-		}
-
-		return null;
-	}
 
 	/**
 	 * Creates the initial state of the service using the supplied profile for
@@ -172,6 +151,22 @@ public class ScriptService extends AbstractService<ScriptState> {
 	 * @return Configured state object for the service.
 	 */
 	private ScriptState createInitialState() {
+
+		// Load all scripts and store them in the cache.
+		for (ScriptId scriptId : ScriptId.values()) {
+
+			try {
+
+				String scriptLocation = SCRIPT_RESOURCE_BASE + scriptId.getName() + ".json";
+				InputStream inputStream = this.getClass().getResourceAsStream(scriptLocation);
+				Script script = JsonUtils.toObject(inputStream, Script.class);
+				scriptCache.put(scriptId, script);
+
+			} catch (Exception e) {
+				throw new LaissezException("Failed to load script : " + scriptId, e);
+			}
+		}
+		
 		scriptState = new InternalScriptState();
 		return scriptState;
 	}
@@ -244,8 +239,9 @@ public class ScriptService extends AbstractService<ScriptState> {
 			}
 
 			// Let the service know we are done running the script.
-			ScriptService.this.scriptRunEnded();
-
+			scriptRunning.set(false);
+			runner = null;
+			
 			RUNNER_LOGGER.trace("Script runner thread stopped.");
 		}
 	}

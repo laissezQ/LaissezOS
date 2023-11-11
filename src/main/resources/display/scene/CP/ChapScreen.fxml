@@ -41,7 +41,7 @@
             <DropShadow />
          </effect>
       </Button>
-      <Button fx:id="soundTwoButton" layoutX="228.0" layoutY="234.0" mnemonicParsing="false" onAction="#soundButtonPressed" prefHeight="113.0" prefWidth="118.0" style="-fx-background-color: #009900;" text="Sound 2" textAlignment="CENTER" textFill="WHITE">
+      <Button fx:id="soundTwoButton" layoutX="228.0" layoutY="234.0" mnemonicParsing="false" onAction="#soundButtonPressed" prefHeight="113.0" prefWidth="118.0" style="-fx-background-color: #009900;" text="Sound 2" textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <effect>
             <DropShadow />
          </effect>
@@ -49,7 +49,7 @@
             <Font name="Comic Sans MS" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="soundThreeButton" layoutX="55.0" layoutY="390.0" mnemonicParsing="false" onAction="#soundButtonPressed" prefHeight="113.0" prefWidth="118.0" style="-fx-background-color: #009900;" text="Sound 3" textAlignment="CENTER" textFill="WHITE">
+      <Button fx:id="soundThreeButton" layoutX="55.0" layoutY="390.0" mnemonicParsing="false" onAction="#soundButtonPressed" prefHeight="113.0" prefWidth="118.0" style="-fx-background-color: #009900;" text="Sound 3" textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <effect>
             <DropShadow />
          </effect>
@@ -57,7 +57,7 @@
             <Font name="Comic Sans MS" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="soundFourButton" layoutX="228.0" layoutY="390.0" mnemonicParsing="false" onAction="#soundButtonPressed" prefHeight="113.0" prefWidth="118.0" style="-fx-background-color: #009900;" text="Sound 4" textAlignment="CENTER" textFill="WHITE">
+      <Button fx:id="soundFourButton" layoutX="228.0" layoutY="390.0" mnemonicParsing="false" onAction="#soundButtonPressed" prefHeight="113.0" prefWidth="118.0" style="-fx-background-color: #009900;" text="Sound 4" textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <effect>
             <DropShadow />
          </effect>
@@ -65,7 +65,7 @@
             <Font name="Comic Sans MS" size="18.0" />
          </font>
       </Button>
-      <Button layoutX="57.0" layoutY="709.0" mnemonicParsing="false" prefHeight="113.0" prefWidth="118.0" style="-fx-background-color: #9933ff;" text="Light 1" textAlignment="CENTER" textFill="WHITE">
+      <Button layoutX="57.0" layoutY="709.0" mnemonicParsing="false" prefHeight="113.0" prefWidth="118.0" style="-fx-background-color: #9933ff;" text="Light 1" textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <effect>
             <DropShadow />
          </effect>
@@ -73,7 +73,7 @@
             <Font name="Comic Sans MS" size="24.0" />
          </font>
       </Button>
-      <Button layoutX="230.0" layoutY="709.0" mnemonicParsing="false" prefHeight="113.0" prefWidth="118.0" style="-fx-background-color: #9933ff;" text="Light 2" textAlignment="CENTER" textFill="WHITE">
+      <Button layoutX="230.0" layoutY="709.0" mnemonicParsing="false" prefHeight="113.0" prefWidth="118.0" style="-fx-background-color: #9933ff;" text="Light 2" textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <effect>
             <DropShadow />
          </effect>
@@ -81,7 +81,7 @@
             <Font name="Comic Sans MS" size="24.0" />
          </font>
       </Button>
-      <Button layoutX="57.0" layoutY="865.0" mnemonicParsing="false" prefHeight="113.0" prefWidth="118.0" style="-fx-background-color: #9933ff;" text="Light 3" textAlignment="CENTER" textFill="WHITE">
+      <Button layoutX="57.0" layoutY="865.0" mnemonicParsing="false" prefHeight="113.0" prefWidth="118.0" style="-fx-background-color: #9933ff;" text="Light 3" textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <effect>
             <DropShadow />
          </effect>
@@ -89,7 +89,7 @@
             <Font name="Comic Sans MS" size="24.0" />
          </font>
       </Button>
-      <Button layoutX="230.0" layoutY="865.0" mnemonicParsing="false" prefHeight="113.0" prefWidth="118.0" style="-fx-background-color: #9933ff;" text="Light 4" textAlignment="CENTER" textFill="WHITE">
+      <Button layoutX="230.0" layoutY="865.0" mnemonicParsing="false" prefHeight="113.0" prefWidth="118.0" style="-fx-background-color: #9933ff;" text="Light 4" textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <effect>
             <DropShadow />
          </effect>
@@ -97,7 +97,7 @@
             <Font name="Comic Sans MS" size="24.0" />
          </font>
       </Button>
-      <Button fx:id="soundFiveButton" layoutX="55.0" layoutY="542.0" mnemonicParsing="false" onAction="#soundButtonPressed" prefHeight="113.0" prefWidth="118.0" style="-fx-background-color: #009900;" text="Sound 5" textAlignment="CENTER" textFill="WHITE">
+      <Button fx:id="soundFiveButton" layoutX="55.0" layoutY="542.0" mnemonicParsing="false" onAction="#soundButtonPressed" prefHeight="113.0" prefWidth="118.0" style="-fx-background-color: #009900;" text="Sound 5" textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <effect>
             <DropShadow />
          </effect>
@@ -105,7 +105,7 @@
             <Font name="Comic Sans MS" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="soundSixButton" layoutX="228.0" layoutY="542.0" mnemonicParsing="false" onAction="#soundButtonPressed" prefHeight="113.0" prefWidth="118.0" style="-fx-background-color: #009900;" text="Sound 6" textAlignment="CENTER" textFill="WHITE">
+      <Button fx:id="soundSixButton" layoutX="228.0" layoutY="542.0" mnemonicParsing="false" onAction="#soundButtonPressed" prefHeight="113.0" prefWidth="118.0" style="-fx-background-color: #009900;" text="Sound 6" textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <effect>
             <DropShadow />
          </effect>
@@ -113,7 +113,7 @@
             <Font name="Comic Sans MS" size="18.0" />
          </font>
       </Button>
-      <Button layoutX="57.0" layoutY="1020.0" mnemonicParsing="false" prefHeight="113.0" prefWidth="118.0" style="-fx-background-color: #9933ff;" text="Light 5" textAlignment="CENTER" textFill="WHITE">
+      <Button layoutX="57.0" layoutY="1020.0" mnemonicParsing="false" prefHeight="113.0" prefWidth="118.0" style="-fx-background-color: #9933ff;" text="Light 5" textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <effect>
             <DropShadow />
          </effect>
@@ -121,7 +121,7 @@
             <Font name="Comic Sans MS" size="24.0" />
          </font>
       </Button>
-      <Button layoutX="230.0" layoutY="1020.0" mnemonicParsing="false" prefHeight="113.0" prefWidth="118.0" style="-fx-background-color: #9933ff;" text="Light 6" textAlignment="CENTER" textFill="WHITE">
+      <Button layoutX="230.0" layoutY="1020.0" mnemonicParsing="false" prefHeight="113.0" prefWidth="118.0" style="-fx-background-color: #9933ff;" text="Light 6" textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <effect>
             <DropShadow />
          </effect>
