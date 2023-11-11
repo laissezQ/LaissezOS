@@ -131,13 +131,10 @@ public class SecurityService extends AbstractService<SecurityState> {
 		this.unlockFailedScript = unlockFailedScript;
 
 		// If scenes are specified, use them as the unlock scenes to use if an
-		// unlock
-		// script is not provided. If no scenes are provided, the unlock scenes will
-		// default to going back to the scenes active when the chair was locked
-		// (unless
-		// an unlock script is provided). An unlock script takes precedence over
-		// these
-		// scenes.
+		// unlock script is not provided. If no scenes are provided, the unlock
+		// scenes will default to going back to the scenes active when the chair was
+		// locked (unless an unlock script is provided). An unlock script takes
+		// precedence over these scenes.
 		DisplayState displayState = Kernel.kernel().chairState().getServiceState(ServiceId.DISPLAY);
 		unlockSceneCP = cpScene != null ? cpScene : displayState.cpScene().getValue();
 		unlockSceneHUD = hudScene != null ? hudScene : displayState.hudScene().getValue();
@@ -153,7 +150,7 @@ public class SecurityService extends AbstractService<SecurityState> {
 
 	public boolean unlockChair(String pinEntered, boolean override) {
 
-		if (Objects.equals(pinCode, pinEntered)|| override) {
+		if (Objects.equals(pinCode, pinEntered) || override) {
 
 			// The PIN is correct so we can unlock the chair and play the unlock
 			// script if there is one. If there is not one, we will just got back to

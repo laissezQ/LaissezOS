@@ -6,6 +6,7 @@ import com.wisneskey.los.service.display.controller.AbstractController;
 import com.wisneskey.los.service.display.listener.message.MessagesToTextAreaListener;
 import com.wisneskey.los.service.display.listener.relay.RelayWhilePressedListener;
 import com.wisneskey.los.service.relay.RelayId;
+import com.wisneskey.los.service.remote.RemoteButtonId;
 import com.wisneskey.los.service.script.ScriptId;
 import com.wisneskey.los.service.script.ScriptService;
 import com.wisneskey.los.service.security.SecurityService;
@@ -97,7 +98,6 @@ public class MainScreen extends AbstractController {
 	 * Method invoked by lock chair button.
 	 */
 	public void lockChair() {
-
 		((SecurityService) Kernel.kernel().getService(ServiceId.SECURITY)).lockChair(SecurityService.DEFAULT_LOCK_MESSAGE,
 				ScriptId.SECURITY_UNLOCKED, ScriptId.SECURITY_UNLOCK_FAILED, null, null);
 	}
@@ -116,6 +116,19 @@ public class MainScreen extends AbstractController {
 		((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.CHAP_SCREEN_OPEN);
 	}
 	
+	// ----------------------------------------------------------------------------------------
+	// SceneController methods.
+	// ----------------------------------------------------------------------------------------
+
+	@Override
+	public void remoteButtonPressed(RemoteButtonId buttonId) {
+		
+		// Allow remote button A to lock the chair.
+		if( buttonId == RemoteButtonId.REMOTE_BUTTON_A) {
+			((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.REMOTE_LOCK);
+		}
+	}
+
 	// ----------------------------------------------------------------------------------------
 	// Inner classes.
 	// ----------------------------------------------------------------------------------------

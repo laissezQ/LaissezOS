@@ -1,0 +1,31 @@
+{
+	// 
+	// Script for playing when a remote button is pressed to unlock the chair.
+	//
+	"name": "Remote lock button pressed.",
+	//
+	"commands": [
+		{
+			"playSoundEffect": {
+				"effectIds": [
+					"MISC_CAR_ALARM_ARMING"
+				]
+			}
+		},
+		{
+			"showScene": {
+				"sceneId": "HUD_MAIN_SCREEN"
+			}
+		},
+		{
+			"showScene": {
+				"sceneId": "CP_MAIN_SCREEN"
+			}
+		},
+		{
+			"setChairState": {
+				"state": "RUNNING"
+			}
+		}
+	]
+}

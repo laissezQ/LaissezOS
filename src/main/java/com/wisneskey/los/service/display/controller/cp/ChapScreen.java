@@ -106,7 +106,7 @@ public class ChapScreen extends AbstractController {
 		
 		// Allow remote button A to leave chap mode.
 		if( buttonId == RemoteButtonId.REMOTE_BUTTON_A) {
-			((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.CHAP_SCREEN_CLOSE);
+			((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.REMOTE_UNLOCK);
 		}
 	}
 

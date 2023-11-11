@@ -27,6 +27,8 @@ public enum ScriptId {
 	BOOT_FAST("Fasted possible boot sequence.", "Boot-Fast"),
 	BOOT_DEV("Test boot sequence for development.", "Boot-DEV"),
 	CHAP_SCREEN_OPEN("You'll shoot your eye out kid!", "ChapScreen-Open"),
+	REMOTE_LOCK("Denied!","Remote-Lock"),
+	REMOTE_UNLOCK("Your wish is granted...","Remote-Unlock"),
 	CHAP_SCREEN_CLOSE("Finally, a responsible adult.","ChapScreen-Close"),
 	SECURITY_UNLOCKED("You knew the secret knocK!", "Security-Unlocked"),
 	SECURITY_UNLOCK_FAILED("Invalid PIN entered for chair unlock.", "Security-UnlockFailed"),

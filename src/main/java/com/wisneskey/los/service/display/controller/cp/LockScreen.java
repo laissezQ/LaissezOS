@@ -8,6 +8,8 @@ import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.display.controller.AbstractController;
 import com.wisneskey.los.service.display.listener.message.MessagesToLabelListener;
 import com.wisneskey.los.service.remote.RemoteButtonId;
+import com.wisneskey.los.service.script.ScriptId;
+import com.wisneskey.los.service.script.ScriptService;
 import com.wisneskey.los.service.security.SecurityService;
 import com.wisneskey.los.state.ChairState.MasterState;
 import com.wisneskey.los.state.SecurityState;
@@ -255,7 +257,7 @@ public class LockScreen extends AbstractController {
 		
 		// Allow remote button A to unlock the chair.
 		if( buttonId == RemoteButtonId.REMOTE_BUTTON_A) {
-			((SecurityService) Kernel.kernel().getService(ServiceId.SECURITY)).unlockChair(null, true);
+			((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.REMOTE_UNLOCK);
 		}
 	}
 

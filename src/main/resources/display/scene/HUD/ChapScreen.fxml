@@ -48,11 +48,11 @@
                   <Image url="@../../images/etch-a-sketch.png" />
                </image>
             </ImageView>
-            <Label layoutX="392.0" layoutY="14.0" prefHeight="23.0" prefWidth="394.0" text="In drawing, nothing is better than the first attempt." textAlignment="RIGHT" textFill="WHITE">
+            <Label layoutX="374.0" layoutY="14.0" prefHeight="23.0" prefWidth="412.0" text="In drawing, nothing is better than the first attempt." textAlignment="RIGHT" textFill="WHITE">
                <font>
                   <Font name="Chalkboard" size="16.0" />
                </font></Label>
-            <Label layoutX="683.0" layoutY="37.0" text="- Pablo Picasso" textFill="WHITE" />
+            <Label layoutX="651.0" layoutY="38.0" text="- Pablo Picasso" textFill="WHITE" />
          </children>
       </Pane>
    </top>

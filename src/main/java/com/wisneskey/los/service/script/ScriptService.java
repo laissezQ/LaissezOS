@@ -143,7 +143,6 @@ public class ScriptService extends AbstractService<ScriptState> {
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
 
-
 	/**
 	 * Creates the initial state of the service using the supplied profile for
 	 * configuration.
@@ -153,6 +152,8 @@ public class ScriptService extends AbstractService<ScriptState> {
 	private ScriptState createInitialState() {
 
 		// Load all scripts and store them in the cache.
+		LOGGER.info("Loading {} scripts...", ScriptId.values().length);
+		
 		for (ScriptId scriptId : ScriptId.values()) {
 
 			try {
@@ -166,7 +167,7 @@ public class ScriptService extends AbstractService<ScriptState> {
 				throw new LaissezException("Failed to load script : " + scriptId, e);
 			}
 		}
-		
+
 		scriptState = new InternalScriptState();
 		return scriptState;
 	}
@@ -241,7 +242,7 @@ public class ScriptService extends AbstractService<ScriptState> {
 			// Let the service know we are done running the script.
 			scriptRunning.set(false);
 			runner = null;
-			
+
 			RUNNER_LOGGER.trace("Script runner thread stopped.");
 		}
 	}
