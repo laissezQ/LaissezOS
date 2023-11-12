@@ -89,6 +89,13 @@ public class MainScreen extends AbstractController {
 	}
 
 	/**
+	 * Method invoked when the about button is pressed.
+	 */
+	public void aboutPressed() {	
+		((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.ABOUT_SCREEN_OPEN);
+	}
+
+	/**
 	 * Method invoked when the audio button is pressed.
 	 */
 	public void audioPressed() {	

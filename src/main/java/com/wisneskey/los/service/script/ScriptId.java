@@ -22,6 +22,8 @@ package com.wisneskey.los.service.script;
  */
 public enum ScriptId {
 
+	ABOUT_SCREEN_OPEN("About screen: open", "AboutScreen-Open"),
+	ABOUT_SCREEN_CLOSE("About screen: close", "AboutScreen-Close"),
 	AUDIO_SCREEN_OPEN("Audio screen: open","AudioScreen-Open"),
 	AUDIO_SCREEN_CLOSE("Audio screen: close","AudioScreen-Close"),
 	BOOT_FAST("Boot sequence: fast", "Boot-Fast"),

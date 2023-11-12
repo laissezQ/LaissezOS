@@ -25,6 +25,7 @@ public enum SceneId {
 	//
 	// Control Panel scenes:
 	//
+	CP_ABOUT_SCREEN(DisplayId.CP, "AboutScreen"),
 	CP_AUDIO_SCREEN(DisplayId.CP, "AudioScreen"),
 	CP_BOOT_SCREEN(DisplayId.CP, "BootScreen"),
 	CP_CHAP_SCREEN(DisplayId.CP, "ChapScreen"),

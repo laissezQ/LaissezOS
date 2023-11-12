@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<?import javafx.geometry.Insets?>
+
+<Pane id="pane" maxHeight="1280.0" maxWidth="400.0" minHeight="1280.0" minWidth="400.0" prefHeight="1280.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.wisneskey.los.service.display.controller.cp.AboutScreen">
+	<children>
+      <ImageView fx:id="logo" fitHeight="181.0" fitWidth="373.0" focusTraversable="true" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../images/laissez-boys-header.png" />
+         </image>
+         <effect>
+            <DropShadow />
+         </effect>
+      </ImageView>
+      <Line endX="190.0" layoutX="195.0" layoutY="1145.0" startX="-180.0">
+         <effect>
+            <DropShadow />
+         </effect>
+      </Line>
+      <Button fx:id="resumeButton" layoutX="54.0" layoutY="1166.0" mnemonicParsing="false" onAction="#resumePressed" prefHeight="80.0" prefWidth="294.0" text="Back">
+         <effect>
+            <DropShadow />
+         </effect>
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Button>
+      <ScrollPane hbarPolicy="NEVER" layoutX="16.0" layoutY="213.0" prefHeight="912.0" prefWidth="371.0">
+         <effect>
+            <DropShadow />
+         </effect>
+         <content>
+            <VBox>
+               <children>
+                  <Label alignment="CENTER" layoutX="10.0" layoutY="10.0" prefWidth="360.0" textAlignment="CENTER">
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" prefWidth="360.0" text="LaissezOS" textAlignment="CENTER">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </Label>
+                  <Label alignment="CENTER" prefWidth="360.0" text="(c) 2023" textAlignment="CENTER">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="10.0" layoutY="27.0" prefWidth="360.0" text="Laisesez Q Industries" textAlignment="CENTER">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="10.0" layoutY="56.0" prefWidth="360.0" textAlignment="CENTER">
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="10.0" layoutY="102.0" prefWidth="360.0" text="paul.wisneskey@gmail.com" textAlignment="CENTER">
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="10.0" layoutY="125.0" prefWidth="360.0" text="http://wisneskey.com" textAlignment="CENTER">
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="10.0" layoutY="148.0" prefWidth="360.0" text="https://www.facebook.com/paul.wisneskey" textAlignment="CENTER">
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="10.0" layoutY="171.0" prefWidth="360.0" textAlignment="CENTER">
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <VBox>
+                           <children>
+                              <Label alignment="CENTER_RIGHT" prefWidth="180.0" text="&quot;Q&quot;">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="10.0" prefWidth="180.0" text="Supporting Spouse">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="28.0" prefWidth="180.0" text="Child #1">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="46.0" prefWidth="180.0" text="Child #2">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="64.0" prefWidth="180.0" text="Favorite Child">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="28.0" prefWidth="180.0">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="118.0" prefWidth="180.0" text="Audio Clips">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="46.0" prefWidth="180.0" text="Hardware">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="46.0" prefWidth="180.0" text="Logos">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="82.0" prefWidth="180.0" text="Software">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="64.0" prefWidth="180.0">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="190.0" prefWidth="180.0" text="Ideas &amp; Inspiration">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="378.0" prefWidth="164.0">
+                           <children>
+                              <Label prefWidth="160.0" text="Paul Wisneskey">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="10.0" prefWidth="160.0" text="Holly Scheib">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="28.0" prefWidth="160.0" text="Kate Wisneskey">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="46.0" prefWidth="160.0" text="Will Wisneskey">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="64.0" prefWidth="160.0" text="Dottie">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="28.0" prefWidth="160.0">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="118.0" prefWidth="160.0" text="David Forlano">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="64.0" prefWidth="160.0" text="Paul Wisneskey">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="28.0" prefWidth="160.0" text="Gary Reggio">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="82.0" prefWidth="160.0" text="Paul Wisneskey">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="100.0" prefWidth="160.0">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="586.0" prefWidth="160.0" text="Adam Montegut">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="388.0" prefWidth="160.0" text="Andrew Johnson">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="406.0" prefWidth="160.0" text="Anthony Posey">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="694.0" prefWidth="160.0" text="Bill Calahan">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="676.0" prefWidth="160.0" text="Brett Ruth">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="640.0" prefWidth="160.0" text="Brian O'Reilly">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="460.0" prefWidth="160.0" text="Clark Thompson">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="550.0" prefWidth="160.0" text="Clint Wunderlich">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="244.0" prefWidth="160.0" text="Dan Sanders">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="208.0" prefWidth="160.0" text="Francis Norton">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="208.0" prefWidth="160.0" text="Graham Gibby">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="172.0" prefWidth="160.0" text="Hal Pluche">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="496.0" prefWidth="160.0" text="Janine Guzzo">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="478.0" prefWidth="160.0" text="Jeff Sturkey">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="262.0" prefWidth="160.0" text="Joe Hines">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="442.0" prefWidth="160.0" text="Jon Woodburn">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="316.0" prefWidth="160.0" text="Karen Reggio">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="424.0" prefWidth="160.0" text="Keith Theriot">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="622.0" prefWidth="160.0" text="Kendra Reade">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="568.0" prefWidth="160.0" text="Mark Doughty">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="298.0" prefWidth="160.0" text="Mark Vicknair">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="514.0" prefWidth="160.0" text="Meredith Mendez">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="370.0" prefHeight="18.0" prefWidth="160.0" text="Rob Skelton">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="604.0" prefWidth="160.0" text="Ross Panneton">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="658.0" prefWidth="160.0" text="Rudy Vorkapic">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="280.0" prefWidth="160.0" text="Scott McLetchie">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="532.0" prefWidth="160.0" text="Tim Buck">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="352.0" prefHeight="18.0" prefWidth="160.0" text="Tonya Armbruster">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="226.0" prefWidth="160.0" text="Wendy Hartline">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label alignment="CENTER" prefWidth="360.0" textAlignment="CENTER">
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" layoutX="10.0" layoutY="10.0" prefWidth="360.0" textAlignment="CENTER">
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" layoutX="10.0" layoutY="33.0" prefWidth="360.0" text="In Memory Of" textAlignment="CENTER">
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" layoutX="10.0" layoutY="56.0" prefWidth="360.0" textAlignment="CENTER">
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <ImageView fitHeight="254.0" fitWidth="441.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../images/philip_james.jpg" />
+                           </image>
+                           <VBox.margin>
+                              <Insets left="90.0" />
+                           </VBox.margin>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </ImageView>
+                        <Label alignment="CENTER" prefWidth="360.0" text="Philip James" textAlignment="CENTER">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label alignment="CENTER" layoutX="10.0" layoutY="356.0" prefWidth="360.0" text="&quot;The True King of Mardi Gras&quot;" textAlignment="CENTER">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" layoutX="10.0" layoutY="374.0" prefWidth="360.0" textAlignment="CENTER">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" layoutX="10.0" layoutY="392.0" prefWidth="360.0" textAlignment="CENTER">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <ImageView fitHeight="254.0" fitWidth="441.0" layoutX="100.0" layoutY="102.0" pickOnBounds="true" preserveRatio="true">
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                           <image>
+                              <Image url="@../../images/shaunna_martin.jpg" />
+                           </image>
+                           <VBox.margin>
+                              <Insets left="90.0" />
+                           </VBox.margin>
+                        </ImageView>
+                        <Label alignment="CENTER" layoutX="10.0" layoutY="356.0" prefWidth="360.0" text="Shaunna Martin" textAlignment="CENTER">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label alignment="CENTER" layoutX="10.0" layoutY="374.0" prefWidth="360.0" text="&quot;This is the stupidest thing ever.  I love it.&quot;" textAlignment="CENTER">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" layoutX="10.0" layoutY="720.0" prefWidth="360.0" textAlignment="CENTER">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
+	</children>
+</Pane>

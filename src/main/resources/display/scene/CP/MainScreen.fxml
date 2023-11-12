@@ -57,7 +57,7 @@
             <DropShadow />
          </effect>
       </Button>
-      <Button layoutX="64.0" layoutY="609.0" mnemonicParsing="false" onAction="#audioPressed" prefHeight="91.0" prefWidth="111.0" text="Audio">
+      <Button layoutX="64.0" layoutY="513.0" mnemonicParsing="false" onAction="#audioPressed" prefHeight="91.0" prefWidth="111.0" text="Audio">
          <effect>
             <DropShadow />
          </effect>
@@ -65,7 +65,7 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
-      <Button layoutX="225.0" layoutY="609.0" mnemonicParsing="false" prefHeight="91.0" prefWidth="111.0" text="Lighting">
+      <Button layoutX="225.0" layoutY="513.0" mnemonicParsing="false" prefHeight="91.0" prefWidth="111.0" text="Lighting">
          <effect>
             <DropShadow />
          </effect>
@@ -73,7 +73,7 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
-      <Button layoutX="51.0" layoutY="952.0" mnemonicParsing="false" onAction="#lockChair" prefHeight="80.0" prefWidth="294.0" text="Lock Chair">
+      <Button layoutX="51.0" layoutY="857.0" mnemonicParsing="false" onAction="#lockChair" prefHeight="80.0" prefWidth="294.0" text="Lock Chair">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -81,7 +81,7 @@
             <DropShadow />
          </effect>
       </Button>
-      <Button layoutX="51.0" layoutY="855.0" mnemonicParsing="false" onAction="#chapPressed" prefHeight="80.0" prefWidth="294.0" text="Chap Mode">
+      <Button layoutX="51.0" layoutY="759.0" mnemonicParsing="false" onAction="#chapPressed" prefHeight="80.0" prefWidth="294.0" text="Chap Mode">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -89,7 +89,7 @@
             <DropShadow />
          </effect>
       </Button>
-      <Button layoutX="64.0" layoutY="721.0" mnemonicParsing="false" prefHeight="91.0" prefWidth="111.0" text="Effects">
+      <Button layoutX="64.0" layoutY="625.0" mnemonicParsing="false" prefHeight="91.0" prefWidth="111.0" text="Effects">
          <effect>
             <DropShadow />
          </effect>
@@ -97,7 +97,7 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
-      <Button layoutX="225.0" layoutY="721.0" mnemonicParsing="false" onAction="#scriptPressed" prefHeight="91.0" prefWidth="111.0" text="Scripts">
+      <Button layoutX="225.0" layoutY="625.0" mnemonicParsing="false" onAction="#scriptPressed" prefHeight="91.0" prefWidth="111.0" text="Scripts">
          <effect>
             <DropShadow />
          </effect>
@@ -105,12 +105,12 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
-      <Line endX="190.0" layoutX="195.0" layoutY="589.0" startX="-180.0">
+      <Line endX="190.0" layoutX="195.0" layoutY="493.0" startX="-180.0">
          <effect>
             <DropShadow />
          </effect>
       </Line>
-      <Line endX="190.0" layoutX="195.0" layoutY="834.0" startX="-180.0">
+      <Line endX="190.0" layoutX="195.0" layoutY="738.0" startX="-180.0">
          <effect>
             <DropShadow />
          </effect>
@@ -120,5 +120,13 @@
             <DropShadow />
          </effect>
       </Line>
+      <Button layoutX="53.0" layoutY="955.0" mnemonicParsing="false" onAction="#aboutPressed" prefHeight="80.0" prefWidth="294.0" text="About">
+         <effect>
+            <DropShadow />
+         </effect>
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Button>
 	</children>
 </Pane>
