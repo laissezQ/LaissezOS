@@ -6,13 +6,11 @@ import java.util.List;
 import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.display.controller.AbstractController;
-import com.wisneskey.los.service.display.listener.message.MessagesToLabelListener;
 import com.wisneskey.los.service.remote.RemoteButtonId;
 import com.wisneskey.los.service.script.ScriptId;
 import com.wisneskey.los.service.script.ScriptService;
 import com.wisneskey.los.service.security.SecurityService;
 import com.wisneskey.los.state.ChairState.MasterState;
-import com.wisneskey.los.state.SecurityState;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -123,16 +121,10 @@ public class LockScreen extends AbstractController {
 		entryButtons.add(buttonNine);
 		entryButtons.add(buttonZero);
 
-		// Set the initial lock message.
-		SecurityState state = chairState().getServiceState(ServiceId.SECURITY);
-		lockMessage.setText(state.lockMessage().getValue());
-
 		// Add a listener for the chair state so that if the chair is set to a
 		// master state of LOCKED, we can assume we will be getting displayed and we
 		// need to enable the PIN entry buttons.
 		chairState().masterState().addListener(new MasterStateListener());
-
-		state.lockMessage().addListener(new MessagesToLabelListener(lockMessage));
 
 		// Put focus on the logo.
 		redirectFocus();
@@ -254,9 +246,9 @@ public class LockScreen extends AbstractController {
 
 	@Override
 	public void remoteButtonPressed(RemoteButtonId buttonId) {
-		
+
 		// Allow remote button A to unlock the chair.
-		if( buttonId == RemoteButtonId.REMOTE_BUTTON_A) {
+		if (buttonId == RemoteButtonId.REMOTE_BUTTON_A) {
 			((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.REMOTE_UNLOCK);
 		}
 	}
@@ -308,10 +300,18 @@ public class LockScreen extends AbstractController {
 			pinDisplayed = "";
 			pinDisplay.setText(pinDisplayed);
 
-			boolean unlocked = ((SecurityService) Kernel.kernel().getService(ServiceId.SECURITY)).unlockChair(pinCode, false);
-			if (!unlocked) {
-				// Failed to unlock so re-enable PIN code entry.
+			boolean unlocked = ((SecurityService) Kernel.kernel().getService(ServiceId.SECURITY)).isPinCorrect(pinCode);
+			if (unlocked) {
+
+				// Run the unlock script
+				((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.SECURITY_UNLOCK);
+
+			} else {
+
+				// Failed to unlock so re-enable PIN code entry and run the unlock
+				// failed script.
 				setEntryPadState(true);
+				((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.SECURITY_UNLOCK_FAILED);
 			}
 		}
 	}

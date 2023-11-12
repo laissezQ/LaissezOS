@@ -11,7 +11,7 @@
 	//
 	// Boot settings:
 	//
-	"bootScript": "BOOT_FAST",
+	"bootScript": "BOOT_DEV",
 	// 
 	// Display service settings:
 	//

@@ -9,7 +9,6 @@ import com.wisneskey.los.service.relay.RelayId;
 import com.wisneskey.los.service.remote.RemoteButtonId;
 import com.wisneskey.los.service.script.ScriptId;
 import com.wisneskey.los.service.script.ScriptService;
-import com.wisneskey.los.service.security.SecurityService;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -98,8 +97,7 @@ public class MainScreen extends AbstractController {
 	 * Method invoked by lock chair button.
 	 */
 	public void lockChair() {
-		((SecurityService) Kernel.kernel().getService(ServiceId.SECURITY)).lockChair(SecurityService.DEFAULT_LOCK_MESSAGE,
-				ScriptId.SECURITY_UNLOCKED, ScriptId.SECURITY_UNLOCK_FAILED, null, null);
+		((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.SECURITY_LOCK);
 	}
 
 	/**
