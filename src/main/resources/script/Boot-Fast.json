@@ -7,13 +7,12 @@
 	"commands": [
 		{
 			"showScene": {
-				"sceneId": "CP_BOOT_SCREEN",
-				"postCommandPause": 1.0
+				"sceneId": "CP_BOOT_SCREEN"
 			}
 		},
 		{
 			"showScene": {
-				"sceneId": "HUD_BOOT_SCREEN",
+				"sceneId": "HUD_SPLASH_SCREEN",
 				"postCommandPause": 1.0
 			}
 		},
