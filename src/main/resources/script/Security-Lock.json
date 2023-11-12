@@ -23,6 +23,11 @@
 			}
 		},
 		{
+			"message": {
+				"message": "Chair locked...\n"
+			}
+		},
+		{
 			"setChairState": {
 				"state": "LOCKED"
 			}

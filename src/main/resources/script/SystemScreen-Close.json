@@ -28,7 +28,13 @@
 			"showScene": {
 				"sceneId": "HUD_MAIN_SCREEN"
 			}
-		},		{
+		},
+		{
+			"message": {
+				"message": "Chair operations resumed...\n"
+			}
+		},
+		{
 			"setChairState": {
 				"state": "RUNNING"
 			}

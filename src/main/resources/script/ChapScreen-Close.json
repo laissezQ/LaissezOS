@@ -24,6 +24,11 @@
 			}
 		},
 		{
+			"message": {
+				"message": "Chair operations resumed...\n"
+			}
+		},
+		{
 			"setChairState": {
 				"state": "RUNNING"
 			}

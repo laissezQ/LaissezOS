@@ -30,7 +30,12 @@
 				"sceneId": "HUD_SPLASH_SCREEN"
 			}
 		},
-				{
+		{
+			"message": {
+				"message": "System menu opened...\n"
+			}
+		},
+		{
 			"setChairState": {
 				"state": "SYSTEM"
 			}

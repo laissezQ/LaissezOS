@@ -23,6 +23,11 @@
 			}
 		},
 		{
+			"message": {
+				"message": "Chap mode activated...\n"
+			}
+		},
+		{
 			"showScene": {
 				"sceneId": "HUD_CHAP_SCREEN"
 			}

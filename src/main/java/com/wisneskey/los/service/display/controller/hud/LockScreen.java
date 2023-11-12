@@ -3,7 +3,6 @@ package com.wisneskey.los.service.display.controller.hud;
 import com.wisneskey.los.service.display.controller.AbstractController;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 
 /**
@@ -27,9 +26,6 @@ import javafx.scene.image.ImageView;
  * @author paul.wisneskey@gmail.com
  */
 public class LockScreen extends AbstractController {
-
-	@FXML
-	private Label lockMessage;
 
 	@FXML
 	private ImageView logo;

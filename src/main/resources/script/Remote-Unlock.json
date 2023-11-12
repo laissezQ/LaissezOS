@@ -23,6 +23,11 @@
 			}
 		},
 		{
+			"message": {
+				"message": "Chair unlocked...\n"
+			}
+		},
+		{
 			"setChairState": {
 				"state": "RUNNING"
 			}
