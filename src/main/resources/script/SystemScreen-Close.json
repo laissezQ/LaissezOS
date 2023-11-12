@@ -15,11 +15,6 @@
 			}
 		},
 		{
-			"message": {
-				"message": "Chair operation resumed...\n"
-			}
-		},
-		{
 			"showScene": {
 				"sceneId": "CP_MAIN_SCREEN"
 			}
