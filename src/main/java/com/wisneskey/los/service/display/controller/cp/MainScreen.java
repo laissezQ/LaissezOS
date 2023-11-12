@@ -63,18 +63,6 @@ public class MainScreen extends AbstractController {
 	@FXML
 	private Button barUpButton;
 
-	@FXML
-	private Button backrestDownButton;
-
-	@FXML
-	private Button backrestUpButton;
-
-	@FXML
-	private Button footrestDownButton;
-
-	@FXML
-	private Button footrestUpButton;
-
 	// ----------------------------------------------------------------------------------------
 	// Public methods.
 	// ----------------------------------------------------------------------------------------
@@ -113,7 +101,14 @@ public class MainScreen extends AbstractController {
 	public void chapPressed() {
 		((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.CHAP_SCREEN_OPEN);
 	}
-	
+
+	/**
+	 * Method invoked when the script button is pressed.
+	 */
+	public void scriptPressed() {
+		((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.SCRIPT_SCREEN_OPEN);
+	}
+
 	// ----------------------------------------------------------------------------------------
 	// SceneController methods.
 	// ----------------------------------------------------------------------------------------

@@ -22,20 +22,22 @@ package com.wisneskey.los.service.script;
  */
 public enum ScriptId {
 
-	AUDIO_SCREEN_OPEN("But this one goes to eleven!","AudioScreen-Open"),
-	AUDIO_SCREEN_CLOSE("The audience is now deaf.","AudioScreen-Close"),
-	BOOT_FAST("Fasted possible boot sequence.", "Boot-Fast"),
-	BOOT_DEV("Test boot sequence for development.", "Boot-DEV"),
-	CHAP_SCREEN_OPEN("You'll shoot your eye out kid!", "ChapScreen-Open"),
-	REMOTE_LOCK("Denied!","Remote-Lock"),
-	REMOTE_UNLOCK("Your wish is granted...","Remote-Unlock"),
-	CHAP_SCREEN_CLOSE("Finally, a responsible adult.","ChapScreen-Close"),
-	SECURITY_LOCK("Not for you!", "Security-Lock"),
-	SECURITY_UNLOCK("You knew the secret knocK!", "Security-Unlock"),
-	SECURITY_UNLOCK_FAILED("Invalid PIN entered for chair unlock.", "Security-UnlockFailed"),
-	SYSTEM_SCREEN_OPEN("Is this an easter egg?", "SystemScreen-Open"),
-	SYSTEM_SCREEN_CLOSE("Let's get back to work!", "SystemScreen-Close"),
-	SHUTDOWN("The party is over.", "Shutdown");
+	AUDIO_SCREEN_OPEN("Audio screen: open","AudioScreen-Open"),
+	AUDIO_SCREEN_CLOSE("Audio screen: close","AudioScreen-Close"),
+	BOOT_FAST("Boot sequence: fast", "Boot-Fast"),
+	BOOT_DEV("Boot sequence: development", "Boot-DEV"),
+	CHAP_SCREEN_OPEN("Chap screen: open", "ChapScreen-Open"),
+	CHAP_SCREEN_CLOSE("Chap screen: close","ChapScreen-Close"),
+	REMOTE_LOCK("Remote: lock chair","Remote-Lock"),
+	REMOTE_UNLOCK("Remote: unlock chair","Remote-Unlock"),
+	SECURITY_LOCK("Security screen: open", "Security-Lock"),
+	SECURITY_UNLOCK("Security screen: PIN correct", "Security-Unlock"),
+	SECURITY_UNLOCK_FAILED("Security screen: PIN invalid", "Security-UnlockFailed"),
+	SCRIPT_SCREEN_OPEN("Script screen: open", "ScriptScreen-Open"),
+	SCRIPT_SCREEN_CLOSE("Script screen: close", "ScriptScreen-Close"),
+	SYSTEM_SCREEN_OPEN("System screen: open", "SystemScreen-Open"),
+	SYSTEM_SCREEN_CLOSE("System screen: close", "SystemScreen-Close"),
+	SYSTEM_SHUTDOWN("System screen: shutdown", "Shutdown");
 
 	// ----------------------------------------------------------------------------------------
 	// Variables.

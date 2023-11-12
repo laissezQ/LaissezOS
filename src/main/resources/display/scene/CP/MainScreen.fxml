@@ -33,54 +33,6 @@
             <DropShadow />
          </effect>
       </ImageView>
-      <Label focusTraversable="false" layoutX="159.0" layoutY="503.0" text="Footrest">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-         <effect>
-            <DropShadow />
-         </effect>
-      </Label>
-      <Button fx:id="footrestUpButton" focusTraversable="false" layoutX="274.0" layoutY="462.0" mnemonicParsing="false" prefHeight="104.0" prefWidth="98.0" text="&gt;">
-         <font>
-            <Font name="System Bold" size="48.0" />
-         </font>
-         <effect>
-            <DropShadow />
-         </effect>
-      </Button>
-      <Button fx:id="footrestDownButton" focusTraversable="false" layoutX="29.0" layoutY="462.0" mnemonicParsing="false" prefHeight="104.0" prefWidth="98.0" text="&lt;">
-         <font>
-            <Font name="System Bold" size="48.0" />
-         </font>
-         <effect>
-            <DropShadow />
-         </effect>
-      </Button>
-      <Button fx:id="backrestDownButton" focusTraversable="false" layoutX="29.0" layoutY="346.0" mnemonicParsing="false" prefHeight="104.0" prefWidth="98.0" text="&lt;">
-         <font>
-            <Font name="System Bold" size="48.0" />
-         </font>
-         <effect>
-            <DropShadow />
-         </effect>
-      </Button>
-      <Button fx:id="backrestUpButton" focusTraversable="false" layoutX="274.0" layoutY="346.0" mnemonicParsing="false" prefHeight="104.0" prefWidth="98.0" text="&gt;">
-         <font>
-            <Font name="System Bold" size="48.0" />
-         </font>
-         <effect>
-            <DropShadow />
-         </effect>
-      </Button>
-      <Label focusTraversable="false" layoutX="157.0" layoutY="387.0" text="Backrest">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-         <effect>
-            <DropShadow />
-         </effect>
-      </Label>
       <Label focusTraversable="false" layoutX="178.0" layoutY="270.0" text="Bar">
          <font>
             <Font name="System Bold" size="18.0" />
@@ -145,7 +97,7 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
-      <Button layoutX="225.0" layoutY="721.0" mnemonicParsing="false" prefHeight="91.0" prefWidth="111.0" text="Scripts">
+      <Button layoutX="225.0" layoutY="721.0" mnemonicParsing="false" onAction="#scriptPressed" prefHeight="91.0" prefWidth="111.0" text="Scripts">
          <effect>
             <DropShadow />
          </effect>
@@ -159,6 +111,11 @@
          </effect>
       </Line>
       <Line endX="190.0" layoutX="195.0" layoutY="834.0" startX="-180.0">
+         <effect>
+            <DropShadow />
+         </effect>
+      </Line>
+      <Line endX="190.0" layoutX="198.0" layoutY="357.0" startX="-180.0">
          <effect>
             <DropShadow />
          </effect>

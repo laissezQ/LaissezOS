@@ -17,6 +17,12 @@
 			}
 		},
 		{
+			"showScene": {
+				"sceneId": "HUD_BOOT_SCREEN",
+				"postCommandPause": 1.0
+			}
+		},
+		{
 			"message": {
 				"messages": [
 					"LaissezOS 1.0 booting...\n",

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<?import javafx.geometry.Insets?>
+
+<Pane id="pane" maxHeight="1280.0" maxWidth="400.0" minHeight="1280.0" minWidth="400.0" prefHeight="1280.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.wisneskey.los.service.display.controller.cp.ScriptScreen">
+	<children>
+      <ImageView fx:id="logo" fitHeight="181.0" fitWidth="373.0" focusTraversable="true" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../images/laissez-boys-header.png" />
+         </image>
+         <effect>
+            <DropShadow />
+         </effect>
+      </ImageView>
+      <Line endX="190.0" layoutX="195.0" layoutY="1145.0" startX="-180.0">
+         <effect>
+            <DropShadow />
+         </effect>
+      </Line>
+      <Button fx:id="resumeButton" layoutX="54.0" layoutY="1166.0" mnemonicParsing="false" onAction="#resumePressed" prefHeight="80.0" prefWidth="294.0" text="Back">
+         <effect>
+            <DropShadow />
+         </effect>
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Button>
+      <ScrollPane hbarPolicy="NEVER" layoutX="16.0" layoutY="211.0" prefHeight="908.0" prefWidth="371.0">
+         <effect>
+            <DropShadow />
+         </effect>
+         <content>
+            <VBox fx:id="scriptsBox" spacing="3.0">
+               <padding>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+               </padding>
+            </VBox>
+         </content>
+      </ScrollPane>
+	</children>
+</Pane>

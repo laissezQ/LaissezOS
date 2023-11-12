@@ -1,0 +1,22 @@
+{
+	// 
+	// Script for playing when somone opens the script screen.
+	//
+	"name": "User has opened the script screen.",
+	//
+	"commands": [
+		{
+			"playSoundEffect": {
+				"effectIds": [
+					"MOVIE_WORKING",
+					"MOVIE_MACHINE_GOES_PING"
+				]
+			}
+		},
+		{
+			"showScene": {
+				"sceneId": "CP_SCRIPT_SCREEN"
+			}
+		}
+	]
+}

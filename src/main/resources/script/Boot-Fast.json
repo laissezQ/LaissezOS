@@ -12,6 +12,12 @@
 			}
 		},
 		{
+			"showScene": {
+				"sceneId": "HUD_BOOT_SCREEN",
+				"postCommandPause": 1.0
+			}
+		},
+		{
 			"playSoundEffect": {
 				"effectId": "MISC_WINDOWS_XP_STARTUP"
 			}
