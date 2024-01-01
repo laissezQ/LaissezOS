@@ -6,7 +6,7 @@ import com.wisneskey.los.state.ChairState.MasterState;
 /**
  * Command to set the current master state of the chair.
  *
- * Copyright (C) 2023 Paul Wisneskey
+ * Copyright (C) 2024 Paul Wisneskey
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software

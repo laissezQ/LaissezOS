@@ -4,7 +4,7 @@ package com.wisneskey.los.state;
  * Interface denoting the object providing read only access to the state of the
  * security service.
  * 
- * Copyright (C) 2023 Paul Wisneskey
+ * Copyright (C) 2024 Paul Wisneskey
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software

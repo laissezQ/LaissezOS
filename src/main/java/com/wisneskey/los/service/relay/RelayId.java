@@ -3,7 +3,7 @@ package com.wisneskey.los.service.relay;
 /**
  * Enumerated type designating the various relays that can be turned on and off.
  * 
- * Copyright (C) 2023 Paul Wisneskey
+ * Copyright (C) 2024 Paul Wisneskey
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -27,9 +27,9 @@ public enum RelayId {
 	BAR_RAISE(1, "Raise armest bar."),
 	RELAY_3(2, "Third relay."),
 	RELAY_4(3, "Fourth relay."),
-	RELAY_5(4, "Fifth relay."),
-	RELAY_6(6, "Seventh relay."),
-	RELAY_7(7, "Eight relay."),
+	BAR_PUMP(4, "Turn on bar water pump."),
+	BAR_LIGHT(6, "Turn on bar lighting."),
+	FLUX_CAPACITOR(7, "Turn on Flux Capacitor."),
 
 	// Driver board B relays:
 	AMPLIFIER(8, "Audio amplifier on."),

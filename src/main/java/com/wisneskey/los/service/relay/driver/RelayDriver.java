@@ -9,7 +9,7 @@ import com.wisneskey.los.service.relay.RelayId;
  * Interface defining an implementation of relay driver interface that can work
  * with a particular relay board.
  * 
- * Copyright (C) 2023 Paul Wisneskey
+ * Copyright (C) 2024 Paul Wisneskey
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software

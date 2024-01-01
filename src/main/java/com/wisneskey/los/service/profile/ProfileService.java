@@ -25,7 +25,7 @@ import javafx.util.Pair;
  * the operating system. Profiles are intended to be read only but can be used
  * to set up the initial state of the chair which may then be changed.
  * 
- * Copyright (C) 2023 Paul Wisneskey
+ * Copyright (C) 2024 Paul Wisneskey
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software

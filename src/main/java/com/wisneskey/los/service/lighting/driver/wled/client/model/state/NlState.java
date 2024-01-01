@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * It is designed so that only state properties to change need to be set in a
  * state object that is being sent back to the controller.
  * 
- * Copyright (C) 2023 Paul Wisneskey
+ * Copyright (C) 2024 Paul Wisneskey
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software

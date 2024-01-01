@@ -12,7 +12,7 @@ import com.wisneskey.los.service.lighting.driver.wled.client.model.state.State;
  * this is not recommended. It is better to create a new state object with just
  * the updates that need to be applied.
  * 
- * Copyright (C) 2023 Paul Wisneskey
+ * Copyright (C) 2024 Paul Wisneskey
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software

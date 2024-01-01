@@ -21,7 +21,7 @@ import javafx.util.Pair;
 /**
  * Service for running lighting animations.
  * 
- * Copyright (C) 2023 Paul Wisneskey
+ * Copyright (C) 2024 Paul Wisneskey
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -86,7 +86,8 @@ public class LightingService extends AbstractService<LightingState> {
 	public void runTest() {
 
 		// Enable power to the lighting strip.
-		((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOn(RelayId.RELAY_7);
+		((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOn(RelayId.LIGHTING_A);
+		((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOn(RelayId.LIGHTING_B);
 
 		lightingDriver.runTest();
 	}

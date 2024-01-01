@@ -30,7 +30,7 @@ import javafx.util.Pair;
  * local tile caching using the file system so that maps can easily be made
  * available when the chair is offline (e.g. in a parade).
  *
- * Copyright (C) 2023 Paul Wisneskey
+ * Copyright (C) 2024 Paul Wisneskey
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software

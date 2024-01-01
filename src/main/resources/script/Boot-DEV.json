@@ -26,7 +26,19 @@
 				"messages": [
 					"LaissezOS 1.0 booting...\n",
 					"\u00A92023 Laissez-Q Industries...\n",
-					"Bringing flux capacitor online...\n",
+					"Bringing flux capacitor online...\n"
+				],
+				"postCommandPause": 1.0
+			}
+		},
+		{
+			"relayOn" : {
+				"relayId" : "FLUX_CAPACITOR"
+			}
+		},
+		{
+			"message": {
+				"messages": [
 					"Inventorying whiskey...\n",
 					"Accessing lighting subsystem.",
 					".",

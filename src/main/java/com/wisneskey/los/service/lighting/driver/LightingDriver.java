@@ -6,7 +6,7 @@ import com.wisneskey.los.service.profile.model.Profile;
  * Interface defining an implementation of a lighting system based on a
  * particular technology.
  * 
- * Copyright (C) 2023 Paul Wisneskey
+ * Copyright (C) 2024 Paul Wisneskey
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software

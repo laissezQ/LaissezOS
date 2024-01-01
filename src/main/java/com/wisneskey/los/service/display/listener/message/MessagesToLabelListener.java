@@ -10,7 +10,7 @@ import javafx.scene.control.Label;
  * displayed in a label. Properly handles messages that do not have a new line
  * (e.g. should be added to the previous message).
  * 
- * Copyright (C) 2023 Paul Wisneskey
+ * Copyright (C) 2024 Paul Wisneskey
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software

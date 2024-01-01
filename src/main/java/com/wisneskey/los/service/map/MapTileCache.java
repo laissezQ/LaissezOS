@@ -24,7 +24,7 @@ import org.ehcache.config.units.MemoryUnit;
  * to build up a file system cache of tiles that can be used when the chair is
  * offline (e.g. during a parade).
  *
- * Copyright (C) 2023 Paul Wisneskey
+ * Copyright (C) 2024 Paul Wisneskey
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software

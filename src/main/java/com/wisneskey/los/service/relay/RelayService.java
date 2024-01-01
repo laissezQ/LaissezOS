@@ -25,7 +25,7 @@ import javafx.util.Pair;
 /**
  * Service for turning relays on and off.
  * 
- * Copyright (C) 2023 Paul Wisneskey
+ * Copyright (C) 2024 Paul Wisneskey
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -75,7 +75,7 @@ public class RelayService extends AbstractService<RelayState> {
 	public RelayState getState() {
 		return relayState;
 	}
-	
+
 	@Override
 	public void terminate() {
 
@@ -105,16 +105,21 @@ public class RelayService extends AbstractService<RelayState> {
 	}
 
 	/**
-	 * Turns on the specified relay for the given duration and then turns it off.
+	 * Turns on the specified relay for an optional given duration and then turns
+	 * it off.
 	 * 
 	 * @param relayId  Id of the relay to turn on.
-	 * @param duration Duration the relay should be on.
+	 * @param duration Optional duration the relay should be on.
 	 */
 	public void turnOn(RelayId relayId, Duration duration) {
 
-		// We just use a thread for this since we do not expect many relays to be
-		// running simultaneously.
-		new TimedRelayThread(relayId, duration).start();
+		if (duration == null) {
+			turnOn(relayId);
+		} else {
+			// We just use a thread for this since we do not expect many relays to be
+			// running simultaneously.
+			new TimedRelayThread(relayId, duration).start();
+		}
 	}
 
 	/**

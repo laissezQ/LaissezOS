@@ -3,7 +3,7 @@ package com.wisneskey.los.service.remote;
 /**
  * Enumerated type for the buttons that can be pressed on a remote control.
  *
- * Copyright (C) 2023 Paul Wisneskey
+ * Copyright (C) 2024 Paul Wisneskey
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software

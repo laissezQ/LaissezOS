@@ -21,7 +21,7 @@ import javafx.util.Pair;
  * deliver remote pressed events to the current scene controllers so they can be
  * effectively treated like other UI events.
  *
- * Copyright (C) 2023 Paul Wisneskey
+ * Copyright (C) 2024 Paul Wisneskey
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software

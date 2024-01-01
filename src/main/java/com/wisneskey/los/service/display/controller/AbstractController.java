@@ -8,7 +8,7 @@ import com.wisneskey.los.state.ChairState;
  * Abstract base classes for JavaFX controllers that provides utility methods
  * for accessing chair state and services.
  * 
- * Copyright (C) 2023 Paul Wisneskey
+ * Copyright (C) 2024 Paul Wisneskey
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
