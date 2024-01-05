@@ -1,5 +1,6 @@
 package com.wisneskey.los.service.location.driver;
 
+import com.wisneskey.los.error.LaissezException;
 import com.wisneskey.los.service.location.Location;
 import com.wisneskey.los.service.profile.model.Profile;
 
@@ -74,9 +75,15 @@ public class DummyGpsDriver implements GpsDriver {
 
 	@Override
 	public void initialize(Profile profile) {
-		latitude = profile.getInitialLatitude();
-		longitude = profile.getInitialLongitude();
-		altitude = profile.getInitialAltitude();
+		
+		Location starting = profile.getPresetLocations().get(profile.getDefaultLocation());
+		if( starting == null ) {
+			throw new LaissezException("Starting location not found.");
+		}
+		
+		latitude = starting.getLatitude();
+		longitude = starting.getLongitude();
+		altitude = starting.getAltitude();
 	}
 
 	@Override

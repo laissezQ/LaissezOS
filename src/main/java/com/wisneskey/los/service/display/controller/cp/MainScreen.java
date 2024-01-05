@@ -91,22 +91,29 @@ public class MainScreen extends AbstractController {
 	/**
 	 * Method invoked when the about button is pressed.
 	 */
-	public void aboutPressed() {	
+	public void aboutPressed() {
 		((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.ABOUT_SCREEN_OPEN);
 	}
 
 	/**
 	 * Method invoked when the audio button is pressed.
 	 */
-	public void audioPressed() {	
+	public void audioPressed() {
 		((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.AUDIO_SCREEN_OPEN);
 	}
-	
+
 	/**
 	 * Method invoked when the chap mode button is pressed.
 	 */
 	public void chapPressed() {
 		((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.CHAP_SCREEN_OPEN);
+	}
+
+	/**
+	 * Method invoked when the effects button is pressed.
+	 */
+	public void effectPressed() {
+		((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.EFFECT_SCREEN_OPEN);
 	}
 
 	/**
@@ -122,9 +129,9 @@ public class MainScreen extends AbstractController {
 
 	@Override
 	public void remoteButtonPressed(RemoteButtonId buttonId) {
-		
+
 		// Allow remote button A to lock the chair.
-		if( buttonId == RemoteButtonId.REMOTE_BUTTON_A) {
+		if (buttonId == RemoteButtonId.REMOTE_BUTTON_A) {
 			((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.REMOTE_LOCK);
 		}
 	}

@@ -37,6 +37,11 @@ public abstract class AbstractController implements SceneController {
 		// this method if they want to respond to remote button presses.
 	}
 
+	@Override
+	public void sceneShown() {
+		// By default, don't do anything special for scene being shown.
+	}
+
 	// ----------------------------------------------------------------------------------------
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------

@@ -135,8 +135,12 @@ public class LocationService extends AbstractService<LocationState> {
 		// Set the location but then set the hasFix property to false. This will
 		// enable the initial display to show a location on the map but indicate
 		// that the location is not based on a GPS fix.
-		locationState.updateLocation(
-				Location.of(profile.getInitialLatitude(), profile.getInitialLongitude(), profile.getInitialAltitude()));
+		Location starting = profile.getPresetLocations().get(profile.getDefaultLocation());
+		if( starting == null ) {
+			throw new LaissezException("Starting location not found.");
+		}
+		
+		locationState.updateLocation(starting);
 		locationState.hasFix.set(false);
 
 		// Start the poller thread for the driver polling.

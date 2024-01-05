@@ -2,6 +2,9 @@ package com.wisneskey.los.service.location;
 
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Model object for containing a location from the GPS.
  * 
@@ -32,7 +35,11 @@ public class Location {
 	// Constructors.
 	// ----------------------------------------------------------------------------------------
 
-	public Location(double latitude, double longitude, double altitude) {
+	@JsonCreator
+	public Location( //
+			@JsonProperty(value = "latitude") double latitude, //
+			@JsonProperty(value = "longitude") double longitude, //
+			@JsonProperty(value = "altitude") double altitude) {
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.altitude = altitude;

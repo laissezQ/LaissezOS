@@ -100,15 +100,15 @@ public class WledLightingDriver implements LightingDriver {
 		// If we were able to talk to the controller, go ahead and energize
 		// the relays to enable power to the LED lighting on both sides of the
 		// chair.
-		((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOn(RelayId.LIGHTING_A);
-		((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOn(RelayId.LIGHTING_B);
+		((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOn(RelayId.SIDE_LIGHTING);
+		((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOn(RelayId.UNDER_LIGHTING);
 	}
 
 	@Override
 	public void terminate() {
 
 		// Turn off the power to the LED strips.
-		((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOff(RelayId.LIGHTING_A);
-		((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOff(RelayId.LIGHTING_B);
+		((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOff(RelayId.SIDE_LIGHTING);
+		((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOff(RelayId.UNDER_LIGHTING);
 	}
 }

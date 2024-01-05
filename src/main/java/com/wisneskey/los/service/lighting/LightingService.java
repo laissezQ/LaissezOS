@@ -86,8 +86,8 @@ public class LightingService extends AbstractService<LightingState> {
 	public void runTest() {
 
 		// Enable power to the lighting strip.
-		((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOn(RelayId.LIGHTING_A);
-		((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOn(RelayId.LIGHTING_B);
+		((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOn(RelayId.SIDE_LIGHTING);
+		((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOn(RelayId.UNDER_LIGHTING);
 
 		lightingDriver.runTest();
 	}

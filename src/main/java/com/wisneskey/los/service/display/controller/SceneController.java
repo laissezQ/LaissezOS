@@ -25,6 +25,11 @@ import com.wisneskey.los.service.remote.RemoteButtonId;
 public interface SceneController {
 
 	/**
+	 * Method invoked when a scene is shown.
+	 */
+	void sceneShown();
+	
+	/**
 	 * Method invoked by the display service when a remote control button press is
 	 * detected.
 	 * 

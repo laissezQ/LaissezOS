@@ -36,12 +36,12 @@ import javafx.scene.text.Font;
 public class ScriptScreen extends AbstractController {
 
 	/**
-	 * Width to make the buttons for playing audio clips.
+	 * Width to make the buttons for running scripts.
 	 */
 	private static final double SCRIPT_BUTTON_WIDTH = 364.0;
 	
 	/**
-	 * Font to use for the buttons for playing audio clips.
+	 * Font to use for the buttons for running scripts.
 	 */
 	private static final Font SCRIPT_BUTTON_FONT = new Font("System Bold", 14.0);
 
@@ -58,7 +58,7 @@ public class ScriptScreen extends AbstractController {
 	private Button resumeButton;
 
 	/**
-	 * Vertical box the sound effects clips will be.
+	 * Vertical box the scripts will be in.
 	 */
 	@FXML
 	private VBox scriptsBox;

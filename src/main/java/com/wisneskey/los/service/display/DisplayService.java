@@ -256,15 +256,22 @@ public class DisplayService extends AbstractService<DisplayState> {
 		// Change the appropriate display's scene contents. We do not set a new
 		// scene because in full screen mode this causes the menu bar to reappear.
 		if (sceneId.getDisplayId() == DisplayId.CP) {
+			
 			Platform.runLater(() -> cpStage.getScene().setRoot(content));
 			Platform.runLater(() -> cpStage.requestFocus());
+
 		} else {
+			
 			Platform.runLater(() -> hudStage.getScene().setRoot(content));
 			Platform.runLater(() -> hudStage.requestFocus());
+			
 		}
 
 		// Update the display state for any change listeners.
 		displayState.updateScene(sceneId);
+		
+		SceneController controller = sceneControllerMap.get(sceneId);
+		controller.sceneShown();			
 	}
 
 	/**

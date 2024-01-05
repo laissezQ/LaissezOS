@@ -20,7 +20,28 @@
 	// Lighting service settings:
 	//
 	"useRealLighting": false,
-	"wledHostAddress": "http://192.168.86.21",
+	"wledHostAddress": "http://10.1.1.2",
+	//
+	// Location service settings:
+	//
+	"defaultLocation": "New Orleans (Magazine and Jefferson)",
+	"presetLocations": {
+		"Santa Fe": {
+			"latitude": 35.6420206,
+			"longitude": -105.9889903,
+			"altitude": 2044.982
+		},
+		"New Orleans (Magazine and Jefferson)": {
+			"latitude": 29.920910,
+			"longitude": -90.115049,
+			"altitude": 15.51
+		},
+		"New Orleans (Magazine and Napoleon)": {
+			"latitude": 29.920818,
+			"longitude": -90.101528,
+			"altitude": 15.51
+		}
+	},
 	// 
 	// Security service settings:
 	//

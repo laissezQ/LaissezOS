@@ -1,9 +1,11 @@
 package com.wisneskey.los.service.profile.model;
 
+import java.util.Map;
 import java.util.Set;
 
 import com.wisneskey.los.kernel.RunMode;
 import com.wisneskey.los.service.display.DisplayStyle;
+import com.wisneskey.los.service.location.Location;
 import com.wisneskey.los.service.script.ScriptId;
 
 /**
@@ -64,21 +66,6 @@ public class Profile {
 	// ----------------------------------------------------------------------------------------
 	// Location service defaults.
 	// ----------------------------------------------------------------------------------------
-
-	/**
-	 * Default latitude for initial location.
-	 */
-	private static final double DEFAULT_LATITUDE = 35.6420206;
-
-	/**
-	 * Default longitude for initial location.
-	 */
-	private static final double DEFAULT_LONGITUDE = -105.9889903;
-
-	/**
-	 * Default altitude for initial location.
-	 */
-	private static final double DEFAULT_ALTITUDE = 2044.982;
 
 	/**
 	 * Default value for flag indicating map service can fetch online map tiles.
@@ -160,21 +147,16 @@ public class Profile {
 	// ----------------------------------------------------------------------------------------
 	// Location service settings.
 	// ----------------------------------------------------------------------------------------
-
+	
 	/**
-	 * Latitude for initial chair location.
+	 * Map of location names to their locations for the preset known locations.
 	 */
-	private double initialLatitude = DEFAULT_LATITUDE;
-
+	private Map<String, Location> presetLocations;
+	
 	/**
-	 * Longitude for initial chair location.
+	 * Default preset location to use.
 	 */
-	private double initialLongitude = DEFAULT_LONGITUDE;
-
-	/**
-	 * Altitude for initial chair location.
-	 */
-	private double initialAltitude = DEFAULT_ALTITUDE;
+	private String defaultLocation;
 
 	// ----------------------------------------------------------------------------------------
 	// Map service settings.
@@ -304,30 +286,21 @@ public class Profile {
 	// ----------------------------------------------------------------------------------------
 
 	/**
-	 * Returns the initial latitude to be reported from the location service.
+	 * Return the preset locations.
 	 * 
-	 * @return Latitude of the initial chair position.
+	 * @return Map of present name to location objects.
 	 */
-	public double getInitialLatitude() {
-		return initialLatitude;
+	public Map<String, Location> getPresetLocations() {
+		return presetLocations;
 	}
 
 	/**
-	 * Returns the initial longitude to be reported from the location service.
+	 * Get the default location to start the chair at until the GPS has a fix.
 	 * 
-	 * @return Longitude of the initial chair position.
+	 * @return Name of the location preset to use as default.
 	 */
-	public double getInitialLongitude() {
-		return initialLongitude;
-	}
-
-	/**
-	 * Returns the initial altitude to be reported from the location service.
-	 * 
-	 * @return Altitude of the initial chair position.
-	 */
-	public double getInitialAltitude() {
-		return initialAltitude;
+	public String getDefaultLocation() {
+		return defaultLocation;
 	}
 
 	// ----------------------------------------------------------------------------------------

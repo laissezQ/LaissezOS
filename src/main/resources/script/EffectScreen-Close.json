@@ -1,0 +1,22 @@
+{
+	// 
+	// Script for playing when somone exits the effects screen.
+	//
+	"name": "User has exited the effects screen.",
+	//
+	"commands": [
+		{
+			"playSoundEffect": {
+				"effectIds": [
+					"MOVIE_ESPRESSO",
+					"TV_COMPLETELY_DIFFERENT"
+				]
+			}
+		},
+		{
+			"showScene": {
+				"sceneId": "CP_MAIN_SCREEN"
+			}
+		}
+	]
+}

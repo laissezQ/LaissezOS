@@ -23,23 +23,23 @@ package com.wisneskey.los.service.relay;
 public enum RelayId {
 
 	// Driver board A relays:
-	BAR_LOWER(0, "Lower armrest bar.."),
-	BAR_RAISE(1, "Raise armest bar."),
-	RELAY_3(2, "Third relay."),
-	RELAY_4(3, "Fourth relay."),
-	BAR_PUMP(4, "Turn on bar water pump."),
-	BAR_LIGHT(6, "Turn on bar lighting."),
-	FLUX_CAPACITOR(7, "Turn on Flux Capacitor."),
+	BAR_LOWER(0, "Lower armrest bar", false),
+	BAR_RAISE(1, "Raise armest bar", false),
+	//RELAY_3(2, "Third relay.", true),
+	//RELAY_4(3, "Fourth relay.", true),
+	BAR_PUMP(4, "Activate Water Tap", false),
+	BAR_LIGHT(6, "Bar Lighting", true),
+	FLUX_CAPACITOR(7, "Flux Capacitor", true),
 
 	// Driver board B relays:
-	AMPLIFIER(8, "Audio amplifier on."),
-	RELAY_9(9, "Tenth relay."),
-	RELAY_10(10, "Eleventh relay."),
-	RELAY_11(11, "Twelf relay."),
-	RELAY_12(12, "Thirteenth relay."),
-	RELAY_13(13, "Fourteenth relay."),
-	LIGHTING_A(14, "LED Lighting for A side."),
-	LIGHTING_B(15, "LED Lighting for B side.");
+	AMPLIFIER(8, "Audio amplifier ", true),
+	//RELAY_9(9, "Tenth relay.", true),
+	//RELAY_10(10, "Eleventh relay.", true),
+	//RELAY_11(11, "Twelfth relay.", true),
+	//RELAY_12(12, "Thirteenth relay.", true),
+	//RELAY_13(13, "Fourteenth relay.", true),
+	SIDE_LIGHTING(14, "Side Panel Lighting.", true),
+	UNDER_LIGHTING(15, "Under Chair Lighting.", true);
 
 	// ----------------------------------------------------------------------------------------
 	// Variables.
@@ -47,14 +47,16 @@ public enum RelayId {
 
 	private int index;
 	private String description;
+	private boolean togglable;
 
 	// ----------------------------------------------------------------------------------------
 	// Constructors.
 	// ----------------------------------------------------------------------------------------
 
-	private RelayId(int index, String description) {
+	private RelayId(int index, String description, boolean togglable) {
 		this.index = index;
 		this.description = description;
+		this.togglable = togglable;
 	}
 
 	// ----------------------------------------------------------------------------------------
@@ -67,5 +69,9 @@ public enum RelayId {
 
 	public String getDescription() {
 		return description;
+	}
+	
+	public boolean isTogglable() {
+		return togglable;
 	}
 }
