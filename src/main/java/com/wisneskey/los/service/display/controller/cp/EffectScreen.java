@@ -13,12 +13,16 @@ import com.wisneskey.los.service.script.ScriptId;
 import com.wisneskey.los.service.script.ScriptService;
 import com.wisneskey.los.state.RelayState;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 /**
@@ -54,6 +58,16 @@ public class EffectScreen extends AbstractController {
 	private static final Font EFFECTS_BUTTON_FONT = new Font("System Bold", 14.0);
 
 	/**
+	 * Color to use for button labels for enabled effects.
+	 */
+	private static final Color TEXT_ENABLED = Color.LIGHTGREEN;
+
+	/**
+	 * Color to use for button labels for disabled effects.
+	 */
+	private static final Color TEXT_DISABLED = Color.WHITE;
+	
+	/**
 	 * Laissez Boy logo.
 	 */
 	@FXML
@@ -66,15 +80,21 @@ public class EffectScreen extends AbstractController {
 	private Button resumeButton;
 
 	/**
-	 * Vertical box the effects will be in.
+	 * Vertical box the non-toggleable effects will be in.
 	 */
 	@FXML
 	private VBox effectsBox;
 
 	/**
-	 * Map of togglable relay ids to their checkboxes.
+	 * Vertical box the toggleable effects will be in.
 	 */
-	private Map<RelayId, CheckBox> checkboxMap = new EnumMap<>(RelayId.class);
+	@FXML
+	private VBox checkedEffectsBox;
+
+	/**
+	 * Map of togglable relay ids to their buttons.
+	 */
+	private Map<RelayId, Button> toggleableMap = new EnumMap<>(RelayId.class);
 
 	// ----------------------------------------------------------------------------------------
 	// Public methods.
@@ -90,12 +110,18 @@ public class EffectScreen extends AbstractController {
 
 			if (relayId.isTogglable()) {
 
-				CheckBox effectCheckBox = new CheckBox(relayId.getDescription());
-				effectCheckBox.setSelected(isEnergized(relayId));
-				effectCheckBox.setOnAction(e -> toggleEffect(relayId, effectCheckBox));
+				Button effectButton = new Button(relayId.getDescription());
+				effectButton.setFont(EFFECTS_BUTTON_FONT);
+				effectButton.setEffect(new DropShadow());
+				effectButton.setMinWidth(EFFECTS_BUTTON_WIDTH);
+				effectButton.setPadding(new Insets(10, 0, 10, 0));
+				effectButton.setOnAction(e -> toggleEffect(relayId, effectButton));
 
-				effectsBox.getChildren().add(effectCheckBox);
-				checkboxMap.put(relayId, effectCheckBox);
+				boolean energized = isEnergized(relayId);
+				effectButton.setTextFill( energized ? TEXT_ENABLED : TEXT_DISABLED);
+
+				checkedEffectsBox.getChildren().add(effectButton);
+				toggleableMap.put(relayId, effectButton);
 
 			} else {
 
@@ -103,14 +129,18 @@ public class EffectScreen extends AbstractController {
 				effectButton.setFont(EFFECTS_BUTTON_FONT);
 				effectButton.setEffect(new DropShadow());
 				effectButton.setMinWidth(EFFECTS_BUTTON_WIDTH);
+				effectButton.setPadding(new Insets(10, 0, 10, 0));
+				effectButton.setTextFill(Color.WHITE);
+				
 				RelayWhilePressedListener.add(effectButton, relayId, null);
 
 				effectsBox.getChildren().add(effectButton);
 			}
 		}
+
+		logo.setOnMouseClicked(new LogoClickHandler());
 	}
 
-	
 	/**
 	 * Method invoked by the resume operation button.
 	 */
@@ -123,9 +153,10 @@ public class EffectScreen extends AbstractController {
 	 */
 	public void refreshCheckboxes() {
 
-		for (Map.Entry<RelayId, CheckBox> entry : checkboxMap.entrySet()) {
+		for (Map.Entry<RelayId, Button> entry : toggleableMap.entrySet()) {
 
-			entry.getValue().setSelected(isEnergized(entry.getKey()));
+			boolean energized = isEnergized(entry.getKey());
+			entry.getValue().setTextFill( energized ? TEXT_ENABLED : TEXT_DISABLED);
 		}
 	}
 
@@ -148,7 +179,7 @@ public class EffectScreen extends AbstractController {
 
 	}
 
-	private void toggleEffect(RelayId relayId, CheckBox effectCheckBox) {
+	private void toggleEffect(RelayId relayId, Button effectButton) {
 
 		if (isEnergized(relayId)) {
 			((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOff(relayId);
@@ -158,4 +189,23 @@ public class EffectScreen extends AbstractController {
 
 		refreshCheckboxes();
 	}
+
+	// ----------------------------------------------------------------------------------------
+	// Inner classes.
+	// ----------------------------------------------------------------------------------------
+
+	/**
+	 * Mouse event handler that exits the secret system menu if the logo is
+	 * double-clicked.
+	 */
+	private class LogoClickHandler implements EventHandler<MouseEvent> {
+
+		public void handle(MouseEvent mouseEvent) {
+
+			if ((mouseEvent.getButton().equals(MouseButton.PRIMARY)) && (mouseEvent.getClickCount() == 2)) {
+				resumePressed();
+			}
+		}
+	}
+
 }

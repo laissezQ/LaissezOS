@@ -20,6 +20,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -144,6 +145,7 @@ public class SystemScreen extends AbstractController {
 			locationButton.setFont(LOCATION_BUTTON_FONT);
 			locationButton.setEffect(new DropShadow());
 			locationButton.setMinWidth(LOCATION_BUTTON_WIDTH);
+			locationButton.setPadding(new Insets(10, 0, 10, 0));
 			
 			locationButton.setOnAction(e ->jumpToLocation(entry.getKey(), entry.getValue()));
 

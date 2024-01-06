@@ -6,10 +6,14 @@ import com.wisneskey.los.service.display.controller.AbstractController;
 import com.wisneskey.los.service.script.ScriptId;
 import com.wisneskey.los.service.script.ScriptService;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
@@ -38,7 +42,7 @@ public class ScriptScreen extends AbstractController {
 	/**
 	 * Width to make the buttons for running scripts.
 	 */
-	private static final double SCRIPT_BUTTON_WIDTH = 364.0;
+	private static final double SCRIPT_BUTTON_WIDTH = 350.0;
 	
 	/**
 	 * Font to use for the buttons for running scripts.
@@ -79,11 +83,14 @@ public class ScriptScreen extends AbstractController {
 			scriptButton.setFont(SCRIPT_BUTTON_FONT);
 			scriptButton.setEffect(new DropShadow());
 			scriptButton.setMinWidth(SCRIPT_BUTTON_WIDTH);
+			scriptButton.setPadding(new Insets(10, 0, 10, 0));
 			
 			scriptButton.setOnAction(e ->runScript(scriptId));
 
 			scriptsBox.getChildren().add(scriptButton);
 		}
+		
+		logo.setOnMouseClicked(new LogoClickHandler());
 	}
 
 	/**
@@ -100,5 +107,23 @@ public class ScriptScreen extends AbstractController {
 	public void runScript(ScriptId scriptId) {
 
 		((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(scriptId);
+	}
+	
+	// ----------------------------------------------------------------------------------------
+	// Inner classes.
+	// ----------------------------------------------------------------------------------------
+
+	/**
+	 * Mouse event handler that exits the secret system menu if the logo is
+	 * double-clicked.
+	 */
+	private class LogoClickHandler implements EventHandler<MouseEvent> {
+
+		public void handle(MouseEvent mouseEvent) {
+
+			if ((mouseEvent.getButton().equals(MouseButton.PRIMARY)) && (mouseEvent.getClickCount() == 2)) {
+				resumePressed();
+			}
+		}
 	}
 }

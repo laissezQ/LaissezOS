@@ -38,17 +38,45 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
-      <ScrollPane hbarPolicy="NEVER" layoutX="16.0" layoutY="211.0" prefHeight="908.0" prefWidth="371.0">
+      <ScrollPane hbarPolicy="NEVER" layoutX="16.0" layoutY="250.0" prefHeight="304.0" prefWidth="371.0">
          <effect>
             <DropShadow />
          </effect>
          <content>
-            <VBox fx:id="effectsBox" spacing="3.0">
+            <VBox fx:id="effectsBox" spacing="16.0">
                <padding>
                   <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                </padding>
             </VBox>
          </content>
       </ScrollPane>
+      <ScrollPane hbarPolicy="NEVER" layoutX="16.0" layoutY="631.0" prefHeight="484.0" prefWidth="371.0">
+         <content>
+            <VBox fx:id="checkedEffectsBox" spacing="16.0">
+               <padding>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+               </padding>
+            </VBox>
+         </content>
+         <effect>
+            <DropShadow />
+         </effect>
+      </ScrollPane>
+      <Label fx:id="gpsStatusLabel1" layoutX="162.0" layoutY="212.0" text="Actions" textAlignment="CENTER">
+         <effect>
+            <DropShadow />
+         </effect>
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="gpsStatusLabel11" layoutX="107.0" layoutY="587.0" text="Toggleable Effects" textAlignment="CENTER">
+         <effect>
+            <DropShadow />
+         </effect>
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
 	</children>
 </Pane>

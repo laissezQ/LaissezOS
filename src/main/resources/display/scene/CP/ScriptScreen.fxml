@@ -43,7 +43,7 @@
             <DropShadow />
          </effect>
          <content>
-            <VBox fx:id="scriptsBox" spacing="3.0">
+            <VBox fx:id="scriptsBox" spacing="16.0">
                <padding>
                   <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                </padding>

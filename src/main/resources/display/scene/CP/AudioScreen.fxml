@@ -69,7 +69,7 @@
             <DropShadow />
          </effect>
          <content>
-            <VBox fx:id="soundEffectsBox" spacing="3.0">
+            <VBox fx:id="soundEffectsBox" spacing="16.0">
                <padding>
                   <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                </padding>

@@ -16,11 +16,15 @@ import com.wisneskey.los.service.script.ScriptId;
 import com.wisneskey.los.service.script.ScriptService;
 import com.wisneskey.los.state.AudioState;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
@@ -49,7 +53,7 @@ public class AudioScreen extends AbstractController {
 	/**
 	 * Width to make the buttons for playing audio clips.
 	 */
-	private static final double AUDIO_CLIP_BUTTON_WIDTH = 364.0;
+	private static final double AUDIO_CLIP_BUTTON_WIDTH = 350.0;
 	
 	/**
 	 * Font to use for the buttons for playing audio clips.
@@ -115,12 +119,15 @@ public class AudioScreen extends AbstractController {
 			clipButton.setFont(AUDIO_CLIP_BUTTON_FONT);
 			clipButton.setEffect(new DropShadow());
 			clipButton.setMinWidth(AUDIO_CLIP_BUTTON_WIDTH);
-			
+			clipButton.setPadding(new Insets(10, 0, 10, 0));
+
 			SoundEffectId effectId = effects.get(title);
 			clipButton.setOnAction(e -> playEffect(effectId));
 
 			soundEffectsBox.getChildren().add(clipButton);
 		}
+		
+		logo.setOnMouseClicked(new LogoClickHandler());
 	}
 
 	/**
@@ -138,4 +145,24 @@ public class AudioScreen extends AbstractController {
 
 		((AudioService) Kernel.kernel().getService(ServiceId.AUDIO)).playEffect(effectId, false);
 	}
+	
+	// ----------------------------------------------------------------------------------------
+	// Inner classes.
+	// ----------------------------------------------------------------------------------------
+
+	/**
+	 * Mouse event handler that exits the secret system menu if the logo is
+	 * double-clicked.
+	 */
+	private class LogoClickHandler implements EventHandler<MouseEvent> {
+
+		public void handle(MouseEvent mouseEvent) {
+
+			if ((mouseEvent.getButton().equals(MouseButton.PRIMARY)) && (mouseEvent.getClickCount() == 2)) {
+
+				resumePressed();
+			}
+		}
+	}
+
 }
