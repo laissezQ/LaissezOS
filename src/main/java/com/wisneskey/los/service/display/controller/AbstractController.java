@@ -1,8 +1,17 @@
 package com.wisneskey.los.service.display.controller;
 
 import com.wisneskey.los.kernel.Kernel;
+import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.remote.RemoteButtonId;
+import com.wisneskey.los.service.script.ScriptId;
+import com.wisneskey.los.service.script.ScriptService;
 import com.wisneskey.los.state.ChairState;
+
+import javafx.geometry.Insets;
+import javafx.scene.control.Button;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Effect;
+import javafx.scene.text.Font;
 
 /**
  * Abstract base classes for JavaFX controllers that provides utility methods
@@ -27,6 +36,26 @@ import com.wisneskey.los.state.ChairState;
  */
 public abstract class AbstractController implements SceneController {
 
+	/**
+	 * Effect to use for list buttons.
+	 */
+	protected static final Effect LIST_BUTTON_EFFECT = new DropShadow();
+
+	/**
+	 * Font to use for the buttons in scrollable lists.
+	 */
+	protected static final Font LIST_BUTTON_FONT = new Font("System Bold", 14.0);
+
+	/**
+	 * Width to make the buttons when they are used in scrollable lists.
+	 */
+	protected static final double LIST_BUTTON_WIDTH = 350.0;
+
+	/**
+	 * Padding insets to use for buttons in scrollable lists.
+	 */
+	protected static final Insets LIST_BUTTON_PADDING = new Insets(10, 0, 10, 0);
+
 	// ----------------------------------------------------------------------------------------
 	// SceneController methods.
 	// ----------------------------------------------------------------------------------------
@@ -47,6 +76,23 @@ public abstract class AbstractController implements SceneController {
 	// ----------------------------------------------------------------------------------------
 
 	/**
+	 * Creates a button to use in a scrollable list.
+	 * 
+	 * @param  title Title for the button.
+	 * @return       List button with the supplied title.
+	 */
+	protected Button createListButton(String title) {
+
+		Button listButton = new Button(title);
+		listButton.setFont(LIST_BUTTON_FONT);
+		listButton.setEffect(LIST_BUTTON_EFFECT);
+		listButton.setMinWidth(LIST_BUTTON_WIDTH);
+		listButton.setPadding(LIST_BUTTON_PADDING);
+
+		return listButton;
+	}
+
+	/**
 	 * Return the kernel.
 	 * 
 	 * @return Kernel for the chair's operating system.
@@ -62,5 +108,15 @@ public abstract class AbstractController implements SceneController {
 	 */
 	protected ChairState chairState() {
 		return Kernel.kernel().chairState();
+	}
+	
+	/**
+	 * Runs a specified script.
+	 * 
+	 * @param scriptId id of the script to run.
+	 */
+	protected void runScript(ScriptId scriptId) {
+
+		((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(scriptId);
 	}
 }

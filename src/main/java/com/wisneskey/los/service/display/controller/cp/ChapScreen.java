@@ -9,17 +9,14 @@ import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.audio.AudioService;
 import com.wisneskey.los.service.audio.SoundEffectId;
 import com.wisneskey.los.service.display.controller.AbstractController;
+import com.wisneskey.los.service.display.listener.mouse.DoubleClickListener;
 import com.wisneskey.los.service.remote.RemoteButtonId;
 import com.wisneskey.los.service.script.ScriptId;
-import com.wisneskey.los.service.script.ScriptService;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 
 /**
  * Controller for the control panel boot screen.
@@ -79,8 +76,7 @@ public class ChapScreen extends AbstractController {
 	@FXML
 	public void initialize() {
 
-		logo.setOnMouseClicked(new LogoClickHandler());
-
+		logo.setOnMouseClicked(new DoubleClickListener(e -> resumePressed()));
 		shuffleSoundButtons();
 	}
 
@@ -93,7 +89,6 @@ public class ChapScreen extends AbstractController {
 	private void soundButtonPressed(ActionEvent event) {
 		Button button = (Button) event.getSource();
 		SoundEffectId soundId = (SoundEffectId) button.getUserData();
-
 		((AudioService) Kernel.kernel().getService(ServiceId.AUDIO)).playEffect(soundId, false);
 	}
 
@@ -106,7 +101,7 @@ public class ChapScreen extends AbstractController {
 		
 		// Allow remote button A to leave chap mode.
 		if( buttonId == RemoteButtonId.REMOTE_BUTTON_A) {
-			((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.REMOTE_UNLOCK);
+			resumePressed();
 		}
 	}
 
@@ -114,6 +109,10 @@ public class ChapScreen extends AbstractController {
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
 
+	private void resumePressed() {
+		runScript(ScriptId.CHAP_SCREEN_CLOSE);
+	}
+	
 	private void shuffleSoundButtons() {
 
 		Set<SoundEffectId> chapSounds = SoundEffectId.chapModeEffects();
@@ -140,25 +139,6 @@ public class ChapScreen extends AbstractController {
 			button.setUserData(soundId);
 
 			chapSounds.remove(soundId);
-		}
-	}
-
-	// ----------------------------------------------------------------------------------------
-	// Inner classes.
-	// ----------------------------------------------------------------------------------------
-
-	/**
-	 * Mouse event handler that opens the secret system menu if the logo is
-	 * double-clicked.
-	 */
-	private static class LogoClickHandler implements EventHandler<MouseEvent> {
-
-		public void handle(MouseEvent mouseEvent) {
-
-			if ((mouseEvent.getButton().equals(MouseButton.PRIMARY)) && (mouseEvent.getClickCount() == 2)) {
-
-				((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.CHAP_SCREEN_CLOSE);
-			}
 		}
 	}
 }

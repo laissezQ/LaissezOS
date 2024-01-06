@@ -8,29 +8,23 @@ import com.wisneskey.los.service.display.DisplayId;
 import com.wisneskey.los.service.display.DisplayService;
 import com.wisneskey.los.service.display.controller.AbstractController;
 import com.wisneskey.los.service.display.listener.label.UpdateLabelListener;
+import com.wisneskey.los.service.display.listener.mouse.DoubleClickListener;
 import com.wisneskey.los.service.location.Location;
 import com.wisneskey.los.service.profile.ProfileService;
 import com.wisneskey.los.service.profile.model.Profile;
 import com.wisneskey.los.service.script.ScriptId;
-import com.wisneskey.los.service.script.ScriptService;
 import com.wisneskey.los.state.LocationState;
 import com.wisneskey.los.state.MapState;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 
 /**
  * Controller for the control panel boot screen.
@@ -53,16 +47,6 @@ import javafx.scene.text.Font;
  * @author paul.wisneskey@gmail.com
  */
 public class SystemScreen extends AbstractController {
-
-	/**
-	 * Width to make the buttons for running scripts.
-	 */
-	private static final double LOCATION_BUTTON_WIDTH = 364.0;
-	
-	/**
-	 * Font to use for the buttons for running scripts.
-	 */
-	private static final Font LOCATION_BUTTON_FONT = new Font("System Bold", 14.0);
 
 	/**
 	 * Laissez Boy logo.
@@ -111,7 +95,7 @@ public class SystemScreen extends AbstractController {
 	 */
 	@FXML
 	private VBox locationBox;
-	
+
 	// ----------------------------------------------------------------------------------------
 	// Public methods.
 	// ----------------------------------------------------------------------------------------
@@ -133,29 +117,22 @@ public class SystemScreen extends AbstractController {
 
 		// Add listeners for the GPS state.
 		locationState.hasGpsFix().addListener(new FixListener());
-		
+
 		locationState.satellitesInView().addListener(new UpdateLabelListener<>(satelliteInViewLabel));
 		locationState.satellitesInFix().addListener(new UpdateLabelListener<>(satelliteInFixLabel));
-		
+
 		// Build out the buttons for the preset locations.
 		Profile profile = ((ProfileService) kernel().getService(ServiceId.PROFILE)).getState().activeProfile().get();
-		for( Map.Entry<String, Location> entry : profile.getPresetLocations().entrySet()) {
-			
-			Button locationButton = new Button(entry.getKey());
-			locationButton.setFont(LOCATION_BUTTON_FONT);
-			locationButton.setEffect(new DropShadow());
-			locationButton.setMinWidth(LOCATION_BUTTON_WIDTH);
-			locationButton.setPadding(new Insets(10, 0, 10, 0));
-			
-			locationButton.setOnAction(e ->jumpToLocation(entry.getKey(), entry.getValue()));
+		for (Map.Entry<String, Location> entry : profile.getPresetLocations().entrySet()) {
 
+			Button locationButton = createListButton(entry.getKey());
+			locationButton.setOnAction(e -> jumpToLocation(entry.getKey(), entry.getValue()));
 			locationBox.getChildren().add(locationButton);
 		}
-		
-		logo.setOnMouseClicked(new LogoClickHandler());
+
+		logo.setOnMouseClicked(new DoubleClickListener(e -> resumePressed()));
 	}
 
-	
 	/**
 	 * Method invoked by the exit LaissezOS button.
 	 */
@@ -167,7 +144,7 @@ public class SystemScreen extends AbstractController {
 						"LaissezOS exit has been requested!", "Do you want to exit LaissezOS?");
 
 		if (confirmed) {
-			((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.SYSTEM_SHUTDOWN);
+			runScript(ScriptId.SYSTEM_SHUTDOWN);
 		}
 	}
 
@@ -175,7 +152,7 @@ public class SystemScreen extends AbstractController {
 	 * Method invoked by the resume operation button.
 	 */
 	public void resumePressed() {
-		((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.SYSTEM_SCREEN_CLOSE);
+		runScript(ScriptId.SYSTEM_SCREEN_CLOSE);
 	}
 
 	// ----------------------------------------------------------------------------------------
@@ -188,10 +165,10 @@ public class SystemScreen extends AbstractController {
 	 * @param location Location to jump to on the map.
 	 */
 	private void jumpToLocation(String name, Location location) {
-		
+
 		kernel().message("Setting map location: " + name + "\n");
 		MapState mapState = kernel().chairState().getServiceState(ServiceId.MAP);
-		
+
 		// Turn of tracking to GPS since we are jumping to a location.
 		mapState.getTracking().set(false);
 		mapState.getMapCenter().set(location);
@@ -220,21 +197,6 @@ public class SystemScreen extends AbstractController {
 		@Override
 		public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
 			updateFixStatus(newValue.booleanValue());
-		}
-	}
-	
-	/**
-	 * Mouse event handler that exits the secret system menu if the logo is
-	 * double-clicked.
-	 */
-	private class LogoClickHandler implements EventHandler<MouseEvent> {
-
-		public void handle(MouseEvent mouseEvent) {
-
-			if ((mouseEvent.getButton().equals(MouseButton.PRIMARY)) && (mouseEvent.getClickCount() == 2)) {
-
-				resumePressed();
-			}
 		}
 	}
 }

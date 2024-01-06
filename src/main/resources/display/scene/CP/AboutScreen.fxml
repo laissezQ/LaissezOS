@@ -171,7 +171,12 @@
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="64.0" prefWidth="180.0">
+                              <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="64.0" prefWidth="180.0" text="Upholstery">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="190.0" prefWidth="180.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -231,6 +236,11 @@
                                  </font>
                               </Label>
                               <Label layoutX="10.0" layoutY="82.0" prefWidth="160.0" text="Paul Wisneskey">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="190.0" prefWidth="160.0" text="Zia Upholstery">
                                  <font>
                                     <Font size="14.0" />
                                  </font>

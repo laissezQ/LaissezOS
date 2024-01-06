@@ -8,7 +8,6 @@ import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.display.controller.AbstractController;
 import com.wisneskey.los.service.remote.RemoteButtonId;
 import com.wisneskey.los.service.script.ScriptId;
-import com.wisneskey.los.service.script.ScriptService;
 import com.wisneskey.los.service.security.SecurityService;
 import com.wisneskey.los.state.ChairState.MasterState;
 
@@ -249,7 +248,7 @@ public class LockScreen extends AbstractController {
 
 		// Allow remote button A to unlock the chair.
 		if (buttonId == RemoteButtonId.REMOTE_BUTTON_A) {
-			((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.REMOTE_UNLOCK);
+			runScript(ScriptId.REMOTE_UNLOCK);
 		}
 	}
 
@@ -304,14 +303,14 @@ public class LockScreen extends AbstractController {
 			if (unlocked) {
 
 				// Run the unlock script
-				((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.SECURITY_UNLOCK);
+				runScript(ScriptId.SECURITY_UNLOCK);
 
 			} else {
 
 				// Failed to unlock so re-enable PIN code entry and run the unlock
 				// failed script.
 				setEntryPadState(true);
-				((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.SECURITY_UNLOCK_FAILED);
+				runScript(ScriptId.SECURITY_UNLOCK_FAILED);
 			}
 		}
 	}

@@ -1,22 +1,17 @@
 package com.wisneskey.los.service.display.controller.cp;
 
-import com.wisneskey.los.kernel.Kernel;
-import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.display.controller.AbstractController;
 import com.wisneskey.los.service.display.listener.message.MessagesToTextAreaListener;
+import com.wisneskey.los.service.display.listener.mouse.DoubleClickListener;
 import com.wisneskey.los.service.display.listener.relay.RelayWhilePressedListener;
 import com.wisneskey.los.service.relay.RelayId;
 import com.wisneskey.los.service.remote.RemoteButtonId;
 import com.wisneskey.los.service.script.ScriptId;
-import com.wisneskey.los.service.script.ScriptService;
 
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 
 /**
  * Controller for the control panel boot screen.
@@ -78,49 +73,49 @@ public class MainScreen extends AbstractController {
 		RelayWhilePressedListener.add(barDownButton, RelayId.BAR_LOWER, "Lowering bar...\n");
 		RelayWhilePressedListener.add(barUpButton, RelayId.BAR_RAISE, "Raising bar...\n");
 
-		logo.setOnMouseClicked(new LogoClickHandler());
+		logo.setOnMouseClicked(new DoubleClickListener(e -> runScript(ScriptId.SYSTEM_SCREEN_OPEN)));
 	}
 
 	/**
 	 * Method invoked by lock chair button.
 	 */
 	public void lockChair() {
-		((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.SECURITY_LOCK);
+		runScript(ScriptId.SECURITY_LOCK);
 	}
 
 	/**
 	 * Method invoked when the about button is pressed.
 	 */
 	public void aboutPressed() {
-		((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.ABOUT_SCREEN_OPEN);
+		runScript(ScriptId.ABOUT_SCREEN_OPEN);
 	}
 
 	/**
 	 * Method invoked when the audio button is pressed.
 	 */
 	public void audioPressed() {
-		((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.AUDIO_SCREEN_OPEN);
+		runScript(ScriptId.AUDIO_SCREEN_OPEN);
 	}
 
 	/**
 	 * Method invoked when the chap mode button is pressed.
 	 */
 	public void chapPressed() {
-		((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.CHAP_SCREEN_OPEN);
+		runScript(ScriptId.CHAP_SCREEN_OPEN);
 	}
 
 	/**
 	 * Method invoked when the effects button is pressed.
 	 */
 	public void effectPressed() {
-		((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.EFFECT_SCREEN_OPEN);
+		runScript(ScriptId.EFFECT_SCREEN_OPEN);
 	}
 
 	/**
 	 * Method invoked when the script button is pressed.
 	 */
 	public void scriptPressed() {
-		((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.SCRIPT_SCREEN_OPEN);
+		runScript(ScriptId.SCRIPT_SCREEN_OPEN);
 	}
 
 	// ----------------------------------------------------------------------------------------
@@ -132,26 +127,7 @@ public class MainScreen extends AbstractController {
 
 		// Allow remote button A to lock the chair.
 		if (buttonId == RemoteButtonId.REMOTE_BUTTON_A) {
-			((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.REMOTE_LOCK);
-		}
-	}
-
-	// ----------------------------------------------------------------------------------------
-	// Inner classes.
-	// ----------------------------------------------------------------------------------------
-
-	/**
-	 * Mouse event handler that opens the secret system menu if the logo is
-	 * double-clicked.
-	 */
-	private static class LogoClickHandler implements EventHandler<MouseEvent> {
-
-		public void handle(MouseEvent mouseEvent) {
-
-			if ((mouseEvent.getButton().equals(MouseButton.PRIMARY)) && (mouseEvent.getClickCount() == 2)) {
-
-				((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.SYSTEM_SCREEN_OPEN);
-			}
+			runScript(ScriptId.REMOTE_LOCK);
 		}
 	}
 }

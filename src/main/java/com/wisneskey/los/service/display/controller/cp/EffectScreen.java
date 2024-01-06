@@ -6,24 +6,18 @@ import java.util.Map;
 import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.display.controller.AbstractController;
+import com.wisneskey.los.service.display.listener.mouse.DoubleClickListener;
 import com.wisneskey.los.service.display.listener.relay.RelayWhilePressedListener;
 import com.wisneskey.los.service.relay.RelayId;
 import com.wisneskey.los.service.relay.RelayService;
 import com.wisneskey.los.service.script.ScriptId;
-import com.wisneskey.los.service.script.ScriptService;
 import com.wisneskey.los.state.RelayState;
 
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
 import javafx.scene.control.Button;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 
 /**
  * Controller for the effects screen.
@@ -46,16 +40,6 @@ import javafx.scene.text.Font;
  * @author paul.wisneskey@gmail.com
  */
 public class EffectScreen extends AbstractController {
-
-	/**
-	 * Width to make the buttons for toggling effects.
-	 */
-	private static final double EFFECTS_BUTTON_WIDTH = 364.0;
-
-	/**
-	 * Font to use for the buttons for toggling effects.
-	 */
-	private static final Font EFFECTS_BUTTON_FONT = new Font("System Bold", 14.0);
 
 	/**
 	 * Color to use for button labels for enabled effects.
@@ -110,42 +94,29 @@ public class EffectScreen extends AbstractController {
 
 			if (relayId.isTogglable()) {
 
-				Button effectButton = new Button(relayId.getDescription());
-				effectButton.setFont(EFFECTS_BUTTON_FONT);
-				effectButton.setEffect(new DropShadow());
-				effectButton.setMinWidth(EFFECTS_BUTTON_WIDTH);
-				effectButton.setPadding(new Insets(10, 0, 10, 0));
+				Button effectButton = createListButton(relayId.getDescription());
 				effectButton.setOnAction(e -> toggleEffect(relayId, effectButton));
-
-				boolean energized = isEnergized(relayId);
-				effectButton.setTextFill( energized ? TEXT_ENABLED : TEXT_DISABLED);
-
+				effectButton.setTextFill( isEnergized(relayId) ? TEXT_ENABLED : TEXT_DISABLED);
 				checkedEffectsBox.getChildren().add(effectButton);
 				toggleableMap.put(relayId, effectButton);
 
 			} else {
 
-				Button effectButton = new Button(relayId.getDescription());
-				effectButton.setFont(EFFECTS_BUTTON_FONT);
-				effectButton.setEffect(new DropShadow());
-				effectButton.setMinWidth(EFFECTS_BUTTON_WIDTH);
-				effectButton.setPadding(new Insets(10, 0, 10, 0));
+				Button effectButton = createListButton(relayId.getDescription());
 				effectButton.setTextFill(Color.WHITE);
-				
 				RelayWhilePressedListener.add(effectButton, relayId, null);
-
 				effectsBox.getChildren().add(effectButton);
 			}
 		}
 
-		logo.setOnMouseClicked(new LogoClickHandler());
+		logo.setOnMouseClicked(new DoubleClickListener(e -> resumePressed()));
 	}
 
 	/**
 	 * Method invoked by the resume operation button.
 	 */
 	public void resumePressed() {
-		((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.AUDIO_SCREEN_CLOSE);
+		runScript(ScriptId.EFFECT_SCREEN_CLOSE);
 	}
 
 	/**
@@ -176,7 +147,6 @@ public class EffectScreen extends AbstractController {
 	private boolean isEnergized(RelayId relayId) {
 		RelayState state = kernel().chairState().getServiceState(ServiceId.RELAY);
 		return state.getState(relayId).getValue();
-
 	}
 
 	private void toggleEffect(RelayId relayId, Button effectButton) {
@@ -189,23 +159,4 @@ public class EffectScreen extends AbstractController {
 
 		refreshCheckboxes();
 	}
-
-	// ----------------------------------------------------------------------------------------
-	// Inner classes.
-	// ----------------------------------------------------------------------------------------
-
-	/**
-	 * Mouse event handler that exits the secret system menu if the logo is
-	 * double-clicked.
-	 */
-	private class LogoClickHandler implements EventHandler<MouseEvent> {
-
-		public void handle(MouseEvent mouseEvent) {
-
-			if ((mouseEvent.getButton().equals(MouseButton.PRIMARY)) && (mouseEvent.getClickCount() == 2)) {
-				resumePressed();
-			}
-		}
-	}
-
 }

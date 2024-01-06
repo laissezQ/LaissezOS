@@ -1,10 +1,9 @@
 package com.wisneskey.los.service.display.controller.cp;
 
-import com.wisneskey.los.kernel.Kernel;
-import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.display.controller.AbstractController;
+import com.wisneskey.los.service.display.listener.mouse.DoubleClickListener;
+import com.wisneskey.los.service.remote.RemoteButtonId;
 import com.wisneskey.los.service.script.ScriptId;
-import com.wisneskey.los.service.script.ScriptService;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -54,13 +53,26 @@ public class AboutScreen extends AbstractController {
 	 */
 	@FXML
 	public void initialize() {
-		// Nothing to do here at the moment.
+		logo.setOnMouseClicked(new DoubleClickListener(e -> resumePressed()));
 	}
 
 	/**
 	 * Method invoked by the resume operation button.
 	 */
 	public void resumePressed() {
-		((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.AUDIO_SCREEN_CLOSE);
+		runScript(ScriptId.ABOUT_SCREEN_CLOSE);
+	}
+	
+	// ----------------------------------------------------------------------------------------
+	// SceneController methods.
+	// ----------------------------------------------------------------------------------------
+
+	@Override
+	public void remoteButtonPressed(RemoteButtonId buttonId) {
+		
+		// Allow remote button A to leave the about screen.
+		if( buttonId == RemoteButtonId.REMOTE_BUTTON_A) {
+			resumePressed();
+		}
 	}
 }

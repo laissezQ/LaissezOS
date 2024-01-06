@@ -356,10 +356,10 @@ public class MainScreen extends AbstractController {
 
 		@Override
 		public void mouseDragged(MouseEvent evt) {
+
 			// User has dragged the map so disable the tracking check box.
 			MapState mapState = kernel().chairState().getServiceState(ServiceId.MAP);
 			mapState.getTracking().set(false);
-			//trackingCheckBox.selectedProperty().set(false);
 
 			// Let the pan mouse listener handle the actual drag.
 			super.mouseDragged(evt);

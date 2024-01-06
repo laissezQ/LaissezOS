@@ -13,20 +13,16 @@ import com.wisneskey.los.service.audio.AudioService;
 import com.wisneskey.los.service.audio.SoundEffectId;
 import com.wisneskey.los.service.display.controller.AbstractController;
 import com.wisneskey.los.service.script.ScriptId;
-import com.wisneskey.los.service.script.ScriptService;
 import com.wisneskey.los.state.AudioState;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 
 /**
  * Controller for the audio effects screen.
@@ -49,16 +45,6 @@ import javafx.scene.text.Font;
  * @author paul.wisneskey@gmail.com
  */
 public class AudioScreen extends AbstractController {
-
-	/**
-	 * Width to make the buttons for playing audio clips.
-	 */
-	private static final double AUDIO_CLIP_BUTTON_WIDTH = 350.0;
-	
-	/**
-	 * Font to use for the buttons for playing audio clips.
-	 */
-	private static final Font AUDIO_CLIP_BUTTON_FONT = new Font("System Bold", 14.0);
 
 	/**
 	 * Laissez Boy logo.
@@ -115,11 +101,7 @@ public class AudioScreen extends AbstractController {
 		
 		for (String title : titles) {
 
-			Button clipButton = new Button(title);
-			clipButton.setFont(AUDIO_CLIP_BUTTON_FONT);
-			clipButton.setEffect(new DropShadow());
-			clipButton.setMinWidth(AUDIO_CLIP_BUTTON_WIDTH);
-			clipButton.setPadding(new Insets(10, 0, 10, 0));
+			Button clipButton = createListButton(title);
 
 			SoundEffectId effectId = effects.get(title);
 			clipButton.setOnAction(e -> playEffect(effectId));
@@ -134,7 +116,7 @@ public class AudioScreen extends AbstractController {
 	 * Method invoked by the resume operation button.
 	 */
 	public void resumePressed() {
-		((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.AUDIO_SCREEN_CLOSE);
+		runScript(ScriptId.AUDIO_SCREEN_CLOSE);
 	}
 
 	// ----------------------------------------------------------------------------------------
@@ -142,7 +124,6 @@ public class AudioScreen extends AbstractController {
 	// ----------------------------------------------------------------------------------------
 
 	public void playEffect(SoundEffectId effectId) {
-
 		((AudioService) Kernel.kernel().getService(ServiceId.AUDIO)).playEffect(effectId, false);
 	}
 	
@@ -159,10 +140,8 @@ public class AudioScreen extends AbstractController {
 		public void handle(MouseEvent mouseEvent) {
 
 			if ((mouseEvent.getButton().equals(MouseButton.PRIMARY)) && (mouseEvent.getClickCount() == 2)) {
-
 				resumePressed();
 			}
 		}
 	}
-
 }
