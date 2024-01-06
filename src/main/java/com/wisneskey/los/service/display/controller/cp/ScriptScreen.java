@@ -38,12 +38,6 @@ public class ScriptScreen extends AbstractController {
 	private ImageView logo;
 
 	/**
-	 * Button to return to main screen.
-	 */
-	@FXML
-	private Button resumeButton;
-
-	/**
 	 * Vertical box the scripts will be in.
 	 */
 	@FXML

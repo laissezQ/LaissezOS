@@ -50,18 +50,12 @@ public class EffectScreen extends AbstractController {
 	 * Color to use for button labels for disabled effects.
 	 */
 	private static final Color TEXT_DISABLED = Color.WHITE;
-	
+
 	/**
 	 * Laissez Boy logo.
 	 */
 	@FXML
 	private ImageView logo;
-
-	/**
-	 * Button to return to main screen.
-	 */
-	@FXML
-	private Button resumeButton;
 
 	/**
 	 * Vertical box the non-toggleable effects will be in.
@@ -95,8 +89,8 @@ public class EffectScreen extends AbstractController {
 			if (relayId.isTogglable()) {
 
 				Button effectButton = createListButton(relayId.getDescription());
-				effectButton.setOnAction(e -> toggleEffect(relayId, effectButton));
-				effectButton.setTextFill( isEnergized(relayId) ? TEXT_ENABLED : TEXT_DISABLED);
+				effectButton.setOnAction(e -> toggleEffect(relayId));
+				effectButton.setTextFill(isEnergized(relayId) ? TEXT_ENABLED : TEXT_DISABLED);
 				checkedEffectsBox.getChildren().add(effectButton);
 				toggleableMap.put(relayId, effectButton);
 
@@ -119,18 +113,6 @@ public class EffectScreen extends AbstractController {
 		runScript(ScriptId.EFFECT_SCREEN_CLOSE);
 	}
 
-	/**
-	 * Refresh the state of the checkboxes.
-	 */
-	public void refreshCheckboxes() {
-
-		for (Map.Entry<RelayId, Button> entry : toggleableMap.entrySet()) {
-
-			boolean energized = isEnergized(entry.getKey());
-			entry.getValue().setTextFill( energized ? TEXT_ENABLED : TEXT_DISABLED);
-		}
-	}
-
 	// ----------------------------------------------------------------------------------------
 	// SceneController methods.
 	// ----------------------------------------------------------------------------------------
@@ -144,12 +126,35 @@ public class EffectScreen extends AbstractController {
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
 
+	/**
+	 * Refresh the state of the checkboxes.
+	 */
+	private void refreshCheckboxes() {
+
+		for (Map.Entry<RelayId, Button> entry : toggleableMap.entrySet()) {
+
+			boolean energized = isEnergized(entry.getKey());
+			entry.getValue().setTextFill(energized ? TEXT_ENABLED : TEXT_DISABLED);
+		}
+	}
+
+	/**
+	 * Returns true if the given relay is currently energized.
+	 * 
+	 * @param  relayId Id of the relay to check the state of.
+	 * @return         True iff relay is energized.
+	 */
 	private boolean isEnergized(RelayId relayId) {
 		RelayState state = kernel().chairState().getServiceState(ServiceId.RELAY);
 		return state.getState(relayId).getValue();
 	}
 
-	private void toggleEffect(RelayId relayId, Button effectButton) {
+	/**
+	 * Method invoked by relay button to toggle a relay on or off.
+	 * 
+	 * @param relayId Id of the relay to toggle.
+	 */
+	private void toggleEffect(RelayId relayId) {
 
 		if (isEnergized(relayId)) {
 			((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOff(relayId);

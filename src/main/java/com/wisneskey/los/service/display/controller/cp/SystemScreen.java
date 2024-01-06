@@ -61,12 +61,6 @@ public class SystemScreen extends AbstractController {
 	private Button exitButton;
 
 	/**
-	 * Button to return to normal chair operation.
-	 */
-	@FXML
-	private Button resumeButton;
-
-	/**
 	 * Label to use to show the status of the GPS fix.
 	 */
 	@FXML

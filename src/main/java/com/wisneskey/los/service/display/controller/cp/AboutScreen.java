@@ -6,7 +6,6 @@ import com.wisneskey.los.service.remote.RemoteButtonId;
 import com.wisneskey.los.service.script.ScriptId;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 
 /**
@@ -36,13 +35,6 @@ public class AboutScreen extends AbstractController {
 	 */
 	@FXML
 	private ImageView logo;
-
-	/**
-	 * Button to return to main screen.
-	 */
-	@FXML
-	private Button resumeButton;
-
 
 	// ----------------------------------------------------------------------------------------
 	// Public methods.

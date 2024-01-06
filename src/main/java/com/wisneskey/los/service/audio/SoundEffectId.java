@@ -199,18 +199,38 @@ public enum SoundEffectId {
 	// Public methods.
 	// ----------------------------------------------------------------------------------------
 
+	/**
+	 * Returns the short name for the sound effect.
+	 * 
+	 * @return Short name of sound effect.
+	 */
 	public String getShortName() {
 		return shortName;
 	}
 
+	/**
+	 * Return a boolean indicating if the sound effect can be used in chap mode.
+	 * 
+	 * @return True iff sound effect can be used in chap mode.
+	 */
 	public boolean getAllowInChapMode() {
 		return allowInChapMode;
 	}
 
+	/**
+	 * Resource path to the WAV file for the sound effect.
+	 * 
+	 * @return Path to the WAV file for effect.
+	 */
 	public String getResourcePath() {
 		return resourcePath;
 	}
 
+	/**
+	 * Return the description for the sound effect.
+	 * 
+	 * @return Sound effect description.
+	 */
 	public String getDescription() {
 		return description;
 	}

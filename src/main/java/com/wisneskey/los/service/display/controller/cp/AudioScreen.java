@@ -12,16 +12,14 @@ import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.audio.AudioService;
 import com.wisneskey.los.service.audio.SoundEffectId;
 import com.wisneskey.los.service.display.controller.AbstractController;
+import com.wisneskey.los.service.display.listener.mouse.DoubleClickListener;
 import com.wisneskey.los.service.script.ScriptId;
 import com.wisneskey.los.state.AudioState;
 
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
 /**
@@ -51,12 +49,6 @@ public class AudioScreen extends AbstractController {
 	 */
 	@FXML
 	private ImageView logo;
-
-	/**
-	 * Button to return to main screen.
-	 */
-	@FXML
-	private Button resumeButton;
 
 	/**
 	 * Slider for controlling the master volume.
@@ -109,7 +101,7 @@ public class AudioScreen extends AbstractController {
 			soundEffectsBox.getChildren().add(clipButton);
 		}
 		
-		logo.setOnMouseClicked(new LogoClickHandler());
+		logo.setOnMouseClicked(new DoubleClickListener(e -> resumePressed()));
 	}
 
 	/**
@@ -125,23 +117,5 @@ public class AudioScreen extends AbstractController {
 
 	public void playEffect(SoundEffectId effectId) {
 		((AudioService) Kernel.kernel().getService(ServiceId.AUDIO)).playEffect(effectId, false);
-	}
-	
-	// ----------------------------------------------------------------------------------------
-	// Inner classes.
-	// ----------------------------------------------------------------------------------------
-
-	/**
-	 * Mouse event handler that exits the secret system menu if the logo is
-	 * double-clicked.
-	 */
-	private class LogoClickHandler implements EventHandler<MouseEvent> {
-
-		public void handle(MouseEvent mouseEvent) {
-
-			if ((mouseEvent.getButton().equals(MouseButton.PRIMARY)) && (mouseEvent.getClickCount() == 2)) {
-				resumePressed();
-			}
-		}
-	}
+	}	
 }

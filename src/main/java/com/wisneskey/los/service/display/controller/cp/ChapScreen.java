@@ -64,6 +64,10 @@ public class ChapScreen extends AbstractController {
 	@FXML
 	private Button soundSixButton;
 
+	/**
+	 * Random number generator for selecting sound clips to associate with
+	 * buttons.
+	 */
 	private Random random = new Random();
 
 	// ----------------------------------------------------------------------------------------
@@ -75,7 +79,6 @@ public class ChapScreen extends AbstractController {
 	 */
 	@FXML
 	public void initialize() {
-
 		logo.setOnMouseClicked(new DoubleClickListener(e -> resumePressed()));
 		shuffleSoundButtons();
 	}
@@ -98,9 +101,9 @@ public class ChapScreen extends AbstractController {
 
 	@Override
 	public void remoteButtonPressed(RemoteButtonId buttonId) {
-		
+
 		// Allow remote button A to leave chap mode.
-		if( buttonId == RemoteButtonId.REMOTE_BUTTON_A) {
+		if (buttonId == RemoteButtonId.REMOTE_BUTTON_A) {
 			resumePressed();
 		}
 	}
@@ -109,22 +112,36 @@ public class ChapScreen extends AbstractController {
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
 
+	/**
+	 * Method invoke to close the chap screen via the resume button, remote
+	 * button, or a logo doubleclick.
+	 */
 	private void resumePressed() {
 		runScript(ScriptId.CHAP_SCREEN_CLOSE);
 	}
-	
+
+	/**
+	 * Assigns random chap mode sound effects to the sound buttons.
+	 */
 	private void shuffleSoundButtons() {
 
+		// Start with the set of all chap mode sound effects. As they are selected
+		// for a button, they will be remove from the set so that no duplicates are
+		// assigned.
 		Set<SoundEffectId> chapSounds = SoundEffectId.chapModeEffects();
+
 		assignSoundToButton(soundOneButton, chapSounds);
 		assignSoundToButton(soundTwoButton, chapSounds);
 		assignSoundToButton(soundThreeButton, chapSounds);
 		assignSoundToButton(soundFourButton, chapSounds);
 		assignSoundToButton(soundFiveButton, chapSounds);
 		assignSoundToButton(soundSixButton, chapSounds);
-
 	}
 
+	/**
+	 * Selects a sound randomly from a set of sound effects and assigns it a
+	 * button that will play it if pressed.
+	 */
 	private void assignSoundToButton(Button button, Set<SoundEffectId> chapSounds) {
 
 		if (chapSounds.isEmpty()) {

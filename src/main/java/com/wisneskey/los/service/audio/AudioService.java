@@ -68,12 +68,12 @@ public class AudioService extends AbstractService<AudioState> {
 	/**
 	 * Minimum allowed gain adjustment (e.g. none).
 	 */
-	private float MIN_GAIN_ADJUSTMENT = 0.0f;
+	private static final float MIN_GAIN_ADJUSTMENT = 0.0f;
 
 	/**
 	 * Maximum allowed gain adjustment (e.g. silent).
 	 */
-	private float MAX_GAIN_ADJUSTMENT = -80.0f;
+	private static final float MAX_GAIN_ADJUSTMENT = -80.0f;
 
 	/**
 	 * Base path for where audio clips are saved in the resources.

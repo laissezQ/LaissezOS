@@ -43,7 +43,7 @@
             <DropShadow />
          </effect>
       </Line>
-      <Button fx:id="resumeButton" layoutX="54.0" layoutY="1166.0" mnemonicParsing="false" onAction="#resumePressed" prefHeight="80.0" prefWidth="294.0" text="Resume Operation">
+      <Button layoutX="54.0" layoutY="1166.0" mnemonicParsing="false" onAction="#resumePressed" prefHeight="80.0" prefWidth="294.0" text="Resume Operation">
          <effect>
             <DropShadow />
          </effect>
