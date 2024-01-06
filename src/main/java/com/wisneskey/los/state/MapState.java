@@ -1,6 +1,9 @@
 package com.wisneskey.los.state;
 
+import com.wisneskey.los.service.location.Location;
+
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
 
 /**
  * State object with the state of the map service.
@@ -25,10 +28,26 @@ import javafx.beans.property.BooleanProperty;
 public interface MapState extends State {
 
 	/**
-	 * Property that controls if the map map service is allowed to download map tiles
-	 * from Open Street Maps online.  Can be set by anyone.
+	 * Property that controls if the map map service is allowed to download map
+	 * tiles from Open Street Maps online. Can be set by anyone.
 	 * 
 	 * @return True if map service can fetch tiles online; false otherwise.
 	 */
 	BooleanProperty getOnline();
+
+	/**
+	 * Property that indicates if the map should be tracking the chair location.
+	 * 
+	 * @return True if the map is tracking the actual reported GPS location for
+	 *         the chair.
+	 */
+	BooleanProperty getTracking();
+
+	/**
+	 * Property containing the coordinate of the current center of the map being
+	 * displayed.
+	 * 
+	 * @return Location of the map's display center.
+	 */
+	ObjectProperty<Location> getMapCenter();
 }

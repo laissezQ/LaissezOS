@@ -18,11 +18,14 @@ import org.slf4j.LoggerFactory;
 import com.wisneskey.los.error.LaissezException;
 import com.wisneskey.los.service.AbstractService;
 import com.wisneskey.los.service.ServiceId;
+import com.wisneskey.los.service.location.Location;
 import com.wisneskey.los.service.profile.model.Profile;
 import com.wisneskey.los.state.MapState;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.util.Pair;
 
 /**
@@ -312,7 +315,12 @@ public class MapService extends AbstractService<MapState> {
 	 */
 	private MapState initialize(Profile profile) {
 
-		mapState = new InternalMapState(profile.getMapOnline());
+		Location starting = profile.getPresetLocations().get(profile.getDefaultLocation());
+		if( starting == null ) {
+			throw new LaissezException("Starting location not found.");
+		}
+
+		mapState = new InternalMapState(profile.getMapOnline(), true, starting);
 		return mapState;
 	}
 
@@ -346,13 +354,19 @@ public class MapService extends AbstractService<MapState> {
 	private static class InternalMapState implements MapState {
 
 		private BooleanProperty online;
-
+		
+		private BooleanProperty tracking;
+		
+		private ObjectProperty<Location> center;
+		
 		// ----------------------------------------------------------------------------------------
 		// Constructors
 		// ----------------------------------------------------------------------------------------
 
-		private InternalMapState(boolean online) {
+		private InternalMapState(boolean online, boolean tracking, Location center) {
 			this.online = new SimpleBooleanProperty(online);
+			this.tracking = new SimpleBooleanProperty(tracking);
+			this.center = new SimpleObjectProperty<Location>(center);
 		}
 
 		// ----------------------------------------------------------------------------------------
@@ -362,6 +376,16 @@ public class MapService extends AbstractService<MapState> {
 		@Override
 		public BooleanProperty getOnline() {
 			return online;
+		}
+		
+		@Override
+		public BooleanProperty getTracking() {
+			return tracking;
+		}
+		
+		@Override
+		public ObjectProperty<Location> getMapCenter() {
+			return center;
 		}
 	}
 }

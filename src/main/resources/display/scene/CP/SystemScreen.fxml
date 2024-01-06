@@ -104,5 +104,21 @@
             <DropShadow />
          </effect>
       </Label>
+      <ScrollPane layoutX="18.0" layoutY="370.0" prefHeight="511.0" prefWidth="371.0">
+         <content>
+            <VBox fx:id="locationBox" prefHeight="31.0" prefWidth="19.0" />
+         </content>
+         <effect>
+            <DropShadow />
+         </effect>
+      </ScrollPane>
+      <Label fx:id="gpsStatusLabel1" layoutX="119.0" layoutY="330.0" text="Preset Locations" textAlignment="CENTER">
+         <effect>
+            <DropShadow />
+         </effect>
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
 	</children>
 </Pane>

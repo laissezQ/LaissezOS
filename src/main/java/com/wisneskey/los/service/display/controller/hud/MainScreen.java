@@ -5,6 +5,8 @@ import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Collections;
 
 import javax.swing.SwingUtilities;
@@ -25,6 +27,7 @@ import com.wisneskey.los.service.display.listener.message.MessagesToLabelListene
 import com.wisneskey.los.service.display.map.MapServiceTileFactory;
 import com.wisneskey.los.service.location.Location;
 import com.wisneskey.los.state.LocationState;
+import com.wisneskey.los.state.MapState;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -133,6 +136,8 @@ public class MainScreen extends AbstractController {
 	@FXML
 	public void initialize() {
 
+		MapState mapState = kernel().chairState().getServiceState(ServiceId.MAP);
+
 		// Get the location state for the initial location and for installing
 		// listeners.
 		LocationState locationState = Kernel.kernel().chairState().getServiceState(ServiceId.LOCATION);
@@ -177,6 +182,9 @@ public class MainScreen extends AbstractController {
 			mainPane.centerProperty().set(swingNode);
 			BorderPane.setMargin(swingNode, new Insets(4.0, 0.0, 4.0, 2.0));
 
+			// Add listener for when map is moved
+			mapViewer.addPropertyChangeListener("addressLocation", new AddressLocationListener());
+			
 			// Set initial rendering based on current state.
 			updateFixStatus(locationState.hasGpsFix().get());
 			updateLocation(locationState.location().get());
@@ -193,7 +201,12 @@ public class MainScreen extends AbstractController {
 
 		// Listen to the tracking check box so we can handle when its toggled.
 		trackingCheckBox.selectedProperty().addListener(new TrackingListener());
-
+		
+		// Bind the tracking check box to the state property to keep them in sync.
+		trackingCheckBox.selectedProperty().bindBidirectional(mapState.getTracking());
+	
+		// Listen to the map center property so we can respond when its changed.
+		mapState.getMapCenter().addListener(new MapCenterListener());
 		// Listen to the zoom slider for controlling the map zoom.
 		zoomSlider.valueProperty().addListener(new ZoomListener());
 	}
@@ -252,6 +265,30 @@ public class MainScreen extends AbstractController {
 	// Inner classes.
 	// ----------------------------------------------------------------------------------------
 
+	private class AddressLocationListener implements PropertyChangeListener {
+
+		@Override
+		public void propertyChange(PropertyChangeEvent event) {
+			
+			GeoPosition newPosition =(GeoPosition) event.getNewValue();
+			Location location = new Location(newPosition.getLatitude(),  newPosition.getLongitude(), 0);
+			
+			MapState mapState = kernel().chairState().getServiceState(ServiceId.MAP);
+			mapState.getMapCenter().set(location);
+		}
+	}
+	
+	/**
+	 * Listener that responds when the map center state property is changed.
+	 */
+	private class MapCenterListener implements ChangeListener<Location> {
+		
+		@Override
+		public void changed(ObservableValue<? extends Location> observable, Location oldValue, Location newValue) {
+			updateLocation(newValue);
+		}
+
+	}
 	/**
 	 * Listener that monitors the state of the GPS fix and updates the color of
 	 * the GPS label appropriately.
@@ -319,9 +356,10 @@ public class MainScreen extends AbstractController {
 
 		@Override
 		public void mouseDragged(MouseEvent evt) {
-
 			// User has dragged the map so disable the tracking check box.
-			trackingCheckBox.selectedProperty().set(false);
+			MapState mapState = kernel().chairState().getServiceState(ServiceId.MAP);
+			mapState.getTracking().set(false);
+			//trackingCheckBox.selectedProperty().set(false);
 
 			// Let the pan mouse listener handle the actual drag.
 			super.mouseDragged(evt);
