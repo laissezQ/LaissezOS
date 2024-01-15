@@ -1,8 +1,5 @@
 package com.wisneskey.los.service.lighting.driver.wled.client.model.info;
 
-import java.util.List;
-import java.util.Map;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -29,215 +26,249 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class Info {
 
-	@JsonProperty("arch")
-	private String architecture;
-
-	@JsonProperty("brand")
-	private String brand;
-
-	@JsonProperty("vid")
-	private Integer buildId;
-
-	@JsonProperty("core")
-	private String coreVersion;
-
-	@JsonProperty("cpalcount")
-	private Integer customPaletteCount;
-
-	@JsonProperty("fxcount")
-	private Integer effectCount;
-
-	@JsonProperty("freeheap")
-	private Long freeHeap;
-
-	@JsonProperty("fs")
-	private FileSystemInfo fileSystemInfo;
-
-	@JsonProperty("ip")
-	private String ipAddress;
-
-	@JsonProperty("leds")
-	private LedInfo ledInfo;
-
-	@JsonProperty("lip")
-	private String lip;
-
-	@JsonProperty("live")
-	private Boolean live;
-
-	@JsonProperty("liveseg")
-	private Integer liveSeg;
-
-	@JsonProperty("lm")
-	private String lm;
-
-	@JsonProperty("lwip")
-	private Integer lwip;
-
-	@JsonProperty("mac")
-	private String macAddress;
-
-	@JsonProperty("maps")
-	private List<Map<String, Object>> maps;
-
-	@JsonProperty("name")
-	private String name;
-
-	@JsonProperty("ndc")
-	private Integer ndc;
-
-	@JsonProperty("opt")
-	private Integer options;
-
-	@JsonProperty("palcount")
-	private Integer paletteCount;
-
-	@JsonProperty("product")
-	private String product;
-
-	@JsonProperty("str")
-	private Boolean str;
-
-	@JsonProperty("time")
-	private String timeStamp;
-
-	@JsonProperty("udpport")
-	private Integer udpPort;
-
-	@JsonProperty("uptime")
-	private Long upTime;
-
+	/**
+	 * Version name for WLED.
+	 */
 	@JsonProperty("ver")
 	private String version;
 
-	@JsonProperty("wifi")
-	private WifiInfo wifiInfo;
+	/**
+	 * Build identifier.
+	 */
+	@JsonProperty("vid")
+	private Integer buildId;
 
+	/**
+	 * Information about the LED strip.
+	 */
+	@JsonProperty("leds")
+	private LedInfo ledInfo;
+
+	/**
+	 * Flag indicating if UI toggling sync toggle receive+send or send only.
+	 */
+	@JsonProperty("str")
+	private boolean sendThenReceive;
+
+	/**
+	 * Display name for light.
+	 */
+	@JsonProperty("name")
+	private String name;
+
+	/**
+	 * UDP port to use for realtime packets and WLED broadcast.
+	 */
+	@JsonProperty("udpport")
+	private Integer udpPort;
+
+	/**
+	 * Flag indicating if WLED is receiving realtime data.
+	 */
+	@JsonProperty("live")
+	private boolean live;
+
+	/**
+	 * Info about the realtime data source.
+	 */
+	@JsonProperty("lm")
+	private String liveMetadata;
+
+	/**
+	 * Realtime data source IP address.
+	 */
+	@JsonProperty("lip")
+	private String liveIpAddress;
+
+	/**
+	 * Number of connected WebSocket clients.
+	 */
 	@JsonProperty("ws")
-	private Integer ws;
+	private Integer wsClientCount;
+
+	/**
+	 * Number of effects available.
+	 */
+	@JsonProperty("fxcount")
+	private Integer effectCount;
+
+	/**
+	 * Number of palettes configured.
+	 */
+	@JsonProperty("palcount")
+	private Integer paletteCount;
+
+	/**
+	 * Information about the WIFI state.
+	 */
+	@JsonProperty("wifi")
+	private WifiInfo wifi;
+
+	/**
+	 * File system information.
+	 */
+	@JsonProperty("fs")
+	private FileSystemInfo fileSystemInfo;
+
+	/**
+	 * Number of other devices discovered on network.
+	 */
+	@JsonProperty("ndc")
+	private Integer numberOtherDevices;
+
+	/**
+	 * Name of the platform.
+	 */
+	@JsonProperty("arch")
+	private String architecture;
+
+	/**
+	 * Version of the underlying SDK.
+	 */
+	@JsonProperty("core")
+	private String coreVersion;
+
+	/**
+	 * Bytes of heap memory currently available.
+	 */
+	@JsonProperty("freeheap")
+	private Long freeHeap;
+
+	/**
+	 * Time since last boot or reset in seconds.
+	 */
+	@JsonProperty("uptime")
+	private Integer upTime;
+
+	/**
+	 * Used for debugging purposes only.
+	 */
+	@JsonProperty("opt")
+	private Integer options;
+
+	/**
+	 * The product/vendor of the light.
+	 */
+	@JsonProperty("brand")
+	private String brand;
+
+	/**
+	 * The product name.
+	 */
+	@JsonProperty("product")
+	private String product;
+
+	/**
+	 * The hexadecimal MAC address of the light.
+	 */
+	@JsonProperty("mac")
+	private String macAddress;
+
+	/**
+	 * THe IP address of the instance.
+	 */
+	@JsonProperty("ip")
+	private String ipAddress;
 
 	// ----------------------------------------------------------------------------------------
 	// Property getters.
 	// ----------------------------------------------------------------------------------------
 
-	public String getArchitecture() {
-		return architecture;
-	}
-
-	public String getBrand() {
-		return brand;
+	public String getVersion() {
+		return version;
 	}
 
 	public Integer getBuildId() {
 		return buildId;
 	}
 
-	public String getCoreVersion() {
-		return coreVersion;
-	}
-
-	public Integer getCustomPaletteCount() {
-		return customPaletteCount;
-	}
-
-	public Integer getEffectCount() {
-		return effectCount;
-	}
-
-	public Long getFreeHeap() {
-		return freeHeap;
-	}
-
-	public FileSystemInfo getFileSystemInfo() {
-		return fileSystemInfo;
-	}
-
-	public String getIpAddress() {
-		return ipAddress;
-	}
-
 	public LedInfo getLedInfo() {
 		return ledInfo;
 	}
 
-	public String getLip() {
-		return lip;
-	}
-
-	public Boolean getLive() {
-		return live;
-	}
-
-	public Integer getLiveSeg() {
-		return liveSeg;
-	}
-
-	public String getLm() {
-		return lm;
-	}
-
-	public Integer getLwip() {
-		return lwip;
-	}
-
-	public String getMacAddress() {
-		return macAddress;
-	}
-
-	public List<Map<String, Object>> getMaps() {
-		return maps;
+	public boolean isSendThenReceive() {
+		return sendThenReceive;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public Integer getNdc() {
-		return ndc;
+	public Integer getUdpPort() {
+		return udpPort;
 	}
 
-	public Integer getOptions() {
-		return options;
+	public boolean isLive() {
+		return live;
+	}
+
+	public String getLiveMetadata() {
+		return liveMetadata;
+	}
+
+	public String getLiveIpAddress() {
+		return liveIpAddress;
+	}
+
+	public Integer getWsClientCount() {
+		return wsClientCount;
+	}
+
+	public Integer getEffectCount() {
+		return effectCount;
 	}
 
 	public Integer getPaletteCount() {
 		return paletteCount;
 	}
 
+	public WifiInfo getWifi() {
+		return wifi;
+	}
+
+	public FileSystemInfo getFileSystemInfo() {
+		return fileSystemInfo;
+	}
+
+	public Integer getNumberOtherDevices() {
+		return numberOtherDevices;
+	}
+
+	public String getArchitecture() {
+		return architecture;
+	}
+
+	public String getCoreVersion() {
+		return coreVersion;
+	}
+
+	public Long getFreeHeap() {
+		return freeHeap;
+	}
+
+	public Integer getUpTime() {
+		return upTime;
+	}
+
+	public Integer getOptions() {
+		return options;
+	}
+
+	public String getBrand() {
+		return brand;
+	}
+
 	public String getProduct() {
 		return product;
 	}
 
-	public Boolean getStr() {
-		return str;
+	public String getMacAddress() {
+		return macAddress;
 	}
 
-	public String getTimeStamp() {
-		return timeStamp;
+	public String getIpAddress() {
+		return ipAddress;
 	}
 
-	public Integer getUdpPort() {
-		return udpPort;
-	}
-
-	public Long getUpTime() {
-		return upTime;
-	}
-
-	public String getVersion() {
-		return version;
-	}
-
-	public WifiInfo getWifiInfo() {
-		return wifiInfo;
-	}
-
-	public Integer getWs() {
-		return ws;
-	}
-
-	// ----------------------------------------------------------------------------------------
-	// Inner classes.
-	// ----------------------------------------------------------------------------------------
 
 }

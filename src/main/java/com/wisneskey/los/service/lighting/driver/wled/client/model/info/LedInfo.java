@@ -26,42 +26,73 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class LedInfo {
 
+	/**
+	 * Flag indicating if light supports color temperature control.
+	 */
 	@JsonProperty("cct")
-	private Integer cct;
+	private boolean colorTempControl;
 
+	/**
+	 * Total number of LEDs.
+	 */
 	@JsonProperty("count")
 	private Integer count;
 
+	/**
+	 * Current frames per second.
+	 */
 	@JsonProperty("fps")
 	private Integer framesPerSecond;
 
+	/**
+	 * Flag indicating if LEDs are 4 channel (RGP + white).
+	 */
 	@JsonProperty("rgbw")
 	private Boolean isRGBW;
 
-	@JsonProperty("maxpwr")
-	private Integer maxPower;
+	/**
+	 * Flag indicating if white channel slider should be displayed.
+	 */
+	@JsonProperty("wv")
+	private boolean whiteChannelSlider;
 
-	@JsonProperty("maxseg")
-	private Integer maxSegments;
-
-	@JsonProperty("lc")
-	private Integer lc;
-
+	/**
+	 * Current LED power usage in milliamps.
+	 */
 	@JsonProperty("pwr")
 	private Integer power;
 
-	@JsonProperty("seglc")
-	private Integer[] segmentLC;
+	/**
+	 * Maximum power budget in milliamps.
+	 */
+	@JsonProperty("maxpwr")
+	private Integer maxPower;
 
-	@JsonProperty("wv")
-	private Integer wv;
+	/**
+	 * Maximum number of supported segments.
+	 */
+	@JsonProperty("maxseg")
+	private Integer maxSegments;
+
+	/**
+	 * Logical AND of all segments light capabilities (e.g. common capabilities
+	 * across all segments).
+	 */
+	@JsonProperty("lc")
+	private Integer lightCapabilities;
+
+	/**
+	 * Per segment light capabilities.
+	 */
+	@JsonProperty("seglc")
+	private Integer[] segmentLgithCapabilities;
 
 	// ----------------------------------------------------------------------------------------
 	// Property getters.
 	// ----------------------------------------------------------------------------------------
 
-	public Integer getCct() {
-		return cct;
+	public boolean getColorTempControl() {
+		return colorTempControl;
 	}
 
 	public Integer getCount() {
@@ -76,6 +107,14 @@ public class LedInfo {
 		return isRGBW;
 	}
 
+	public boolean getWhiteChannelSlider() {
+		return whiteChannelSlider;
+	}
+
+	public Integer getPower() {
+		return power;
+	}
+
 	public Integer getMaxPower() {
 		return maxPower;
 	}
@@ -84,19 +123,11 @@ public class LedInfo {
 		return maxSegments;
 	}
 
-	public Integer getLc() {
-		return lc;
+	public Integer getLightCapabilities() {
+		return lightCapabilities;
 	}
 
-	public Integer getPower() {
-		return power;
-	}
-
-	public Integer[] getSegmentLC() {
-		return segmentLC;
-	}
-
-	public Integer getWv() {
-		return wv;
+	public Integer[] getSegmentLgithCapabilities() {
+		return segmentLgithCapabilities;
 	}
 }

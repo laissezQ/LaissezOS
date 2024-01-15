@@ -1,5 +1,6 @@
 package com.wisneskey.los.service.lighting.driver;
 
+import com.wisneskey.los.service.lighting.LightingEffectId;
 import com.wisneskey.los.service.profile.model.Profile;
 
 /**
@@ -36,7 +37,7 @@ public class DummyLightingDriver implements LightingDriver {
 	}
 
 	@Override
-	public void runTest() {
+	public void playEffect(LightingEffectId effectId) {
 		// Nothing to do here
 	}
 }

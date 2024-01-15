@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.wisneskey.los.error.LaissezException;
-import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.kernel.RunMode;
 import com.wisneskey.los.service.AbstractService;
 import com.wisneskey.los.service.ServiceId;
@@ -12,10 +11,10 @@ import com.wisneskey.los.service.lighting.driver.DummyLightingDriver;
 import com.wisneskey.los.service.lighting.driver.LightingDriver;
 import com.wisneskey.los.service.lighting.driver.wled.WledLightingDriver;
 import com.wisneskey.los.service.profile.model.Profile;
-import com.wisneskey.los.service.relay.RelayId;
-import com.wisneskey.los.service.relay.RelayService;
 import com.wisneskey.los.state.LightingState;
 
+import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.util.Pair;
 
 /**
@@ -83,15 +82,17 @@ public class LightingService extends AbstractService<LightingState> {
 	// Public methods.
 	// ----------------------------------------------------------------------------------------
 
-	public void runTest() {
-
-		// Enable power to the lighting strip.
-		((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOn(RelayId.SIDE_LIGHTING);
-		((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOn(RelayId.UNDER_LIGHTING);
-
-		lightingDriver.runTest();
+	/**
+	 * Start playing the designated lighting effect.
+	 * 
+	 * @param effectId Id of the lighting effect to play.
+	 */
+	public void playEffect(LightingEffectId effectId) {
+	
+		lightingDriver.playEffect(effectId);
+		lightingState.setCurrentEffect(effectId);
 	}
-
+	
 	// ----------------------------------------------------------------------------------------
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
@@ -179,5 +180,19 @@ public class LightingService extends AbstractService<LightingState> {
 	 */
 	private static class InternalLightingState implements LightingState {
 
+		private SimpleObjectProperty<LightingEffectId> currentEffect;
+		
+		private InternalLightingState() {
+			currentEffect = new SimpleObjectProperty<>(LightingEffectId.ALL_OFF);
+		}
+
+		@Override
+		public ReadOnlyObjectProperty<LightingEffectId> currentEffect() {
+			return currentEffect;
+		}
+		
+		public void setCurrentEffect(LightingEffectId effectId) {
+			currentEffect.set(effectId);
+		}
 	}
 }

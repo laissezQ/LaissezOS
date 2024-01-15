@@ -31,71 +31,133 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class State {
 
-	@JsonProperty("bri")
-	private Integer brightness;
-
-	@JsonProperty("lor")
-	private Integer lor;
-
-	@JsonProperty("mainseg")
-	private Integer mainSegment;
-
-	@JsonProperty("nl")
-	private NlState nl;
-
+	/**
+	 * On or off status of the lights.
+	 */
 	@JsonProperty("on")
 	private Boolean on;
 
-	@JsonProperty("ps")
-	private Integer ps;
+	/**
+	 * Brightness (1 to 255, using zero not recommended; turn off instead.
+	 */
+	@JsonProperty("bri")
+	private Integer brightness;
 
-	@JsonProperty("pl")
-	private Integer pl;
-
-	@JsonProperty("seg")
-	private List<SegmentState> segments;
-
+	/**
+	 * Standard transition time between color/brightness levels; 1 unit = 100ms.
+	 */
 	@JsonProperty("transition")
 	private Integer transition;
 
+	/**
+	 * Transition time for the current call; 1 unit = 100ms.
+	 */
+	@JsonProperty("tt")
+	private Integer transitionTime;
+
+	/**
+	 * Currently set preset.
+	 */
+	@JsonProperty("ps")
+	private Integer preset;
+
+	/**
+	 * Save current light configuration to specified preset slot. Valid range is 1
+	 * to 250.
+	 */
+	@JsonProperty("psave")
+	private Integer presetSave;
+
+	/**
+	 * Id of the currently set play list (read only).
+	 */
+	@JsonProperty("pl")
+	private Integer playlistId;
+	
+	/**
+	 * Preset slot to delete.  Write only.
+	 */
+	@JsonProperty("pdel")
+	private Integer presetDelete;
+	
+	/**
+	 * Nightlight state.
+	 */
+	@JsonProperty("nl")
+	private Nlghtlight nightlight;
+
+	/**
+	 * UDP sync broadcast state.
+	 */
 	@JsonProperty("udpn")
-	private UdpNetworkState udpNetworkState;
+	private UdpNetworkSync udpNetworkState;
+
+	/**
+	 * Flag indicating if full response state object should be returned.
+	 */
+	@JsonProperty("v")
+	private boolean verbose;
+	
+	/**
+	 * Flag indicating device should reboot immediately; write only.
+	 */
+	@JsonProperty("rb")
+	private boolean reboot;
+
+	/**
+	 * Flag to put device in live mode.
+	 */
+	@JsonProperty("live")
+	private boolean live;
+	
+	/**
+	 * Live date override: 0=off, 1=until live ends, 2=until reboot.
+	 */
+	@JsonProperty("lor")
+	private Integer liveOverride;
+
+	/**
+	 * Set the device time (unix timestamp); write only.
+	 */
+	@JsonProperty("time")
+	private Integer time;
+	
+	/**
+	 * Main light segment (0 to max segments - 1).
+	 */
+	@JsonProperty("mainseg")
+	private Integer mainSegment;
+
+	/**
+	 * Array of segment state information.
+	 */
+	@JsonProperty("seg")
+	private List<Segment> segments;
+
+	@JsonProperty("playlist")
+	private Playlist playlist;
+	
+	/**
+	 * Set timebase for effects; write only.
+	 */
+	@JsonProperty("tb")
+	private Integer timebase;
+	
+	/**
+	 * Load specific LED map (0 to 9); write only.
+	 */
+	@JsonProperty("ledmap")
+	private Integer ledMap;
+	
+	/**
+	 * Flag to remove last custom palette.
+	 */
+	@JsonProperty("rmcpal")
+	private boolean removeCustomPalette;
 
 	// ----------------------------------------------------------------------------------------
 	// Property getters/setters.
 	// ----------------------------------------------------------------------------------------
-
-	public Integer getBrightness() {
-		return brightness;
-	}
-
-	public void setBrightness(Integer brightness) {
-		this.brightness = brightness;
-	}
-
-	public Integer getLor() {
-		return lor;
-	}
-
-	public void setLor(Integer lor) {
-		this.lor = lor;
-	}
-
-	public Integer getMainSegment() {
-		return mainSegment;
-	}
-
-	public void setMainSegment(Integer mainSegment) {
-		this.mainSegment = mainSegment;
-	}
-
-	public NlState getNl() {
-		return nl;
-	}
-
-	public void setNl(NlState nl) {
-		this.nl = nl;
-	}
 
 	public Boolean getOn() {
 		return on;
@@ -105,28 +167,12 @@ public class State {
 		this.on = on;
 	}
 
-	public Integer getPs() {
-		return ps;
+	public Integer getBrightness() {
+		return brightness;
 	}
 
-	public void setPs(Integer ps) {
-		this.ps = ps;
-	}
-
-	public Integer getPl() {
-		return pl;
-	}
-
-	public void setPl(Integer pl) {
-		this.pl = pl;
-	}
-
-	public List<SegmentState> getSegments() {
-		return segments;
-	}
-
-	public void setSegments(List<SegmentState> segments) {
-		this.segments = segments;
+	public void setBrightness(Integer brightness) {
+		this.brightness = brightness;
 	}
 
 	public Integer getTransition() {
@@ -137,11 +183,147 @@ public class State {
 		this.transition = transition;
 	}
 
-	public UdpNetworkState getUdpNetworkState() {
+	public Integer getTransitionTime() {
+		return transitionTime;
+	}
+
+	public void setTransitionTime(Integer transitionTime) {
+		this.transitionTime = transitionTime;
+	}
+
+	public Integer getPreset() {
+		return preset;
+	}
+
+	public void setPreset(Integer preset) {
+		this.preset = preset;
+	}
+
+	public Integer getPresetSave() {
+		return presetSave;
+	}
+
+	public void setPresetSave(Integer presetSave) {
+		this.presetSave = presetSave;
+	}
+
+	public Integer getPlaylistId() {
+		return playlistId;
+	}
+
+	public void setPlaylistId(Integer playlistId) {
+		this.playlistId = playlistId;
+	}
+
+	public Integer getPresetDelete() {
+		return presetDelete;
+	}
+
+	public void setPresetDelete(Integer presetDelete) {
+		this.presetDelete = presetDelete;
+	}
+
+	public Nlghtlight getNightlight() {
+		return nightlight;
+	}
+
+	public void setNightlight(Nlghtlight nightlight) {
+		this.nightlight = nightlight;
+	}
+
+	public UdpNetworkSync getUdpNetworkState() {
 		return udpNetworkState;
 	}
 
-	public void setUdpNetworkState(UdpNetworkState udpNetworkState) {
+	public void setUdpNetworkState(UdpNetworkSync udpNetworkState) {
 		this.udpNetworkState = udpNetworkState;
 	}
+
+	public boolean isVerbose() {
+		return verbose;
+	}
+
+	public void setVerbose(boolean verbose) {
+		this.verbose = verbose;
+	}
+
+	public boolean isReboot() {
+		return reboot;
+	}
+
+	public void setReboot(boolean reboot) {
+		this.reboot = reboot;
+	}
+
+	public boolean isLive() {
+		return live;
+	}
+
+	public void setLive(boolean live) {
+		this.live = live;
+	}
+
+	public Integer getLiveOverride() {
+		return liveOverride;
+	}
+
+	public void setLiveOverride(Integer liveOverride) {
+		this.liveOverride = liveOverride;
+	}
+
+	public Integer getTime() {
+		return time;
+	}
+
+	public void setTime(Integer time) {
+		this.time = time;
+	}
+
+	public Integer getMainSegment() {
+		return mainSegment;
+	}
+
+	public void setMainSegment(Integer mainSegment) {
+		this.mainSegment = mainSegment;
+	}
+
+	public List<Segment> getSegments() {
+		return segments;
+	}
+
+	public void setSegments(List<Segment> segments) {
+		this.segments = segments;
+	}
+
+	public Playlist getPlaylist() {
+		return playlist;
+	}
+
+	public void setPlaylist(Playlist playlist) {
+		this.playlist = playlist;
+	}
+
+	public Integer getTimebase() {
+		return timebase;
+	}
+
+	public void setTimebase(Integer timebase) {
+		this.timebase = timebase;
+	}
+
+	public Integer getLedMap() {
+		return ledMap;
+	}
+
+	public void setLedMap(Integer ledMap) {
+		this.ledMap = ledMap;
+	}
+
+	public boolean isRemoveCustomPalette() {
+		return removeCustomPalette;
+	}
+
+	public void setRemoveCustomPalette(boolean removeCustomPalette) {
+		this.removeCustomPalette = removeCustomPalette;
+	}	
 }

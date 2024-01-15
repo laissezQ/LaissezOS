@@ -27,20 +27,38 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author paul.wisneskey@gmail.com
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UdpNetworkState {
+public class UdpNetworkSync {
 
-	@JsonProperty("rgrp")
-	private Integer receiveGroup;
-
-	@JsonProperty("recv")
-	private Boolean receiving;
-
-	@JsonProperty("sgrp")
-	private Integer sendGroup;
-
+	/**
+	 * Flag indicating if a UDP broadcast should be made on state change.
+	 */
 	@JsonProperty("send")
 	private Boolean sending;
 
+	/**
+	 * Flag indicating if broadcast packets should be received.
+	 */
+	@JsonProperty("recv")
+	private Boolean receiving;
+
+	/**
+	 * Bit field for send groups 1 through 8.
+	 */
+	@JsonProperty("sgrp")
+	private Integer sendGroup;
+
+	/**
+	 * Bit field for receive groups 1 through 8. 
+	 */
+	@JsonProperty("rgrp")
+	private Integer receiveGroup;
+
+	/**
+	 * Flag indicating not to send broadcast packet for current call; write only.
+	 */
+	@JsonProperty("nn")
+	private boolean noNotification;
+	
 	// ----------------------------------------------------------------------------------------
 	// Property getters/setters.
 	// ----------------------------------------------------------------------------------------
@@ -75,6 +93,14 @@ public class UdpNetworkState {
 
 	public void setSending(Boolean sending) {
 		this.sending = sending;
+	}
+
+	public boolean getNoNotification() {
+		return noNotification;
+	}
+
+	public void setNoNotification(boolean noNotification) {
+		this.noNotification = noNotification;
 	}
 
 }

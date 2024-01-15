@@ -1,5 +1,6 @@
 package com.wisneskey.los.service.lighting.driver;
 
+import com.wisneskey.los.service.lighting.LightingEffectId;
 import com.wisneskey.los.service.profile.model.Profile;
 
 /**
@@ -36,9 +37,11 @@ public interface LightingDriver {
 	 * Shutdown the driver when terminating the service.
 	 */
 	void terminate();
-
+ 
 	/**
-	 * Initial test implementation.
+	 * Play the designated lighting effect.
+	 * 
+	 * @param effectId Id of the effect to play.
 	 */
-	void runTest();
+	void playEffect(LightingEffectId effectId);
 }

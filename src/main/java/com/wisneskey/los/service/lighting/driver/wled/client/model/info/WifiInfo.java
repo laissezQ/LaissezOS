@@ -25,17 +25,23 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class WifiInfo {
 
-	@JsonProperty("channel")
-	private Integer channel;
-
+	/**
+	 * BDSSID of the currently connected network.
+	 */
 	@JsonProperty("bssid")
 	private String bssid;
 
-	@JsonProperty("rssi")
-	private Integer rssi;
-
+	/**
+	 * Relative signal quality of the current connection.
+	 */
 	@JsonProperty("signal")
 	private Integer signal;
+
+	/**
+	 * The current WIFI channel (1 to 14).
+	 */
+	@JsonProperty("channel")
+	private Integer channel;
 
 	// ----------------------------------------------------------------------------------------
 	// Property getters.
@@ -47,10 +53,6 @@ public class WifiInfo {
 
 	public String getBssid() {
 		return bssid;
-	}
-
-	public Integer getRssi() {
-		return rssi;
 	}
 
 	public Integer getSignal() {

@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import com.wisneskey.los.error.LaissezException;
 import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.service.ServiceId;
+import com.wisneskey.los.service.lighting.LightingEffectId;
 import com.wisneskey.los.service.lighting.driver.LightingDriver;
 import com.wisneskey.los.service.lighting.driver.wled.client.WledClient;
 import com.wisneskey.los.service.lighting.driver.wled.client.model.Summary;
@@ -47,21 +48,6 @@ public class WledLightingDriver implements LightingDriver {
 	 * Client to use for communicating with the WLED controller via its JSON API.
 	 */
 	private WledClient controllerClient;
-
-	// ----------------------------------------------------------------------------------------
-	// Public methods.
-	// ----------------------------------------------------------------------------------------
-
-	@Override
-	public void runTest() {
-
-		// Don't even try if the connection to the controller failed during
-		// initialization.
-		if (!online) {
-			return;
-		}
-
-	}
 
 	// ----------------------------------------------------------------------------------------
 	// LightingDriver methods.
@@ -110,5 +96,10 @@ public class WledLightingDriver implements LightingDriver {
 		// Turn off the power to the LED strips.
 		((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOff(RelayId.SIDE_LIGHTING);
 		((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOff(RelayId.UNDER_LIGHTING);
+	}
+	
+	@Override
+	public void playEffect(LightingEffectId effectId) {
+		// Nothing to do here
 	}
 }

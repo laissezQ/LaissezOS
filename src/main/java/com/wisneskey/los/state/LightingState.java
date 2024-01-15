@@ -1,5 +1,9 @@
 package com.wisneskey.los.state;
 
+import com.wisneskey.los.service.lighting.LightingEffectId;
+
+import javafx.beans.property.ReadOnlyObjectProperty;
+
 /**
  * Sate object for the state of the lighting systems.
  * 
@@ -22,4 +26,10 @@ package com.wisneskey.los.state;
  */
 public interface LightingState extends State {
 
+	/**
+	 * Returns the current effect being shown by the lighting system.
+	 * 
+	 * @return Id of the current lighting effect being shown.
+	 */
+	ReadOnlyObjectProperty<LightingEffectId> currentEffect();
 }

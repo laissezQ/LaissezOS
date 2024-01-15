@@ -25,28 +25,37 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class FileSystemInfo {
 
-	@JsonProperty("pmt")
-	private Integer pmt;
+	/**
+	 * Used space estimate in kilobytes.
+	 */
+	@JsonProperty("u")
+	private Integer used;
 
+	/**
+	 * Total filesystem size in kilobytes.
+	 */
 	@JsonProperty("t")
 	private Integer total;
 
-	@JsonProperty("u")
-	private Integer used;
+	/**
+	 * Last modification time of presets.json file.
+	 */
+	@JsonProperty("pmt")
+	private Integer presetsModificationTime;
 
 	// ----------------------------------------------------------------------------------------
 	// Property getters.
 	// ----------------------------------------------------------------------------------------
 
-	public Integer getPmt() {
-		return pmt;
+	public Integer getUsed() {
+		return used;
 	}
 
 	public Integer getTotal() {
 		return total;
 	}
 
-	public Integer getUsed() {
-		return used;
+	public Integer getPresetsModificationTime() {
+		return presetsModificationTime;
 	}
 }

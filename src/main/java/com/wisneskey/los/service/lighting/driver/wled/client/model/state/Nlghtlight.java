@@ -27,26 +27,50 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author paul.wisneskey@gmail.com
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class NlState {
+public class Nlghtlight {
 
-	@JsonProperty("dur")
-	private Integer duration;
-
-	@JsonProperty("mode")
-	private Integer mode;
-
+	/**
+	 * Flag indicating if nightlight currently active.
+	 */
 	@JsonProperty("on")
 	private Boolean on;
 
-	@JsonProperty("rem")
-	private Integer rem;
+	/**
+	 * Duration of nightlight in minutes.
+	 */
+	@JsonProperty("dur")
+	private Integer duration;
 
+	/**
+	 * Nightlight mode: 0=instance, 1=fade, 2=color fade, 3=sunrise
+	 */
+	@JsonProperty("mode")
+	private Integer mode;
+
+	/**
+	 * Target brightness for nightlight feature.
+	 */
 	@JsonProperty("tbri")
-	private Integer tbri;
+	private Integer targetBrightness;
+
+	/**
+	 * Remaining nightlight duration in seconds; read only.
+	 */
+	@JsonProperty("rem")
+	private Integer remaining;
+
 
 	// ----------------------------------------------------------------------------------------
 	// Property getters/setters.
 	// ----------------------------------------------------------------------------------------
+
+	public Boolean getOn() {
+		return on;
+	}
+
+	public void setOn(Boolean on) {
+		this.on = on;
+	}
 
 	public Integer getDuration() {
 		return duration;
@@ -64,27 +88,19 @@ public class NlState {
 		this.mode = mode;
 	}
 
-	public Boolean getOn() {
-		return on;
+	public Integer getTargetBrightness() {
+		return targetBrightness;
 	}
 
-	public void setOn(Boolean on) {
-		this.on = on;
+	public void setTargetBrightness(Integer targetBrightness) {
+		this.targetBrightness = targetBrightness;
 	}
 
-	public Integer getRem() {
-		return rem;
+	public Integer getRemaining() {
+		return remaining;
 	}
 
-	public void setRem(Integer rem) {
-		this.rem = rem;
-	}
-
-	public Integer getTbri() {
-		return tbri;
-	}
-
-	public void setTbri(Integer tbri) {
-		this.tbri = tbri;
+	public void setRemaining(Integer remaining) {
+		this.remaining = remaining;
 	}
 }
