@@ -2,6 +2,7 @@ package com.wisneskey.los.state;
 
 import com.wisneskey.los.service.ServiceId;
 
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyStringProperty;
 
@@ -47,6 +48,13 @@ public interface ChairState extends State {
 	 */
 	ReadOnlyStringProperty message();
 
+	/**
+	 * Property for tracking the state of the pop up bar.
+	 * 
+	 * @return Bar state property for the chair.
+	 */
+	ObjectProperty<BarState> barState();
+	
 	// ----------------------------------------------------------------------------------------
 	// Service state properties.
 	// ----------------------------------------------------------------------------------------
@@ -57,11 +65,24 @@ public interface ChairState extends State {
 	// Inner classes.
 	// ----------------------------------------------------------------------------------------
 
+	/**
+	 * Enumerated type defining the overall states of the chair.
+	 */
 	public enum MasterState {
 		BOOTING,
 		RUNNING,
 		LOCKED,
 		CHAP,
 		SYSTEM
+	}
+	
+	/**
+	 * Enumerated type defining the states of the pop up bar in the arm rest.
+	 */
+	public enum BarState {
+		LOWERED,
+		RAISING,
+		RAISED,
+		LOWERING
 	}
 }

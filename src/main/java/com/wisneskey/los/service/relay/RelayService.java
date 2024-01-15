@@ -111,14 +111,24 @@ public class RelayService extends AbstractService<RelayState> {
 	 * @param relayId  Id of the relay to turn on.
 	 * @param duration Optional duration the relay should be on.
 	 */
-	public void turnOn(RelayId relayId, Duration duration) {
+	public void turnOn(RelayId relayId, Duration duration, boolean waitForCompletion) {
 
 		if (duration == null) {
 			turnOn(relayId);
 		} else {
 			// We just use a thread for this since we do not expect many relays to be
 			// running simultaneously.
-			new TimedRelayThread(relayId, duration).start();
+			Thread relayThread = new TimedRelayThread(relayId, duration);
+
+			relayThread.start();
+			if (waitForCompletion) {
+				try {
+					relayThread.join();
+				} catch (InterruptedException e) {
+					LOGGER.warn("Interrupted waiting for relay thread completion.");
+					Thread.currentThread().interrupt();
+				}
+			}
 		}
 	}
 

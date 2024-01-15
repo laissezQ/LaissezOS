@@ -17,7 +17,7 @@
 
 <Pane id="pane" maxHeight="1280.0" maxWidth="400.0" minHeight="1280.0" minWidth="400.0" prefHeight="1280.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.wisneskey.los.service.display.controller.cp.ScriptScreen">
 	<children>
-      <ImageView fx:id="logo" fitHeight="181.0" fitWidth="373.0" focusTraversable="true" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="logo" fitHeight="181.0" fitWidth="373.0" focusTraversable="true" layoutX="14.0" layoutY="14.0" opacity="0.9" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../images/laissez-boys-header.png" />
          </image>

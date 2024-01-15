@@ -35,6 +35,12 @@ public class RelayOn extends AbstractScriptCommand {
 	private static final Logger LOGGER = LoggerFactory.getLogger(RelayOn.class);
 
 	/**
+	 * Default value for flag indicating if command should wait for a timed relay
+	 * to complete.
+	 */
+	private static final boolean DEFAULT_WAIT_FOR_COMPLETION = false;
+
+	/**
 	 * Id of the relay to turn on.
 	 */
 	private RelayId relayId;
@@ -43,6 +49,11 @@ public class RelayOn extends AbstractScriptCommand {
 	 * Optional number of seconds relay should be on for.
 	 */
 	private Double forSeconds;
+
+	/**
+	 * Flag indicating if command should wait for a timed relay to complete.
+	 */
+	private boolean waitForCompletion = DEFAULT_WAIT_FOR_COMPLETION;
 
 	// ----------------------------------------------------------------------------------------
 	// Property getters/setters.
@@ -63,6 +74,14 @@ public class RelayOn extends AbstractScriptCommand {
 	public void setForSeconds(Double forSeconds) {
 		this.forSeconds = forSeconds;
 	}
+	
+	public boolean getWaitForCompletion() {
+		return waitForCompletion;
+	}
+	
+	public void setWaitForCompletion(boolean waitForCompletion) {
+		this.waitForCompletion = waitForCompletion;
+	}
 
 	// ----------------------------------------------------------------------------------------
 	// ScriptCommand methods.
@@ -75,8 +94,8 @@ public class RelayOn extends AbstractScriptCommand {
 			LOGGER.warn("No relay id specified; skipping command.");
 			return;
 		}
-		
-		Duration duration = forSeconds == null ? null : Duration.ofMillis( (long) (forSeconds * 1000.0D));		
-		((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOn(relayId, duration);
+
+		Duration duration = forSeconds == null ? null : Duration.ofMillis((long) (forSeconds * 1000.0D));
+		((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOn(relayId, duration, waitForCompletion);
 	}
 }

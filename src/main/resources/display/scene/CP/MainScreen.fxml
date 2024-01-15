@@ -25,7 +25,7 @@
             <DropShadow />
          </effect>
 		</TextArea>
-      <ImageView fx:id="logo" fitHeight="181.0" fitWidth="373.0" focusTraversable="true" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="logo" fitHeight="181.0" fitWidth="373.0" focusTraversable="true" layoutX="14.0" layoutY="14.0" opacity="0.9" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../images/laissez-boys-header.png" />
          </image>
@@ -33,25 +33,17 @@
             <DropShadow />
          </effect>
       </ImageView>
-      <Label focusTraversable="false" layoutX="178.0" layoutY="270.0" text="Bar">
+      <Button fx:id="tapButton" focusTraversable="false" layoutX="92.0" layoutY="353.0" mnemonicParsing="false" prefHeight="104.0" prefWidth="214.0" text="Tap">
          <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-         <effect>
-            <DropShadow />
-         </effect>
-      </Label>
-      <Button fx:id="barUpButton" focusTraversable="false" layoutX="274.0" layoutY="229.0" mnemonicParsing="false" prefHeight="104.0" prefWidth="98.0" text="&gt;">
-         <font>
-            <Font name="System Bold" size="48.0" />
+            <Font name="System Bold" size="36.0" />
          </font>
          <effect>
             <DropShadow />
          </effect>
       </Button>
-      <Button fx:id="barDownButton" focusTraversable="false" layoutX="29.0" layoutY="229.0" mnemonicParsing="false" prefHeight="104.0" prefWidth="98.0" text="&lt;">
+      <Button fx:id="barButton" focusTraversable="false" layoutX="91.0" layoutY="227.0" mnemonicParsing="false" prefHeight="104.0" prefWidth="214.0" text="Bar">
          <font>
-            <Font name="System Bold" size="48.0" />
+            <Font name="System Bold" size="36.0" />
          </font>
          <effect>
             <DropShadow />
@@ -111,11 +103,6 @@
          </effect>
       </Line>
       <Line endX="190.0" layoutX="195.0" layoutY="738.0" startX="-180.0">
-         <effect>
-            <DropShadow />
-         </effect>
-      </Line>
-      <Line endX="190.0" layoutX="198.0" layoutY="357.0" startX="-180.0">
          <effect>
             <DropShadow />
          </effect>

@@ -3,8 +3,6 @@ package com.wisneskey.los.service.display.controller.cp;
 import com.wisneskey.los.service.display.controller.AbstractController;
 import com.wisneskey.los.service.display.listener.message.MessagesToTextAreaListener;
 import com.wisneskey.los.service.display.listener.mouse.DoubleClickListener;
-import com.wisneskey.los.service.display.listener.relay.RelayWhilePressedListener;
-import com.wisneskey.los.service.relay.RelayId;
 import com.wisneskey.los.service.remote.RemoteButtonId;
 import com.wisneskey.los.service.script.ScriptId;
 
@@ -53,10 +51,10 @@ public class MainScreen extends AbstractController {
 	private TextArea messages;
 
 	@FXML
-	private Button barDownButton;
+	private Button barButton;
 
 	@FXML
-	private Button barUpButton;
+	private Button tapButton;
 
 	// ----------------------------------------------------------------------------------------
 	// Public methods.
@@ -67,13 +65,10 @@ public class MainScreen extends AbstractController {
 	 */
 	@FXML
 	public void initialize() {
-
+		
 		chairState().message().addListener(new MessagesToTextAreaListener(messages, MAX_LINE_COUNT));
-
-		RelayWhilePressedListener.add(barDownButton, RelayId.BAR_LOWER, "Lowering bar...\n");
-		RelayWhilePressedListener.add(barUpButton, RelayId.BAR_RAISE, "Raising bar...\n");
-
 		logo.setOnMouseClicked(new DoubleClickListener(e -> runScript(ScriptId.SYSTEM_SCREEN_OPEN)));
+		
 	}
 
 	/**

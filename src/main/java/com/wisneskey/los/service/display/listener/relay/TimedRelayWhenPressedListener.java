@@ -68,7 +68,7 @@ public class TimedRelayWhenPressedListener implements ChangeListener<Boolean> {
 
 		if (pressed.booleanValue()) {
 			Kernel.kernel().message(message);
-			((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOn(relayId, duration);
+			((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOn(relayId, duration, false);
 		}
 	}
 

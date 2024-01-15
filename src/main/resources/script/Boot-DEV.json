@@ -32,8 +32,27 @@
 			}
 		},
 		{
-			"relayOn" : {
-				"relayId" : "FLUX_CAPACITOR"
+			"relayOn": {
+				"relayId": "FLUX_CAPACITOR"
+			}
+		},
+		{
+			"message": {
+				"messages": [
+					"Playing whack-a-mole with armrest bar...\n"
+				],
+				"postCommandPause": 1.0
+			}
+		},
+		{
+			"relayOn": {
+				"relayId": "BAR_LOWER",
+				"forSeconds": 3.0
+			}
+		},
+		{
+			"setBarState": {
+				"state": "LOWERED"
 			}
 		},
 		{

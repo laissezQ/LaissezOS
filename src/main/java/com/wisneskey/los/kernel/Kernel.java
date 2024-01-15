@@ -357,9 +357,15 @@ public class Kernel {
 				MasterState.BOOTING);
 
 		/**
-		 * Last boot message.
+		 * Last message.
 		 */
-		private StringProperty bootMessage = new SimpleStringProperty();
+		private StringProperty message = new SimpleStringProperty();
+
+		/**
+		 * State of bar (assume it starts lowered but boot script should try to
+		 * lower it just in case its not really lowered.
+		 */
+		private ObjectProperty<BarState> barState = new SimpleObjectProperty<>(this, "barState", BarState.LOWERED);
 
 		/**
 		 * Map of service id's to their state objects.
@@ -372,8 +378,12 @@ public class Kernel {
 
 		@Override
 		public ReadOnlyObjectProperty<MasterState> masterState() {
-
 			return masterState;
+		}
+
+		@Override
+		public ObjectProperty<BarState> barState() {
+			return barState;
 		}
 
 		@Override
@@ -386,7 +396,7 @@ public class Kernel {
 
 		@Override
 		public ReadOnlyStringProperty message() {
-			return bootMessage;
+			return message;
 		}
 
 		// ----------------------------------------------------------------------------------------
@@ -418,7 +428,7 @@ public class Kernel {
 		 * @param message Message to set or null to clear message.
 		 */
 		private void setMessage(String message) {
-			bootMessage.setValue(message);
+			this.message.setValue(message);
 		}
 	}
 }
