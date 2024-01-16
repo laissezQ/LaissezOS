@@ -1,5 +1,8 @@
 package com.wisneskey.los.service.script.command;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.state.ChairState.BarState;
 
@@ -25,6 +28,8 @@ import com.wisneskey.los.state.ChairState.BarState;
  */
 public class SetBarState extends AbstractScriptCommand {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(SetBarState.class);
+
 	/**
 	 * State to set for the bar.
 	 */
@@ -49,6 +54,7 @@ public class SetBarState extends AbstractScriptCommand {
 	@Override
 	public void perform() {
 		if( state != null ) {
+			LOGGER.info("Setting bar state: {}", state);
 			Kernel.kernel().chairState().barState().set(state);
 		}
 	}

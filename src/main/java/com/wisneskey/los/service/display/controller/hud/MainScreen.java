@@ -23,6 +23,8 @@ import org.jxmapviewer.viewer.WaypointRenderer;
 import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.display.controller.AbstractController;
+import com.wisneskey.los.service.display.listener.bar.BarButtonListener;
+import com.wisneskey.los.service.display.listener.bar.BarStateListener;
 import com.wisneskey.los.service.display.listener.message.MessagesToLabelListener;
 import com.wisneskey.los.service.display.map.MapServiceTileFactory;
 import com.wisneskey.los.service.location.Location;
@@ -34,6 +36,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -100,6 +103,18 @@ public class MainScreen extends AbstractController {
 	 */
 	@FXML
 	private Slider zoomSlider;
+
+	/**
+	 * Button for controlling the pop up bar.
+	 */
+	@FXML
+	private Button barButton;
+
+	/**
+	 * Button for controlling the water tap in the bar.
+	 */
+	@FXML
+	private Button tapButton;
 
 	/**
 	 * Node to show the Swing based MapViewer in.
@@ -192,7 +207,6 @@ public class MainScreen extends AbstractController {
 			// Add listeners for the GPS state.
 			locationState.hasGpsFix().addListener(new FixListener());
 			locationState.location().addListener(new GpsLocationListener());
-
 		});
 				
 		
@@ -209,6 +223,10 @@ public class MainScreen extends AbstractController {
 		mapState.getMapCenter().addListener(new MapCenterListener());
 		// Listen to the zoom slider for controlling the map zoom.
 		zoomSlider.valueProperty().addListener(new ZoomListener());
+		
+		// Listeners for controlling the bar and its controls.
+		BarButtonListener.add(barButton);
+		chairState().barState().addListener(new BarStateListener(barButton));
 	}
 
 	// ----------------------------------------------------------------------------------------

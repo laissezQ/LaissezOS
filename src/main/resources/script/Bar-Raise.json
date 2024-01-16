@@ -1,0 +1,38 @@
+{
+	// 
+	// Script for raising the bar.
+	//
+	"name": "Raise bar.",
+	//
+	"commands": [
+		{
+			"setBarState": {
+				"state": "RAISING"
+			}
+		},
+		{
+			"playSoundEffect": {
+				"effectIds": [
+					"MOVIE_ITS_ALIVE"
+				]
+			}
+		},
+		{
+			"relayOn": {
+				"relayId": "BAR_LIGHT"
+			}
+		},
+		{
+			"relayOn": {
+				"relayId": "BAR_RAISE",
+				"forSeconds": 3.0,
+				"waitForCompletion": true
+			}
+		},
+		{
+			"setBarState": {
+				"state": "RAISED"
+			}
+		}
+	]
+}

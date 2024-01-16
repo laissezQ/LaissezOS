@@ -1,17 +1,17 @@
-package com.wisneskey.los.service.display.listener.script;
+package com.wisneskey.los.service.display.listener.bar;
 
 import com.wisneskey.los.kernel.Kernel;
-import com.wisneskey.los.service.ServiceId;
-import com.wisneskey.los.service.script.ScriptId;
-import com.wisneskey.los.service.script.ScriptService;
+import com.wisneskey.los.state.ChairState.BarState;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.paint.Color;
 
 /**
- * Listener for a pressed event that starts a script relay when a control is
- * pressed.
+ * Change listener that monitors the bar state and updates the icon on a bar
+ * button based on whether it is raised or not.
  * 
  * Copyright (C) 2024 Paul Wisneskey
  * 
@@ -30,19 +30,26 @@ import javafx.scene.Node;
  *
  * @author paul.wisneskey@gmail.com
  */
-public class RunScriptWhenPressedListener implements ChangeListener<Boolean> {
+public class BarStateListener implements ChangeListener<BarState> {
 
 	/**
-	 * Id of the script to run.
+	 * Button to update the icon for.
 	 */
-	private ScriptId scriptId;
+	private Button barButton;
 
 	// ----------------------------------------------------------------------------------------
 	// Constructors.
 	// ----------------------------------------------------------------------------------------
 
-	public RunScriptWhenPressedListener(ScriptId scriptId) {
-		this.scriptId = scriptId;
+	/**
+	 * Creates a lister that updates the specified button.
+	 * 
+	 * @param barButton Button to update icon of.
+	 */
+	public BarStateListener(Button barButton) {
+		this.barButton = barButton;
+		
+		updateButtonState(Kernel.kernel().chairState().barState().getValue());
 	}
 
 	// ----------------------------------------------------------------------------------------
@@ -50,24 +57,37 @@ public class RunScriptWhenPressedListener implements ChangeListener<Boolean> {
 	// ----------------------------------------------------------------------------------------
 
 	@Override
-	public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean pressed) {
+	public void changed(ObservableValue<? extends BarState> observable, BarState oldValue, BarState newValue) {
 
-		if (pressed.booleanValue()) {
-			((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(scriptId);
-		}
+		Platform.runLater(() -> {
+			updateButtonState(newValue);
+		});
+
 	}
 
 	// ----------------------------------------------------------------------------------------
-	// Public static methods.
+	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
 
-	/**
-	 * Static utility method to add the listener to a JavaFX node.
-	 * 
-	 * @param node     Node to add the listener to.
-	 * @param scriptId Id of the relay to toggle.
-	 */
-	public static void add(Node node, ScriptId scriptId) {
-		node.pressedProperty().addListener(new RunScriptWhenPressedListener(scriptId));
+	private void updateButtonState(BarState state) {
+
+		switch (state) {
+
+		case LOWERED:
+			barButton.setTextFill(Color.WHITE);
+			break;
+
+		case RAISING:
+			barButton.setTextFill(Color.RED);
+			break;
+
+		case RAISED:
+			barButton.setTextFill(Color.LIGHTGREEN);
+			break;
+
+		case LOWERING:
+			barButton.setTextFill(Color.RED);
+			break;
+		}
 	}
 }

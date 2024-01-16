@@ -25,19 +25,12 @@ public enum RelayId {
 	// Driver board A relays:
 	BAR_LOWER(0, "Lower armrest bar", false),
 	BAR_RAISE(1, "Raise armest bar", false),
-	//RELAY_3(2, "Third relay.", true),
-	//RELAY_4(3, "Fourth relay.", true),
-	BAR_PUMP(4, "Activate Water Tap", false),
+	BAR_PUMP(5, "Activate Water Tap", false),
 	BAR_LIGHT(6, "Bar Lighting", true),
 	FLUX_CAPACITOR(7, "Flux Capacitor", true),
 
 	// Driver board B relays:
 	AMPLIFIER(8, "Audio amplifier ", true),
-	//RELAY_9(9, "Tenth relay.", true),
-	//RELAY_10(10, "Eleventh relay.", true),
-	//RELAY_11(11, "Twelfth relay.", true),
-	//RELAY_12(12, "Thirteenth relay.", true),
-	//RELAY_13(13, "Fourteenth relay.", true),
 	SIDE_LIGHTING(14, "Side Panel Lighting.", true),
 	UNDER_LIGHTING(15, "Under Chair Lighting.", true);
 

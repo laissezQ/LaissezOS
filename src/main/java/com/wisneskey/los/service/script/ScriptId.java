@@ -26,6 +26,8 @@ public enum ScriptId {
 	ABOUT_SCREEN_CLOSE("About screen: close", "AboutScreen-Close"),
 	AUDIO_SCREEN_OPEN("Audio screen: open", "AudioScreen-Open"),
 	AUDIO_SCREEN_CLOSE("Audio screen: close", "AudioScreen-Close"),
+	BAR_LOWER("Bar: Lower", "Bar-Lower"),
+	BAR_RAISE("Bar: Raise", "Bar-Raise"),
 	BOOT_FAST("Boot sequence: fast", "Boot-Fast"),
 	BOOT_DEV("Boot sequence: development", "Boot-DEV"),
 	CHAP_SCREEN_OPEN("Chap screen: open", "ChapScreen-Open"),

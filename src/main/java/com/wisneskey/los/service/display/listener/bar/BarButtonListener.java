@@ -1,4 +1,4 @@
-package com.wisneskey.los.service.display.listener.script;
+package com.wisneskey.los.service.display.listener.bar;
 
 import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.service.ServiceId;
@@ -10,9 +10,9 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 
 /**
- * Listener for a pressed event that starts a script relay when a control is
- * pressed.
- * 
+ * Listener for raising and lowering the pop up bar depending on the current
+ * state of the bar.
+ *
  * Copyright (C) 2024 Paul Wisneskey
  * 
  * This program is free software: you can redistribute it and/or modify it under
@@ -30,20 +30,7 @@ import javafx.scene.Node;
  *
  * @author paul.wisneskey@gmail.com
  */
-public class RunScriptWhenPressedListener implements ChangeListener<Boolean> {
-
-	/**
-	 * Id of the script to run.
-	 */
-	private ScriptId scriptId;
-
-	// ----------------------------------------------------------------------------------------
-	// Constructors.
-	// ----------------------------------------------------------------------------------------
-
-	public RunScriptWhenPressedListener(ScriptId scriptId) {
-		this.scriptId = scriptId;
-	}
+public class BarButtonListener implements ChangeListener<Boolean> {
 
 	// ----------------------------------------------------------------------------------------
 	// ChangeListener methods.
@@ -53,7 +40,27 @@ public class RunScriptWhenPressedListener implements ChangeListener<Boolean> {
 	public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean pressed) {
 
 		if (pressed.booleanValue()) {
-			((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(scriptId);
+
+			ScriptId scriptId = null;
+
+			switch (Kernel.kernel().chairState().barState().getValue()) {
+
+			case LOWERED:
+				scriptId = ScriptId.BAR_RAISE;
+				break;
+
+			case RAISED:
+				scriptId = ScriptId.BAR_LOWER;
+				break;
+
+			default:
+				// Don't do anything for intermediate states.
+				scriptId = null;
+			}
+
+			if (scriptId != null) {
+				((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(scriptId);
+			}
 		}
 	}
 
@@ -64,10 +71,9 @@ public class RunScriptWhenPressedListener implements ChangeListener<Boolean> {
 	/**
 	 * Static utility method to add the listener to a JavaFX node.
 	 * 
-	 * @param node     Node to add the listener to.
-	 * @param scriptId Id of the relay to toggle.
+	 * @param node Node to add the listener to.
 	 */
-	public static void add(Node node, ScriptId scriptId) {
-		node.pressedProperty().addListener(new RunScriptWhenPressedListener(scriptId));
+	public static void add(Node node) {
+		node.pressedProperty().addListener(new BarButtonListener());
 	}
 }

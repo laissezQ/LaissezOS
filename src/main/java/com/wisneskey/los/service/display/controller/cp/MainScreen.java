@@ -1,6 +1,8 @@
 package com.wisneskey.los.service.display.controller.cp;
 
 import com.wisneskey.los.service.display.controller.AbstractController;
+import com.wisneskey.los.service.display.listener.bar.BarButtonListener;
+import com.wisneskey.los.service.display.listener.bar.BarStateListener;
 import com.wisneskey.los.service.display.listener.message.MessagesToTextAreaListener;
 import com.wisneskey.los.service.display.listener.mouse.DoubleClickListener;
 import com.wisneskey.los.service.remote.RemoteButtonId;
@@ -50,9 +52,15 @@ public class MainScreen extends AbstractController {
 	@FXML
 	private TextArea messages;
 
+	/**
+	 * Button for controlling the pop up bar.
+	 */
 	@FXML
 	private Button barButton;
 
+	/**
+	 * Button for controlling the water tap in the bar.
+	 */
 	@FXML
 	private Button tapButton;
 
@@ -65,10 +73,13 @@ public class MainScreen extends AbstractController {
 	 */
 	@FXML
 	public void initialize() {
-		
+
 		chairState().message().addListener(new MessagesToTextAreaListener(messages, MAX_LINE_COUNT));
 		logo.setOnMouseClicked(new DoubleClickListener(e -> runScript(ScriptId.SYSTEM_SCREEN_OPEN)));
 		
+		// Listeners for controlling the bar and its controls.
+		BarButtonListener.add(barButton);
+		chairState().barState().addListener(new BarStateListener(barButton));
 	}
 
 	/**

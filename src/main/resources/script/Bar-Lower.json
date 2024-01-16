@@ -1,0 +1,38 @@
+{
+	// 
+	// Script for lowering the bar.
+	//
+	"name": "Lower bar.",
+	//
+	"commands": [
+		{
+			"setBarState": {
+				"state": "LOWERING"
+			}
+		},
+		{
+			"playSoundEffect": {
+				"effectIds": [
+					"MOVIE_ITS_ALIVE"
+				]
+			}
+		},
+		{
+			"relayOn": {
+				"relayId": "BAR_LOWER",
+				"forSeconds": 3.0,
+				"waitForCompletion": true
+			}
+		},
+		{
+			"relayOff": {
+				"relayId": "BAR_LIGHT"
+			}
+		},
+		{
+			"setBarState": {
+				"state": "LOWERED"
+			}
+		}
+	]
+}
