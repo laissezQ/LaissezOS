@@ -11,6 +11,13 @@
 			}
 		},
 		{
+			"message": {
+				"messages": [
+					"Raising the bar...\n"
+				]
+			}
+		},
+		{
 			"playSoundEffect": {
 				"effectIds": [
 					"MOVIE_ITS_ALIVE"
@@ -25,7 +32,7 @@
 		{
 			"relayOn": {
 				"relayId": "BAR_RAISE",
-				"forSeconds": 3.0,
+				"forSeconds": 2.25,
 				"waitForCompletion": true
 			}
 		},

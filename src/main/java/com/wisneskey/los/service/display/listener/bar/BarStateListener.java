@@ -33,9 +33,14 @@ import javafx.scene.paint.Color;
 public class BarStateListener implements ChangeListener<BarState> {
 
 	/**
-	 * Button to update the icon for.
+	 * Button for controlling the bar raising and lowering.
 	 */
 	private Button barButton;
+
+	/**
+	 * Button for turning on the water tap.
+	 */
+	private Button tapButton;
 
 	// ----------------------------------------------------------------------------------------
 	// Constructors.
@@ -46,9 +51,10 @@ public class BarStateListener implements ChangeListener<BarState> {
 	 * 
 	 * @param barButton Button to update icon of.
 	 */
-	public BarStateListener(Button barButton) {
+	public BarStateListener(Button barButton, Button tapButton) {
 		this.barButton = barButton;
-		
+		this.tapButton = tapButton;
+
 		updateButtonState(Kernel.kernel().chairState().barState().getValue());
 	}
 
@@ -75,18 +81,18 @@ public class BarStateListener implements ChangeListener<BarState> {
 
 		case LOWERED:
 			barButton.setTextFill(Color.WHITE);
-			break;
-
-		case RAISING:
-			barButton.setTextFill(Color.RED);
+			tapButton.setTextFill(Color.YELLOW);
 			break;
 
 		case RAISED:
 			barButton.setTextFill(Color.LIGHTGREEN);
+			tapButton.setTextFill(Color.LIGHTGREEN);
 			break;
 
+		case RAISING:
 		case LOWERING:
-			barButton.setTextFill(Color.RED);
+			barButton.setTextFill(Color.YELLOW);
+			tapButton.setTextFill(Color.YELLOW);
 			break;
 		}
 	}

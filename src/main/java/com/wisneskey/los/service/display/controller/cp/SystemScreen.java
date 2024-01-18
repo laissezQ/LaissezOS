@@ -128,6 +128,28 @@ public class SystemScreen extends AbstractController {
 	}
 
 	/**
+	 * Method invoked by the Open Chromium button.
+	 */
+	public void chromiumPressed() {
+		// runScript(ScriptId.WLED_SCREEN_OPEN);
+	}
+	
+	/**
+	 * Method invoked by the shutdown system button.
+	 */
+	public void shutdownPressed() {
+
+		boolean confirmed = ((DisplayService) Kernel.kernel().getService(ServiceId.DISPLAY)) //
+				.showConfirmation(DisplayId.CP, //
+						"Confirm Shutdown", //
+						"System shutdown has been requested!", "Do you want to continue?");
+
+		if (confirmed) {
+			runScript(ScriptId.SYSTEM_SHUTDOWN);
+		}
+	}
+
+	/**
 	 * Method invoked by the exit LaissezOS button.
 	 */
 	public void exitPressed() {

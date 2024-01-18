@@ -3,6 +3,7 @@ package com.wisneskey.los.service.display.controller.cp;
 import com.wisneskey.los.service.display.controller.AbstractController;
 import com.wisneskey.los.service.display.listener.bar.BarButtonListener;
 import com.wisneskey.los.service.display.listener.bar.BarStateListener;
+import com.wisneskey.los.service.display.listener.bar.TapButtonListener;
 import com.wisneskey.los.service.display.listener.message.MessagesToTextAreaListener;
 import com.wisneskey.los.service.display.listener.mouse.DoubleClickListener;
 import com.wisneskey.los.service.remote.RemoteButtonId;
@@ -79,7 +80,8 @@ public class MainScreen extends AbstractController {
 		
 		// Listeners for controlling the bar and its controls.
 		BarButtonListener.add(barButton);
-		chairState().barState().addListener(new BarStateListener(barButton));
+		TapButtonListener.add(tapButton);
+		chairState().barState().addListener(new BarStateListener(barButton, tapButton));
 	}
 
 	/**

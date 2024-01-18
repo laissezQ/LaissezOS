@@ -25,6 +25,7 @@ import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.display.controller.AbstractController;
 import com.wisneskey.los.service.display.listener.bar.BarButtonListener;
 import com.wisneskey.los.service.display.listener.bar.BarStateListener;
+import com.wisneskey.los.service.display.listener.bar.TapButtonListener;
 import com.wisneskey.los.service.display.listener.message.MessagesToLabelListener;
 import com.wisneskey.los.service.display.map.MapServiceTileFactory;
 import com.wisneskey.los.service.location.Location;
@@ -226,7 +227,8 @@ public class MainScreen extends AbstractController {
 		
 		// Listeners for controlling the bar and its controls.
 		BarButtonListener.add(barButton);
-		chairState().barState().addListener(new BarStateListener(barButton));
+		TapButtonListener.add(tapButton);
+		chairState().barState().addListener(new BarStateListener(barButton, tapButton));
 	}
 
 	// ----------------------------------------------------------------------------------------

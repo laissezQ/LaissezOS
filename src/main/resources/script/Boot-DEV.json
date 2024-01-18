@@ -47,7 +47,7 @@
 		{
 			"relayOn": {
 				"relayId": "BAR_LOWER",
-				"forSeconds": 3.0
+				"forSeconds": 2.25
 			}
 		},
 		{

@@ -2,12 +2,12 @@
 	// 
 	// Script that exits the Laissez OS application.
 	//
-	"name": "Shutdown Laissez OS",
+	"name": "Exit Laissez OS",
 	//
 	"commands": [
 		{
 			"message": {
-				"message": "Shutting down...\n",
+				"message": "Exiting LaissezOS...\n",
 				"postCommandPause": 1.0
 			}
 		},
