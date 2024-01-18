@@ -81,7 +81,7 @@ public class BarStateListener implements ChangeListener<BarState> {
 
 		case LOWERED:
 			barButton.setTextFill(Color.WHITE);
-			tapButton.setTextFill(Color.YELLOW);
+			tapButton.setTextFill(Color.DARKGRAY);
 			break;
 
 		case RAISED:
@@ -92,7 +92,7 @@ public class BarStateListener implements ChangeListener<BarState> {
 		case RAISING:
 		case LOWERING:
 			barButton.setTextFill(Color.YELLOW);
-			tapButton.setTextFill(Color.YELLOW);
+			tapButton.setTextFill(Color.DARKGRAY);
 			break;
 		}
 	}
