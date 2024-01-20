@@ -120,6 +120,13 @@ public class MainScreen extends AbstractController {
 	}
 
 	/**
+	 * Method invoked when the lighting button is pressed.
+	 */
+	public void lightingPressed() {
+		runScript(ScriptId.LIGHTING_SCREEN_OPEN);
+	}
+
+	/**
 	 * Method invoked when the script button is pressed.
 	 */
 	public void scriptPressed() {

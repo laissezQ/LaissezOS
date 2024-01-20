@@ -61,8 +61,32 @@ public class Profile {
 	/**
 	 * Default style for the displays.
 	 */
-	public static final DisplayStyle DEFAULT_DISPLAY_STYLE = DisplayStyle.LAISSEZ_OS;
+	private static final DisplayStyle DEFAULT_DISPLAY_STYLE = DisplayStyle.LAISSEZ_OS;
 
+	// ----------------------------------------------------------------------------------------
+	// Lighting service defaults.
+	// ----------------------------------------------------------------------------------------
+
+	/**
+	 * Default brightness for the LED lights in percentage.
+	 */
+	private static final int DEFAULT_LED_BRIGHTNESS = 50;
+
+	/**
+	 * Default brightness value for the actual lighting controller.
+	 */
+	private static final int DEFAULT_MAX_CONTROLLER_BRIGHTNESS = 128;
+	
+	/**
+	 * Default foreground color for LED lights.
+	 */
+	private static final String DEFAULT_FOREGROUND_COLOR = "0x0000FF";
+	
+	/**
+	 * Default background color for LED lights.
+	 */
+	private static final String DEFAULT_BACKGROUND_COLOR = "0x000000";
+	
 	// ----------------------------------------------------------------------------------------
 	// Location service defaults.
 	// ----------------------------------------------------------------------------------------
@@ -144,15 +168,35 @@ public class Profile {
 	 */
 	private boolean useRealLighting;
 
+	/**
+	 * Starting brightness of the LED lights.
+	 */
+	private int brightness = DEFAULT_LED_BRIGHTNESS;
+
+	/**
+	 * Maximum brightness value for the controller.
+	 */
+	private int maxControllerBrightness = DEFAULT_MAX_CONTROLLER_BRIGHTNESS;
+	
+	/**
+	 * Default foreground color for LED lights.
+	 */
+	private String foreground = DEFAULT_FOREGROUND_COLOR;
+	
+	/**
+	 * Default background color for LED lights.
+	 */
+	private String background = DEFAULT_BACKGROUND_COLOR;
+	
 	// ----------------------------------------------------------------------------------------
 	// Location service settings.
 	// ----------------------------------------------------------------------------------------
-	
+
 	/**
 	 * Map of location names to their locations for the preset known locations.
 	 */
 	private Map<String, Location> presetLocations;
-	
+
 	/**
 	 * Default preset location to use.
 	 */
@@ -281,6 +325,42 @@ public class Profile {
 		return useRealLighting;
 	}
 
+	/**
+	 * Starting brightness of the LED lights as a percentage.
+	 * 
+	 * @return Brightness for LED lights.
+	 */
+	public int getBrightness() {
+		return brightness;
+	}
+	
+	/**
+	 * Maximum brightness to use for the actual LED controller.
+	 * 
+	 * @return Max brightness for controller (0 to 255).
+	 */
+	public int getMaxControllerBrightness() {
+		return maxControllerBrightness;
+	}
+	
+	/**
+	 * Foreground color for LED lights.
+	 * 
+	 * @return Hex string representing foreground color.
+	 */
+	public String getForeground() {
+		return foreground;
+	}
+	
+	/**
+	 * Background color for LED lights.
+	 * 
+	 * @return Hex string representing background color.
+	 */
+	public String getBackground() {
+		return background;
+	}
+	
 	// ----------------------------------------------------------------------------------------
 	// Location service property getters.
 	// ----------------------------------------------------------------------------------------

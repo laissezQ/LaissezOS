@@ -2,6 +2,7 @@ package com.wisneskey.los.service.lighting.driver;
 
 import com.wisneskey.los.service.lighting.LightingEffectId;
 import com.wisneskey.los.service.profile.model.Profile;
+import com.wisneskey.los.state.LightingState;
 
 /**
  * Dummy lighting driver used in development environments with no actual
@@ -27,7 +28,7 @@ import com.wisneskey.los.service.profile.model.Profile;
 public class DummyLightingDriver implements LightingDriver {
 
 	@Override
-	public void initialize(Profile profile) {
+	public void initialize(Profile profile, LightingState state) {
 		// Nothing to do here
 	}
 

@@ -2,6 +2,7 @@ package com.wisneskey.los.service.lighting.driver;
 
 import com.wisneskey.los.service.lighting.LightingEffectId;
 import com.wisneskey.los.service.profile.model.Profile;
+import com.wisneskey.los.state.LightingState;
 
 /**
  * Interface defining an implementation of a lighting system based on a
@@ -30,14 +31,15 @@ public interface LightingDriver {
 	 * Initialize the lighting driver based on the profile.
 	 * 
 	 * @param profile Profile with settings for the lighting driver.
+	 * @param state   Initial state for lighting.
 	 */
-	void initialize(Profile profile);
+	void initialize(Profile profile, LightingState state);
 
 	/**
 	 * Shutdown the driver when terminating the service.
 	 */
 	void terminate();
- 
+
 	/**
 	 * Play the designated lighting effect.
 	 * 

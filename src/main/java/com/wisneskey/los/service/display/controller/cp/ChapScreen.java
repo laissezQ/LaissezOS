@@ -64,6 +64,24 @@ public class ChapScreen extends AbstractController {
 	@FXML
 	private Button soundSixButton;
 
+	@FXML
+	private Button lightingOneButton;
+	
+	@FXML
+	private Button lightingTwoButton;
+	
+	@FXML
+	private Button lightingThreeButton;
+	
+	@FXML
+	private Button lightingFourButton;
+	
+	@FXML
+	private Button lightingFiveButton;
+	
+	@FXML
+	private Button lightingSixButton;
+
 	/**
 	 * Random number generator for selecting sound clips to associate with
 	 * buttons.

@@ -59,12 +59,12 @@
 				<DropShadow />
 			</effect>
 		</CheckBox>
-		<Line endX="190.0" layoutX="196.0" layoutY="716.0" startX="-180.0">
+		<Line endX="190.0" layoutX="196.0" layoutY="734.0" startX="-180.0">
 			<effect>
 				<DropShadow />
 			</effect>
 		</Line>
-		<Label fx:id="gpsStatusLabel" layoutX="177.0" layoutY="733.0" text="GPS" textAlignment="CENTER">
+		<Label fx:id="gpsStatusLabel" layoutX="177.0" layoutY="755.0" text="GPS" textAlignment="CENTER">
 			<effect>
 				<DropShadow />
 			</effect>
@@ -72,7 +72,7 @@
 				<Font size="24.0" />
 			</font>
 		</Label>
-		<Label layoutX="97.0" layoutY="790.0" text="Satellites In View:">
+		<Label layoutX="97.0" layoutY="800.0" text="Satellites In View:">
 			<font>
 				<Font size="18.0" />
 			</font>
@@ -80,7 +80,7 @@
 				<DropShadow />
 			</effect>
 		</Label>
-		<Label layoutX="114.0" layoutY="833.0" text="Satellites In Fix:">
+		<Label layoutX="114.0" layoutY="841.0" text="Satellites In Fix:">
 			<font>
 				<Font size="18.0" />
 			</font>
@@ -88,7 +88,7 @@
 				<DropShadow />
 			</effect>
 		</Label>
-		<Label fx:id="satelliteInViewLabel" alignment="CENTER_RIGHT" layoutX="261.0" layoutY="790.0" prefHeight="17.0" prefWidth="29.0" text="0">
+		<Label fx:id="satelliteInViewLabel" alignment="CENTER_RIGHT" layoutX="261.0" layoutY="800.0" prefHeight="17.0" prefWidth="29.0" text="0">
 			<font>
 				<Font name="Consolas" size="18.0" />
 			</font>
@@ -96,7 +96,7 @@
 				<DropShadow />
 			</effect>
 		</Label>
-		<Label fx:id="satelliteInFixLabel" alignment="CENTER_RIGHT" layoutX="261.0" layoutY="833.0" prefHeight="17.0" prefWidth="29.0" text="0">
+		<Label fx:id="satelliteInFixLabel" alignment="CENTER_RIGHT" layoutX="261.0" layoutY="841.0" prefHeight="17.0" prefWidth="29.0" text="0">
 			<font>
 				<Font name="Consolas" size="18.0" />
 			</font>
@@ -104,7 +104,7 @@
 				<DropShadow />
 			</effect>
 		</Label>
-		<ScrollPane layoutX="18.0" layoutY="441.0" prefHeight="251.0" prefWidth="371.0">
+		<ScrollPane layoutX="18.0" layoutY="441.0" prefHeight="274.0" prefWidth="371.0">
 			<content>
 				<VBox fx:id="locationBox" prefHeight="31.0" prefWidth="19.0" spacing="16.0" />
 			</content>

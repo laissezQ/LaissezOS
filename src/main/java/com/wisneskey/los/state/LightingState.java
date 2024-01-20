@@ -2,7 +2,10 @@ package com.wisneskey.los.state;
 
 import com.wisneskey.los.service.lighting.LightingEffectId;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.scene.paint.Color;
 
 /**
  * Sate object for the state of the lighting systems.
@@ -26,6 +29,27 @@ import javafx.beans.property.ReadOnlyObjectProperty;
  */
 public interface LightingState extends State {
 
+	/**
+	 * Brightness of the LED lights as a percentage.
+	 * 
+	 * @return Brightness of the lights.
+	 */
+	IntegerProperty brightness();
+	
+	/**
+	 * Current foreground color.
+	 * 
+	 * @return Color object for foreground color.
+	 */
+	ObjectProperty<Color> foreground();
+	
+	/**
+	 * Current background color.
+	 * 
+	 * @return Color object for background color.
+	 */
+	ObjectProperty<Color> background();
+	
 	/**
 	 * Returns the current effect being shown by the lighting system.
 	 * 

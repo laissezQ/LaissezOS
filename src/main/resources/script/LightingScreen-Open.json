@@ -1,0 +1,22 @@
+{
+	// 
+	// Script for playing when somone opens the lighting screen.
+	//
+	"name": "User has opened the lighting screen.",
+	//
+	"commands": [
+		{
+			"playSoundEffect": {
+				"effectIds": [
+					"MOVIE_WORKING",
+					"MOVIE_MACHINE_GOES_PING"
+				]
+			}
+		},
+		{
+			"showScene": {
+				"sceneId": "CP_LIGHTING_SCREEN"
+			}
+		}
+	]
+}

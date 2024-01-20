@@ -13,8 +13,12 @@ import com.wisneskey.los.service.lighting.driver.wled.WledLightingDriver;
 import com.wisneskey.los.service.profile.model.Profile;
 import com.wisneskey.los.state.LightingState;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.paint.Color;
 import javafx.util.Pair;
 
 /**
@@ -88,11 +92,11 @@ public class LightingService extends AbstractService<LightingState> {
 	 * @param effectId Id of the lighting effect to play.
 	 */
 	public void playEffect(LightingEffectId effectId) {
-	
+
 		lightingDriver.playEffect(effectId);
 		lightingState.setCurrentEffect(effectId);
 	}
-	
+
 	// ----------------------------------------------------------------------------------------
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
@@ -120,10 +124,11 @@ public class LightingService extends AbstractService<LightingState> {
 			throw new LaissezException("Lighting driver not set.");
 		}
 
-		lightingState = new InternalLightingState();
+		lightingState = new InternalLightingState(profile.getBrightness(), profile.getForeground(),
+				profile.getBackground());
 
 		// Let the lighting driver initialize itself based on the profile.
-		lightingDriver.initialize(profile);
+		lightingDriver.initialize(profile, lightingState);
 
 		return lightingState;
 	}
@@ -180,18 +185,54 @@ public class LightingService extends AbstractService<LightingState> {
 	 */
 	private static class InternalLightingState implements LightingState {
 
+		private SimpleIntegerProperty brightness;
+
 		private SimpleObjectProperty<LightingEffectId> currentEffect;
-		
-		private InternalLightingState() {
-			currentEffect = new SimpleObjectProperty<>(LightingEffectId.ALL_OFF);
+
+		private SimpleObjectProperty<Color> foreground;
+
+		private SimpleObjectProperty<Color> background;
+
+		// ----------------------------------------------------------------------------------------
+		// Constructors.
+		// ----------------------------------------------------------------------------------------
+
+		private InternalLightingState(int startingBrightness, String foreground, String background) {
+			this.currentEffect = new SimpleObjectProperty<>(LightingEffectId.ALL_OFF);
+			this.brightness = new SimpleIntegerProperty(startingBrightness);
+			this.foreground = new SimpleObjectProperty<>(Color.web(foreground));
+			this.background = new SimpleObjectProperty<>(Color.web(background));
 		}
+
+		// ----------------------------------------------------------------------------------------
+		// Lighting State methods.
+		// ----------------------------------------------------------------------------------------
 
 		@Override
 		public ReadOnlyObjectProperty<LightingEffectId> currentEffect() {
 			return currentEffect;
 		}
-		
-		public void setCurrentEffect(LightingEffectId effectId) {
+
+		@Override
+		public IntegerProperty brightness() {
+			return brightness;
+		}
+
+		@Override
+		public ObjectProperty<Color> foreground() {
+			return foreground;
+		}
+
+		@Override
+		public ObjectProperty<Color> background() {
+			return background;
+		}
+
+		// ----------------------------------------------------------------------------------------
+		// Private methods.
+		// ----------------------------------------------------------------------------------------
+
+		private void setCurrentEffect(LightingEffectId effectId) {
 			currentEffect.set(effectId);
 		}
 	}

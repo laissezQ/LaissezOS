@@ -57,7 +57,7 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
-      <Button layoutX="225.0" layoutY="513.0" mnemonicParsing="false" prefHeight="91.0" prefWidth="111.0" text="Lighting">
+      <Button layoutX="225.0" layoutY="513.0" mnemonicParsing="false" onAction="#lightingPressed" prefHeight="91.0" prefWidth="111.0" text="Lighting">
          <effect>
             <DropShadow />
          </effect>

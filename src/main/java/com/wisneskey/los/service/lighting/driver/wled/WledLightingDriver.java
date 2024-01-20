@@ -13,6 +13,7 @@ import com.wisneskey.los.service.lighting.driver.wled.client.model.Summary;
 import com.wisneskey.los.service.profile.model.Profile;
 import com.wisneskey.los.service.relay.RelayId;
 import com.wisneskey.los.service.relay.RelayService;
+import com.wisneskey.los.state.LightingState;
 
 /**
  * Driver for controlling lights with the WLED application running on a host.
@@ -54,7 +55,7 @@ public class WledLightingDriver implements LightingDriver {
 	// ----------------------------------------------------------------------------------------
 
 	@Override
-	public void initialize(Profile profile) {
+	public void initialize(Profile profile, LightingState state) {
 
 		if (profile.getWledHostAddress() == null) {
 			throw new LaissezException("No WLED controller host address set.");
@@ -79,6 +80,9 @@ public class WledLightingDriver implements LightingDriver {
 			return;
 		}
 
+		// TODO: Send initial brightness here and make sure loading animation
+		// playing.
+
 		// TODO: Validate the information we obtained from the controller to make
 		// sure its configuration matches what we expect in terms of lighting
 		// segments, etc.
@@ -97,7 +101,7 @@ public class WledLightingDriver implements LightingDriver {
 		((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOff(RelayId.SIDE_LIGHTING);
 		((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOff(RelayId.UNDER_LIGHTING);
 	}
-	
+
 	@Override
 	public void playEffect(LightingEffectId effectId) {
 		// Nothing to do here

@@ -34,6 +34,8 @@ public enum ScriptId {
 	CHAP_SCREEN_CLOSE("Chap screen: close", "ChapScreen-Close"),
 	EFFECT_SCREEN_OPEN("Effect screen: open", "EffectScreen-Open"),
 	EFFECT_SCREEN_CLOSE("Effect screen: close", "EffectScreen-Close"),
+	LIGHTING_SCREEN_OPEN("Lighting screen: open", "LightingScreen-Open"),
+	LIGHTING_SCREEN_CLOSE("Lighting screen: close", "LightingScreen-Close"),
 	REMOTE_LOCK("Remote: lock chair", "Remote-Lock"),
 	REMOTE_UNLOCK("Remote: unlock chair", "Remote-Unlock"),
 	SECURITY_LOCK("Security screen: open", "Security-Lock"),
