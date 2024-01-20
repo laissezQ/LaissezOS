@@ -23,6 +23,7 @@
 		},
 		{
 			"shutdown": {
+				"turnOff": true
 			}
 		}
 	]

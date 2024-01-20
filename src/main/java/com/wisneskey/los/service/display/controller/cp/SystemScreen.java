@@ -3,6 +3,7 @@ package com.wisneskey.los.service.display.controller.cp;
 import java.util.Map;
 
 import com.wisneskey.los.kernel.Kernel;
+import com.wisneskey.los.kernel.RunMode;
 import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.display.DisplayId;
 import com.wisneskey.los.service.display.DisplayService;
@@ -15,6 +16,7 @@ import com.wisneskey.los.service.profile.model.Profile;
 import com.wisneskey.los.service.script.ScriptId;
 import com.wisneskey.los.state.LocationState;
 import com.wisneskey.los.state.MapState;
+import com.wisneskey.los.util.RunProcess;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -47,6 +49,26 @@ import javafx.scene.paint.Color;
  * @author paul.wisneskey@gmail.com
  */
 public class SystemScreen extends AbstractController {
+
+	/**
+	 * Command to use to open browser on the Raspberry Pi.
+	 */
+	private static final String[] OPEN_BROWSER_RASPBERRY_PI = { "chromium-browser" };
+
+	/**
+	 * Command to use to open browser on the OS X laptop.
+	 */
+	private static final String[] OPEN_BROWSER_LAPTOP = { "/usr/bin/open", "/Applications/Brave Browser.app" };
+
+	/**
+	 * Command to use to open a terminal on the Raspberry Pi.
+	 */
+	private static final String[] OPEN_TERMINAL_RASPBERRY_PI = { "lxterminal" };
+
+	/**
+	 * Command to use to open a terminal on the OS X laptop.
+	 */
+	private static final String[] OPEN_TERMINAL_LAPTOP = { "/usr/bin/open", "Applications/iTerm" };
 
 	/**
 	 * Laissez Boy logo.
@@ -128,12 +150,25 @@ public class SystemScreen extends AbstractController {
 	}
 
 	/**
-	 * Method invoked by the Open Chromium button.
+	 * Method invoked by the Open Web Browser button.
 	 */
-	public void chromiumPressed() {
-		// runScript(ScriptId.WLED_SCREEN_OPEN);
+	public void browserPressed() {
+
+		kernel().message("Opening web browser...\n");
+		String[] command = kernel().getRunMode() == RunMode.CHAIR ? OPEN_BROWSER_RASPBERRY_PI : OPEN_BROWSER_LAPTOP;
+		RunProcess.runCommand(command);
 	}
-	
+
+	/**
+	 * Method invoked by the Open Terminal button.
+	 */
+	public void terminalPressed() {
+
+		kernel().message("Opening terminal...\n");
+		String[] command = kernel().getRunMode() == RunMode.CHAIR ? OPEN_TERMINAL_RASPBERRY_PI : OPEN_TERMINAL_LAPTOP;
+		RunProcess.runCommand(command);
+	}
+
 	/**
 	 * Method invoked by the shutdown system button.
 	 */

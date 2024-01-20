@@ -65,10 +65,8 @@ public class BarStateListener implements ChangeListener<BarState> {
 	@Override
 	public void changed(ObservableValue<? extends BarState> observable, BarState oldValue, BarState newValue) {
 
-		Platform.runLater(() -> {
-			updateButtonState(newValue);
-		});
-
+		Platform.runLater(() -> 
+			updateButtonState(newValue));
 	}
 
 	// ----------------------------------------------------------------------------------------

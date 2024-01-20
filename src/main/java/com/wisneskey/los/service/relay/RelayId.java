@@ -25,6 +25,7 @@ public enum RelayId {
 	// Driver board A relays:
 	BAR_LOWER(0, "Lower armrest bar", false),
 	BAR_RAISE(1, "Raise armest bar", false),
+	LED_DATA_BOOST(2, "LED Data Booster", true),
 	BAR_PUMP(5, "Activate Water Tap", false),
 	BAR_LIGHT(6, "Bar Lighting", true),
 	FLUX_CAPACITOR(7, "Flux Capacitor", true),
