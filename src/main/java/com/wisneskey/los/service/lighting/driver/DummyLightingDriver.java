@@ -44,21 +44,32 @@ public class DummyLightingDriver implements LightingDriver {
 
 	@Override
 	public void playEffect(LightingEffectId effectId, LightingState lightingState) {
-
 		LOGGER.info("Switching lighting effect: effectId={}", effectId);
 	}
 
 	@Override
 	public void changeBrightness(int brightness) {
-
 		LOGGER.info("Changing brightness: newValue={}", brightness);
 	}
 
 	@Override
 	public void changeColor(LightingState state) {
-
 		LOGGER.info("Changing colors: first={} second={} third={}", state.firstColor().getValue(),
 				state.secondColor().getValue(), state.thirdColor().getValue());
 	}
 
+	@Override
+	public void changeSpeed(int speed) {
+		LOGGER.info("Changing speed: newValue={}", speed);
+	}
+
+	@Override
+	public void changeIntensity(int intensity) {
+		LOGGER.info("Changing intensity: newValue={}", intensity);
+	}
+
+	@Override
+	public void changeReversed(boolean reversed) {
+		LOGGER.info("Changing reversed flag: newValue={}", reversed);
+	}
 }

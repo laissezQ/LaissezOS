@@ -2,6 +2,7 @@ package com.wisneskey.los.state;
 
 import com.wisneskey.los.service.lighting.LightingEffectId;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
@@ -35,6 +36,27 @@ public interface LightingState extends State {
 	 * @return Brightness of the lights.
 	 */
 	IntegerProperty brightness();
+	
+	/**
+	 * Speed of the LED effect (0 - 255).
+	 * 
+	 * @return Speed of the LED effect.
+	 */
+	IntegerProperty speed();
+
+	/**
+	 * Intensity of the LED effect (0 - 255).
+	 * 
+	 * @return Intensity of the LED effect.
+	 */
+	IntegerProperty intensity();
+	
+	/**
+	 * Flag indicating if the effect animation should be reversed.
+	 * 
+	 * @return True iff animation is reversed.
+	 */
+	BooleanProperty reversed();
 	
 	/**
 	 * First color for effect (usually foreground color).

@@ -56,6 +56,27 @@ public interface LightingDriver {
 	void changeBrightness(int brightness);
 
 	/**
+	 * Change the speed of the currently playing effect.
+	 * 
+	 * @param speed New speed for effect.
+	 */
+	void changeSpeed(int speed);
+	
+	/**
+	 * Change the intensity of the currently playing effect.
+	 * 
+	 * @param intensity New intensity for effect.
+	 */
+	void changeIntensity(int intensity);
+	
+	/**
+	 * Change the reverse animation setting for the currently playing effect.
+	 * 
+	 * @param reversed Reversed flag for animation.
+	 */
+	void changeReversed(boolean reversed);
+	
+	/**
 	 * Change the colors of the currently playing effect.
 	 * 
 	 * @param state State with new colors.

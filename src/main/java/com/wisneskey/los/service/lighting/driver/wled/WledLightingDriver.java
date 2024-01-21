@@ -100,7 +100,7 @@ public class WledLightingDriver implements LightingDriver {
 
 		controllerClient = WledClient.create(profile.getWledHostAddress());
 
-		Summary summary;
+		Summary summary = null;
 		try {
 			// Verify the connection by requesting the info from the controller.
 			summary = controllerClient.getSummary();
@@ -115,12 +115,8 @@ public class WledLightingDriver implements LightingDriver {
 			return;
 		}
 
-		// TODO: Validate the information we obtained from the controller to make
-		// sure its configuration matches what we expect in terms of lighting
-		// segments, etc.
-
-		// Immediately set the brightness of the lights.
-		changeBrightness(state.brightness().intValue());
+		// Update our state with the current state of the lighting controller.
+		updateLightingState(summary.getState(), state);
 
 		// If we were able to talk to the controller, go ahead and energize
 		// the relays to enable power to the LED lighting on both sides of the
@@ -198,6 +194,51 @@ public class WledLightingDriver implements LightingDriver {
 	}
 
 	@Override
+	public void changeSpeed(int speed) {
+		
+		LOGGER.info("Changing speed: newValue={}", speed);
+		
+		Segment segment = new Segment();
+		segment.setId(0);
+		segment.setEffectSpeed(speed);
+
+		State state = new State();
+		state.setSegments(Collections.singletonList(segment));
+
+		controllerClient.updateState(state);
+	}
+
+	@Override
+	public void changeIntensity(int intensity) {
+
+		LOGGER.info("Changing intensity: newValue={}", intensity);
+
+		Segment segment = new Segment();
+		segment.setId(0);
+		segment.setEffectIntensity(intensity);
+
+		State state = new State();
+		state.setSegments(Collections.singletonList(segment));
+
+		controllerClient.updateState(state);
+	}
+
+	@Override
+	public void changeReversed(boolean reversed) {
+
+		LOGGER.info("Changing reversed flag: newValue={}", reversed);
+		
+		Segment segment = new Segment();
+		segment.setId(0);
+		segment.setReverse(reversed);
+
+		State state = new State();
+		state.setSegments(Collections.singletonList(segment));
+
+		controllerClient.updateState(state);
+	}
+
+	@Override
 	public void changeColor(LightingState lightingState) {
 
 		LOGGER.info("Changing colors: first={} second={} third={}", lightingState.firstColor().getValue(),
@@ -225,9 +266,12 @@ public class WledLightingDriver implements LightingDriver {
 	private void updateLightingState(State updatedState, LightingState lightingState) {
 
 		lightingState.brightness().setValue(calculateStateBrightness(updatedState.getBrightness()));
-
+		
 		Segment updatedSegment = updatedState.getSegments().get(0);
-
+		lightingState.speed().setValue(updatedSegment.getEffectSpeed());
+		lightingState.intensity().setValue(updatedSegment.getEffectIntensity());
+		lightingState.reversed().setValue(updatedSegment.getReverse());
+		
 		// Apply and color changes to our internal state.
 		List<List<Integer>> updatedColors = updatedSegment.getColors();
 

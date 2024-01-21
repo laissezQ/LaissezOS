@@ -11,6 +11,7 @@ import com.wisneskey.los.state.LightingState;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Slider;
 import javafx.scene.image.ImageView;
@@ -51,6 +52,24 @@ public class LightingScreen extends AbstractController {
 	private Slider brightnessSlider;
 
 	/**
+	 * Slider for controlling the speed.
+	 */
+	@FXML
+	private Slider speedSlider;
+	
+	/**
+	 * Slider for controlling the intensity.
+	 */
+	@FXML
+	private Slider intensitySlider;
+	
+	/**
+	 * Check box for toggling a reversed animation.
+	 */
+	@FXML
+	private CheckBox reversedCheckbox;
+	
+	/**
 	 * Vertical box the sound effects clips will be.
 	 */
 	@FXML
@@ -86,9 +105,11 @@ public class LightingScreen extends AbstractController {
 
 		LightingState lightingState = chairState().getServiceState(ServiceId.LIGHTING);
 
-		// Bind the brightness control.
+		// Bind the various parameter controls.
 		brightnessSlider.valueProperty().bindBidirectional(lightingState.brightness());
-
+		speedSlider.valueProperty().bindBidirectional(lightingState.speed());
+		intensitySlider.valueProperty().bindBidirectional(lightingState.intensity());
+		reversedCheckbox.selectedProperty().bindBidirectional(lightingState.reversed());
 
 		// Bind the color pickers to their state counterparts.
 		firstPicker.valueProperty().bindBidirectional(lightingState.firstColor());

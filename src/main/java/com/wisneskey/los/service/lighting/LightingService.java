@@ -13,9 +13,11 @@ import com.wisneskey.los.service.lighting.driver.wled.WledLightingDriver;
 import com.wisneskey.los.service.profile.model.Profile;
 import com.wisneskey.los.state.LightingState;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
@@ -138,6 +140,9 @@ public class LightingService extends AbstractService<LightingState> {
 		// Monitor the state for changes to brightness and colors so we can apply
 		// them immediately.
 		lightingState.brightness.addListener(new BrightnessListener());
+		lightingState.speed.addListener(new SpeedListener());
+		lightingState.intensity.addListener(new IntensityListener());
+		lightingState.reversed.addListener(new ReversedListener());
 		lightingState.firstColor.addListener(new ColorListener());
 		lightingState.secondColor.addListener(new ColorListener());
 		lightingState.thirdColor.addListener(new ColorListener());
@@ -191,7 +196,7 @@ public class LightingService extends AbstractService<LightingState> {
 	// ----------------------------------------------------------------------------------------
 	// Inner classes.
 	// ----------------------------------------------------------------------------------------
-
+	
 	/**
 	 * Property listener for letting the LED controller know when the brightness
 	 * has changed.
@@ -201,6 +206,42 @@ public class LightingService extends AbstractService<LightingState> {
 		@Override
 		public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 			lightingDriver.changeBrightness(newValue.intValue());
+		}
+	}
+
+	/**
+	 * Property listener for letting the LED controller know when the speed
+	 * has changed.
+	 */
+	private class SpeedListener implements ChangeListener<Number> {
+
+		@Override
+		public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+			lightingDriver.changeSpeed(newValue.intValue());
+		}
+	}
+
+	/**
+	 * Property listener for letting the LED controller know when the intensity
+	 * has changed.
+	 */
+	private class IntensityListener implements ChangeListener<Number> {
+
+		@Override
+		public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+			lightingDriver.changeIntensity(newValue.intValue());
+		}
+	}
+
+	/**
+	 * Property listener for letting the LED controller know when the intensity
+	 * has changed.
+	 */
+	private class ReversedListener implements ChangeListener<Boolean> {
+
+		@Override
+		public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+			lightingDriver.changeReversed(newValue.booleanValue());
 		}
 	}
 
@@ -223,6 +264,12 @@ public class LightingService extends AbstractService<LightingState> {
 
 		private SimpleIntegerProperty brightness;
 
+		private SimpleIntegerProperty speed;
+
+		private SimpleIntegerProperty intensity;
+
+		private SimpleBooleanProperty reversed;
+
 		private SimpleObjectProperty<LightingEffectId> currentEffect;
 
 		private SimpleObjectProperty<Color> firstColor;
@@ -238,6 +285,9 @@ public class LightingService extends AbstractService<LightingState> {
 		private InternalLightingState(Profile profile) {
 			this.currentEffect = new SimpleObjectProperty<>(LightingEffectId.ALL_OFF);
 			this.brightness = new SimpleIntegerProperty(profile.getBrightness());
+			this.speed = new SimpleIntegerProperty();
+			this.intensity = new SimpleIntegerProperty();
+			this.reversed = new SimpleBooleanProperty(false);
 			this.firstColor = new SimpleObjectProperty<>(Color.web(profile.getFirstColor()));
 			this.secondColor = new SimpleObjectProperty<>(Color.web(profile.getSecondColor()));
 			this.thirdColor = new SimpleObjectProperty<>(Color.web(profile.getThirdColor()));
@@ -255,6 +305,21 @@ public class LightingService extends AbstractService<LightingState> {
 		@Override
 		public IntegerProperty brightness() {
 			return brightness;
+		}
+
+		@Override
+		public IntegerProperty speed() {
+			return speed;
+		}
+
+		@Override
+		public IntegerProperty intensity() {
+			return intensity;
+		}
+
+		@Override
+		public BooleanProperty reversed() {
+			return reversed;
 		}
 
 		@Override

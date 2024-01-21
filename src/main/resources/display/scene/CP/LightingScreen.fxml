@@ -51,7 +51,7 @@
             <DropShadow />
          </effect>
       </Slider>
-      <ScrollPane hbarPolicy="NEVER" layoutX="16.0" layoutY="520.0" prefHeight="606.0" prefWidth="371.0">
+      <ScrollPane hbarPolicy="NEVER" layoutX="16.0" layoutY="722.0" prefHeight="404.0" prefWidth="371.0">
          <effect>
             <DropShadow />
          </effect>
@@ -89,7 +89,7 @@
             <DropShadow />
          </effect>
       </ColorPicker>
-      <Line endX="190.0" layoutX="195.0" layoutY="498.0" startX="-180.0">
+      <Line endX="190.0" layoutX="195.0" layoutY="709.0" startX="-180.0">
          <effect>
             <DropShadow />
          </effect>
@@ -107,5 +107,39 @@
             <Font size="18.0" />
          </font>
       </Label>
+      <Slider fx:id="speedSlider" blockIncrement="8.0" layoutX="37.0" layoutY="512.0" majorTickUnit="16.0" max="255.0" minorTickCount="0" prefHeight="38.0" prefWidth="329.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="128.0">
+         <effect>
+            <DropShadow />
+         </effect>
+      </Slider>
+      <Label layoutX="167.0" layoutY="482.0" text="Speed" textAlignment="CENTER">
+         <effect>
+            <DropShadow />
+         </effect>
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="159.0" layoutY="560.0" text="Intensity" textAlignment="CENTER">
+         <effect>
+            <DropShadow />
+         </effect>
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Slider fx:id="intensitySlider" blockIncrement="8.0" layoutX="37.0" layoutY="590.0" majorTickUnit="16.0" max="255.0" minorTickCount="0" prefHeight="38.0" prefWidth="329.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="128.0">
+         <effect>
+            <DropShadow />
+         </effect>
+      </Slider>
+      <CheckBox fx:id="reversedCheckbox" layoutX="138.0" layoutY="655.0" mnemonicParsing="false" text="Reversed">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <effect>
+            <DropShadow />
+         </effect>
+      </CheckBox>
 	</children>
 </Pane>
