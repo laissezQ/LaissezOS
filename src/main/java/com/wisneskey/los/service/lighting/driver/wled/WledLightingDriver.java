@@ -161,6 +161,7 @@ public class WledLightingDriver implements LightingDriver {
 		segment.setId(0);
 		segment.setColors(colors);
 		segment.setEffectId(config.getEffectId());
+		segment.setLoadEffectDefaults(true);
 		segment.setEffectIntensity(config.getIntensity());
 		segment.setEffectSlider1(config.getSlider1());
 		segment.setEffectSlider2(config.getSlider2());
