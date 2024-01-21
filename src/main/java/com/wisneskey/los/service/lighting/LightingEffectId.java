@@ -26,7 +26,30 @@ import java.util.stream.Collectors;
  * @author paul.wisneskey@gmail.com
  */
 public enum LightingEffectId {
-	ALL_OFF("All Off", "Turn off all lighting effeccts", true);
+	ALL_OFF("All Off", "All Lights off", false),
+	BLENDS("Blends", "Colors Blended", true),
+	CHASE2("Chase 2", "Two Color Chase", true),
+	CHASE3("Chase 3", "Three Color Chase", true),
+	COLORFUL("Colorful", "Slow Color Circle", true),
+	FLOW("Flow", "Rainbow Flow", true),
+	GLITTER("Glitter", "Solid Glitter", true),
+	HEARTBEAT("Heartbeat", "Heart Pulse", true),
+	JUGGLE("Juggle", "Juggling Balls", true),
+	LOADING("Loading", "Loading Sweep", true),
+	MARQUEE("Marquee", "Marquee", true),
+	NOISE("Noise", "Phased Noise", true),
+	OCEAN("Ocean", "Ocean Waves", true),
+	PHASED("Phases", "Phased Colors", true),
+	PIXELS("Pixels", "Pixel Cycle", true),
+	PLASMOID("Plasmoid", "Plasmoid", true),
+	PRIDE("Pride", "Circling Rainbow", true),
+	RAINBOW("Rainbow", "Rainbow", true),
+	RUNNING("Running", "Running Color", true),
+	SOLID("Solid", "Solid Color", true),
+	TETRIX("Tetrix", "Tetrix", true),
+	TWINKLE_CAT("Twinkle Cat", "Twinkle Cat", true),
+	TWINKLES("Twinkles", "Twinkling Colors", true),
+	WAVE("Wave", "Single Color Wave", true);
 
 	// ----------------------------------------------------------------------------------------
 	// Variables.

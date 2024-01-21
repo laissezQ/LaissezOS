@@ -4,6 +4,7 @@ import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.display.controller.AbstractController;
 import com.wisneskey.los.service.display.listener.mouse.DoubleClickListener;
 import com.wisneskey.los.service.lighting.LightingEffectId;
+import com.wisneskey.los.service.lighting.LightingService;
 import com.wisneskey.los.service.script.ScriptId;
 import com.wisneskey.los.state.LightingState;
 
@@ -55,17 +56,23 @@ public class LightingScreen extends AbstractController {
 	private VBox effectsBox;
 
 	/**
-	 * Color picker for the foreground color.
+	 * Color picker for the first color.
 	 */
 	@FXML
-	private ColorPicker foregroundPicker;
+	private ColorPicker firstPicker;
 	
 	/**
-	 * Color picker for the background color.
+	 * Color picker for the second color.
 	 */
 	@FXML
-	private ColorPicker backgroundPicker;
-	
+	private ColorPicker secondPicker;
+
+	/**
+	 * Color picker for the third color.
+	 */
+	@FXML
+	private ColorPicker thirdPicker;
+
 	// ----------------------------------------------------------------------------------------
 	// Public methods.
 	// ----------------------------------------------------------------------------------------
@@ -83,8 +90,9 @@ public class LightingScreen extends AbstractController {
 
 
 		// Bind the color pickers to their state counterparts.
-		foregroundPicker.valueProperty().bindBidirectional(lightingState.foreground());
-		backgroundPicker.valueProperty().bindBidirectional(lightingState.background());
+		firstPicker.valueProperty().bindBidirectional(lightingState.firstColor());
+		secondPicker.valueProperty().bindBidirectional(lightingState.secondColor());
+		thirdPicker.valueProperty().bindBidirectional(lightingState.thirdColor());
 		
 		for (LightingEffectId effectId : LightingEffectId.values() ) {
 
@@ -109,5 +117,6 @@ public class LightingScreen extends AbstractController {
 
 	private void triggerEffect(LightingEffectId effectId) {
 		
+		((LightingService) kernel().getService(ServiceId.LIGHTING)).playEffect(effectId);
 	}
 }

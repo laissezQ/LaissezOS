@@ -38,7 +38,7 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
-      <Label layoutX="151.0" layoutY="337.0" text="Brightness" textAlignment="CENTER">
+      <Label layoutX="151.0" layoutY="400.0" text="Brightness" textAlignment="CENTER">
          <effect>
             <DropShadow />
          </effect>
@@ -46,12 +46,12 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Slider fx:id="brightnessSlider" blockIncrement="5.0" layoutX="36.0" layoutY="368.0" majorTickUnit="10.0" minorTickCount="5" prefHeight="38.0" prefWidth="329.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="50.0">
+      <Slider fx:id="brightnessSlider" blockIncrement="5.0" layoutX="36.0" layoutY="431.0" majorTickUnit="10.0" minorTickCount="5" prefHeight="38.0" prefWidth="329.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="50.0">
          <effect>
             <DropShadow />
          </effect>
       </Slider>
-      <ScrollPane hbarPolicy="NEVER" layoutX="16.0" layoutY="450.0" prefHeight="676.0" prefWidth="371.0">
+      <ScrollPane hbarPolicy="NEVER" layoutX="16.0" layoutY="520.0" prefHeight="606.0" prefWidth="371.0">
          <effect>
             <DropShadow />
          </effect>
@@ -63,12 +63,12 @@
             </VBox>
          </content>
       </ScrollPane>
-      <ColorPicker fx:id="foregroundPicker" layoutX="84.0" layoutY="224.0" prefHeight="30.0" prefWidth="150.0">
+      <ColorPicker fx:id="firstPicker" layoutX="84.0" layoutY="224.0" prefHeight="30.0" prefWidth="150.0">
          <effect>
             <DropShadow />
          </effect>
       </ColorPicker>
-      <Label layoutX="250.0" layoutY="224.0" text="Foreground" textAlignment="CENTER">
+      <Label layoutX="250.0" layoutY="224.0" text="First Color" textAlignment="CENTER">
          <effect>
             <DropShadow />
          </effect>
@@ -76,7 +76,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="248.0" layoutY="283.0" text="Background" textAlignment="CENTER">
+      <Label layoutX="248.0" layoutY="283.0" text="Second Color" textAlignment="CENTER">
          <effect>
             <DropShadow />
          </effect>
@@ -84,15 +84,28 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <ColorPicker fx:id="backgroundPicker" layoutX="84.0" layoutY="279.0" prefHeight="30.0" prefWidth="150.0">
+      <ColorPicker fx:id="secondPicker" layoutX="84.0" layoutY="279.0" prefHeight="30.0" prefWidth="150.0">
          <effect>
             <DropShadow />
          </effect>
       </ColorPicker>
-      <Line endX="190.0" layoutX="196.0" layoutY="427.0" startX="-180.0">
+      <Line endX="190.0" layoutX="195.0" layoutY="498.0" startX="-180.0">
          <effect>
             <DropShadow />
          </effect>
       </Line>
+      <ColorPicker fx:id="thirdPicker" layoutX="84.0" layoutY="336.0" prefHeight="30.0" prefWidth="150.0">
+         <effect>
+            <DropShadow />
+         </effect>
+      </ColorPicker>
+      <Label layoutX="248.0" layoutY="340.0" text="Third Color" textAlignment="CENTER">
+         <effect>
+            <DropShadow />
+         </effect>
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
 	</children>
 </Pane>

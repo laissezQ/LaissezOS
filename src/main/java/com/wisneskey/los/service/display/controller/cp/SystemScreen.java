@@ -53,7 +53,7 @@ public class SystemScreen extends AbstractController {
 	/**
 	 * Command to use to open browser on the Raspberry Pi.
 	 */
-	private static final String[] OPEN_BROWSER_RASPBERRY_PI = { "chromium-browser" };
+	private static final String[] OPEN_BROWSER_RASPBERRY_PI = { "DISPLAY=:0 /usr/bin/chromium-browser" };
 
 	/**
 	 * Command to use to open browser on the OS X laptop.

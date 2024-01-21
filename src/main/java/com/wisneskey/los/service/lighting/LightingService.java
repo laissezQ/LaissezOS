@@ -18,6 +18,8 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.paint.Color;
 import javafx.util.Pair;
 
@@ -89,12 +91,16 @@ public class LightingService extends AbstractService<LightingState> {
 	/**
 	 * Start playing the designated lighting effect.
 	 * 
-	 * @param effectId Id of the lighting effect to play.
+	 * @param effectId           Id of the lighting effect to play.
+	 * @param foregroundOverride Hex string to override current foreground color
+	 *                             with.
+	 * @param backgroundOverride Hex string to override current background color
+	 *                             with.
 	 */
 	public void playEffect(LightingEffectId effectId) {
 
-		lightingDriver.playEffect(effectId);
 		lightingState.setCurrentEffect(effectId);
+		lightingDriver.playEffect(effectId, lightingState);
 	}
 
 	// ----------------------------------------------------------------------------------------
@@ -124,11 +130,17 @@ public class LightingService extends AbstractService<LightingState> {
 			throw new LaissezException("Lighting driver not set.");
 		}
 
-		lightingState = new InternalLightingState(profile.getBrightness(), profile.getForeground(),
-				profile.getBackground());
+		lightingState = new InternalLightingState(profile);
 
 		// Let the lighting driver initialize itself based on the profile.
 		lightingDriver.initialize(profile, lightingState);
+
+		// Monitor the state for changes to brightness and colors so we can apply
+		// them immediately.
+		lightingState.brightness.addListener(new BrightnessListener());
+		lightingState.firstColor.addListener(new ColorListener());
+		lightingState.secondColor.addListener(new ColorListener());
+		lightingState.thirdColor.addListener(new ColorListener());
 
 		return lightingState;
 	}
@@ -181,6 +193,30 @@ public class LightingService extends AbstractService<LightingState> {
 	// ----------------------------------------------------------------------------------------
 
 	/**
+	 * Property listener for letting the LED controller know when the brightness
+	 * has changed.
+	 */
+	private class BrightnessListener implements ChangeListener<Number> {
+
+		@Override
+		public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+			lightingDriver.changeBrightness(newValue.intValue());
+		}
+	}
+
+	/**
+	 * Property listener for letting the LED controller know when any of the
+	 * colors have changed.
+	 */
+	private class ColorListener implements ChangeListener<Color> {
+
+		@Override
+		public void changed(ObservableValue<? extends Color> observable, Color oldValue, Color newValue) {
+			lightingDriver.changeColor(lightingState);
+		}
+	}
+
+	/**
 	 * Internal state object for the lighting state.
 	 */
 	private static class InternalLightingState implements LightingState {
@@ -189,19 +225,22 @@ public class LightingService extends AbstractService<LightingState> {
 
 		private SimpleObjectProperty<LightingEffectId> currentEffect;
 
-		private SimpleObjectProperty<Color> foreground;
+		private SimpleObjectProperty<Color> firstColor;
 
-		private SimpleObjectProperty<Color> background;
+		private SimpleObjectProperty<Color> secondColor;
+
+		private SimpleObjectProperty<Color> thirdColor;
 
 		// ----------------------------------------------------------------------------------------
 		// Constructors.
 		// ----------------------------------------------------------------------------------------
 
-		private InternalLightingState(int startingBrightness, String foreground, String background) {
+		private InternalLightingState(Profile profile) {
 			this.currentEffect = new SimpleObjectProperty<>(LightingEffectId.ALL_OFF);
-			this.brightness = new SimpleIntegerProperty(startingBrightness);
-			this.foreground = new SimpleObjectProperty<>(Color.web(foreground));
-			this.background = new SimpleObjectProperty<>(Color.web(background));
+			this.brightness = new SimpleIntegerProperty(profile.getBrightness());
+			this.firstColor = new SimpleObjectProperty<>(Color.web(profile.getFirstColor()));
+			this.secondColor = new SimpleObjectProperty<>(Color.web(profile.getSecondColor()));
+			this.thirdColor = new SimpleObjectProperty<>(Color.web(profile.getThirdColor()));
 		}
 
 		// ----------------------------------------------------------------------------------------
@@ -219,13 +258,18 @@ public class LightingService extends AbstractService<LightingState> {
 		}
 
 		@Override
-		public ObjectProperty<Color> foreground() {
-			return foreground;
+		public ObjectProperty<Color> firstColor() {
+			return firstColor;
 		}
 
 		@Override
-		public ObjectProperty<Color> background() {
-			return background;
+		public ObjectProperty<Color> secondColor() {
+			return secondColor;
+		}
+
+		@Override
+		public ObjectProperty<Color> thirdColor() {
+			return thirdColor;
 		}
 
 		// ----------------------------------------------------------------------------------------

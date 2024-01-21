@@ -1,25 +1,25 @@
 {
 	//
-	// Default profile for LaissezOS development.
+	// Standard profile for running LaissezOS on chair.
 	//  
-	"profileId": "Development",
-	"description": "Default profile for development of LaissezOS.",
+	"profileId": "Chair",
+	"description": "Profile for operation on chair.",
 	"supportedRunModes": [
-		"DEV"
+		"CHAIR"
 	],
 	//
 	// Boot settings:
 	//
-	"bootScript": "BOOT_DEV",
+	"bootScript": "BOOT_CHAIR",
 	// 
 	// Display service settings:
 	//
 	"displayStyle": "LAISSEZ_OS",
 	//
-	// Lighting service settings (assuming ssh tunnel to controller on chair):
+	// Lighting service settings:
 	//
-	"useRealLighting": true,
-	"wledHostAddress": "http://localhost:8000",
+	"useRealLighting": false,
+	"wledHostAddress": "http://10.1.1.2",
 	//
 	// Location service settings:
 	//

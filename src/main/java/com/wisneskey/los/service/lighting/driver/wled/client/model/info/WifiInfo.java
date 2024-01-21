@@ -32,6 +32,12 @@ public class WifiInfo {
 	private String bssid;
 
 	/**
+	 * RSSI of the current connected network.
+	 */
+	@JsonProperty("rssi")
+	private Integer rssi;
+	
+	/**
 	 * Relative signal quality of the current connection.
 	 */
 	@JsonProperty("signal")
@@ -53,6 +59,10 @@ public class WifiInfo {
 
 	public String getBssid() {
 		return bssid;
+	}
+	
+	public Integer getRssi() {
+		return rssi;
 	}
 
 	public Integer getSignal() {

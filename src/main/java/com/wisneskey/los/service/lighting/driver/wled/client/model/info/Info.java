@@ -1,5 +1,6 @@
 package com.wisneskey.los.service.lighting.driver.wled.client.model.info;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -24,6 +25,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author paul.wisneskey@gmail.com
  *
  */
+@JsonIgnoreProperties(value = {"lwip", "maps"})
 public class Info {
 
 	/**
@@ -69,6 +71,12 @@ public class Info {
 	private boolean live;
 
 	/**
+	 * Flag indicating the number of live segments.
+	 */
+	@JsonProperty("liveseg")
+	private Integer liveSegments;
+	
+	/**
 	 * Info about the realtime data source.
 	 */
 	@JsonProperty("lm")
@@ -98,6 +106,12 @@ public class Info {
 	@JsonProperty("palcount")
 	private Integer paletteCount;
 
+	/**
+	 * Number of custom palettes configured.
+	 */
+	@JsonProperty("cpalcount")
+	private Integer customPaletteCount;
+	
 	/**
 	 * Information about the WIFI state.
 	 */
@@ -140,6 +154,12 @@ public class Info {
 	@JsonProperty("uptime")
 	private Integer upTime;
 
+	/**
+	 * Time and date the ESP32 thinks it is.
+	 */
+	@JsonProperty("time")
+	private String time;
+	
 	/**
 	 * Used for debugging purposes only.
 	 */
@@ -198,10 +218,14 @@ public class Info {
 		return udpPort;
 	}
 
-	public boolean isLive() {
+	public boolean getLive() {
 		return live;
 	}
 
+	public Integer getLiveSegments() {
+		return liveSegments;
+	}
+	
 	public String getLiveMetadata() {
 		return liveMetadata;
 	}
@@ -220,6 +244,10 @@ public class Info {
 
 	public Integer getPaletteCount() {
 		return paletteCount;
+	}
+
+	public Integer getCustomPaletteCount() {
+		return customPaletteCount;
 	}
 
 	public WifiInfo getWifi() {
@@ -250,6 +278,10 @@ public class Info {
 		return upTime;
 	}
 
+	public String getTime() {
+		return time;
+	}
+	
 	public Integer getOptions() {
 		return options;
 	}

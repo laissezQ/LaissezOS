@@ -36,9 +36,9 @@ public class Profile {
 	// ----------------------------------------------------------------------------------------
 
 	/**
-	 * Default to a fast boot.
+	 * Default to the chair boot.
 	 */
-	public static final ScriptId DEFAULT_BOOT_SCRIPT = ScriptId.BOOT_FAST;
+	public static final ScriptId DEFAULT_BOOT_SCRIPT = ScriptId.BOOT_CHAIR;
 
 	// ----------------------------------------------------------------------------------------
 	// Audio service defaults.
@@ -76,17 +76,22 @@ public class Profile {
 	 * Default brightness value for the actual lighting controller.
 	 */
 	private static final int DEFAULT_MAX_CONTROLLER_BRIGHTNESS = 128;
-	
+
 	/**
-	 * Default foreground color for LED lights.
+	 * Default first color for LED lights.
 	 */
-	private static final String DEFAULT_FOREGROUND_COLOR = "0x0000FF";
-	
+	private static final String DEFAULT_FIRST_COLOR = "0x0000FF";
+
 	/**
-	 * Default background color for LED lights.
+	 * Default second color for LED lights.
 	 */
-	private static final String DEFAULT_BACKGROUND_COLOR = "0x000000";
-	
+	private static final String DEFAULT_SECOND_COLOR = "0x000000";
+
+	/**
+	 * Default second color for LED lights.
+	 */
+	private static final String DEFAULT_THIRD_COLOR = "0x000000";
+
 	// ----------------------------------------------------------------------------------------
 	// Location service defaults.
 	// ----------------------------------------------------------------------------------------
@@ -177,16 +182,21 @@ public class Profile {
 	 * Maximum brightness value for the controller.
 	 */
 	private int maxControllerBrightness = DEFAULT_MAX_CONTROLLER_BRIGHTNESS;
-	
+
 	/**
-	 * Default foreground color for LED lights.
+	 * Starting first color for LED lights.
 	 */
-	private String foreground = DEFAULT_FOREGROUND_COLOR;
-	
+	private String firstColor = DEFAULT_FIRST_COLOR;
+
 	/**
-	 * Default background color for LED lights.
+	 * Starting second color for LED lights.
 	 */
-	private String background = DEFAULT_BACKGROUND_COLOR;
+	private String secondColor = DEFAULT_SECOND_COLOR;
+
+	/**
+	 * Starting third color for LED lights.
+	 */
+	private String thirdColor = DEFAULT_THIRD_COLOR;
 	
 	// ----------------------------------------------------------------------------------------
 	// Location service settings.
@@ -333,7 +343,7 @@ public class Profile {
 	public int getBrightness() {
 		return brightness;
 	}
-	
+
 	/**
 	 * Maximum brightness to use for the actual LED controller.
 	 * 
@@ -342,25 +352,34 @@ public class Profile {
 	public int getMaxControllerBrightness() {
 		return maxControllerBrightness;
 	}
-	
+
 	/**
-	 * Foreground color for LED lights.
+	 * First color for LED lights.
 	 * 
-	 * @return Hex string representing foreground color.
+	 * @return Hex string representing first color.
 	 */
-	public String getForeground() {
-		return foreground;
+	public String getFirstColor() {
+		return firstColor;
 	}
-	
+
 	/**
 	 * Background color for LED lights.
 	 * 
-	 * @return Hex string representing background color.
+	 * @return Hex string representing second color.
 	 */
-	public String getBackground() {
-		return background;
+	public String getSecondColor() {
+		return secondColor;
 	}
-	
+
+	/**
+	 * Third color for LED lights.
+	 * 
+	 * @return Hex string representing third color.
+	 */
+	public String getThirdColor() {
+		return thirdColor;
+	}
+
 	// ----------------------------------------------------------------------------------------
 	// Location service property getters.
 	// ----------------------------------------------------------------------------------------

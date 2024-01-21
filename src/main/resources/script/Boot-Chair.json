@@ -1,0 +1,103 @@
+{
+	// 
+	// Script that does a dramatic boot sequence.
+	//
+	"name": "Chair theatrical boot sequence.",
+	//
+	"commands": [
+		{
+			"pause": {
+				"seconds": 1.0
+			}
+		},
+		{
+			"showScene": {
+				"sceneId": "CP_BOOT_SCREEN"
+			}
+		},
+		{
+			"showScene": {
+				"sceneId": "HUD_SPLASH_SCREEN",
+				"postCommandPause": 1.0
+			}
+		},
+		{
+			"message": {
+				"messages": [
+					"LaissezOS 1.0 booting...\n",
+					"\u00A92024 Laissez-Q Industries...\n",
+					"Bringing flux capacitor online...\n"
+				],
+				"postCommandPause": 1.0
+			}
+		},
+		{
+			"relayOn": {
+				"relayId": "FLUX_CAPACITOR"
+			}
+		},
+		{
+			"message": {
+				"messages": [
+					"Playing whack-a-mole with armrest bar...\n"
+				],
+				"postCommandPause": 1.0
+			}
+		},
+		{
+			"relayOn": {
+				"relayId": "BAR_LOWER",
+				"forSeconds": 2.25
+			}
+		},
+		{
+			"setBarState": {
+				"state": "LOWERED"
+			}
+		},
+		{
+			"message": {
+				"messages": [
+					"Inventorying whiskey...\n",
+					"Accessing lighting subsystem.",
+					".",
+					".",
+					".connected!\n",
+					"Scheduling poker...\n",
+					"WARNING: Cigar module not installed.\n",
+					"Taunting Happy Fun Ball\u2122...\n",
+					"Callibrating retro-entabulator...\n",
+					"Cyber Chair 2000 is now online!\n"
+				],
+				"postCommandPause": 1.0
+			}
+		},
+		{
+			"playSoundEffect": {
+				"effectIds": [
+					"MOVIE_HAL_OPERATIONAL",
+					"MOVIE_ITS_ALIVE",
+					"MOVIE_MACHINE_GOES_PING",
+					"MOVIE_WHAT_IS_THY_BIDDING",
+					"MOVIE_SNOW_WHITE_HI_HO",
+					"TV_COMFY_CHAIR"
+				]
+			}
+		},
+		{
+			"showScene": {
+				"sceneId": "CP_MAIN_SCREEN"
+			}
+		},
+		{
+			"showScene": {
+				"sceneId": "HUD_MAIN_SCREEN"
+			}
+		},
+		{
+			"setChairState": {
+				"state": "RUNNING"
+			}
+		}
+	]
+}

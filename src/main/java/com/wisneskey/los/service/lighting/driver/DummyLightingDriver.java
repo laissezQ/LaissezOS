@@ -1,5 +1,8 @@
 package com.wisneskey.los.service.lighting.driver;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.wisneskey.los.service.lighting.LightingEffectId;
 import com.wisneskey.los.service.profile.model.Profile;
 import com.wisneskey.los.state.LightingState;
@@ -27,6 +30,8 @@ import com.wisneskey.los.state.LightingState;
  */
 public class DummyLightingDriver implements LightingDriver {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(DummyLightingDriver.class);
+
 	@Override
 	public void initialize(Profile profile, LightingState state) {
 		// Nothing to do here
@@ -38,7 +43,22 @@ public class DummyLightingDriver implements LightingDriver {
 	}
 
 	@Override
-	public void playEffect(LightingEffectId effectId) {
-		// Nothing to do here
+	public void playEffect(LightingEffectId effectId, LightingState lightingState) {
+
+		LOGGER.info("Switching lighting effect: effectId={}", effectId);
 	}
+
+	@Override
+	public void changeBrightness(int brightness) {
+
+		LOGGER.info("Changing brightness: newValue={}", brightness);
+	}
+
+	@Override
+	public void changeColor(LightingState state) {
+
+		LOGGER.info("Changing colors: first={} second={} third={}", state.firstColor().getValue(),
+				state.secondColor().getValue(), state.thirdColor().getValue());
+	}
+
 }

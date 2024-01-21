@@ -43,7 +43,22 @@ public interface LightingDriver {
 	/**
 	 * Play the designated lighting effect.
 	 * 
-	 * @param effectId Id of the effect to play.
+	 * @param effectId   Id of the effect to play.
+	 * @param lightingState Current lighting state.
 	 */
-	void playEffect(LightingEffectId effectId);
+	void playEffect(LightingEffectId effectId, LightingState lightingState);
+
+	/**
+	 * Change the brightness of the currently playing effect.
+	 * 
+	 * @param brightness New brightness for effect.
+	 */
+	void changeBrightness(int brightness);
+
+	/**
+	 * Change the colors of the currently playing effect.
+	 * 
+	 * @param state State with new colors.
+	 */
+	void changeColor(LightingState state);
 }

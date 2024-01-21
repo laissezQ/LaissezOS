@@ -37,18 +37,25 @@ public interface LightingState extends State {
 	IntegerProperty brightness();
 	
 	/**
-	 * Current foreground color.
+	 * First color for effect (usually foreground color).
 	 * 
-	 * @return Color object for foreground color.
+	 * @return Color object for first color.
 	 */
-	ObjectProperty<Color> foreground();
+	ObjectProperty<Color> firstColor();
 	
 	/**
-	 * Current background color.
+	 * Second color for effect (usually background color).
 	 * 
-	 * @return Color object for background color.
+	 * @return Color object for second color.
 	 */
-	ObjectProperty<Color> background();
+	ObjectProperty<Color> secondColor();
+	
+	/**
+	 * Third color for effect.
+	 * 
+	 * @return Color object for third color.
+	 */
+	ObjectProperty<Color> thirdColor();
 	
 	/**
 	 * Returns the current effect being shown by the lighting system.
