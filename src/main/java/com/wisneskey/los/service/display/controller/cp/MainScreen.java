@@ -1,16 +1,22 @@
 package com.wisneskey.los.service.display.controller.cp;
 
+import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.display.controller.AbstractController;
 import com.wisneskey.los.service.display.listener.bar.BarButtonListener;
 import com.wisneskey.los.service.display.listener.bar.BarStateListener;
 import com.wisneskey.los.service.display.listener.bar.TapButtonListener;
 import com.wisneskey.los.service.display.listener.message.MessagesToTextAreaListener;
 import com.wisneskey.los.service.display.listener.mouse.DoubleClickListener;
+import com.wisneskey.los.service.lighting.LightingEffectId;
 import com.wisneskey.los.service.remote.RemoteButtonId;
 import com.wisneskey.los.service.script.ScriptId;
+import com.wisneskey.los.state.LightingState;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 
@@ -64,7 +70,13 @@ public class MainScreen extends AbstractController {
 	 */
 	@FXML
 	private Button tapButton;
-
+	
+	/**
+	 * Label for showing current lighting effect.
+	 */
+	@FXML
+	private Label lightingLabel;
+	
 	// ----------------------------------------------------------------------------------------
 	// Public methods.
 	// ----------------------------------------------------------------------------------------
@@ -82,6 +94,11 @@ public class MainScreen extends AbstractController {
 		BarButtonListener.add(barButton);
 		TapButtonListener.add(tapButton);
 		chairState().barState().addListener(new BarStateListener(barButton, tapButton));
+		
+		// Listeners for audio and lighting effects
+		LightingState lightingState = chairState().getServiceState(ServiceId.LIGHTING);
+		lightingState.currentEffect().addListener(new LightingListener());
+		lightingLabel.setText(lightingState.currentEffect().getValue().getDescription());
 	}
 
 	/**
@@ -146,6 +163,21 @@ public class MainScreen extends AbstractController {
 		} 
 		else {
 			super.remoteButtonPressed(buttonId);
+		}
+	}
+	
+	// ----------------------------------------------------------------------------------------
+	// Inner classes.
+	// ----------------------------------------------------------------------------------------
+
+	/**
+	 * Listener that monitors the which lighting effect is playing and updates the label accordingly.
+	 */
+	private class LightingListener implements ChangeListener<LightingEffectId> {
+
+		@Override
+		public void changed(ObservableValue<? extends LightingEffectId> observable, LightingEffectId oldValue, LightingEffectId newValue) {
+			lightingLabel.setText(newValue == null ? "" : newValue.getDescription());
 		}
 	}
 }

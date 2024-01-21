@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
  * @author paul.wisneskey@gmail.com
  */
 public enum LightingEffectId {
-	ALL_OFF("All Off", "All Lights off", false),
+	ALL_OFF("All Off", "All Lights Off", false),
 	BLENDS("Blends", "Colors Blended", true),
 	CHASE2("Chase 2", "Two Color Chase", true),
 	CHASE3("Chase 3", "Three Color Chase", true),

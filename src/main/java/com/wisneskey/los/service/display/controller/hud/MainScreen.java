@@ -309,6 +309,7 @@ public class MainScreen extends AbstractController {
 		}
 
 	}
+	
 	/**
 	 * Listener that monitors the state of the GPS fix and updates the color of
 	 * the GPS label appropriately.

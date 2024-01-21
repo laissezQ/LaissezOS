@@ -263,7 +263,7 @@ public class WledLightingDriver implements LightingDriver {
 
 	private Color rgbToColor(List<Integer> rgb) {
 
-		return Color.rgb(rgb.get(0), rgb.get(1), rgb.get(2));
+		return Color.rgb(rgb.get(0), rgb.get(1), rgb.get(2), 1.0);
 	}
 
 	private int calculateControllerBrightness(int brightness) {
