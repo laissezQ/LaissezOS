@@ -10,6 +10,7 @@ import com.wisneskey.los.service.display.listener.mouse.DoubleClickListener;
 import com.wisneskey.los.service.display.listener.relay.RelayWhilePressedListener;
 import com.wisneskey.los.service.relay.RelayId;
 import com.wisneskey.los.service.relay.RelayService;
+import com.wisneskey.los.service.remote.RemoteButtonId;
 import com.wisneskey.los.service.script.ScriptId;
 import com.wisneskey.los.state.RelayState;
 
@@ -105,6 +106,17 @@ public class EffectScreen extends AbstractController {
 
 		logo.setOnMouseClicked(new DoubleClickListener(e -> resumePressed()));
 	}
+
+	@Override
+	public void remoteButtonPressed(RemoteButtonId buttonId) {
+
+		// Allow remote button A to leave the effect screen.
+		if( buttonId == RemoteButtonId.REMOTE_BUTTON_A) {
+			resumePressed();
+		} else {
+			super.remoteButtonPressed(buttonId);
+		}
+	}	
 
 	/**
 	 * Method invoked by the resume operation button.

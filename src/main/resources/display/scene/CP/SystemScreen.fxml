@@ -33,7 +33,7 @@
 				<DropShadow />
 			</effect>
 		</Button>
-		<Line endX="190.0" layoutX="195.0" layoutY="389.0" startX="-180.0">
+		<Line endX="190.0" layoutX="195.0" layoutY="307.0" startX="-180.0">
 			<effect>
 				<DropShadow />
 			</effect>
@@ -51,7 +51,7 @@
 				<Font name="System Bold" size="18.0" />
 			</font>
 		</Button>
-		<CheckBox fx:id="onlineMapCheckBox" layoutX="100.0" layoutY="886.0" mnemonicParsing="false" text="Online Map Download">
+		<CheckBox fx:id="onlineMapCheckBox" layoutX="100.0" layoutY="972.0" mnemonicParsing="false" text="Online Map Download">
 			<font>
 				<Font size="18.0" />
 			</font>
@@ -59,12 +59,12 @@
 				<DropShadow />
 			</effect>
 		</CheckBox>
-		<Line endX="190.0" layoutX="196.0" layoutY="734.0" startX="-180.0">
+		<Line endX="190.0" layoutX="194.0" layoutY="799.0" startX="-180.0">
 			<effect>
 				<DropShadow />
 			</effect>
 		</Line>
-		<Label fx:id="gpsStatusLabel" layoutX="177.0" layoutY="755.0" text="GPS" textAlignment="CENTER">
+		<Label fx:id="gpsStatusLabel" layoutX="178.0" layoutY="829.0" text="GPS" textAlignment="CENTER">
 			<effect>
 				<DropShadow />
 			</effect>
@@ -72,7 +72,7 @@
 				<Font size="24.0" />
 			</font>
 		</Label>
-		<Label layoutX="97.0" layoutY="800.0" text="Satellites In View:">
+		<Label layoutX="100.0" layoutY="873.0" text="Satellites In View:">
 			<font>
 				<Font size="18.0" />
 			</font>
@@ -80,7 +80,7 @@
 				<DropShadow />
 			</effect>
 		</Label>
-		<Label layoutX="114.0" layoutY="841.0" text="Satellites In Fix:">
+		<Label layoutX="113.0" layoutY="919.0" text="Satellites In Fix:">
 			<font>
 				<Font size="18.0" />
 			</font>
@@ -88,7 +88,7 @@
 				<DropShadow />
 			</effect>
 		</Label>
-		<Label fx:id="satelliteInViewLabel" alignment="CENTER_RIGHT" layoutX="261.0" layoutY="800.0" prefHeight="17.0" prefWidth="29.0" text="0">
+		<Label fx:id="satelliteInViewLabel" alignment="CENTER_RIGHT" layoutX="264.0" layoutY="873.0" prefHeight="17.0" prefWidth="29.0" text="0">
 			<font>
 				<Font name="Consolas" size="18.0" />
 			</font>
@@ -96,7 +96,7 @@
 				<DropShadow />
 			</effect>
 		</Label>
-		<Label fx:id="satelliteInFixLabel" alignment="CENTER_RIGHT" layoutX="261.0" layoutY="841.0" prefHeight="17.0" prefWidth="29.0" text="0">
+		<Label fx:id="satelliteInFixLabel" alignment="CENTER_RIGHT" layoutX="260.0" layoutY="919.0" prefHeight="17.0" prefWidth="29.0" text="0">
 			<font>
 				<Font name="Consolas" size="18.0" />
 			</font>
@@ -104,7 +104,7 @@
 				<DropShadow />
 			</effect>
 		</Label>
-		<ScrollPane layoutX="18.0" layoutY="441.0" prefHeight="274.0" prefWidth="371.0">
+		<ScrollPane layoutX="18.0" layoutY="373.0" prefHeight="402.0" prefWidth="371.0">
 			<content>
 				<VBox fx:id="locationBox" prefHeight="31.0" prefWidth="19.0" spacing="16.0" />
 			</content>
@@ -112,7 +112,7 @@
 				<DropShadow />
 			</effect>
 		</ScrollPane>
-		<Label fx:id="gpsStatusLabel1" layoutX="116.0" layoutY="402.0" text="Preset Locations" textAlignment="CENTER">
+		<Label fx:id="gpsStatusLabel1" layoutX="116.0" layoutY="326.0" text="Preset Locations" textAlignment="CENTER">
 			<effect>
 				<DropShadow />
 			</effect>
@@ -120,28 +120,12 @@
 				<Font size="24.0" />
 			</font>
 		</Label>
-      <Button layoutX="53.0" layoutY="216.0" mnemonicParsing="false" onAction="#browserPressed" prefHeight="60.0" prefWidth="294.0" text="Open Web Browser">
-         <effect>
-            <DropShadow />
-         </effect>
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Button>
-      <Line endX="190.0" layoutX="197.0" layoutY="933.0" startX="-180.0">
+      <Line endX="190.0" layoutX="196.0" layoutY="1025.0" startX="-180.0">
          <effect>
             <DropShadow />
          </effect>
       </Line>
-      <Button layoutX="53.0" layoutY="953.0" mnemonicParsing="false" onAction="#shutdownPressed" prefHeight="80.0" prefWidth="294.0" text="Shutdown System">
-         <effect>
-            <DropShadow />
-         </effect>
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Button>
-      <Button layoutX="53.0" layoutY="305.0" mnemonicParsing="false" onAction="#terminalPressed" prefHeight="60.0" prefWidth="294.0" text="Open Terminal">
+      <Button layoutX="53.0" layoutY="219.0" mnemonicParsing="false" onAction="#terminalPressed" prefHeight="60.0" prefWidth="294.0" text="Open Terminal">
          <effect>
             <DropShadow />
          </effect>

@@ -143,6 +143,9 @@ public class MainScreen extends AbstractController {
 		// Allow remote button A to lock the chair.
 		if (buttonId == RemoteButtonId.REMOTE_BUTTON_A) {
 			runScript(ScriptId.REMOTE_LOCK);
+		} 
+		else {
+			super.remoteButtonPressed(buttonId);
 		}
 	}
 }

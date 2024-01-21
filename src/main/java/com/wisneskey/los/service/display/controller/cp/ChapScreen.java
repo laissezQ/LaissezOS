@@ -123,6 +123,9 @@ public class ChapScreen extends AbstractController {
 		// Allow remote button A to leave chap mode.
 		if (buttonId == RemoteButtonId.REMOTE_BUTTON_A) {
 			resumePressed();
+		} else
+		{
+			super.remoteButtonPressed(buttonId);
 		}
 	}
 

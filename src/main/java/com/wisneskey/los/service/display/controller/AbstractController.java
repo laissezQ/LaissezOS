@@ -6,6 +6,7 @@ import com.wisneskey.los.service.remote.RemoteButtonId;
 import com.wisneskey.los.service.script.ScriptId;
 import com.wisneskey.los.service.script.ScriptService;
 import com.wisneskey.los.state.ChairState;
+import com.wisneskey.los.state.ChairState.BarState;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -62,8 +63,17 @@ public abstract class AbstractController implements SceneController {
 
 	@Override
 	public void remoteButtonPressed(RemoteButtonId buttonId) {
-		// By default, ignore the remote buttons. Scene controllers can override
-		// this method if they want to respond to remote button presses.
+
+		// By default, the B button on the remote works the bar.
+		if( buttonId == RemoteButtonId.REMOTE_BUTTON_B) {
+
+			BarState barState = chairState().barState().getValue();
+			if( barState == BarState.LOWERED ) {
+				runScript(ScriptId.BAR_RAISE);
+			} else if (barState == BarState.RAISED) {
+				runScript(ScriptId.BAR_LOWER);
+			}
+		}
 	}
 
 	@Override

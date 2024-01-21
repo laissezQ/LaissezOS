@@ -5,6 +5,7 @@ import com.wisneskey.los.service.display.controller.AbstractController;
 import com.wisneskey.los.service.display.listener.mouse.DoubleClickListener;
 import com.wisneskey.los.service.lighting.LightingEffectId;
 import com.wisneskey.los.service.lighting.LightingService;
+import com.wisneskey.los.service.remote.RemoteButtonId;
 import com.wisneskey.los.service.script.ScriptId;
 import com.wisneskey.los.state.LightingState;
 
@@ -103,6 +104,17 @@ public class LightingScreen extends AbstractController {
 		
 		logo.setOnMouseClicked(new DoubleClickListener(e -> resumePressed()));
 	}
+
+	@Override
+	public void remoteButtonPressed(RemoteButtonId buttonId) {
+
+		// Allow remote button A to leave the lighting screen.
+		if( buttonId == RemoteButtonId.REMOTE_BUTTON_A) {
+			resumePressed();
+		} else {
+			super.remoteButtonPressed(buttonId);
+		}
+	}	
 
 	/**
 	 * Method invoked by the resume operation button.

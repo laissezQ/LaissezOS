@@ -45,8 +45,7 @@ public enum ScriptId {
 	SCRIPT_SCREEN_CLOSE("Script screen: close", "ScriptScreen-Close"),
 	SYSTEM_SCREEN_OPEN("System screen: open", "SystemScreen-Open"),
 	SYSTEM_SCREEN_CLOSE("System screen: close", "SystemScreen-Close"),
-	SYSTEM_EXIT("System screen: exit OS", "System-Exit"),
-	SYSTEM_SHUTDOWN("System screen: shutdown", "System-Shutdown")
+	SYSTEM_EXIT("System screen: exit OS", "System-Exit");
 	;
 
 	// ----------------------------------------------------------------------------------------

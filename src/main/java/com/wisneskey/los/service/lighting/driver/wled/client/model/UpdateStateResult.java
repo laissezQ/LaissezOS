@@ -1,10 +1,11 @@
 package com.wisneskey.los.service.lighting.driver.wled.client.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.wisneskey.los.service.lighting.driver.wled.client.model.state.State;
 
 /**
  * Model object representing the result of request updates to the state of a
- * WLED controller. This object is consider readonly.
+ * WLED controller. This object is considered read only.
  * 
  * Copyright (C) 2024 Paul Wisneskey
  * 
@@ -23,16 +24,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *
  * @author paul.wisneskey@gmail.com
  */
-public class UpdateStateResult {
+public class UpdateStateResult extends State {
 
 	@JsonProperty("success")
 	private Boolean success;
-
+	
 	// ----------------------------------------------------------------------------------------
 	// Property getters/setters.
 	// ----------------------------------------------------------------------------------------
 
 	public Boolean getSuccess() {
 		return success;
-	}
+	}	
 }

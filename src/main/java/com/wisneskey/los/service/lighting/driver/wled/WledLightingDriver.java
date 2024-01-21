@@ -16,6 +16,7 @@ import com.wisneskey.los.service.lighting.LightingEffectId;
 import com.wisneskey.los.service.lighting.driver.LightingDriver;
 import com.wisneskey.los.service.lighting.driver.wled.client.WledClient;
 import com.wisneskey.los.service.lighting.driver.wled.client.model.Summary;
+import com.wisneskey.los.service.lighting.driver.wled.client.model.UpdateStateResult;
 import com.wisneskey.los.service.lighting.driver.wled.client.model.state.Segment;
 import com.wisneskey.los.service.lighting.driver.wled.client.model.state.State;
 import com.wisneskey.los.service.lighting.driver.wled.config.WledEffectConfig;
@@ -148,10 +149,13 @@ public class WledLightingDriver implements LightingDriver {
 			return;
 		}
 
-		Color firstColor = config.getColor1() == null ? lightingState.firstColor().getValue() : Color.web(config.getColor1());
-		Color secondColor = config.getColor2() == null ? lightingState.secondColor().getValue() : Color.web(config.getColor2());
-		Color thirdColor = config.getColor3() == null ? lightingState.thirdColor().getValue() : Color.web(config.getColor3());
-		
+		Color firstColor = config.getColor1() == null ? lightingState.firstColor().getValue()
+				: Color.web(config.getColor1());
+		Color secondColor = config.getColor2() == null ? lightingState.secondColor().getValue()
+				: Color.web(config.getColor2());
+		Color thirdColor = config.getColor3() == null ? lightingState.thirdColor().getValue()
+				: Color.web(config.getColor3());
+
 		List<List<Integer>> colors = new ArrayList<>(3);
 		colors.add(colorToRGB(firstColor));
 		colors.add(colorToRGB(secondColor));
@@ -170,17 +174,14 @@ public class WledLightingDriver implements LightingDriver {
 		segment.setEffectOption2(config.getOption2());
 		segment.setEffectOption3(config.getOption3());
 		segment.setEffectSpeed(config.getSpeed());
-		
+
 		State state = new State();
 		state.setOn(config.getOn());
 		state.setSegments(Collections.singletonList(segment));
+		state.setVerbose(true);
 
-		controllerClient.updateState(state);
-
-		// Apply and color changes to our internal state.
-		lightingState.firstColor().setValue(firstColor);
-		lightingState.secondColor().setValue(secondColor);
-		lightingState.thirdColor().setValue(thirdColor);
+		UpdateStateResult result = controllerClient.updateState(state);
+		updateLightingState(result, lightingState);
 	}
 
 	@Override
@@ -221,6 +222,20 @@ public class WledLightingDriver implements LightingDriver {
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
 
+	private void updateLightingState(State updatedState, LightingState lightingState) {
+
+		lightingState.brightness().setValue(calculateStateBrightness(updatedState.getBrightness()));
+
+		Segment updatedSegment = updatedState.getSegments().get(0);
+
+		// Apply and color changes to our internal state.
+		List<List<Integer>> updatedColors = updatedSegment.getColors();
+
+		lightingState.firstColor().setValue(rgbToColor(updatedColors.get(0)));
+		lightingState.secondColor().setValue(rgbToColor(updatedColors.get(1)));
+		lightingState.thirdColor().setValue(rgbToColor(updatedColors.get(2)));
+	}
+
 	private void loadEffectConfigurations() {
 
 		for (LightingEffectId effectId : LightingEffectId.values()) {
@@ -246,9 +261,17 @@ public class WledLightingDriver implements LightingDriver {
 		return rgb;
 	}
 
+	private Color rgbToColor(List<Integer> rgb) {
+
+		return Color.rgb(rgb.get(0), rgb.get(1), rgb.get(2));
+	}
+
 	private int calculateControllerBrightness(int brightness) {
 
 		return (int) Math.ceil((brightness / 100.0d) * maxControllerBrightness);
 	}
 
+	private int calculateStateBrightness(int controllerBrightness) {
+		return (int) Math.ceil((controllerBrightness / (double) maxControllerBrightness) * 100.0d);
+	}
 }

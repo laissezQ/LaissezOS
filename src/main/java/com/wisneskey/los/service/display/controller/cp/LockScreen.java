@@ -249,6 +249,8 @@ public class LockScreen extends AbstractController {
 		// Allow remote button A to unlock the chair.
 		if (buttonId == RemoteButtonId.REMOTE_BUTTON_A) {
 			runScript(ScriptId.REMOTE_UNLOCK);
+		} else {
+			super.remoteButtonPressed(buttonId);
 		}
 	}
 

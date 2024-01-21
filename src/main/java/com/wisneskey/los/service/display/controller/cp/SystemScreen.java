@@ -51,16 +51,6 @@ import javafx.scene.paint.Color;
 public class SystemScreen extends AbstractController {
 
 	/**
-	 * Command to use to open browser on the Raspberry Pi.
-	 */
-	private static final String[] OPEN_BROWSER_RASPBERRY_PI = { "DISPLAY=:0 /usr/bin/chromium-browser" };
-
-	/**
-	 * Command to use to open browser on the OS X laptop.
-	 */
-	private static final String[] OPEN_BROWSER_LAPTOP = { "/usr/bin/open", "/Applications/Brave Browser.app" };
-
-	/**
 	 * Command to use to open a terminal on the Raspberry Pi.
 	 */
 	private static final String[] OPEN_TERMINAL_RASPBERRY_PI = { "lxterminal" };
@@ -150,16 +140,6 @@ public class SystemScreen extends AbstractController {
 	}
 
 	/**
-	 * Method invoked by the Open Web Browser button.
-	 */
-	public void browserPressed() {
-
-		kernel().message("Opening web browser...\n");
-		String[] command = kernel().getRunMode() == RunMode.CHAIR ? OPEN_BROWSER_RASPBERRY_PI : OPEN_BROWSER_LAPTOP;
-		RunProcess.runCommand(command);
-	}
-
-	/**
 	 * Method invoked by the Open Terminal button.
 	 */
 	public void terminalPressed() {
@@ -167,21 +147,6 @@ public class SystemScreen extends AbstractController {
 		kernel().message("Opening terminal...\n");
 		String[] command = kernel().getRunMode() == RunMode.CHAIR ? OPEN_TERMINAL_RASPBERRY_PI : OPEN_TERMINAL_LAPTOP;
 		RunProcess.runCommand(command);
-	}
-
-	/**
-	 * Method invoked by the shutdown system button.
-	 */
-	public void shutdownPressed() {
-
-		boolean confirmed = ((DisplayService) Kernel.kernel().getService(ServiceId.DISPLAY)) //
-				.showConfirmation(DisplayId.CP, //
-						"Confirm Shutdown", //
-						"System shutdown has been requested!", "Do you want to continue?");
-
-		if (confirmed) {
-			runScript(ScriptId.SYSTEM_SHUTDOWN);
-		}
 	}
 
 	/**
@@ -195,7 +160,7 @@ public class SystemScreen extends AbstractController {
 						"LaissezOS exit has been requested!", "Do you want to exit LaissezOS?");
 
 		if (confirmed) {
-			runScript(ScriptId.SYSTEM_SHUTDOWN);
+			runScript(ScriptId.SYSTEM_EXIT);
 		}
 	}
 

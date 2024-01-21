@@ -40,19 +40,24 @@ public class TapButtonListener implements ChangeListener<Boolean> {
 	@Override
 	public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean pressed) {
 
+		BarState barState = Kernel.kernel().chairState().barState().getValue();
+
 		if (pressed.booleanValue()) {
 
-			BarState barState = Kernel.kernel().chairState().barState().getValue();
-
-			// Only turn off if the bar is raised.
+			// Only turn on if the bar is raised.
 			if (barState == BarState.RAISED) {
 				Kernel.kernel().message("Pouring libations...\n");
 				((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOn(RelayId.BAR_PUMP);
 			}
 		} else {
 
-			// Turn off at any time the button is released.
-			Kernel.kernel().message("Libation dispensing complete!\n");
+			// Turn off at any time the button is released.= but only show message if
+			// bar was
+			// raised (e.g. tap was actually running).
+			if (barState == BarState.RAISED) {
+				Kernel.kernel().message("Libation dispensing complete!\n");
+			}
+
 			((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOff(RelayId.BAR_PUMP);
 		}
 	}

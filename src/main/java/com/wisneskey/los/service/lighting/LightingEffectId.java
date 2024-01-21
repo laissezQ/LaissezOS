@@ -49,7 +49,7 @@ public enum LightingEffectId {
 	TETRIX("Tetrix", "Tetrix", true),
 	TWINKLE_CAT("Twinkle Cat", "Twinkle Cat", true),
 	TWINKLES("Twinkles", "Twinkling Colors", true),
-	WAVE("Wave", "Single Color Wave", true);
+	WAVE("Wave", "Color Wave", true);
 
 	// ----------------------------------------------------------------------------------------
 	// Variables.

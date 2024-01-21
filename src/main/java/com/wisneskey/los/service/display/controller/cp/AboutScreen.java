@@ -65,6 +65,8 @@ public class AboutScreen extends AbstractController {
 		// Allow remote button A to leave the about screen.
 		if( buttonId == RemoteButtonId.REMOTE_BUTTON_A) {
 			resumePressed();
+		} else {
+			super.remoteButtonPressed(buttonId);
 		}
 	}
 }

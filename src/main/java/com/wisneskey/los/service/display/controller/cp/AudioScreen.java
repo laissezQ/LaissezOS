@@ -13,6 +13,7 @@ import com.wisneskey.los.service.audio.AudioService;
 import com.wisneskey.los.service.audio.SoundEffectId;
 import com.wisneskey.los.service.display.controller.AbstractController;
 import com.wisneskey.los.service.display.listener.mouse.DoubleClickListener;
+import com.wisneskey.los.service.remote.RemoteButtonId;
 import com.wisneskey.los.service.script.ScriptId;
 import com.wisneskey.los.state.AudioState;
 
@@ -104,6 +105,17 @@ public class AudioScreen extends AbstractController {
 		logo.setOnMouseClicked(new DoubleClickListener(e -> resumePressed()));
 	}
 
+	@Override
+	public void remoteButtonPressed(RemoteButtonId buttonId) {
+
+		// Allow remote button A to leave the audio screen.
+		if( buttonId == RemoteButtonId.REMOTE_BUTTON_A) {
+			resumePressed();
+		} else {
+			super.remoteButtonPressed(buttonId);
+		}
+	}	
+
 	/**
 	 * Method invoked by the resume operation button.
 	 */
@@ -111,11 +123,13 @@ public class AudioScreen extends AbstractController {
 		runScript(ScriptId.AUDIO_SCREEN_CLOSE);
 	}
 
+	
 	// ----------------------------------------------------------------------------------------
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
 
 	public void playEffect(SoundEffectId effectId) {
 		((AudioService) Kernel.kernel().getService(ServiceId.AUDIO)).playEffect(effectId, false);
-	}	
+	}
+
 }
