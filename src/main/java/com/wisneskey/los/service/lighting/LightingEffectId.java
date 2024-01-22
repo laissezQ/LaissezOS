@@ -30,7 +30,7 @@ public enum LightingEffectId {
 	BLENDS("Blends", "Colors Blended", true),
 	CHASE2("Chase 2", "Two Color Chase", true),
 	CHASE3("Chase 3", "Three Color Chase", true),
-	COLORFUL("Colorful", "Slow Color Circle", true),
+	COLORFUL("Colorful", "Color Circle", true),
 	FLOW("Flow", "Rainbow Flow", true),
 	GLITTER("Glitter", "Solid Glitter", true),
 	HEARTBEAT("Heartbeat", "Heart Pulse", true),
