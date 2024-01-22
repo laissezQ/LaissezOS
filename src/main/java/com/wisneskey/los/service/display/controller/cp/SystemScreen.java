@@ -1,5 +1,7 @@
 package com.wisneskey.los.service.display.controller.cp;
 
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.util.Map;
 
 import com.wisneskey.los.kernel.Kernel;
@@ -102,6 +104,12 @@ public class SystemScreen extends AbstractController {
 	@FXML
 	private VBox locationBox;
 
+	/**
+	 * Label for showing the IP address of the Raspberry Pi.
+	 */
+	@FXML
+	private Label ipAddressLabel;
+
 	// ----------------------------------------------------------------------------------------
 	// Public methods.
 	// ----------------------------------------------------------------------------------------
@@ -111,6 +119,9 @@ public class SystemScreen extends AbstractController {
 	 */
 	@FXML
 	public void initialize() {
+
+		// Set our IP address in the label.
+		ipAddressLabel.setText(getIpAddress());
 
 		// Bind the online map download check box to the map state property.
 		MapState mapState = chairState().getServiceState(ServiceId.MAP);
@@ -174,6 +185,23 @@ public class SystemScreen extends AbstractController {
 	// ----------------------------------------------------------------------------------------
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
+
+	/**
+	 * Get the IP address for the machine by using the address selected for an
+	 * outgoing connection.
+	 * 
+	 * @return IP address for machine or "Unknown" if it could not be determined.
+	 */
+	private String getIpAddress() {
+
+		try (final DatagramSocket socket = new DatagramSocket()) {
+			socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
+			return socket.getLocalAddress().getHostAddress();
+		} catch (Exception e) {
+			return "Unknown";
+		}
+
+	}
 
 	/**
 	 * Method invoked by a location button to jump to a given location on the map.

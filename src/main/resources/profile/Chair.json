@@ -11,6 +11,11 @@
 	// Boot settings:
 	//
 	"bootScript": "BOOT_CHAIR",
+	//
+	// Audio service settings:
+	//
+	"volume" : 5,
+	"chapVolume" : 5,
 	// 
 	// Display service settings:
 	//

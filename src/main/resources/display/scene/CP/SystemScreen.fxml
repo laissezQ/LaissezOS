@@ -33,7 +33,7 @@
 				<DropShadow />
 			</effect>
 		</Button>
-		<Line endX="190.0" layoutX="195.0" layoutY="307.0" startX="-180.0">
+		<Line endX="190.0" layoutX="194.0" layoutY="356.0" startX="-180.0">
 			<effect>
 				<DropShadow />
 			</effect>
@@ -104,7 +104,7 @@
 				<DropShadow />
 			</effect>
 		</Label>
-		<ScrollPane layoutX="18.0" layoutY="373.0" prefHeight="402.0" prefWidth="371.0">
+		<ScrollPane layoutX="18.0" layoutY="420.0" prefHeight="355.0" prefWidth="371.0">
 			<content>
 				<VBox fx:id="locationBox" prefHeight="31.0" prefWidth="19.0" spacing="16.0" />
 			</content>
@@ -112,7 +112,7 @@
 				<DropShadow />
 			</effect>
 		</ScrollPane>
-		<Label fx:id="gpsStatusLabel1" layoutX="116.0" layoutY="326.0" text="Preset Locations" textAlignment="CENTER">
+		<Label fx:id="gpsStatusLabel1" layoutX="117.0" layoutY="371.0" text="Preset Locations" textAlignment="CENTER">
 			<effect>
 				<DropShadow />
 			</effect>
@@ -125,7 +125,7 @@
             <DropShadow />
          </effect>
       </Line>
-      <Button layoutX="53.0" layoutY="219.0" mnemonicParsing="false" onAction="#terminalPressed" prefHeight="60.0" prefWidth="294.0" text="Open Terminal">
+      <Button layoutX="53.0" layoutY="278.0" mnemonicParsing="false" onAction="#terminalPressed" prefHeight="60.0" prefWidth="294.0" text="Open Terminal">
          <effect>
             <DropShadow />
          </effect>
@@ -133,5 +133,13 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
+      <Label fx:id="ipAddressLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="52.0" layoutY="222.0" prefHeight="23.0" prefWidth="294.0" text="IP Address" textAlignment="CENTER">
+         <font>
+            <Font size="24.0" />
+         </font>
+         <effect>
+            <DropShadow />
+         </effect>
+      </Label>
 	</children>
 </Pane>

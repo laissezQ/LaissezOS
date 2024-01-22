@@ -10,6 +10,8 @@ import com.wisneskey.los.service.audio.AudioService;
 import com.wisneskey.los.service.audio.SoundEffectId;
 import com.wisneskey.los.service.display.controller.AbstractController;
 import com.wisneskey.los.service.display.listener.mouse.DoubleClickListener;
+import com.wisneskey.los.service.lighting.LightingEffectId;
+import com.wisneskey.los.service.lighting.LightingService;
 import com.wisneskey.los.service.remote.RemoteButtonId;
 import com.wisneskey.los.service.script.ScriptId;
 
@@ -66,19 +68,19 @@ public class ChapScreen extends AbstractController {
 
 	@FXML
 	private Button lightingOneButton;
-	
+
 	@FXML
 	private Button lightingTwoButton;
-	
+
 	@FXML
 	private Button lightingThreeButton;
-	
+
 	@FXML
 	private Button lightingFourButton;
-	
+
 	@FXML
 	private Button lightingFiveButton;
-	
+
 	@FXML
 	private Button lightingSixButton;
 
@@ -99,11 +101,13 @@ public class ChapScreen extends AbstractController {
 	public void initialize() {
 		logo.setOnMouseClicked(new DoubleClickListener(e -> resumePressed()));
 		shuffleSoundButtons();
+		shuffleLightingButtons();
 	}
 
 	@FXML
 	public void shufflePressed() {
 		shuffleSoundButtons();
+		shuffleLightingButtons();
 	}
 
 	@FXML
@@ -111,6 +115,13 @@ public class ChapScreen extends AbstractController {
 		Button button = (Button) event.getSource();
 		SoundEffectId soundId = (SoundEffectId) button.getUserData();
 		((AudioService) Kernel.kernel().getService(ServiceId.AUDIO)).playEffect(soundId, false);
+	}
+
+	@FXML
+	private void lightingButtonPressed(ActionEvent event) {
+		Button button = (Button) event.getSource();
+		LightingEffectId effectId = (LightingEffectId) button.getUserData();
+		((LightingService) Kernel.kernel().getService(ServiceId.LIGHTING)).playEffect(effectId);
 	}
 
 	// ----------------------------------------------------------------------------------------
@@ -123,8 +134,7 @@ public class ChapScreen extends AbstractController {
 		// Allow remote button A to leave chap mode.
 		if (buttonId == RemoteButtonId.REMOTE_BUTTON_A) {
 			resumePressed();
-		} else
-		{
+		} else {
 			super.remoteButtonPressed(buttonId);
 		}
 	}
@@ -139,6 +149,42 @@ public class ChapScreen extends AbstractController {
 	 */
 	private void resumePressed() {
 		runScript(ScriptId.CHAP_SCREEN_CLOSE);
+	}
+
+	/**
+	 * Assigned random chap mode lighting effects to the lighting buttons.
+	 */
+	private void shuffleLightingButtons() {
+
+		Set<LightingEffectId> chapEffects = LightingEffectId.chapModeEffects();
+
+		assignLightingEffectToButton(lightingOneButton, chapEffects);
+		assignLightingEffectToButton(lightingTwoButton, chapEffects);
+		assignLightingEffectToButton(lightingThreeButton, chapEffects);
+		assignLightingEffectToButton(lightingFourButton, chapEffects);
+		assignLightingEffectToButton(lightingFiveButton, chapEffects);
+		assignLightingEffectToButton(lightingSixButton, chapEffects);
+	}
+
+	/**
+	 * Selects a lighting effect randomly from a set of lighting effects and
+	 * assigns it a button that will start it if pressed.
+	 */
+	private void assignLightingEffectToButton(Button button, Set<LightingEffectId> chapEffects) {
+
+		if (chapEffects.isEmpty()) {
+			throw new LaissezException("No lighting effects left to pick from.");
+		}
+
+		int pick = random.nextInt(chapEffects.size());
+		LightingEffectId effectId = chapEffects.stream().skip(pick).findFirst().orElse(null);
+
+		if (effectId != null) {
+			button.setText(effectId.getShortName());
+			button.setUserData(effectId);
+
+			chapEffects.remove(effectId);
+		}
 	}
 
 	/**
