@@ -29,10 +29,13 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 		@JsonSubTypes.Type(value = PlaySoundEffect.class, name = "playSoundEffect"),
 		@JsonSubTypes.Type(value = RelayOff.class, name = "relayOff"),
 		@JsonSubTypes.Type(value = RelayOn.class, name = "relayOn"),
+		@JsonSubTypes.Type(value = RestoreLightingState.class, name = "restoreLightingState"),
+		@JsonSubTypes.Type(value = RunLightingEffect.class, name = "runLightingEffect"),
 		@JsonSubTypes.Type(value = SetBarState.class, name = "setBarState"),
 		@JsonSubTypes.Type(value = SetChairState.class, name = "setChairState"),
 		@JsonSubTypes.Type(value = ShowScene.class, name = "showScene"),
-		@JsonSubTypes.Type(value = Shutdown.class, name = "shutdown") })
+		@JsonSubTypes.Type(value = Shutdown.class, name = "shutdown"),
+		@JsonSubTypes.Type(value = StoreLightingState.class, name = "storeLightingState") })
 public interface ScriptCommand {
 
 	/**

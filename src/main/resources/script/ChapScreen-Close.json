@@ -6,6 +6,10 @@
 	//
 	"commands": [
 		{
+			"restoreLightingState": {
+			}
+		},
+		{
 			"playSoundEffect": {
 				"effectIds": [
 					"MOVIE_ESPRESSO",

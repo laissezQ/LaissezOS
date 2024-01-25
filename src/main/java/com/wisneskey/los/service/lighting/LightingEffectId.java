@@ -36,6 +36,7 @@ public enum LightingEffectId {
 	HEARTBEAT("Heartbeat", "Heart Pulse", true),
 	JUGGLE("Juggle", "Juggling Balls", true),
 	LOADING("Loading", "Loading Sweep", true),
+	LOCKED("Locked", "Chair Locked", false),
 	MARQUEE("Marquee", "Marquee", true),
 	NOISE("Noise", "Phased Noise", true),
 	OCEAN("Ocean", "Ocean Waves", true),

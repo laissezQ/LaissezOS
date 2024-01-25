@@ -6,6 +6,11 @@
 	//
 	"commands": [
 		{
+			"runLightingEffect": {
+				"effectId": "LOADING"
+			}
+		},
+		{
 			"message": {
 				"message": "Exiting LaissezOS...\n",
 				"postCommandPause": 1.0

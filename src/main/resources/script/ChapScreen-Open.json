@@ -6,6 +6,10 @@
 	//
 	"commands": [
 		{
+			"storeLightingState": {
+			}
+		},
+		{
 			"setChairState": {
 				"state": "CHAP"
 			}

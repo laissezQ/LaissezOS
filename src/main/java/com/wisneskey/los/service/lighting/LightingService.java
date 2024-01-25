@@ -59,6 +59,11 @@ public class LightingService extends AbstractService<LightingState> {
 	 */
 	private LightingDriver lightingDriver;
 
+	/**
+	 * The last stored lighting state.
+	 */
+	private SavedLightingState savedState;
+
 	// ----------------------------------------------------------------------------------------
 	// Constructors.
 	// ----------------------------------------------------------------------------------------
@@ -101,8 +106,57 @@ public class LightingService extends AbstractService<LightingState> {
 	 */
 	public void playEffect(LightingEffectId effectId) {
 
+		LOGGER.info("Playing lighting effect: {}", effectId);
+		
 		lightingState.setCurrentEffect(effectId);
 		lightingDriver.playEffect(effectId, lightingState);
+	}
+
+	/**
+	 * Captures the current state so that it can be restored at a later point.
+	 * Usually used to save lighting state before opening chap mode and then
+	 * resetting it when chap mode is exited.
+	 */
+	public void storeCurrentState() {
+
+		LOGGER.info("Storing lighting state.");
+
+		SavedLightingState state = new SavedLightingState();
+		state.setEffectId(lightingState.currentEffect().get());
+		state.setBrightness(lightingState.brightness().get());
+		state.setIntensity(lightingState.intensity().get());
+		state.setReversed(lightingState.reversed().get());
+		state.setSpeed(lightingState.speed().get());
+		state.setFirstColor(lightingState.firstColor().get());
+		state.setSecondColor(lightingState.secondColor().get());
+		state.setThirdColor(lightingState.thirdColor().get());
+
+		savedState = state;
+	}
+
+	/**
+	 * Restores a previously saved lighting state.
+	 */
+	public void restoreState() {
+
+		if (savedState == null) {
+			LOGGER.warn("No lighting state stored.");
+			return;
+		}
+
+		LOGGER.info("Restoring lighting state.");
+
+		// First start playing the effect since it takes a bit of time to transition
+		// and we can
+		// update all the settings as the transition is starting.
+		playEffect(savedState.getEffectId());
+		lightingState.reversed().set(savedState.getReversed());
+		lightingState.brightness().set(savedState.getBrightness());
+		lightingState.intensity().set(savedState.getIntensity());
+		lightingState.speed().set(savedState.getSpeed());
+		lightingState.firstColor().set(savedState.getFirstColor());
+		lightingState.secondColor().set(savedState.getSecondColor());
+		lightingState.thirdColor().set(savedState.getThirdColor());
 	}
 
 	// ----------------------------------------------------------------------------------------
@@ -196,7 +250,7 @@ public class LightingService extends AbstractService<LightingState> {
 	// ----------------------------------------------------------------------------------------
 	// Inner classes.
 	// ----------------------------------------------------------------------------------------
-	
+
 	/**
 	 * Property listener for letting the LED controller know when the brightness
 	 * has changed.
@@ -210,8 +264,8 @@ public class LightingService extends AbstractService<LightingState> {
 	}
 
 	/**
-	 * Property listener for letting the LED controller know when the speed
-	 * has changed.
+	 * Property listener for letting the LED controller know when the speed has
+	 * changed.
 	 */
 	private class SpeedListener implements ChangeListener<Number> {
 
@@ -254,6 +308,89 @@ public class LightingService extends AbstractService<LightingState> {
 		@Override
 		public void changed(ObservableValue<? extends Color> observable, Color oldValue, Color newValue) {
 			lightingDriver.changeColor(lightingState);
+		}
+	}
+
+	/**
+	 * Class used to save a lighting state.
+	 */
+	private static class SavedLightingState {
+
+		private Integer brightness;
+		private Integer speed;
+		private Integer intensity;
+		private Boolean reversed;
+		private LightingEffectId effectId;
+		private Color firstColor;
+		private Color secondColor;
+		private Color thirdColor;
+
+		// ----------------------------------------------------------------------------------------
+		// Property getters/setters.
+		// ----------------------------------------------------------------------------------------
+
+		public Integer getBrightness() {
+			return brightness;
+		}
+
+		public void setBrightness(Integer brightness) {
+			this.brightness = brightness;
+		}
+
+		public Integer getSpeed() {
+			return speed;
+		}
+
+		public void setSpeed(Integer speed) {
+			this.speed = speed;
+		}
+
+		public Integer getIntensity() {
+			return intensity;
+		}
+
+		public void setIntensity(Integer intensity) {
+			this.intensity = intensity;
+		}
+
+		public Boolean getReversed() {
+			return reversed;
+		}
+
+		public void setReversed(Boolean reversed) {
+			this.reversed = reversed;
+		}
+
+		public LightingEffectId getEffectId() {
+			return effectId;
+		}
+
+		public void setEffectId(LightingEffectId effectId) {
+			this.effectId = effectId;
+		}
+
+		public Color getFirstColor() {
+			return firstColor;
+		}
+
+		public void setFirstColor(Color firstColor) {
+			this.firstColor = firstColor;
+		}
+
+		public Color getSecondColor() {
+			return secondColor;
+		}
+
+		public void setSecondColor(Color secondColor) {
+			this.secondColor = secondColor;
+		}
+
+		public Color getThirdColor() {
+			return thirdColor;
+		}
+
+		public void setThirdColor(Color thirdColor) {
+			this.thirdColor = thirdColor;
 		}
 	}
 

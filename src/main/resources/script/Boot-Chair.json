@@ -22,6 +22,11 @@
 			}
 		},
 		{
+			"runLightingEffect": {
+				"effectId": "LOADING"
+			}
+		},
+		{
 			"message": {
 				"messages": [
 					"LaissezOS 1.0 booting...\n",

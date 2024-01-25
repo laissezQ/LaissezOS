@@ -136,12 +136,12 @@ public class WledLightingDriver implements LightingDriver {
 	@Override
 	public void playEffect(LightingEffectId effectId, LightingState lightingState) {
 
-		LOGGER.info("Switching lighting effect: effectId={}", effectId, lightingState);
+		LOGGER.info("Switching lighting effect: effectId={}", effectId);
 
 		// First get the base WLED effect configuration.
 		WledEffectConfig config = effectConfigMap.get(effectId);
 		if (config == null) {
-			LOGGER.error("WLED effect configuration not found in map: " + effectId);
+			LOGGER.error("WLED effect configuration not found in map: {}", effectId);
 			return;
 		}
 
@@ -195,9 +195,9 @@ public class WledLightingDriver implements LightingDriver {
 
 	@Override
 	public void changeSpeed(int speed) {
-		
+
 		LOGGER.info("Changing speed: newValue={}", speed);
-		
+
 		Segment segment = new Segment();
 		segment.setId(0);
 		segment.setEffectSpeed(speed);
@@ -227,7 +227,7 @@ public class WledLightingDriver implements LightingDriver {
 	public void changeReversed(boolean reversed) {
 
 		LOGGER.info("Changing reversed flag: newValue={}", reversed);
-		
+
 		Segment segment = new Segment();
 		segment.setId(0);
 		segment.setReverse(reversed);
@@ -263,15 +263,22 @@ public class WledLightingDriver implements LightingDriver {
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
 
-	private void updateLightingState(State updatedState, LightingState lightingState) {
+	/**
+	 * Updates the service's lighting state based on the state returned from the
+	 * controller.
+	 * 
+	 * @param controllerState State returned from the lighting controller.
+	 * @param lightingState   Service's lighting state to update.
+	 */
+	private void updateLightingState(State controllerState, LightingState lightingState) {
 
-		lightingState.brightness().setValue(calculateStateBrightness(updatedState.getBrightness()));
-		
-		Segment updatedSegment = updatedState.getSegments().get(0);
+		lightingState.brightness().setValue(calculateStateBrightness(controllerState.getBrightness()));
+
+		Segment updatedSegment = controllerState.getSegments().get(0);
 		lightingState.speed().setValue(updatedSegment.getEffectSpeed());
 		lightingState.intensity().setValue(updatedSegment.getEffectIntensity());
 		lightingState.reversed().setValue(updatedSegment.getReverse());
-		
+
 		// Apply and color changes to our internal state.
 		List<List<Integer>> updatedColors = updatedSegment.getColors();
 
@@ -280,6 +287,9 @@ public class WledLightingDriver implements LightingDriver {
 		lightingState.thirdColor().setValue(rgbToColor(updatedColors.get(2)));
 	}
 
+	/**
+	 * Load the JSON configurations for all lighting effects.
+	 */
 	private void loadEffectConfigurations() {
 
 		for (LightingEffectId effectId : LightingEffectId.values()) {
@@ -295,6 +305,12 @@ public class WledLightingDriver implements LightingDriver {
 		}
 	}
 
+	/**
+	 * Convert a color object value to an RGB value for the controller.
+	 * 
+	 * @param  color Color object to convert.
+	 * @return       List of integer values representing red, green, and blue.
+	 */
 	private List<Integer> colorToRGB(Color color) {
 
 		List<Integer> rgb = new ArrayList<>(3);
@@ -305,16 +321,37 @@ public class WledLightingDriver implements LightingDriver {
 		return rgb;
 	}
 
+	/**
+	 * Convert separate RGB values into a Color object instance.
+	 * 
+	 * @param  rgb List of integer values representing red, green, and blue.
+	 * @return     Color object representing the RGB color.
+	 */
 	private Color rgbToColor(List<Integer> rgb) {
 
 		return Color.rgb(rgb.get(0), rgb.get(1), rgb.get(2), 1.0);
 	}
 
+	/**
+	 * Convert from the lighting state brightness value to use the value to use
+	 * for the controller (based on the max brightness configured for the
+	 * controller).
+	 * 
+	 * @param  brightness Lighting state brightness value.
+	 * @return            Controller brightness value.
+	 */
 	private int calculateControllerBrightness(int brightness) {
 
 		return (int) Math.ceil((brightness / 100.0d) * maxControllerBrightness);
 	}
 
+	/**
+	 * Convert from the controller brightness to the lighting state brightness
+	 * value.
+	 * 
+	 * @param  controllerBrightness Controller brightness value.
+	 * @return                      Lighting state brightness value.
+	 */
 	private int calculateStateBrightness(int controllerBrightness) {
 		return (int) Math.ceil((controllerBrightness / (double) maxControllerBrightness) * 100.0d);
 	}

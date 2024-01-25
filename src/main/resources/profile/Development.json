@@ -18,7 +18,7 @@
 	//
 	// Lighting service settings (assuming ssh tunnel to controller on chair):
 	//
-	"useRealLighting": true,
+	"useRealLighting": false,
 	"wledHostAddress": "http://localhost:8000",
 	//
 	// Location service settings:

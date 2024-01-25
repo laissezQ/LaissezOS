@@ -440,7 +440,7 @@ public class DisplayService extends AbstractService<DisplayState> {
 			try {
 				parent = fxmlLoader.load();
 				controller = fxmlLoader.getController();
-			} catch (Throwable e) {
+			} catch (Exception e) {
 				throw new LaissezException("Failed to load scene: " + sceneId, e);
 			}
 

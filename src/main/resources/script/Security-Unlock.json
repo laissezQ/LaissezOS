@@ -6,6 +6,10 @@
 	//
 	"commands": [
 		{
+			"restoreLightingState": {
+			}
+		},
+		{
 			"playSoundEffect": {
 				"effectIds": [
 					"MOVIE_IJ_CHOSEN_WISELY"
