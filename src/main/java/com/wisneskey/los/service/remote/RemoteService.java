@@ -114,26 +114,6 @@ public class RemoteService extends AbstractService<RemoteState> {
 		return remoteState;
 	}
 
-	/**
-	 * Method invoked when a remote button is pressed.
-	 * 
-	 * @param buttonId Id of the remote button that was pressed.
-	 */
-	private void buttonPressed(RemoteButtonId buttonId) {
-		LOGGER.debug("Button pressed: {}", buttonId);
-		remoteState.updateButtonState(buttonId, true);
-	}
-
-	/**
-	 * Method invoked when a remote button is released.
-	 * 
-	 * @param buttonId id of the remote button that was released.
-	 */
-	private void buttonReleased(RemoteButtonId buttonId) {
-		LOGGER.debug("Button released: {}", buttonId);
-		remoteState.updateButtonState(buttonId, false);
-	}
-
 	// ----------------------------------------------------------------------------------------
 	// Static service creation methods.
 	// ----------------------------------------------------------------------------------------
@@ -151,7 +131,6 @@ public class RemoteService extends AbstractService<RemoteState> {
 		// Set the remote driver based on the run mode.
 		switch (runMode) {
 		case CHAIR:
-			// service.setRemoteDriver(new DummyRemoteDriver());
 			service.setRemoteDriver(new GpioRemoteDriver());
 			break;
 		case DEV:
@@ -228,12 +207,16 @@ public class RemoteService extends AbstractService<RemoteState> {
 
 		@Override
 		public void buttonPressed(RemoteButtonId buttonId) {
-			RemoteService.this.buttonPressed(buttonId);
+
+			LOGGER.debug("Button pressed: {}", buttonId);
+			remoteState.updateButtonState(buttonId, true);
 		}
 
 		@Override
 		public void buttonReleased(RemoteButtonId buttonId) {
-			RemoteService.this.buttonReleased(buttonId);
+
+			LOGGER.debug("Button released: {}", buttonId);
+			remoteState.updateButtonState(buttonId, false);
 		}
 	}
 }

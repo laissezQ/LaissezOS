@@ -118,11 +118,6 @@ public class MainScreen extends AbstractController {
 	private Button tapButton;
 
 	/**
-	 * Node to show the Swing based MapViewer in.
-	 */
-	private SwingNode swingNode;
-
-	/**
 	 * Map viewer.
 	 */
 	private JXMapViewer mapViewer;
@@ -159,7 +154,7 @@ public class MainScreen extends AbstractController {
 		LocationState locationState = Kernel.kernel().chairState().getServiceState(ServiceId.LOCATION);
 		Location initialLocation = locationState.location().getValue();
 
-		swingNode = new SwingNode();
+		SwingNode swingNode = new SwingNode();
 		
 		// create a map view and set the map to it
 		SwingUtilities.invokeLater(() -> {

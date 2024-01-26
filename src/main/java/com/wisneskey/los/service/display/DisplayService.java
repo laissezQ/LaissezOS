@@ -20,13 +20,12 @@ import com.wisneskey.los.service.profile.model.Profile;
 import com.wisneskey.los.service.remote.RemoteButtonId;
 import com.wisneskey.los.state.DisplayState;
 import com.wisneskey.los.state.RemoteState;
+import com.wisneskey.los.util.PropertyChangeListener;
 
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
@@ -228,11 +227,12 @@ public class DisplayService extends AbstractService<DisplayState> {
 		}
 
 		// Monitor the remote service state so we can detect button changes and tell
-		// the
-		// current active scenes about buttons being pressed.
+		// the current active scenes about buttons being pressed.
 		RemoteState remoteState = Kernel.kernel().chairState().getServiceState(ServiceId.REMOTE);
-		remoteState.buttonA().addListener(new RemoteButtonListener(RemoteButtonId.REMOTE_BUTTON_A));
-		remoteState.buttonB().addListener(new RemoteButtonListener(RemoteButtonId.REMOTE_BUTTON_B));
+		remoteState.buttonA().addListener(
+				new PropertyChangeListener<>(t -> remoteButtonChange(t.booleanValue(), RemoteButtonId.REMOTE_BUTTON_A)));
+		remoteState.buttonB().addListener(
+				new PropertyChangeListener<>(t -> remoteButtonChange(t.booleanValue(), RemoteButtonId.REMOTE_BUTTON_B)));
 
 		initialized = true;
 	}
@@ -256,22 +256,22 @@ public class DisplayService extends AbstractService<DisplayState> {
 		// Change the appropriate display's scene contents. We do not set a new
 		// scene because in full screen mode this causes the menu bar to reappear.
 		if (sceneId.getDisplayId() == DisplayId.CP) {
-			
+
 			Platform.runLater(() -> cpStage.getScene().setRoot(content));
 			Platform.runLater(() -> cpStage.requestFocus());
 
 		} else {
-			
+
 			Platform.runLater(() -> hudStage.getScene().setRoot(content));
 			Platform.runLater(() -> hudStage.requestFocus());
-			
+
 		}
 
 		// Update the display state for any change listeners.
 		displayState.updateScene(sceneId);
-		
+
 		SceneController controller = sceneControllerMap.get(sceneId);
-		controller.sceneShown();			
+		controller.sceneShown();
 	}
 
 	/**
@@ -455,20 +455,22 @@ public class DisplayService extends AbstractService<DisplayState> {
 	 * 
 	 * @param buttonId Id of the button that was pressed.
 	 */
-	private void remoteButtonPressed(RemoteButtonId buttonId) {
+	private void remoteButtonChange(boolean pressed, RemoteButtonId buttonId) {
 
-		SceneId cpSceneId = displayState.cpScene().getValue();
-		SceneId hudSceneId = displayState.hudScene().getValue();
+		if (pressed) {
+			SceneId cpSceneId = displayState.cpScene().getValue();
+			SceneId hudSceneId = displayState.hudScene().getValue();
 
-		SceneController cpController = cpSceneId == null ? null : sceneControllerMap.get(cpSceneId);
-		SceneController hudController = hudSceneId == null ? null : sceneControllerMap.get(hudSceneId);
+			SceneController cpController = cpSceneId == null ? null : sceneControllerMap.get(cpSceneId);
+			SceneController hudController = hudSceneId == null ? null : sceneControllerMap.get(hudSceneId);
 
-		if (cpController != null) {
-			cpController.remoteButtonPressed(buttonId);
-		}
+			if (cpController != null) {
+				cpController.remoteButtonPressed(buttonId);
+			}
 
-		if (hudController != null) {
-			hudController.remoteButtonPressed(buttonId);
+			if (hudController != null) {
+				hudController.remoteButtonPressed(buttonId);
+			}
 		}
 	}
 
@@ -494,36 +496,6 @@ public class DisplayService extends AbstractService<DisplayState> {
 	// ----------------------------------------------------------------------------------------
 	// Inner classes.
 	// ----------------------------------------------------------------------------------------
-
-	/**
-	 * Listener for monitoring when remote buttons are pressed.
-	 */
-	private class RemoteButtonListener implements ChangeListener<Boolean> {
-
-		/**
-		 * Id of the remote button the listener is for.
-		 */
-		private RemoteButtonId buttonId;
-
-		// ----------------------------------------------------------------------------------------
-		// Constructors.
-		// ----------------------------------------------------------------------------------------
-
-		private RemoteButtonListener(RemoteButtonId buttonId) {
-			this.buttonId = buttonId;
-		}
-
-		// ----------------------------------------------------------------------------------------
-		// ChangeListener methods.
-		// ----------------------------------------------------------------------------------------
-
-		@Override
-		public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-			if (newValue.booleanValue()) {
-				remoteButtonPressed(buttonId);
-			}
-		}
-	}
 
 	/**
 	 * Internal state object for the Display service.

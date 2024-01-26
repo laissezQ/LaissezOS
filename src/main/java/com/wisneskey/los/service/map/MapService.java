@@ -366,7 +366,7 @@ public class MapService extends AbstractService<MapState> {
 		private InternalMapState(boolean online, boolean tracking, Location center) {
 			this.online = new SimpleBooleanProperty(online);
 			this.tracking = new SimpleBooleanProperty(tracking);
-			this.center = new SimpleObjectProperty<Location>(center);
+			this.center = new SimpleObjectProperty<>(center);
 		}
 
 		// ----------------------------------------------------------------------------------------

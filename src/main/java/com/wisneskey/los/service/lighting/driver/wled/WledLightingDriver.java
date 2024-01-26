@@ -136,6 +136,11 @@ public class WledLightingDriver implements LightingDriver {
 	@Override
 	public void playEffect(LightingEffectId effectId, LightingState lightingState) {
 
+		if(! online) {
+			LOGGER.info("Controller not online: ignoring switch lighting effect.");
+			return;
+		}
+
 		LOGGER.info("Switching lighting effect: effectId={}", effectId);
 
 		// First get the base WLED effect configuration.
@@ -183,6 +188,11 @@ public class WledLightingDriver implements LightingDriver {
 	@Override
 	public void changeBrightness(int brightness) {
 
+		if(! online) {
+			LOGGER.info("Controller not online: ignoring change brightness.");
+			return;
+		}
+
 		int controllerBrightness = calculateControllerBrightness(brightness);
 
 		LOGGER.info("Changing brightness: bightness={} controllerBrightness={}", brightness, controllerBrightness);
@@ -195,6 +205,11 @@ public class WledLightingDriver implements LightingDriver {
 
 	@Override
 	public void changeSpeed(int speed) {
+
+		if(! online) {
+			LOGGER.info("Controller not online: ignoring change speed.");
+			return;
+		}
 
 		LOGGER.info("Changing speed: newValue={}", speed);
 
@@ -211,6 +226,11 @@ public class WledLightingDriver implements LightingDriver {
 	@Override
 	public void changeIntensity(int intensity) {
 
+		if(! online) {
+			LOGGER.info("Controller not online: ignoring change intensity.");
+			return;
+		}
+
 		LOGGER.info("Changing intensity: newValue={}", intensity);
 
 		Segment segment = new Segment();
@@ -226,6 +246,11 @@ public class WledLightingDriver implements LightingDriver {
 	@Override
 	public void changeReversed(boolean reversed) {
 
+		if(! online) {
+			LOGGER.info("Controller not online: ignoring reverse.");
+			return;
+		}
+
 		LOGGER.info("Changing reversed flag: newValue={}", reversed);
 
 		Segment segment = new Segment();
@@ -240,6 +265,11 @@ public class WledLightingDriver implements LightingDriver {
 
 	@Override
 	public void changeColor(LightingState lightingState) {
+
+		if(! online) {
+			LOGGER.info("Controller not online: ignoring change color.");
+			return;
+		}
 
 		LOGGER.info("Changing colors: first={} second={} third={}", lightingState.firstColor().getValue(),
 				lightingState.secondColor().getValue(), lightingState.thirdColor().getValue());

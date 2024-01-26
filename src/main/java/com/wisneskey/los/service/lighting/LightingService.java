@@ -12,6 +12,7 @@ import com.wisneskey.los.service.lighting.driver.LightingDriver;
 import com.wisneskey.los.service.lighting.driver.wled.WledLightingDriver;
 import com.wisneskey.los.service.profile.model.Profile;
 import com.wisneskey.los.state.LightingState;
+import com.wisneskey.los.util.PropertyChangeListener;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
@@ -20,8 +21,6 @@ import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.paint.Color;
 import javafx.util.Pair;
 
@@ -107,7 +106,7 @@ public class LightingService extends AbstractService<LightingState> {
 	public void playEffect(LightingEffectId effectId) {
 
 		LOGGER.info("Playing lighting effect: {}", effectId);
-		
+
 		lightingState.setCurrentEffect(effectId);
 		lightingDriver.playEffect(effectId, lightingState);
 	}
@@ -193,13 +192,16 @@ public class LightingService extends AbstractService<LightingState> {
 
 		// Monitor the state for changes to brightness and colors so we can apply
 		// them immediately.
-		lightingState.brightness.addListener(new BrightnessListener());
-		lightingState.speed.addListener(new SpeedListener());
-		lightingState.intensity.addListener(new IntensityListener());
-		lightingState.reversed.addListener(new ReversedListener());
-		lightingState.firstColor.addListener(new ColorListener());
-		lightingState.secondColor.addListener(new ColorListener());
-		lightingState.thirdColor.addListener(new ColorListener());
+		lightingState.brightness
+				.addListener(new PropertyChangeListener<>(t -> lightingDriver.changeBrightness(t.intValue())));
+		lightingState.speed.addListener(new PropertyChangeListener<>(t -> lightingDriver.changeSpeed(t.intValue())));
+		lightingState.intensity
+				.addListener(new PropertyChangeListener<>(t -> lightingDriver.changeIntensity(t.intValue())));
+		lightingState.reversed
+				.addListener(new PropertyChangeListener<>(t -> lightingDriver.changeReversed(t.booleanValue())));
+		lightingState.firstColor.addListener(new PropertyChangeListener<>(t -> lightingDriver.changeColor(lightingState)));
+		lightingState.secondColor.addListener(new PropertyChangeListener<>(t -> lightingDriver.changeColor(lightingState)));
+		lightingState.thirdColor.addListener(new PropertyChangeListener<>(t -> lightingDriver.changeColor(lightingState)));
 
 		return lightingState;
 	}
@@ -250,66 +252,6 @@ public class LightingService extends AbstractService<LightingState> {
 	// ----------------------------------------------------------------------------------------
 	// Inner classes.
 	// ----------------------------------------------------------------------------------------
-
-	/**
-	 * Property listener for letting the LED controller know when the brightness
-	 * has changed.
-	 */
-	private class BrightnessListener implements ChangeListener<Number> {
-
-		@Override
-		public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-			lightingDriver.changeBrightness(newValue.intValue());
-		}
-	}
-
-	/**
-	 * Property listener for letting the LED controller know when the speed has
-	 * changed.
-	 */
-	private class SpeedListener implements ChangeListener<Number> {
-
-		@Override
-		public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-			lightingDriver.changeSpeed(newValue.intValue());
-		}
-	}
-
-	/**
-	 * Property listener for letting the LED controller know when the intensity
-	 * has changed.
-	 */
-	private class IntensityListener implements ChangeListener<Number> {
-
-		@Override
-		public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-			lightingDriver.changeIntensity(newValue.intValue());
-		}
-	}
-
-	/**
-	 * Property listener for letting the LED controller know when the intensity
-	 * has changed.
-	 */
-	private class ReversedListener implements ChangeListener<Boolean> {
-
-		@Override
-		public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-			lightingDriver.changeReversed(newValue.booleanValue());
-		}
-	}
-
-	/**
-	 * Property listener for letting the LED controller know when any of the
-	 * colors have changed.
-	 */
-	private class ColorListener implements ChangeListener<Color> {
-
-		@Override
-		public void changed(ObservableValue<? extends Color> observable, Color oldValue, Color newValue) {
-			lightingDriver.changeColor(lightingState);
-		}
-	}
 
 	/**
 	 * Class used to save a lighting state.

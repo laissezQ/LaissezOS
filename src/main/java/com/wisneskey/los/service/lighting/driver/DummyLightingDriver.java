@@ -34,7 +34,9 @@ public class DummyLightingDriver implements LightingDriver {
 
 	@Override
 	public void initialize(Profile profile, LightingState state) {
-		// Nothing to do here
+		state.intensity().set(128);
+		state.speed().set(128);
+		state.reversed().set(false);
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import com.wisneskey.los.service.display.controller.AbstractController;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
 /**
@@ -30,10 +31,25 @@ import javafx.scene.paint.Color;
 public class ChapScreen extends AbstractController {
 
 	/**
+	 * Constant used to indication no line being drawn.
+	 */
+	private static final double NO_POSITION = -1.0d;
+	
+	/**
 	 * Canvas the drawing is done on.
 	 */
 	@FXML
 	private Canvas canvas;
+
+	/**
+	 * Last known X position of line being drawn.
+	 */
+	private double lastX = NO_POSITION;
+
+	/**
+	 * Last known Y position of line being drawn.
+	 */
+	private double lastY = NO_POSITION;
 
 	// ----------------------------------------------------------------------------------------
 	// Public methods.
@@ -47,22 +63,54 @@ public class ChapScreen extends AbstractController {
 
 		clearDrawing();
 
-		canvas.setOnMouseDragged((event) -> {
-			GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
-			graphicsContext.setFill(Color.BLACK);
-			graphicsContext.fillOval(event.getX(), event.getY(), 8, 8);
-		});
+		canvas.setOnMouseDragged(this::dragEvent);
+		canvas.setOnDragDone(e -> stopDrawing());
+		canvas.setOnMouseReleased(e -> stopDrawing());
 	}
 
 	/**
-	 * Method invoked by the clear the Etch-a-Sketch drawing.  Triggered by a track on
-	 * the top bar of the UI.
+	 * Method invoked by the clear the Etch-a-Sketch drawing. Triggered by a track
+	 * on the top bar of the UI.
 	 */
 	@FXML
 	public void clearDrawing() {
 
+		stopDrawing();
+
 		GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
 		graphicsContext.setFill(Color.LIGHTGRAY);
 		graphicsContext.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+	}
+
+	// ----------------------------------------------------------------------------------------
+	// Supporting methods.
+	// ----------------------------------------------------------------------------------------
+
+	/**
+	 * Draws a line from the previous last known position to the new one if a line
+	 * was actively being drawn. If a line was not being drawn, it starts one.
+	 * 
+	 * @param event Mouse drag event.
+	 */
+	private void dragEvent(MouseEvent event) {
+
+		if ((lastX > NO_POSITION) && (lastY > NO_POSITION)) {
+			GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
+			graphicsContext.setFill(Color.BLACK);
+			graphicsContext.setLineWidth(8.0d);
+			graphicsContext.strokeLine(lastX, lastY, event.getX(), event.getY());
+		}
+
+		lastX = event.getX();
+		lastY = event.getY();
+	}
+
+	/**
+	 * Set the last position variables to indicate that no active drawing is going
+	 * on.
+	 */
+	private void stopDrawing() {
+		lastX = NO_POSITION;
+		lastY = NO_POSITION;
 	}
 }

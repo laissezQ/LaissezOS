@@ -33,6 +33,18 @@ public enum SoundEffectId {
 			true,
 			"misc/car_alarm_arming.wav"),
 
+	MISC_STAND_UP( //
+			"Stang Up",
+			"Stand Up and Get Crunk",
+			true,
+			"misc/get_crunk.wav"),
+
+	MISC_WHO_DAT( //
+			"Who Dat",
+			"Who Dat Say They Gonna Beat the Saints",
+			true,
+			"misc/who_dat.wav"),
+
 	MISC_WINDOWS_XP_STARTUP( //
 			"Startup",
 			"Windows XP startup sound.",
@@ -50,11 +62,18 @@ public enum SoundEffectId {
 			"Game over man!",
 			true,
 			"movie/alien_game_over.wav"),
+
 	MOVIE_BLADE_RUNNER_TIME_TO_DIE( //
 			"Time To Die",
 			"...time to die.",
 			false,
 			"movie/blade_runner_time_to_die.wav"),
+
+	MOVIE_CANDLE_BACK( //
+			"Candle Back",
+			"Put the candle back!",
+			true,
+			"movie/put_the_candle_back.wav"),
 
 	MOVIE_ESPRESSO( //
 			"Espresso",
@@ -67,6 +86,7 @@ public enum SoundEffectId {
 			"I'm completely operational...",
 			true,
 			"movie/hal_operational.wav"),
+
 	MOVIE_HAL_SORRY_DAVE( //
 			"Sorry",
 			"I'm afraid I can't do that...",
@@ -120,6 +140,12 @@ public enum SoundEffectId {
 			"Welcome to the real world...",
 			false,
 			"movie/matrix_welcome_to_real_world.wav"),
+
+	MOVIE_SHOOT_EYE( //
+			"Shoot",
+			"You'll shoot your eye out kid!",
+			true,
+			"movie/shoot_your_eye_out_kids.wav"),
 
 	MOVIE_SNOW_WHITE_HI_HO( //
 			"Hi Ho",
