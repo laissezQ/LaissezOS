@@ -8,6 +8,8 @@ import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.lighting.LightingEffectId;
 import com.wisneskey.los.service.lighting.LightingService;
 
+import javafx.application.Platform;
+
 /**
  * Script command to run a specified lighting effect.
  *
@@ -62,7 +64,8 @@ public class RunLightingEffect extends AbstractScriptCommand {
 			LOGGER.warn("No lighting effect configured to play.");
 		} else {
 			
-			((LightingService) Kernel.kernel().getService(ServiceId.LIGHTING)).playEffect(playId);
+			Platform.runLater( () -> ((LightingService) Kernel.kernel().getService(ServiceId.LIGHTING)).playEffect(playId));
+			
 		}
 	}
 }

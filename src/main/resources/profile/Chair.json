@@ -14,8 +14,8 @@
 	//
 	// Audio service settings:
 	//
-	"volume" : 5,
-	"chapVolume" : 5,
+	"volume": 8,
+	"chapModeVolume": 8,
 	// 
 	// Display service settings:
 	//

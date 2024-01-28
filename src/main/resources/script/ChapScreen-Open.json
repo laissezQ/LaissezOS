@@ -17,7 +17,10 @@
 		{
 			"playSoundEffect": {
 				"effectIds": [
-					"MOVIE_MACHINE_GOES_PING"
+					"MOVIE_MACHINE_GOES_PING",
+					"MOVIE_SHOOT_EYE",
+					"TV_COMPLETELY_DIFFERENT"
+					
 				]
 			}
 		},

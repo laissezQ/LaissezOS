@@ -182,8 +182,10 @@
 					<executable>/usr/bin/scp</executable>
 					<workingDirectory>${project.build.directory}</workingDirectory>
 					<arguments>
+						<argument>-v</argument>
 						<argument>laissezos-0.0.1-SNAPSHOT.jar</argument>
-						<argument>pwisneskey@192.168.86.13:./lbos.jar</argument>
+						<!-- <argument>pwisneskey@192.168.86.13:./lbos.jar</argument> -->
+						<argument>pwisneskey@192.168.123.68:./lbos.jar</argument> -->
 					</arguments>
 				</configuration>
 			</plugin>

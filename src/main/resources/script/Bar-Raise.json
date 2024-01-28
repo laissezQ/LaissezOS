@@ -20,7 +20,10 @@
 		{
 			"playSoundEffect": {
 				"effectIds": [
-					"MOVIE_ITS_ALIVE"
+					"MOVIE_ITS_ALIVE",
+					"MOVIE_IJ_CHOSEN_WISELY",
+					"MOVIE_HARRY_POTTER_CHAMBER_OF_SECRETS",
+					"TV_NOT_STUPID"
 				]
 			}
 		},

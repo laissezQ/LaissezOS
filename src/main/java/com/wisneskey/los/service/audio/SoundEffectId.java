@@ -141,6 +141,12 @@ public enum SoundEffectId {
 			false,
 			"movie/matrix_welcome_to_real_world.wav"),
 
+	MOVIE_NOT_MAD( //
+			"Not Mad",
+			"I'm not mad...I'm just disappointed.",
+			true,
+			"movie/not_mad.wav"),
+	
 	MOVIE_SHOOT_EYE( //
 			"Shoot",
 			"You'll shoot your eye out kid!",
@@ -194,6 +200,12 @@ public enum SoundEffectId {
 			"Get the comfy chair!",
 			true,
 			"tv/monty_python_get_the_comfy_chair.wav"),
+	
+	TV_NOT_STUPID( //
+			"Not Stupid",
+			"It's not stupid, it's advanced!",
+			true,
+			"tv/zim_not_stupid"),
 
 	TV_THATS_ALL_FOLKS( //
 			"That's All",
