@@ -205,7 +205,7 @@ public enum SoundEffectId {
 			"Not Stupid",
 			"It's not stupid, it's advanced!",
 			true,
-			"tv/zim_not_stupid"),
+			"tv/zim_not_stupid.wav"),
 
 	TV_THATS_ALL_FOLKS( //
 			"That's All",
