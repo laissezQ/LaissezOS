@@ -2,9 +2,6 @@ package com.wisneskey.los.service.display.controller.hud;
 
 import java.util.Random;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.audio.AudioService;
 import com.wisneskey.los.service.audio.SoundEffectId;
@@ -38,26 +35,49 @@ import javafx.scene.layout.Pane;
  */
 public class GameScreen extends AbstractController {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(GameScreen.class);
-
+	/**
+	 * Image of the knife.
+	 */
 	@FXML
 	private ImageView knife;
 
+	/**
+	 * Image of the king cake.
+	 */
 	@FXML
 	private ImageView kingCake;
 
+	/**
+	 * Actual play area for the game.
+	 */
 	@FXML
 	private Pane gamePane;
 
+	/**
+	 * Label used for Paul's score.
+	 */
 	@FXML
 	private Label paulScoreLabel;
 
+	/**
+	 * Starting X position of the knife when it is dragged.
+	 */
 	private double baseX = 0.0d;
 
+	/**
+	 * Starting Y position of the knife when it is dragged.
+	 */
 	private double baseY = 0.0d;
 
+	/**
+	 * Paul's score.
+	 */
 	private int paulScore = 0;
 
+	/**
+	 * Random number generated for relocating the king cake after the knife is
+	 * dropped on it.
+	 */
 	private Random random = new Random();
 
 	// ----------------------------------------------------------------------------------------
@@ -65,19 +85,21 @@ public class GameScreen extends AbstractController {
 	// ----------------------------------------------------------------------------------------
 
 	/**
-	 * Initializes the controller.
+	 * Method invoked when the mouse is pressed on the knife to start dragging it.
+	 * 
+	 * @param event Mouse press event.
 	 */
-	@FXML
-	public void initialize() {
-
-	}
-
 	public void knifePressed(MouseEvent event) {
 
 		baseX = knife.getLayoutX() - event.getSceneX();
 		baseY = knife.getLayoutY() - event.getSceneY();
 	}
 
+	/**
+	 * Method invoked when the knife image is dragged.
+	 * 
+	 * @param event Mouse drag event.
+	 */
 	public void knifeDragged(MouseEvent event) {
 
 		double newX = event.getSceneX() + baseX;
@@ -93,6 +115,11 @@ public class GameScreen extends AbstractController {
 		knife.setLayoutY(newY);
 	}
 
+	/**
+	 * Method invoked when the knife image is released.
+	 * 
+	 * @param event Mouse release event.
+	 */
 	public void knifeReleased(MouseEvent event) {
 
 		// Process final position for release.
@@ -113,10 +140,16 @@ public class GameScreen extends AbstractController {
 			paulScoreLabel.setText(String.valueOf(paulScore));
 		}
 	}
+	
 	// ----------------------------------------------------------------------------------------
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
 
+	/**
+	 * Function to check to see if the knife image overlaps the king cake image at all.
+	 * 
+	 * @return True if and only if knife image overlaps the king cake.
+	 */
 	private boolean knifeOnKingCake() {
 
 		// Now see if knife overlaps king cake at all.

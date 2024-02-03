@@ -33,33 +33,33 @@
 	<top>
 		<Pane prefHeight="55.0" prefWidth="800.0" style="-fx-background-color: Pink;" BorderPane.alignment="CENTER">
          <children>
-            <Label layoutX="211.0" layoutY="13.0" text="Paul:" textFill="BLUE">
+            <Label layoutX="211.0" layoutY="11.0" text="Paul:" textFill="BLUE">
                <font>
-                  <Font size="24.0" />
+                  <Font name="Comic Sans MS" size="24.0" />
                </font>
                <effect>
                   <DropShadow />
                </effect>
             </Label>
-            <Label layoutX="458.0" layoutY="13.0" text="Ann:" textFill="RED">
+            <Label layoutX="458.0" layoutY="11.0" text="Ann:" textFill="RED">
                <font>
-                  <Font size="24.0" />
+                  <Font name="Comic Sans MS" size="24.0" />
                </font>
                <effect>
                   <DropShadow />
                </effect>
             </Label>
-            <Label fx:id="paulScoreLabel" layoutX="272.0" layoutY="13.0" prefHeight="29.0" prefWidth="64.0" text="0" textFill="BLUE">
+            <Label fx:id="paulScoreLabel" layoutX="272.0" layoutY="11.0" prefHeight="29.0" prefWidth="64.0" text="0" textFill="BLUE">
                <font>
-                  <Font size="24.0" />
+                  <Font name="Comic Sans MS" size="24.0" />
                </font>
                <effect>
                   <DropShadow />
                </effect>
             </Label>
-            <Label layoutX="520.0" layoutY="13.0" prefHeight="29.0" prefWidth="64.0" text="0" textFill="RED">
+            <Label layoutX="520.0" layoutY="11.0" prefHeight="29.0" prefWidth="64.0" text="0" textFill="RED">
                <font>
-                  <Font size="24.0" />
+                  <Font name="Comic Sans MS" size="24.0" />
                </font>
                <effect>
                   <DropShadow />
