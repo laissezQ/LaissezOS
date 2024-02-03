@@ -33,6 +33,12 @@ public enum SoundEffectId {
 			true,
 			"misc/car_alarm_arming.wav"),
 
+	MISC_KNIFE_BOX( //
+			"Kife Box",
+			"The Knife Goes In The Box",
+			false,
+			"misc/knife_in_box.wav"),
+
 	MISC_STAND_UP( //
 			"Stang Up",
 			"Stand Up and Get Crunk",
@@ -146,12 +152,12 @@ public enum SoundEffectId {
 			"I'm not mad...I'm just disappointed.",
 			true,
 			"movie/not_mad.wav"),
-	
+
 	MOVIE_SHOOT_EYE( //
 			"Shoot",
 			"You'll shoot your eye out kid!",
 			true,
-			"movie/shoot_your_eye_out_kids.wav"),
+			"movie/shoot_your_eye_out_kid.wav"),
 
 	MOVIE_SNOW_WHITE_HI_HO( //
 			"Hi Ho",
@@ -200,7 +206,7 @@ public enum SoundEffectId {
 			"Get the comfy chair!",
 			true,
 			"tv/monty_python_get_the_comfy_chair.wav"),
-	
+
 	TV_NOT_STUPID( //
 			"Not Stupid",
 			"It's not stupid, it's advanced!",
@@ -221,6 +227,7 @@ public enum SoundEffectId {
 	private String description;
 	private boolean allowInChapMode;
 	private String resourcePath;
+	private Float clipGain = Float.valueOf(0.0f);
 
 	// ----------------------------------------------------------------------------------------
 	// Constructors.
@@ -231,6 +238,15 @@ public enum SoundEffectId {
 		this.description = description;
 		this.allowInChapMode = allowInChapMode;
 		this.resourcePath = resourcePath;
+	}
+
+	private SoundEffectId(String shortName, String description, boolean allowInChapMode, String resourcePath,
+			Float clipGain) {
+		this.shortName = shortName;
+		this.description = description;
+		this.allowInChapMode = allowInChapMode;
+		this.resourcePath = resourcePath;
+		this.clipGain = clipGain;
 	}
 
 	// ----------------------------------------------------------------------------------------
@@ -271,6 +287,15 @@ public enum SoundEffectId {
 	 */
 	public String getDescription() {
 		return description;
+	}
+
+	/**
+	 * Return the optional clip specific gain.
+	 * 
+	 * @return
+	 */
+	public Float clipGain() {
+		return clipGain;
 	}
 
 	// ----------------------------------------------------------------------------------------

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane id="pane" fx:id="mainPane" maxHeight="480.0" maxWidth="800.0" minHeight="480.0" minWidth="800.0" prefHeight="480.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.wisneskey.los.service.display.controller.hud.GameScreen">
+
+	<right>
+		<VBox prefHeight="400.0" prefWidth="40.0" spacing="10.0" style="-fx-background-color: Pink;" BorderPane.alignment="CENTER">
+			<padding>
+				<Insets left="10.0" />
+			</padding>
+		</VBox>
+	</right>
+	<left>
+		<VBox prefHeight="200.0" prefWidth="40.0" style="-fx-background-color: Pink;" BorderPane.alignment="CENTER" />
+	</left>
+	<bottom>
+		<HBox prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: Pink;" BorderPane.alignment="CENTER" />
+	</bottom>
+	<top>
+		<Pane prefHeight="55.0" prefWidth="800.0" style="-fx-background-color: Pink;" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="211.0" layoutY="13.0" text="Paul:" textFill="BLUE">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Label>
+            <Label layoutX="458.0" layoutY="13.0" text="Ann:" textFill="RED">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Label>
+            <Label fx:id="paulScoreLabel" layoutX="272.0" layoutY="13.0" prefHeight="29.0" prefWidth="64.0" text="0" textFill="BLUE">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Label>
+            <Label layoutX="520.0" layoutY="13.0" prefHeight="29.0" prefWidth="64.0" text="0" textFill="RED">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Label>
+         </children></Pane>
+	</top>
+	<center>
+		<Pane fx:id="gamePane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #EEEEEE;" BorderPane.alignment="CENTER">
+			<children>
+				<ImageView fx:id="kingCake" fitHeight="150.0" fitWidth="120.0" layoutX="541.0" layoutY="246.0" pickOnBounds="true" preserveRatio="true">
+					<image>
+						<Image url="@../../images/king_cake.png" />
+					</image>
+					<effect>
+						<InnerShadow />
+					</effect>
+				</ImageView>
+				<ImageView fx:id="knife" fitHeight="60.0" fitWidth="60.0" layoutX="36.0" layoutY="31.0" onMouseDragged="#knifeDragged" onMousePressed="#knifePressed" onMouseReleased="#knifeReleased" pickOnBounds="true" preserveRatio="true">
+					<image>
+						<Image url="@../../images/knife.png" />
+					</image>
+				</ImageView>
+			</children>
+			<effect>
+				<InnerShadow />
+			</effect>
+		</Pane>
+	</center>
+</BorderPane>

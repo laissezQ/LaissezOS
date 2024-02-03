@@ -55,6 +55,13 @@ public class AboutScreen extends AbstractController {
 		runScript(ScriptId.ABOUT_SCREEN_CLOSE);
 	}
 	
+	/**
+	 * Method invoked when Ann Heren's name is pressed.
+	 */
+	public void annPressed() {
+		runScript(ScriptId.GAME_SCREEN_OPEN);
+	}
+	
 	// ----------------------------------------------------------------------------------------
 	// SceneController methods.
 	// ----------------------------------------------------------------------------------------

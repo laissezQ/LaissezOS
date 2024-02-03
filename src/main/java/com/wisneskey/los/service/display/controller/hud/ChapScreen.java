@@ -9,7 +9,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
 /**
- * Controller for the heads up display main screen.
+ * Controller for the heads up display chap screen.
  * 
  * Copyright (C) 2024 Paul Wisneskey
  * 

@@ -58,12 +58,12 @@ public class AudioService extends AbstractService<AudioState> {
 	/**
 	 * Minimum supported volume.
 	 */
-	private static final int MIN_VOLUME = 0;
+	private static final float MIN_VOLUME = 0.0f;
 
 	/**
 	 * Maximum supported volume.
 	 */
-	private static final int MAX_VOLUME = 11;
+	private static final float MAX_VOLUME = 11.0f;
 
 	/**
 	 * Minimum allowed gain adjustment (e.g. none).
@@ -117,7 +117,7 @@ public class AudioService extends AbstractService<AudioState> {
 			volumeProperty = audioState.volume();
 		}
 
-		float gainAdjustment = getGainAdjustment(volumeProperty.get());
+		float gainAdjustment = getGainAdjustment(volumeProperty.get(), effectId.clipGain());
 		
 		LOGGER.debug("Playing sound effect: id={} volume={} gainAdjustment={}", effectId,
 				volumeProperty.getValue(), gainAdjustment);
@@ -182,14 +182,20 @@ public class AudioService extends AbstractService<AudioState> {
 	 * @return        Gain adjustment to be applied to sound clip to reduce its
 	 *                volume.
 	 */
-	private float getGainAdjustment(int volume) {
+	private float getGainAdjustment(int volume, float clipAdjustment) {
 
+		float volumeFloat =  volume;
+		
 		// Make sure volume is in allowed range.
-		volume = Math.max(MIN_VOLUME, volume);
-		volume = Math.min(volume, MAX_VOLUME);
+		volumeFloat = Math.max(MIN_VOLUME, volumeFloat);
+		volumeFloat = Math.min(volumeFloat, MAX_VOLUME);
 
+		// Add the clip adjustment after we limit the range so that some clips can
+		// go slightly above or below the range.
+		volumeFloat += clipAdjustment;
+		
 		// Gain adjustment is applied to lower volume so we invert the percentage.
-		float adjustPercent = 1.0f - (volume / (float) MAX_VOLUME);		
+		float adjustPercent = 1.0f - (volumeFloat / MAX_VOLUME);		
 		return MIN_GAIN_ADJUSTMENT + adjustPercent * (MAX_GAIN_ADJUSTMENT + MIN_GAIN_ADJUSTMENT);
 	}
 

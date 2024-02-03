@@ -50,6 +50,7 @@ public enum LightingEffectId {
 	TETRIX("Tetrix", "Tetrix", true),
 	TWINKLE_CAT("Twinkle Cat", "Twinkle Cat", true),
 	TWINKLES("Twinkles", "Twinkling Colors", true),
+	TWO_DOTS("Two Dots", "Two Dots", true),
 	WAVE("Wave", "Color Wave", true);
 
 	// ----------------------------------------------------------------------------------------

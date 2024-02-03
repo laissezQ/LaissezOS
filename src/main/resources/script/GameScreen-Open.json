@@ -1,0 +1,30 @@
+{
+	// 
+	// Script for playing when somone opens the chap mode screen.
+	//
+	"name": "User has opened the chap mode screen.",
+	//
+	"commands": [
+		{
+			"storeLightingState": {
+			}
+		},
+		{
+			"playSoundEffect": {
+				"effectIds": [
+					"MISC_KNIFE_BOX"
+				]
+			}
+		},
+		{
+			"showScene": {
+				"sceneId": "HUD_GAME_SCREEN"
+			}
+		},
+		{
+			"message": {
+				"message": "King cake game started...\n"
+			}
+		}
+	]
+}

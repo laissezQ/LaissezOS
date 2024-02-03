@@ -1,3 +1,6 @@
 {
- "on" : false
+	"on": false,
+	"color1": "0x000000",
+	"color2": "0x000000",
+	"color3": "0x000000"
 }
