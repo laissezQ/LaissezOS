@@ -27,50 +27,20 @@
 	<left>
 		<VBox prefHeight="200.0" prefWidth="40.0" style="-fx-background-color: Pink;" BorderPane.alignment="CENTER" />
 	</left>
-	<bottom>
-		<HBox prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: Pink;" BorderPane.alignment="CENTER" />
-	</bottom>
 	<top>
 		<Pane prefHeight="55.0" prefWidth="800.0" style="-fx-background-color: Pink;" BorderPane.alignment="CENTER">
          <children>
-            <Label layoutX="211.0" layoutY="11.0" text="Paul:" textFill="BLUE">
+            <Label layoutX="248.0" layoutY="10.0" text="Where Does The Knife Go?" textFill="GREEN">
                <font>
                   <Font name="Comic Sans MS" size="24.0" />
                </font>
-               <effect>
-                  <DropShadow />
-               </effect>
-            </Label>
-            <Label layoutX="458.0" layoutY="11.0" text="Ann:" textFill="RED">
-               <font>
-                  <Font name="Comic Sans MS" size="24.0" />
-               </font>
-               <effect>
-                  <DropShadow />
-               </effect>
-            </Label>
-            <Label fx:id="paulScoreLabel" layoutX="272.0" layoutY="11.0" prefHeight="29.0" prefWidth="64.0" text="0" textFill="BLUE">
-               <font>
-                  <Font name="Comic Sans MS" size="24.0" />
-               </font>
-               <effect>
-                  <DropShadow />
-               </effect>
-            </Label>
-            <Label layoutX="520.0" layoutY="11.0" prefHeight="29.0" prefWidth="64.0" text="0" textFill="RED">
-               <font>
-                  <Font name="Comic Sans MS" size="24.0" />
-               </font>
-               <effect>
-                  <DropShadow />
-               </effect>
             </Label>
          </children></Pane>
 	</top>
 	<center>
 		<Pane fx:id="gamePane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #EEEEEE;" BorderPane.alignment="CENTER">
 			<children>
-				<ImageView fx:id="kingCake" fitHeight="150.0" fitWidth="120.0" layoutX="541.0" layoutY="246.0" pickOnBounds="true" preserveRatio="true">
+				<ImageView fx:id="kingCake" fitHeight="150.0" fitWidth="120.0" layoutX="541.0" layoutY="198.0" pickOnBounds="true" preserveRatio="true">
 					<image>
 						<Image url="@../../images/king_cake.png" />
 					</image>
@@ -89,4 +59,30 @@
 			</effect>
 		</Pane>
 	</center>
+   <bottom>
+      <Pane prefHeight="52.0" prefWidth="800.0" style="-fx-background-color: Pink;" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="200.0" layoutY="6.0" text="Paul:" textFill="BLUE">
+               <font>
+                  <Font name="Comic Sans MS" size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="487.0" layoutY="6.0" text="Ann:" textFill="RED">
+               <font>
+                  <Font name="Comic Sans MS" size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="paulScoreLabel" layoutX="261.0" layoutY="6.0" prefHeight="29.0" prefWidth="64.0" text="0" textFill="BLUE">
+               <font>
+                  <Font name="Comic Sans MS" size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="549.0" layoutY="6.0" prefHeight="29.0" prefWidth="64.0" text="0" textFill="RED">
+               <font>
+                  <Font name="Comic Sans MS" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+   </bottom>
 </BorderPane>

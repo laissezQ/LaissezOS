@@ -1326,6 +1326,7 @@ Text {
   -fx-background-color: -color-slider-thumb-border, -color-slider-thumb;
   -fx-background-insets: 0.0, 2.0px;
   -fx-background-radius: 1.0;
+  -fx-padding: 15;
 }
 .slider > .track {
   -fx-background-color: transparent, -color-slider-track;
