@@ -161,7 +161,7 @@
 												<Font size="14.0" />
 											</font>
 										</Label>
-                              <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="154.0" prefWidth="180.0" text="King Cake Bully">
+                              <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="154.0" prefWidth="180.0" text="Keeper of the Jar">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
