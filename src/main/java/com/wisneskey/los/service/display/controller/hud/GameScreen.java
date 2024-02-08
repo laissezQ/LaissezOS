@@ -75,7 +75,7 @@ public class GameScreen extends AbstractController {
 	private int paulScore = 0;
 
 	/**
-	 * Random number generated for relocating the king cake after the knife is
+	 * Random number generator for relocating the king cake after the knife is
 	 * dropped on it.
 	 */
 	private Random random = new Random();

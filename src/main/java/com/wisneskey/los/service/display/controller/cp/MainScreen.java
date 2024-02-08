@@ -8,6 +8,7 @@ import com.wisneskey.los.service.display.listener.bar.TapButtonListener;
 import com.wisneskey.los.service.display.listener.message.MessagesToTextAreaListener;
 import com.wisneskey.los.service.display.listener.mouse.DoubleClickListener;
 import com.wisneskey.los.service.lighting.LightingEffectId;
+import com.wisneskey.los.service.lighting.LightingService;
 import com.wisneskey.los.service.remote.RemoteButtonId;
 import com.wisneskey.los.service.script.ScriptId;
 import com.wisneskey.los.state.LightingState;
@@ -16,7 +17,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 
@@ -70,13 +70,13 @@ public class MainScreen extends AbstractController {
 	 */
 	@FXML
 	private Button tapButton;
-	
+
 	/**
-	 * Label for showing current lighting effect.
+	 * Button for showing current lighting effect and selecting new one at random.
 	 */
 	@FXML
-	private Label lightingLabel;
-	
+	private Button buttonCurrentLighting;
+
 	// ----------------------------------------------------------------------------------------
 	// Public methods.
 	// ----------------------------------------------------------------------------------------
@@ -89,16 +89,16 @@ public class MainScreen extends AbstractController {
 
 		chairState().message().addListener(new MessagesToTextAreaListener(messages, MAX_LINE_COUNT));
 		logo.setOnMouseClicked(new DoubleClickListener(e -> runScript(ScriptId.SYSTEM_SCREEN_OPEN)));
-		
+
 		// Listeners for controlling the bar and its controls.
 		BarButtonListener.add(barButton);
 		TapButtonListener.add(tapButton);
 		chairState().barState().addListener(new BarStateListener(barButton, tapButton));
-		
+
 		// Listeners for audio and lighting effects
 		LightingState lightingState = chairState().getServiceState(ServiceId.LIGHTING);
 		lightingState.currentEffect().addListener(new LightingListener());
-		lightingLabel.setText(lightingState.currentEffect().getValue().getDescription());
+		buttonCurrentLighting.setText(lightingState.currentEffect().getValue().getDescription());
 	}
 
 	/**
@@ -150,6 +150,13 @@ public class MainScreen extends AbstractController {
 		runScript(ScriptId.SCRIPT_SCREEN_OPEN);
 	}
 
+	/**
+	 * Method invoked when the current lighting button is pressed.
+	 */
+	public void randomLighting() {
+		((LightingService) kernel().getService(ServiceId.LIGHTING)).playRandomEffect(false);
+	}
+
 	// ----------------------------------------------------------------------------------------
 	// SceneController methods.
 	// ----------------------------------------------------------------------------------------
@@ -160,24 +167,25 @@ public class MainScreen extends AbstractController {
 		// Allow remote button A to lock the chair.
 		if (buttonId == RemoteButtonId.REMOTE_BUTTON_A) {
 			runScript(ScriptId.REMOTE_LOCK);
-		} 
-		else {
+		} else {
 			super.remoteButtonPressed(buttonId);
 		}
 	}
-	
+
 	// ----------------------------------------------------------------------------------------
 	// Inner classes.
 	// ----------------------------------------------------------------------------------------
 
 	/**
-	 * Listener that monitors the which lighting effect is playing and updates the label accordingly.
+	 * Listener that monitors the which lighting effect is playing and updates the
+	 * label accordingly.
 	 */
 	private class LightingListener implements ChangeListener<LightingEffectId> {
 
 		@Override
-		public void changed(ObservableValue<? extends LightingEffectId> observable, LightingEffectId oldValue, LightingEffectId newValue) {
-			lightingLabel.setText(newValue == null ? "" : newValue.getDescription());
+		public void changed(ObservableValue<? extends LightingEffectId> observable, LightingEffectId oldValue,
+				LightingEffectId newValue) {
+			buttonCurrentLighting.setText(newValue == null ? "None" : newValue.getDescription());
 		}
 	}
 }

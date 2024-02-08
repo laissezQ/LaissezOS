@@ -120,7 +120,7 @@
             <DropShadow />
          </effect>
       </Line>
-      <Label layoutX="165.0" layoutY="233.0" text="Lighting:">
+      <Label layoutX="138.0" layoutY="228.0" text="Current Lighting">
          <effect>
             <DropShadow />
          </effect>
@@ -128,13 +128,13 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="lightingLabel" alignment="CENTER" layoutX="21.0" layoutY="285.0" prefHeight="29.0" prefWidth="358.0" textAlignment="CENTER">
-         <font>
-            <Font size="24.0" />
-         </font>
+      <Button fx:id="buttonCurrentLighting" contentDisplay="CENTER" focusTraversable="false" layoutX="62.0" layoutY="268.0" mnemonicParsing="false" onAction="#randomLighting" prefHeight="52.0" prefWidth="271.0" text="None">
          <effect>
             <DropShadow />
          </effect>
-      </Label>
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Button>
 	</children>
 </Pane>

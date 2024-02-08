@@ -1,5 +1,11 @@
 package com.wisneskey.los.service.lighting;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,6 +69,11 @@ public class LightingService extends AbstractService<LightingState> {
 	 */
 	private SavedLightingState savedState;
 
+	/**
+	 * Random number generator for picking an effect at random.
+	 */
+	private Random random = new Random();
+
 	// ----------------------------------------------------------------------------------------
 	// Constructors.
 	// ----------------------------------------------------------------------------------------
@@ -109,6 +120,31 @@ public class LightingService extends AbstractService<LightingState> {
 
 		lightingState.setCurrentEffect(effectId);
 		lightingDriver.playEffect(effectId, lightingState);
+	}
+
+	/**
+	 * Plays an effect at random, possibly limited only to chap modes effects.
+	 * Will not select the same effect as currently playing.
+	 * 
+	 * @param requireChapMode True iff only chap mode effected may be picked at
+	 *                          random.
+	 */
+	public void playRandomEffect(boolean requireChapMode) {
+
+		Set<LightingEffectId> availableEffects = requireChapMode ? //
+				LightingEffectId.chapModeEffects() : //
+				Set.of(LightingEffectId.values());
+		
+		// Remove current effect and all off from consideration.
+		availableEffects = new HashSet<>(availableEffects);
+		availableEffects.remove(LightingEffectId.ALL_OFF);
+		availableEffects.remove(lightingState.currentEffect.getValue());
+
+		List<LightingEffectId> selectFrom = new ArrayList<>(availableEffects);
+		int randomIndex = random.nextInt(selectFrom.size());
+		LightingEffectId selectedId = selectFrom.get(randomIndex);
+
+		playEffect(selectedId);
 	}
 
 	/**
