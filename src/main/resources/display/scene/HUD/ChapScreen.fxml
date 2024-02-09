@@ -43,7 +43,7 @@
    <top>
       <Pane onDragDetected="#clearDrawing" prefHeight="70.0" prefWidth="800.0" style="-fx-background-color: #de000e;" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="76.0" fitWidth="73.0" layoutX="8.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="76.0" fitWidth="73.0" layoutX="8.0" layoutY="-1.0" onDragDetected="#clearDrawing" onMouseClicked="#clearDrawing" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../images/etch-a-sketch.png" />
                </image>

@@ -14,6 +14,7 @@ import com.wisneskey.los.service.lighting.LightingEffectId;
 import com.wisneskey.los.service.lighting.LightingService;
 import com.wisneskey.los.service.remote.RemoteButtonId;
 import com.wisneskey.los.service.script.ScriptId;
+import com.wisneskey.los.service.script.ScriptService;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -124,6 +125,15 @@ public class ChapScreen extends AbstractController {
 		((LightingService) Kernel.kernel().getService(ServiceId.LIGHTING)).playEffect(effectId);
 	}
 
+	public void sketchingPressed() {
+		
+		((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.SKETCH_OPEN);
+	}
+	
+	public void kingCakePressed() {
+		((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.GAME_SCREEN_OPEN);
+	}
+	
 	// ----------------------------------------------------------------------------------------
 	// SceneController methods.
 	// ----------------------------------------------------------------------------------------

@@ -1,0 +1,20 @@
+{
+	// 
+	// Script for playing when somone opens the sketch button in chap screen.
+	//
+	"name": "Switching to sketch game.",
+	//
+	"commands": [
+	
+		{
+			"showScene": {
+				"sceneId": "HUD_CHAP_SCREEN"
+			}
+		},
+		{
+			"message": {
+				"message": "Etch-a-Sketch started...\n"
+			}
+		}
+	]
+}

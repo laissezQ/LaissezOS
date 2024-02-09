@@ -44,6 +44,7 @@ public enum ScriptId {
 	SECURITY_UNLOCK_FAILED("Security screen: PIN invalid", "Security-UnlockFailed"),
 	SCRIPT_SCREEN_OPEN("Script screen: open", "ScriptScreen-Open"),
 	SCRIPT_SCREEN_CLOSE("Script screen: close", "ScriptScreen-Close"),
+	SKETCH_OPEN("Sketch: open", "Sketch-Open"),
 	SYSTEM_SCREEN_OPEN("System screen: open", "SystemScreen-Open"),
 	SYSTEM_SCREEN_CLOSE("System screen: close", "SystemScreen-Close"),
 	SYSTEM_EXIT("System screen: exit OS", "System-Exit");

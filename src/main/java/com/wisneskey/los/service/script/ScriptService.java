@@ -118,25 +118,26 @@ public class ScriptService extends AbstractService<ScriptState> {
 	 */
 	public synchronized void runScript(ScriptId scriptId) {
 
-		LOGGER.info("Running script: {}", scriptId);
-		if (scriptRunning.get()) {
-			LOGGER.error("Can not run script: script already running.");
-		}
-
-		// Load the script. If we get back a null here, we can assume the script was
-		// not found or failed to load.
-		Script script = scriptCache.get(scriptId);
-		if (script == null) {
-			LOGGER.trace("No script returned from cache; not running script.");
-			return;
-		}
-
 		// Set the script as running and launch a script runner thread to execute
 		// it.
-		scriptRunning.set(true);
+		if (!scriptRunning.compareAndExchangeAcquire(false, true)) {
 
-		runner = new ScriptRunnerThread(script);
-		runner.start();
+			LOGGER.info("Running script: {}", scriptId);
+
+			// Load the script. If we get back a null here, we can assume the script
+			// was
+			// not found or failed to load.
+			Script script = scriptCache.get(scriptId);
+			if (script == null) {
+				LOGGER.trace("No script returned from cache; not running script.");
+				return;
+			}
+
+			runner = new ScriptRunnerThread(script);
+			runner.start();
+		} else {
+			LOGGER.warn("Script already running; did not run new script.");
+		}
 	}
 
 	// ----------------------------------------------------------------------------------------
@@ -153,7 +154,7 @@ public class ScriptService extends AbstractService<ScriptState> {
 
 		// Load all scripts and store them in the cache.
 		LOGGER.info("Loading {} scripts...", ScriptId.values().length);
-		
+
 		for (ScriptId scriptId : ScriptId.values()) {
 
 			try {
