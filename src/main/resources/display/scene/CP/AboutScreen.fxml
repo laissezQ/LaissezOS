@@ -176,6 +176,16 @@
 												<Font size="14.0" />
 											</font>
 										</Label>
+                              <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="190.0" prefWidth="180.0" text="Stress Testers">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label alignment="CENTER_RIGHT" prefWidth="180.0">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
 										<Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="64.0" prefWidth="180.0" text="Upholstery">
 											<font>
 												<Font size="14.0" />
@@ -250,6 +260,16 @@
 												<Font size="14.0" />
 											</font>
 										</Label>
+                              <Label layoutX="10.0" layoutY="208.0" prefWidth="160.0" text="Ella Corner">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label prefWidth="160.0" text="Joni Corner">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
 										<Label layoutX="10.0" layoutY="190.0" prefWidth="160.0" text="Zia Upholstery">
 											<font>
 												<Font size="14.0" />

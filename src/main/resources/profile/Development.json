@@ -25,6 +25,11 @@
 	//
 	"defaultLocation": "New Orleans (Magazine and Jefferson)",
 	"presetLocations": {
+		"Taos" : {
+			"latitude": 36.36394,
+			"longitude": -105.57584,
+			"altitude": 2044.982
+		},
 		"Santa Fe": {
 			"latitude": 35.6420206,
 			"longitude": -105.9889903,

@@ -187,7 +187,7 @@
 					<argument>pwisneskey@192.168.86.13:./lbos.jar</argument> -->
 						<!-- Gary:
 					<argument>pwisneskey@192.168.123.68:./lbos.jar</argument> -->
-						<argument>pwisneskey@192.168.1.79:./lbos.jar</argument>
+						<argument>pwisneskey@192.168.68.61:./lbos.jar</argument>
 					</arguments>
 				</configuration>
 			</plugin>
