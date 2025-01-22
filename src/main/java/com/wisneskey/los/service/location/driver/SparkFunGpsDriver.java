@@ -67,7 +67,7 @@ public class SparkFunGpsDriver implements GpsDriver {
 	/**
 	 * I2C address for the GPS driver board.
 	 */
-	private static final int I2C_ADDRESS = 0x10;
+	private static final int I2C_ADDRESS = 0x42;
 
 	/**
 	 * I2C connection to the board.
@@ -146,7 +146,7 @@ public class SparkFunGpsDriver implements GpsDriver {
 	public int getSatellitesInView() {
 		return satellitesInView.get();
 	}
-	
+
 	// ----------------------------------------------------------------------------------------
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
@@ -298,21 +298,28 @@ public class SparkFunGpsDriver implements GpsDriver {
 
 					byte current = buffer[i];
 
-					if (current == 0x0a) {
-						// Ignore linefeeds
+					if (current == 0x0a || current < 0) {
+						// Ignore linefeeds and negative bytes
 						linefeedCount += 1;
 						continue;
 					}
 
-					if (current == 0x0d) {
+					// Stop and build line at a carriage return or a $
+					if (current == 0x0d || ((current == '$') && (line.length() > 0)) ) {
 
 						// We have a carriage return so if the line is non-empty, submit it.
 						if (line.length() > 0) {
 
+							LOGGER.debug("Found carriage return or $; processing: line={}", line);
 							processGpsLine(line.toString());
 
 							// Start a new line.
 							line.setLength(0);
+
+							// If we processed a line due to a $ we need to start next line with it.
+							if (current == '$') {
+								line.append('$');
+							}
 						}
 					} else {
 						// Append character read to our buffer.
@@ -377,8 +384,8 @@ public class SparkFunGpsDriver implements GpsDriver {
 				updateSampleHistory(null, true);
 
 			} catch (Exception e) {
-
-				LOGGER.warn("Failed to parse GPS location.", e);
+				// This line is occasionally corrupt and we just ignore it if so.
+				// It would be nice to figure out why at some point.
 			}
 		}
 
@@ -402,7 +409,8 @@ public class SparkFunGpsDriver implements GpsDriver {
 				LOGGER.debug("Data not available error from GPS.");
 
 			} catch (Exception e) {
-				LOGGER.warn("Failed to parse GPS satellite data.", e);
+				// This line is occasionally corrupt and we just ignore it if so.
+				// It would be nice to figure out why at some point.
 			}
 		}
 	}

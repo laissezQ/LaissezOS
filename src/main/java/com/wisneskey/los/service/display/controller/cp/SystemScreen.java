@@ -132,6 +132,11 @@ public class SystemScreen extends AbstractController {
 		// Set initial rendering based on current state.
 		updateFixStatus(locationState.hasGpsFix().get());
 
+		if( locationState.hasGpsFix().get()) {
+			satelliteInViewLabel.setText(String.valueOf(locationState.satellitesInView().get()));
+			satelliteInFixLabel.setText(String.valueOf(locationState.satellitesInFix().get()));
+		}
+		
 		// Add listeners for the GPS state.
 		locationState.hasGpsFix().addListener(new FixListener());
 
