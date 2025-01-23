@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -28,7 +29,9 @@ import com.wisneskey.los.state.ChairState.MasterState;
 import com.wisneskey.los.util.StopWatch;
 
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.util.Pair;
 
 /**
@@ -122,7 +125,7 @@ public class AudioService extends AbstractService<AudioState> {
 		LOGGER.debug("Playing sound effect: id={} volume={} gainAdjustment={}", effectId,
 				volumeProperty.getValue(), gainAdjustment);
 		
-		Thread playerThread = new SoundEffectPlayerThread(effectId, gainAdjustment);
+		Thread playerThread = new SoundEffectPlayerThread(effectId, gainAdjustment, audioState.playingCount().get());
 		playerThread.start();
 
 		if (waitForCompletion) {
@@ -238,13 +241,19 @@ public class AudioService extends AbstractService<AudioState> {
 		 */
 		private float gainAdjustment;
 		
+		/**
+		 * Counter for number of clips playing from the internal audio state.
+		 */
+		private AtomicInteger playingCount;
+		
 		// ----------------------------------------------------------------------------------------
 		// Constructors.
 		// ----------------------------------------------------------------------------------------
 
-		public SoundEffectPlayerThread(SoundEffectId effectId, float gainAdjustment) {
+		public SoundEffectPlayerThread(SoundEffectId effectId, float gainAdjustment,AtomicInteger playingCount) {
 			this.effectId = effectId;
 			this.gainAdjustment = gainAdjustment;
+			this.playingCount = playingCount;
 			
 			setDaemon(true);
 			setName("SoundEffectPlayer[" + effectId + "]");
@@ -262,6 +271,7 @@ public class AudioService extends AbstractService<AudioState> {
 			String resourceLocation = AUDIO_RESOURCE_BASE + effectId.getResourcePath();
 			PLAYER_LOGGER.trace("Audio clip resource: {}", resourceLocation);
 
+			boolean playingStarted = false;
 			try {
 
 				CountDownLatch waitLatch = new CountDownLatch(1);
@@ -298,6 +308,8 @@ public class AudioService extends AbstractService<AudioState> {
 				gainControl.setValue(gainAdjustment); 
 				
 				// Start the playback.
+				playingStarted = true;
+				playingCount.incrementAndGet();
 				clip.start();
 
 				if (PLAYER_LOGGER.isTraceEnabled()) {
@@ -318,6 +330,10 @@ public class AudioService extends AbstractService<AudioState> {
 				PLAYER_LOGGER.error("Failed to play sound effect: " + effectId, e);
 			}
 
+			// If we started the playing then make sure we decrement the playing count.
+			if(playingStarted) {
+				playingCount.decrementAndGet();
+			}
 			PLAYER_LOGGER.trace("Player thread ended.");
 		}
 	}
@@ -331,6 +347,8 @@ public class AudioService extends AbstractService<AudioState> {
 
 		private IntegerProperty chapModeVolume;
 
+		private ObjectProperty<AtomicInteger> playingCount;
+		
 		// ----------------------------------------------------------------------------------------
 		// Constructors.
 		// ----------------------------------------------------------------------------------------
@@ -338,6 +356,7 @@ public class AudioService extends AbstractService<AudioState> {
 		private InternalAudioState(int volume, int chapModeVolume) {
 			this.volume = new SimpleIntegerProperty(volume);
 			this.chapModeVolume = new SimpleIntegerProperty(chapModeVolume);
+			this.playingCount = new SimpleObjectProperty<>(new AtomicInteger(0));
 		}
 
 		// ----------------------------------------------------------------------------------------
@@ -352,6 +371,11 @@ public class AudioService extends AbstractService<AudioState> {
 		@Override
 		public IntegerProperty chapModeVolume() {
 			return chapModeVolume;
+		}
+		
+		@Override
+		public ObjectProperty<AtomicInteger> playingCount() {
+			return playingCount;
 		}
 	}
 }

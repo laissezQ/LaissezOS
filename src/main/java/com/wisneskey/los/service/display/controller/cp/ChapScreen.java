@@ -15,6 +15,7 @@ import com.wisneskey.los.service.lighting.LightingService;
 import com.wisneskey.los.service.remote.RemoteButtonId;
 import com.wisneskey.los.service.script.ScriptId;
 import com.wisneskey.los.service.script.ScriptService;
+import com.wisneskey.los.state.AudioState;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -113,9 +114,14 @@ public class ChapScreen extends AbstractController {
 
 	@FXML
 	private void soundButtonPressed(ActionEvent event) {
-		Button button = (Button) event.getSource();
-		SoundEffectId soundId = (SoundEffectId) button.getUserData();
-		((AudioService) Kernel.kernel().getService(ServiceId.AUDIO)).playEffect(soundId, false);
+		// Only play a sound if nothing else is playing. This is to prevent someone
+		// from overlapping way too many sound effects.
+		AudioState audioState = (AudioState) Kernel.kernel().chairState().getServiceState(ServiceId.AUDIO);
+		if (audioState.playingCount().get().intValue() <= 0) {
+			Button button = (Button) event.getSource();
+			SoundEffectId soundId = (SoundEffectId) button.getUserData();
+			((AudioService) Kernel.kernel().getService(ServiceId.AUDIO)).playEffect(soundId, false);
+		}
 	}
 
 	@FXML
@@ -126,14 +132,14 @@ public class ChapScreen extends AbstractController {
 	}
 
 	public void sketchingPressed() {
-		
+
 		((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.SKETCH_OPEN);
 	}
-	
+
 	public void kingCakePressed() {
 		((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(ScriptId.GAME_SCREEN_OPEN);
 	}
-	
+
 	// ----------------------------------------------------------------------------------------
 	// SceneController methods.
 	// ----------------------------------------------------------------------------------------
