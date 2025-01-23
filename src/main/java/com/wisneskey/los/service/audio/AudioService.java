@@ -29,9 +29,7 @@ import com.wisneskey.los.state.ChairState.MasterState;
 import com.wisneskey.los.util.StopWatch;
 
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.util.Pair;
 
 /**
@@ -125,7 +123,7 @@ public class AudioService extends AbstractService<AudioState> {
 		LOGGER.debug("Playing sound effect: id={} volume={} gainAdjustment={}", effectId,
 				volumeProperty.getValue(), gainAdjustment);
 		
-		Thread playerThread = new SoundEffectPlayerThread(effectId, gainAdjustment, audioState.playingCount().get());
+		Thread playerThread = new SoundEffectPlayerThread(effectId, gainAdjustment, audioState.playingCount());
 		playerThread.start();
 
 		if (waitForCompletion) {
@@ -347,7 +345,7 @@ public class AudioService extends AbstractService<AudioState> {
 
 		private IntegerProperty chapModeVolume;
 
-		private ObjectProperty<AtomicInteger> playingCount;
+		private AtomicInteger playingCount;
 		
 		// ----------------------------------------------------------------------------------------
 		// Constructors.
@@ -356,7 +354,7 @@ public class AudioService extends AbstractService<AudioState> {
 		private InternalAudioState(int volume, int chapModeVolume) {
 			this.volume = new SimpleIntegerProperty(volume);
 			this.chapModeVolume = new SimpleIntegerProperty(chapModeVolume);
-			this.playingCount = new SimpleObjectProperty<>(new AtomicInteger(0));
+			this.playingCount = new AtomicInteger(0);
 		}
 
 		// ----------------------------------------------------------------------------------------
@@ -374,7 +372,7 @@ public class AudioService extends AbstractService<AudioState> {
 		}
 		
 		@Override
-		public ObjectProperty<AtomicInteger> playingCount() {
+		public AtomicInteger playingCount() {
 			return playingCount;
 		}
 	}

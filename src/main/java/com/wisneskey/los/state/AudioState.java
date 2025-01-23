@@ -3,7 +3,6 @@ package com.wisneskey.los.state;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
 
 /**
  * Interface denoting the object providing read only access to the state of the
@@ -27,25 +26,25 @@ import javafx.beans.property.ObjectProperty;
  * @author paul.wisneskey@gmail.com
  */
 public interface AudioState extends State {
-	
+
 	/**
 	 * Volume of the chair when it is in its normal state.
 	 * 
 	 * @return Volume of chair from 0 - 11.
 	 */
 	IntegerProperty volume();
-	
+
 	/**
 	 * Volume of the chair when it is in chap mode.
 	 * 
 	 * @return Volume of chair from 0 - 11.
 	 */
 	IntegerProperty chapModeVolume();
-	
+
 	/**
-	 * Number of clips currently playing.
+	 * Number of clips currently playing. 
 	 * 
 	 * @return Number of clips currently playing.
 	 */
-	ObjectProperty<AtomicInteger> playingCount();
+	AtomicInteger playingCount();
 }

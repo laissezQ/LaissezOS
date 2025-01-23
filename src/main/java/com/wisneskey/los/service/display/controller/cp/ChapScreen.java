@@ -117,7 +117,7 @@ public class ChapScreen extends AbstractController {
 		// Only play a sound if nothing else is playing. This is to prevent someone
 		// from overlapping way too many sound effects.
 		AudioState audioState = (AudioState) Kernel.kernel().chairState().getServiceState(ServiceId.AUDIO);
-		if (audioState.playingCount().get().intValue() <= 0) {
+		if (audioState.playingCount().get() <= 0) {
 			Button button = (Button) event.getSource();
 			SoundEffectId soundId = (SoundEffectId) button.getUserData();
 			((AudioService) Kernel.kernel().getService(ServiceId.AUDIO)).playEffect(soundId, false);
