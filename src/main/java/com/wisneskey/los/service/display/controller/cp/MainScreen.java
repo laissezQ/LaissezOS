@@ -1,6 +1,5 @@
 package com.wisneskey.los.service.display.controller.cp;
 
-import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.display.controller.AbstractController;
 import com.wisneskey.los.service.display.listener.bar.BarButtonListener;
@@ -10,7 +9,6 @@ import com.wisneskey.los.service.display.listener.message.MessagesToTextAreaList
 import com.wisneskey.los.service.display.listener.mouse.DoubleClickListener;
 import com.wisneskey.los.service.lighting.LightingEffectId;
 import com.wisneskey.los.service.lighting.LightingService;
-import com.wisneskey.los.service.music.MusicService;
 import com.wisneskey.los.service.remote.RemoteButtonId;
 import com.wisneskey.los.service.script.ScriptId;
 import com.wisneskey.los.state.LightingState;
@@ -114,9 +112,6 @@ public class MainScreen extends AbstractController {
 	 * Method invoked when the about button is pressed.
 	 */
 	public void aboutPressed() {
-		
-		((MusicService) Kernel.kernel().getService(ServiceId.MUSIC)).playTrack("Track:0");
-		
 		runScript(ScriptId.ABOUT_SCREEN_OPEN);
 	}
 
