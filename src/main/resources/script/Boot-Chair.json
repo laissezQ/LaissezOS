@@ -63,6 +63,24 @@
 		{
 			"message": {
 				"messages": [
+					"It's time to light the lights...\n"
+				],
+				"postCommandPause": 1.0
+			}
+		},
+		{
+			"relayOn": {
+				"relayId": "MARQUEE"
+			}
+		},
+		{
+			"runLightingEffect": {
+				"effectId": "CHASE3"
+			}
+		},
+		{
+			"message": {
+				"messages": [
 					"Inventorying whiskey...\n",
 					"Accessing lighting subsystem.",
 					".",
