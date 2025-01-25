@@ -78,6 +78,11 @@
 			}
 		},
 		{
+			"relayOn": {
+				"relayId": "AMPLIFIER"
+			}
+		},
+		{
 			"playSoundEffect": {
 				"effectIds": [
 					"MOVIE_HAL_OPERATIONAL",

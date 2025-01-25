@@ -3,7 +3,7 @@ package com.wisneskey.los.error;
 /**
  * Basic exception class for LBOS exceptions.
  * 
- * Copyright (C) 2024 Paul Wisneskey
+ * Copyright (C) 2025 Paul Wisneskey
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software

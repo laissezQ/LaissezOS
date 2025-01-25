@@ -1,5 +1,6 @@
 package com.wisneskey.los.service.display.controller.cp;
 
+import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.display.controller.AbstractController;
 import com.wisneskey.los.service.display.listener.bar.BarButtonListener;
@@ -9,6 +10,7 @@ import com.wisneskey.los.service.display.listener.message.MessagesToTextAreaList
 import com.wisneskey.los.service.display.listener.mouse.DoubleClickListener;
 import com.wisneskey.los.service.lighting.LightingEffectId;
 import com.wisneskey.los.service.lighting.LightingService;
+import com.wisneskey.los.service.music.MusicService;
 import com.wisneskey.los.service.remote.RemoteButtonId;
 import com.wisneskey.los.service.script.ScriptId;
 import com.wisneskey.los.state.LightingState;
@@ -23,7 +25,7 @@ import javafx.scene.image.ImageView;
 /**
  * Controller for the control panel boot screen.
  * 
- * Copyright (C) 2024 Paul Wisneskey
+ * Copyright (C) 2025 Paul Wisneskey
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -112,6 +114,9 @@ public class MainScreen extends AbstractController {
 	 * Method invoked when the about button is pressed.
 	 */
 	public void aboutPressed() {
+		
+		((MusicService) Kernel.kernel().getService(ServiceId.MUSIC)).playTrack("Track:0");
+		
 		runScript(ScriptId.ABOUT_SCREEN_OPEN);
 	}
 

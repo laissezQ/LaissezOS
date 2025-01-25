@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 /**
  * Interface for commands that can be run from a script.
  * 
- * Copyright (C) 2024 Paul Wisneskey
+ * Copyright (C) 2025 Paul Wisneskey
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -27,6 +27,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 		@JsonSubTypes.Type(value = Message.class, name = "message"),
 		@JsonSubTypes.Type(value = Pause.class, name = "pause"),
 		@JsonSubTypes.Type(value = PlaySoundEffect.class, name = "playSoundEffect"),
+		@JsonSubTypes.Type(value = PlayTrack.class, name = "playTrack"),
 		@JsonSubTypes.Type(value = RelayOff.class, name = "relayOff"),
 		@JsonSubTypes.Type(value = RelayOn.class, name = "relayOn"),
 		@JsonSubTypes.Type(value = RestoreLightingState.class, name = "restoreLightingState"),

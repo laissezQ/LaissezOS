@@ -14,6 +14,7 @@ import com.wisneskey.los.service.display.DisplayService;
 import com.wisneskey.los.service.lighting.LightingService;
 import com.wisneskey.los.service.location.LocationService;
 import com.wisneskey.los.service.map.MapService;
+import com.wisneskey.los.service.music.MusicService;
 import com.wisneskey.los.service.profile.ProfileService;
 import com.wisneskey.los.service.profile.model.Profile;
 import com.wisneskey.los.service.relay.RelayService;
@@ -32,7 +33,7 @@ import javafx.util.Pair;
  * Boot loader for configuring and starting the Laissez Boy Operating System in
  * different manners (fast, theatrical, etc.) 
  * 
- * Copyright (C) 2024 Paul Wisneskey
+ * Copyright (C) 2025 Paul Wisneskey
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -100,6 +101,7 @@ public class BootLoader extends Application {
 		kernel.registerService(LightingService.createService(runMode, profile));
 		kernel.registerService(LocationService.createService(runMode, profile));
 		kernel.registerService(AudioService.createService(profile));
+		kernel.registerService(MusicService.createService(profile));
 		kernel.registerService(ScriptService.createService());
 		kernel.registerService(SecurityService.createService(profile));
 		kernel.registerService(MapService.createService(profile));

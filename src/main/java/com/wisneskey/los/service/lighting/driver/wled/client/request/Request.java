@@ -10,7 +10,7 @@ import com.wisneskey.los.error.LaissezException;
 /**
  * Abstract base class for requests to the WLED controller application.
  *
- * Copyright (C) 2024 Paul Wisneskey
+ * Copyright (C) 2025 Paul Wisneskey
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software

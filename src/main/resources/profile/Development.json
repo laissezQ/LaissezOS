@@ -25,7 +25,7 @@
 	//
 	"defaultLocation": "New Orleans (Magazine and Jefferson)",
 	"presetLocations": {
-		"Taos" : {
+		"Taos": {
 			"latitude": 36.36394,
 			"longitude": -105.57584,
 			"altitude": 2044.982
@@ -49,5 +49,9 @@
 	// 
 	// Security service settings:
 	//
-	"pinCode": "6294"
-}
+	"pinCode": "6294",
+	// 
+	// Music service settings:
+	//
+	"playerCommand" : "/opt/homebrew/bin/mpg123"
+}	

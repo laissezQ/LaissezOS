@@ -12,7 +12,7 @@ import com.wisneskey.los.service.script.ScriptId;
  * Class defining the root profile object used to manage an individual
  * configuration for the operating system.
  * 
- * Copyright (C) 2024 Paul Wisneskey
+ * Copyright (C) 2025 Paul Wisneskey
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -110,6 +110,15 @@ public class Profile {
 	 */
 	private static final String DEFAULT_TILE_STORE_PATH = "./.map_tile_store";
 
+	// ----------------------------------------------------------------------------------------
+	// Music service defaults.
+	// ----------------------------------------------------------------------------------------
+
+	/**
+	 * Default location for MP3 files to play as music.
+	 */
+	private static final String DEFAULT_MUSIC_DIR = "~/LaissezMusic";
+	
 	// ----------------------------------------------------------------------------------------
 	// General settings.
 	// ----------------------------------------------------------------------------------------
@@ -236,6 +245,13 @@ public class Profile {
 	 */
 	private String pinCode;
 
+	// ----------------------------------------------------------------------------------------
+	// Music service settings.
+	// ----------------------------------------------------------------------------------------
+
+	private String musicDir = DEFAULT_MUSIC_DIR;
+	private String playerCommand;
+	
 	// ----------------------------------------------------------------------------------------
 	// General property getters.
 	// ----------------------------------------------------------------------------------------
@@ -436,5 +452,17 @@ public class Profile {
 	 */
 	public String getPinCode() {
 		return pinCode;
+	}
+	
+	// ----------------------------------------------------------------------------------------
+	// Music service settings.
+	// ----------------------------------------------------------------------------------------
+
+	public String getMusicDir() {
+		return musicDir;
+	}
+	
+	public String getPlayerCommand() {
+		return playerCommand;
 	}
 }

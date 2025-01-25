@@ -18,7 +18,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.wisneskey.los.kernel.Kernel;
-import com.wisneskey.los.kernel.RunMode;
 import com.wisneskey.los.service.AbstractService;
 import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.profile.model.Profile;
@@ -35,7 +34,7 @@ import javafx.util.Pair;
 /**
  * Service for playing audio tracks and sound effects.
  * 
- * Copyright (C) 2024 Paul Wisneskey
+ * Copyright (C) 2025 Paul Wisneskey
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -147,6 +146,7 @@ public class AudioService extends AbstractService<AudioState> {
 
 	@Override
 	public void terminate() {
+		((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOff(RelayId.AMPLIFIER);
 		LOGGER.trace("Audio service terminated.");
 	}
 
@@ -155,7 +155,7 @@ public class AudioService extends AbstractService<AudioState> {
 	// ----------------------------------------------------------------------------------------
 
 	/**
-	 * Initializes the audio services and returns its initial state.
+	 * Initializes the audio service and returns its initial state.
 	 * 
 	 * @param  profile Profile with initial audio settings.
 	 * @return         Configured state object for the service.
@@ -163,13 +163,6 @@ public class AudioService extends AbstractService<AudioState> {
 	private AudioState initialize(Profile profile) {
 
 		LOGGER.info("Initializing audio service...");
-
-		if (Kernel.kernel().getRunMode() == RunMode.CHAIR) {
-
-			// If we are running on the chair itself, we need to toggle the relay that
-			// enables power to the amplifier board.
-			((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOn(RelayId.AMPLIFIER);
-		}
 
 		audioState = new InternalAudioState(profile.getVolume(), profile.getChapModeVolume());
 		return audioState;

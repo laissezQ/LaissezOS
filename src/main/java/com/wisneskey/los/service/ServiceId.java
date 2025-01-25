@@ -6,6 +6,7 @@ import com.wisneskey.los.service.display.DisplayService;
 import com.wisneskey.los.service.lighting.LightingService;
 import com.wisneskey.los.service.location.LocationService;
 import com.wisneskey.los.service.map.MapService;
+import com.wisneskey.los.service.music.MusicService;
 import com.wisneskey.los.service.profile.ProfileService;
 import com.wisneskey.los.service.relay.RelayService;
 import com.wisneskey.los.service.remote.RemoteService;
@@ -16,6 +17,7 @@ import com.wisneskey.los.state.DisplayState;
 import com.wisneskey.los.state.LightingState;
 import com.wisneskey.los.state.LocationState;
 import com.wisneskey.los.state.MapState;
+import com.wisneskey.los.state.MusicState;
 import com.wisneskey.los.state.ProfileState;
 import com.wisneskey.los.state.RelayState;
 import com.wisneskey.los.state.RemoteState;
@@ -26,7 +28,7 @@ import com.wisneskey.los.state.State;
 /**
  * Enumerated type for all of the ids for the services supported in LBOS.
  * 
- * Copyright (C) 2024 Paul Wisneskey
+ * Copyright (C) 2025 Paul Wisneskey
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -50,6 +52,7 @@ public enum ServiceId {
 	LIGHTING(LightingService.class, LightingState.class, ShutdownPhase.TWO, "Let there be lighting!"),
 	LOCATION(LocationService.class, LocationState.class, ShutdownPhase.TWO, "Where the hell am I?"),
 	MAP(MapService.class, MapState.class, ShutdownPhase.THREE, "Roads? Where we are going, we don't need roads!"),
+	MUSIC(MusicService.class, MusicState.class, ShutdownPhase.TWO, "Free Bird!  Play Free Bird!"),
 	PROFILE(ProfileService.class, ProfileState.class, ShutdownPhase.THREE, "Keep it low."),
 	RELAY(RelayService.class, RelayState.class, ShutdownPhase.THREE, "Have you tried turning it off and on again?"),
 	REMOTE(RemoteService.class, RemoteState.class, ShutdownPhase.ONE, "Remotes, how do they work?"),
