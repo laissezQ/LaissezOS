@@ -58,6 +58,8 @@
 	// 
 	// Music service settings:
 	//
-	"musicDir" : "/home/pwisneskey/LaissezMusic",
+	"playlists": {
+		"Laissez Boy": "/home/pwisneskey/LaissezMusic"
+	},
 	"playerCommand": "/usr/bin/mpg123"
 }

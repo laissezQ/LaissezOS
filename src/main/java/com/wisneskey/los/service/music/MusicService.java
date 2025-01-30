@@ -22,6 +22,12 @@ import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.profile.model.Profile;
 import com.wisneskey.los.state.MusicState;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyProperty;
+import javafx.beans.property.ReadOnlyStringProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.util.Pair;
 
 /**
@@ -59,15 +65,19 @@ public class MusicService extends AbstractService<MusicState> {
 	private InternalMusicState musicState;
 
 	/**
-	 * Map of track id's to their tracks.
+	 * Map of playlist name to the tracks they contain.
 	 */
-	private Map<String, InternalTrack> trackMap = new HashMap<>();
+	private Map<String, List<InternalTrack>> playlistMap;
 
 	/**
-	 * List of all available tracks. Starts as empty list and is replaced after
-	 * tracks are indexed (if indexing does not fail).
+	 * Map of track ids to tracks for all tracks in all playlists.
 	 */
-	private List<Track> trackList = Collections.emptyList();
+	private Map<String, InternalTrack> trackMap;
+
+	/**
+	 * Name of the current playlist.
+	 */
+	private String currentPlaylist;
 
 	/**
 	 * Atomic boolean used to monitor if something is currently playing.
@@ -105,12 +115,37 @@ public class MusicService extends AbstractService<MusicState> {
 	// Public methods.
 	// ----------------------------------------------------------------------------------------
 
+	/**
+	 * Return a list of tracks available in the current playlist.
+	 * 
+	 * @return List of tracks in the currently selected playlist.
+	 */
 	public List<Track> getTracks() {
-		return trackList;
+
+		if (currentPlaylist == null) {
+			LOGGER.warn("Request for tracks with no current playlist set.");
+			return Collections.emptyList();
+		}
+
+		return Collections.unmodifiableList(playlistMap.get(currentPlaylist));
 	}
 
 	/**
-	 * Play a track.
+	 * Returns the tracks for a given playlist.
+	 * 
+	 * @param  playlistName Name of the playlist to get the tracks for.
+	 * 
+	 * @return              List of tracks for the named playlist or null if named
+	 *                      playlist does not exist.
+	 */
+	public List<Track> getPlaylistTracks(String playlistName) {
+
+		List<InternalTrack> playlistTracks = playlistMap.get(playlistName);
+		return playlistTracks == null ? null : Collections.unmodifiableList(playlistTracks);
+	}
+
+	/**
+	 * Play a track from the current playlist.
 	 * 
 	 * @param trackId Id of the track to start playing.
 	 */
@@ -149,23 +184,6 @@ public class MusicService extends AbstractService<MusicState> {
 		}
 	}
 
-	/**
-	 * Look up a track id for the track with a specified title.
-	 * 
-	 * @param  title Title of the track to find the id for.
-	 * @return       Id of the track with the title or null if not found.
-	 */
-	public String getTrackIdForTitle(String title) {
-
-		for (Track track : trackList) {
-			if (title.equals(track.getTitle())) {
-				return track.getTrackId();
-			}
-		}
-
-		return null;
-	}
-	
 	// ----------------------------------------------------------------------------------------
 	// Service methods.
 	// ----------------------------------------------------------------------------------------
@@ -211,28 +229,65 @@ public class MusicService extends AbstractService<MusicState> {
 		// played.
 
 		// Make sure the external player is defined and exists.
-		if( profile.getPlayerCommand() == null) {
+		if (profile.getPlayerCommand() == null) {
 			throw new LaissezException("External MP3 player not set in profile.");
 		}
-		
+
 		File externalPlayer = new File(profile.getPlayerCommand());
-		if( !externalPlayer.exists()) {
+		if (!externalPlayer.exists()) {
 			throw new LaissezException("External MP3 player not found.");
 		}
-		
-		if( ! externalPlayer.canExecute()) {
+
+		if (!externalPlayer.canExecute()) {
 			throw new LaissezException("External MP3 player not executable.");
 		}
-		
+
 		// Command to start external player appears to be valid so save it.
 		this.playerCommand = profile.getPlayerCommand();
-		
-		// Look at the profile for our music directory and scan all MP3 files in
-		// that directory.
-		indexTracks(profile.getMusicDir());
 
-		musicState = new InternalMusicState();
+		// Check and load all playlists.
+		loadPlaylists(profile.getPlaylists());
+
+		// TODO: Set current playlist and configure music state.
+
 		return musicState;
+	}
+
+	/**
+	 * Validates and loads the configured playlists in the profile and sets up the
+	 * internal playlist structures.
+	 */
+	private void loadPlaylists(Map<String, String> profilePlaylists) {
+
+		if ((profilePlaylists == null) || profilePlaylists.isEmpty()) {
+
+			// No playlists configured.
+			LOGGER.warn("No playlists configured in profile.");
+			this.playlistMap = Collections.emptyMap();
+			this.trackMap = Collections.emptyMap();
+			return;
+		}
+
+		playlistMap = new HashMap<>(profilePlaylists.size());
+		trackMap = new HashMap<>();
+
+		// Now index the tracks for each playlist
+		for (Map.Entry<String, String> playlistEntry : profilePlaylists.entrySet()) {
+
+			String playlistName = playlistEntry.getKey();
+			String playlistDirectory = playlistEntry.getValue();
+
+			List<InternalTrack> playlistTracks = indexPlaylistTracks(playlistName, playlistDirectory);
+			if (playlistTracks.isEmpty()) {
+				LOGGER.warn("Playlist {} has no tracks; ignoring it.", playlistName);
+			} else {
+				// Register the playlist.
+				playlistMap.put(playlistName, playlistTracks);
+
+				// Register all of its songs in the master track map.
+				playlistTracks.stream().forEach(t -> trackMap.put(t.getTrackId(), t));
+			}
+		}
 	}
 
 	/**
@@ -240,53 +295,56 @@ public class MusicService extends AbstractService<MusicState> {
 	 * 
 	 * @param musicDir Directory to index MP3's in.
 	 */
-	private void indexTracks(String musicDir) {
-
-		if (musicDir == null) {
-			LOGGER.warn("Music directory not set; not indexing tracks.");
-			return;
-		}
+	private List<InternalTrack> indexPlaylistTracks(String playlistName, String playlistDirectory) {
 
 		// Expand any leading tilda to be the user's home directory. This assumes
-		// that the
-		// music directory is not under another user.
-		musicDir = musicDir.replaceFirst("^~", System.getProperty("user.home"));
-		LOGGER.debug("Attempting to scan {} for tracks...", musicDir);
+		// that the playlist directory is not under another user.
+		playlistDirectory = playlistDirectory.replaceFirst("^~", System.getProperty("user.home"));
+		LOGGER.debug("Attempting to scan {} for tracks...", playlistDirectory);
 
-		File scanDirectory = new File(musicDir);
+		File scanDirectory = new File(playlistDirectory);
 		if (!scanDirectory.exists()) {
-			LOGGER.warn("Music directory not found; not indexing tracks.");
-			return;
+			throw new LaissezException("Music directory " + playlistDirectory + " not found; not indexing tracks.");
 		}
 
+		List<InternalTrack> playlistTracks = new ArrayList<>();
 		try {
 			int trackIndexNumber = 0;
 			for (File trackFile : scanDirectory.listFiles(new Mp3FileFilter())) {
 
-				String trackId = "Track:" + trackIndexNumber++;
+				String trackId = "Track:" + playlistName + ":" + trackIndexNumber++;
 				String trackPath = trackFile.getCanonicalPath();
 
 				InternalTrack track = new InternalTrack(trackId, trackPath);
 				boolean success = readTrackData(track);
 
 				if (success) {
-					trackMap.put(trackId, track);
+					playlistTracks.add(track);
+				} else {
+					LOGGER.warn("Failed to read data for track: {}", trackPath);
 				}
 
 			}
 		} catch (IOException e) {
-			LOGGER.error("Failed to index music tracks.", e);
+			throw new LaissezException("Failed to index music tracks.", e);
 		}
 
-		trackList = Collections.unmodifiableList(new ArrayList<>(trackMap.values()));
-		LOGGER.info("Indexed {} tracks.", trackList.size());
+		LOGGER.info("Indexed {} tracks.", playlistTracks.size());
+		return playlistTracks;
 	}
 
+	/**
+	 * Reads the header data for a track's mp3 to get the artist and title of the
+	 * track.
+	 * 
+	 * @param  track Track to read the header information for.
+	 * @return       True if track information was read or false otherwise.
+	 */
 	private boolean readTrackData(InternalTrack track) {
 
 		String trackPath = track.getTrackPath();
 		LOGGER.info("Attempting to read track data: {}", trackPath);
-		
+
 		try {
 			Mp3File mp3File = new Mp3File(trackPath);
 
@@ -342,7 +400,7 @@ public class MusicService extends AbstractService<MusicState> {
 
 		private PlayerThread(String trackPath) {
 			this.trackPath = trackPath;
-			
+
 			setName("ExternalMp3PlayerThread");
 		}
 
@@ -380,8 +438,41 @@ public class MusicService extends AbstractService<MusicState> {
 	 */
 	private static class InternalMusicState implements MusicState {
 
-	}
+		private StringProperty currentPlaylistName = new SimpleStringProperty();
+		private StringProperty currentTrackId= new SimpleStringProperty();
+		private StringProperty currentTrackArtist= new SimpleStringProperty();
+		private StringProperty currentTrackName= new SimpleStringProperty();
+		private ObjectProperty<PlayerState> playerState = new SimpleObjectProperty<>(PlayerState.IDLE);
+		
+		// ----------------------------------------------------------------------------------------
+		// MusicState methods.
+		// ----------------------------------------------------------------------------------------
 
+		@Override
+		public ReadOnlyStringProperty currentPlaylistName() {
+			return currentPlaylistName;
+		}
+
+		@Override
+		public ReadOnlyStringProperty currentTrackId() {
+			return currentTrackId;
+		}
+
+		@Override
+		public ReadOnlyStringProperty currentTrackArtist() {
+			return currentTrackArtist;
+		}
+
+		@Override
+		public ReadOnlyStringProperty currentTrackName() {
+			return currentTrackName;
+		}
+
+		@Override
+		public ReadOnlyProperty<PlayerState> playerState() {
+			return playerState;
+		}
+	}
 	/**
 	 * Internal representation of a music track that can be played by the Music
 	 * service.

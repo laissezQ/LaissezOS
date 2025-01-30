@@ -1,5 +1,8 @@
 package com.wisneskey.los.state;
 
+import javafx.beans.property.ReadOnlyProperty;
+import javafx.beans.property.ReadOnlyStringProperty;
+
 /**
  * Interface denoting the object providing read only access to the state of the
  * Music service.
@@ -23,4 +26,48 @@ package com.wisneskey.los.state;
  */
 public interface MusicState extends State {
 
+	/**
+	 * Name of the currently selected playlist.
+	 * 
+	 * @return Name of the currently selected playlist.
+	 */
+	ReadOnlyStringProperty currentPlaylistName();
+	
+	/**
+	 * Id of the currently playing track (or null if nothing currently playing).
+	 * 
+	 * @return Id of currently playing track or null if no track playing.
+	 */
+	ReadOnlyStringProperty currentTrackId();
+
+	/**
+	 * Artist for the currently playing track (or null if nothing currently playing).
+	 * 
+	 * @return Artist for currently playing track or null if no track playing.
+	 */
+	ReadOnlyStringProperty currentTrackArtist();
+	
+	/**
+	 * Name of the currently playing track (or null if nothing currently playing).
+	 * 
+	 * @return Name of currently playing track or null if no track playing.
+	 */
+	ReadOnlyStringProperty currentTrackName();
+	
+	/**
+	 * Current state of the track player.
+	 * 
+	 * @return Enumerated value representing the current state of the player.
+	 */
+	ReadOnlyProperty<PlayerState> playerState();
+	
+	/**
+	 * Enumerated type defining the states the track player may be in.
+	 */
+	public enum PlayerState {
+		IDLE,
+		PLAYING_SINGLE,
+		PLAYING_PLAYLIST,
+		PLAYING_RANDOM
+	}
 }

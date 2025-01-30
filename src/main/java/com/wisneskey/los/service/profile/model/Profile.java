@@ -111,15 +111,6 @@ public class Profile {
 	private static final String DEFAULT_TILE_STORE_PATH = "./.map_tile_store";
 
 	// ----------------------------------------------------------------------------------------
-	// Music service defaults.
-	// ----------------------------------------------------------------------------------------
-
-	/**
-	 * Default location for MP3 files to play as music.
-	 */
-	private static final String DEFAULT_MUSIC_DIR = "~/LaissezMusic";
-	
-	// ----------------------------------------------------------------------------------------
 	// General settings.
 	// ----------------------------------------------------------------------------------------
 
@@ -206,7 +197,7 @@ public class Profile {
 	 * Starting third color for LED lights.
 	 */
 	private String thirdColor = DEFAULT_THIRD_COLOR;
-	
+
 	// ----------------------------------------------------------------------------------------
 	// Location service settings.
 	// ----------------------------------------------------------------------------------------
@@ -249,9 +240,21 @@ public class Profile {
 	// Music service settings.
 	// ----------------------------------------------------------------------------------------
 
-	private String musicDir = DEFAULT_MUSIC_DIR;
-	private String playerCommand;
+	/**
+	 * Map of playlist name to directory where its tracks are located.
+	 */
+	private Map<String, String> playlists;
+
+	/**
+	 * Name of the playlist to start with selected.
+	 */
+	private String startingPlaylist;
 	
+	/**
+	 * Command to use to play an MP3.
+	 */
+	private String playerCommand;
+
 	// ----------------------------------------------------------------------------------------
 	// General property getters.
 	// ----------------------------------------------------------------------------------------
@@ -453,15 +456,35 @@ public class Profile {
 	public String getPinCode() {
 		return pinCode;
 	}
-	
+
 	// ----------------------------------------------------------------------------------------
 	// Music service settings.
 	// ----------------------------------------------------------------------------------------
 
-	public String getMusicDir() {
-		return musicDir;
+	/**
+	 * Returns the map of playlist names to their directories that contains the MP3
+	 * representing the tracks in the playlist.
+	 * 
+	 * @return Map of playlist name to directory names.
+	 */
+	public Map<String, String> getPlaylists() {
+		return playlists;
+	}
+
+	/**
+	 * Returns the name of the playlist to start with selected.
+	 * 
+	 * @return Name of playlist that should be selected when music service starts.
+	 */
+	public String getStartingPlaylist() {
+		return startingPlaylist;
 	}
 	
+	/**
+	 * Returns the external command to use to play mp3's.
+	 * 
+	 * @return External mp3 player command.
+	 */
 	public String getPlayerCommand() {
 		return playerCommand;
 	}

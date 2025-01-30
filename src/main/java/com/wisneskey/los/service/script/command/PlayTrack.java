@@ -1,14 +1,18 @@
 package com.wisneskey.los.service.script.command;
 
+import java.util.List;
+import java.util.Objects;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.music.MusicService;
+import com.wisneskey.los.service.music.Track;
 
 /**
- * Script command to play a music track.
+ * Script command to play a music track from a designated playlist.
  * 
  * Copyright (C) 2025 Paul Wisneskey
  * 
@@ -31,19 +35,19 @@ public class PlayTrack extends AbstractScriptCommand {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(PlayTrack.class);
 
-	private String trackId;
+	private String playlistName;
 	private String trackName;
-	
+
 	// ----------------------------------------------------------------------------------------
 	// Property getters/setters.
 	// ----------------------------------------------------------------------------------------
 
-	public String getTrackId() {
-		return trackId;
+	public String getPlaylistName() {
+		return playlistName;
 	}
 
-	public void setTrackId(String trackId) {
-		this.trackId = trackId;
+	public void setPlaylistName(String playlistName) {
+		this.playlistName = playlistName;
 	}
 
 	public String getTrackName() {
@@ -58,27 +62,35 @@ public class PlayTrack extends AbstractScriptCommand {
 	// ScriptCommand methods.
 	// ----------------------------------------------------------------------------------------
 
-	@Override public void perform() {
+	@Override
+	public void perform() {
 
 		MusicService service = Kernel.kernel().getService(ServiceId.MUSIC);
-		
-		// If we have a track id, just use it but if not we try to see if we have a track name.
-		if( trackId == null ) {
-			
-			if( trackName == null ) {
-				LOGGER.warn("No track id or track name give; nothing to play.");
-				return;
-			}
-			
-			// Get the track id for the track name.
-			trackId = service.getTrackIdForTitle(trackName);
-			if( trackId == null) {
-				LOGGER.warn("No track found with the given name.");
-				return;
-			}
+
+		if (playlistName == null) {
+			LOGGER.warn("Playlist name not set; nothing to play.");
+			return;
 		}
 
-		// Play the track.
-		service.playTrack(trackId);
+		if (trackName == null) {
+			LOGGER.warn("Track name not set; nothing to play.");
+			return;
+		}
+
+		// Try to get the tracks for the named playlist.
+		List<Track> playlistTracks = service.getPlaylistTracks(playlistName);
+
+		// Look for a track with the specified name.
+		Track track = playlistTracks.stream().filter(t -> Objects.equals(trackName, t.getTitle())).findFirst().orElse(null);
+
+		if (track != null) {
+
+			// Play the track.
+			LOGGER.debug("Playing track: id={} artist={} title={}", track.getTrackId(), track.getArtist(), track.getTitle());
+			service.playTrack(track.getTrackId());
+		} else {
+			
+			LOGGER.warn("No track found with the given name; nothing to play.");
+		}
 	}
 }
