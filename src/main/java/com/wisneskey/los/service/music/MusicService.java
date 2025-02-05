@@ -180,6 +180,9 @@ public class MusicService extends AbstractService<MusicState> {
 	public void stopPlaying() {
 
 		synchronized (playerLock) {
+			// Make sure to turn off shuffle play so all music stops.
+			musicState.playerState.set(PlayerState.PLAYING_SINGLE);
+			
 			if (playing.get()) {
 				playerThread.killProcess(true);
 				LOGGER.info("Player thread process killed.");
