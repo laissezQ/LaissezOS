@@ -75,6 +75,12 @@ public class SystemScreen extends AbstractController {
 	private Button exitButton;
 
 	/**
+	 * Button to show script screen.
+	 */
+	@FXML
+	private Button scriptButton;
+
+	/**
 	 * Label to use to show the status of the GPS fix.
 	 */
 	@FXML
@@ -187,6 +193,13 @@ public class SystemScreen extends AbstractController {
 		runScript(ScriptId.SYSTEM_SCREEN_CLOSE);
 	}
 
+	/**
+	 * Method invoked when the script button is pressed.
+	 */
+	public void scriptPressed() {
+		runScript(ScriptId.SCRIPT_SCREEN_OPEN);
+	}
+	
 	// ----------------------------------------------------------------------------------------
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------

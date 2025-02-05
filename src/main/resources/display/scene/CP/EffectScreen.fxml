@@ -62,7 +62,7 @@
             <DropShadow />
          </effect>
       </ScrollPane>
-      <Label fx:id="gpsStatusLabel1" layoutX="162.0" layoutY="212.0" text="Actions" textAlignment="CENTER">
+      <Label layoutX="153.0" layoutY="212.0" text="Actions" textAlignment="CENTER">
          <effect>
             <DropShadow />
          </effect>
@@ -70,7 +70,7 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <Label fx:id="gpsStatusLabel11" layoutX="107.0" layoutY="587.0" text="Toggleable Effects" textAlignment="CENTER">
+      <Label layoutX="97.0" layoutY="587.0" text="Toggleable Effects" textAlignment="CENTER">
          <effect>
             <DropShadow />
          </effect>

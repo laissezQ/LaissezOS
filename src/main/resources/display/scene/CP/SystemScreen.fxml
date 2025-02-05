@@ -125,14 +125,6 @@
             <DropShadow />
          </effect>
       </Line>
-      <Button layoutX="53.0" layoutY="278.0" mnemonicParsing="false" onAction="#terminalPressed" prefHeight="60.0" prefWidth="294.0" text="Open Terminal">
-         <effect>
-            <DropShadow />
-         </effect>
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Button>
       <Label fx:id="ipAddressLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="52.0" layoutY="222.0" prefHeight="23.0" prefWidth="294.0" text="IP Address" textAlignment="CENTER">
          <font>
             <Font size="24.0" />
@@ -141,5 +133,13 @@
             <DropShadow />
          </effect>
       </Label>
+      <Button fx:id="scriptButton" layoutX="57.0" layoutY="266.0" mnemonicParsing="false" onAction="#scriptPressed" prefHeight="61.0" prefWidth="294.0" text="Scripts">
+         <effect>
+            <DropShadow />
+         </effect>
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Button>
 	</children>
 </Pane>

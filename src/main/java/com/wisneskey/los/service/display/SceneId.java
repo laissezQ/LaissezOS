@@ -33,6 +33,7 @@ public enum SceneId {
 	CP_LIGHTING_SCREEN(DisplayId.CP, "LightingScreen"),
 	CP_LOCK_SCREEN(DisplayId.CP, "LockScreen"),
 	CP_MAIN_SCREEN(DisplayId.CP, "MainScreen"),
+	CP_MUSIC_SCREEN(DisplayId.CP, "MusicScreen"),
 	CP_SCRIPT_SCREEN(DisplayId.CP, "ScriptScreen"),
 	CP_SPLASH_SCREEN(DisplayId.CP, "SplashScreen"),
 	CP_SYSTEM_SCREEN(DisplayId.CP, "SystemScreen"),

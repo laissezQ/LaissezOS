@@ -37,6 +37,8 @@ public enum ScriptId {
 	GAME_SCREEN_OPEN("Game screen: open", "GameScreen-Open"),
 	LIGHTING_SCREEN_OPEN("Lighting screen: open", "LightingScreen-Open"),
 	LIGHTING_SCREEN_CLOSE("Lighting screen: close", "LightingScreen-Close"),
+	MUSIC_SCREEN_OPEN("Music screen: open", "MusicScreen-Open"),
+	MUSIC_SCREEN_CLOSE("Music screen: close", "MusicScreen-Close"),
 	REMOTE_LOCK("Remote: lock chair", "Remote-Lock"),
 	REMOTE_UNLOCK("Remote: unlock chair", "Remote-Unlock"),
 	SECURITY_LOCK("Security screen: open", "Security-Lock"),

@@ -9,8 +9,8 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Label;
 
 /**
- * Change listener that listens for changes to a numeric property and updates
- * the string property of a label when it changes.
+ * Change listener that listens for changes to a property and updates the string
+ * property of a label when it changes.
  * 
  * Copyright (C) 2025 Paul Wisneskey
  * 
@@ -29,7 +29,7 @@ import javafx.scene.control.Label;
  *
  * @author paul.wisneskey@gmail.com
  */
-public class UpdateLabelListener<T extends Number> implements ChangeListener<T> {
+public class UpdateLabelListener<T extends Object> implements ChangeListener<T> {
 
 	/**
 	 * Value property of the label to update
@@ -67,6 +67,6 @@ public class UpdateLabelListener<T extends Number> implements ChangeListener<T> 
 
 	@Override
 	public void changed(ObservableValue<? extends T> observable, T oldValue, T newValue) {
-		Platform.runLater(() -> valueProperty.set(formatter.apply(newValue)));
+		Platform.runLater(() -> valueProperty.set(newValue == null ? "" : formatter.apply(newValue)));
 	}
 }

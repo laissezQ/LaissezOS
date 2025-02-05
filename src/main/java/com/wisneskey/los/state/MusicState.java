@@ -60,14 +60,12 @@ public interface MusicState extends State {
 	 * @return Enumerated value representing the current state of the player.
 	 */
 	ReadOnlyProperty<PlayerState> playerState();
-	
+
 	/**
 	 * Enumerated type defining the states the track player may be in.
 	 */
 	public enum PlayerState {
-		IDLE,
 		PLAYING_SINGLE,
-		PLAYING_PLAYLIST,
 		PLAYING_RANDOM
 	}
 }

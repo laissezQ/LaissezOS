@@ -1,8 +1,8 @@
 {
 	// 
-	// Script for playing when somone exits the script screen.
+	// Script for playing when somone exits the music screen.
 	//
-	"name": "User has exited the script screen.",
+	"name": "User has exited the music screen.",
 	//
 	"commands": [
 		{
@@ -15,7 +15,7 @@
 		},
 		{
 			"showScene": {
-				"sceneId": "CP_SYSTEM_SCREEN"
+				"sceneId": "CP_MAIN_SCREEN"
 			}
 		}
 	]

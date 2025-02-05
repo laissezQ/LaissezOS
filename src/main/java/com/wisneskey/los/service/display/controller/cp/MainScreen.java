@@ -123,6 +123,13 @@ public class MainScreen extends AbstractController {
 	}
 
 	/**
+	 * Method invoked when the music button is pressed.
+	 */
+	public void musicPressed() {
+		runScript(ScriptId.MUSIC_SCREEN_OPEN);
+	}
+
+	/**
 	 * Method invoked when the chap mode button is pressed.
 	 */
 	public void chapPressed() {
@@ -141,13 +148,6 @@ public class MainScreen extends AbstractController {
 	 */
 	public void lightingPressed() {
 		runScript(ScriptId.LIGHTING_SCREEN_OPEN);
-	}
-
-	/**
-	 * Method invoked when the script button is pressed.
-	 */
-	public void scriptPressed() {
-		runScript(ScriptId.SCRIPT_SCREEN_OPEN);
 	}
 
 	/**

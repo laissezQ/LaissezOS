@@ -40,7 +40,7 @@ public enum SoundEffectId {
 			"misc/knife_in_box.wav"),
 
 	MISC_STAND_UP( //
-			"Stang Up",
+			"Stand Up",
 			"Stand Up and Get Crunk",
 			true,
 			"misc/get_crunk.wav"),

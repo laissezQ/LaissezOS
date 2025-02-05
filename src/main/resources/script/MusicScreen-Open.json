@@ -1,0 +1,24 @@
+{
+	// 
+	// Script for playing when somone opens the music screen.
+	//
+	"name": "User has opened the music screen.",
+	//
+	"commands": [
+		{
+			"playSoundEffect": {
+				"effectIds": [
+					"MOVIE_WORKING",
+					"MOVIE_MACHINE_GOES_PING",
+					"MOVIE_ALL_GO_TO_ELEVEN",
+					"MOVIE_ITS_ONE_LOUDER"
+				]
+			}
+		},
+		{
+			"showScene": {
+				"sceneId": "CP_MUSIC_SCREEN"
+			}
+		}
+	]
+}
