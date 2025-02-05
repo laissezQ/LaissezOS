@@ -165,7 +165,7 @@ public class MusicService extends AbstractService<MusicState> {
 			musicState.currentTrackArtist.set(track.getArtist());
 			musicState.currentTrackName.set(track.getTitle());
 
-			Kernel.kernel().message("Playing '" + track.getTitle() + "'/n");
+			Kernel.kernel().message("Playing '" + track.getTitle() + "'\n");
 
 			// Do the actual launching of the external player in its own thread so
 			// that we do not block the caller.
