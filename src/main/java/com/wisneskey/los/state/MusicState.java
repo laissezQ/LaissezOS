@@ -2,6 +2,7 @@ package com.wisneskey.los.state;
 
 import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.property.ReadOnlyStringProperty;
+import javafx.beans.property.StringProperty;
 
 /**
  * Interface denoting the object providing read only access to the state of the
@@ -31,7 +32,7 @@ public interface MusicState extends State {
 	 * 
 	 * @return Name of the currently selected playlist.
 	 */
-	ReadOnlyStringProperty currentPlaylistName();
+	StringProperty currentPlaylistName();
 	
 	/**
 	 * Id of the currently playing track (or null if nothing currently playing).

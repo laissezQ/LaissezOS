@@ -79,11 +79,6 @@ public class MusicService extends AbstractService<MusicState> {
 	private Map<String, InternalTrack> trackMap;
 
 	/**
-	 * Name of the current playlist.
-	 */
-	private String currentPlaylist;
-
-	/**
 	 * Atomic boolean used to monitor if something is currently playing.
 	 */
 	private AtomicBoolean playing = new AtomicBoolean(false);
@@ -120,18 +115,13 @@ public class MusicService extends AbstractService<MusicState> {
 	// ----------------------------------------------------------------------------------------
 
 	/**
-	 * Return a list of tracks available in the current playlist.
+	 * Returns the list of playlists available.
 	 * 
-	 * @return List of tracks in the currently selected playlist.
+	 * @return List of the names for the available playlists.
 	 */
-	public List<Track> getTracks() {
+	public List<String> getPlaylists() {
 
-		if (currentPlaylist == null) {
-			LOGGER.warn("Request for tracks with no current playlist set.");
-			return Collections.emptyList();
-		}
-
-		return Collections.unmodifiableList(playlistMap.get(currentPlaylist));
+		return new ArrayList<>(playlistMap.keySet());
 	}
 
 	/**
@@ -176,7 +166,7 @@ public class MusicService extends AbstractService<MusicState> {
 			musicState.currentTrackName.set(track.getTitle());
 
 			Kernel.kernel().message("Playing '" + track.getTitle() + "'");
-			
+
 			// Do the actual launching of the external player in its own thread so
 			// that we do not block the caller.
 			playerThread = new PlayerThread(track.getTrackPath());
@@ -207,9 +197,9 @@ public class MusicService extends AbstractService<MusicState> {
 	 * @param shufflePlay Flag indicating if shuffle play is enabled.
 	 */
 	public void shufflePlay(boolean shufflePlay) {
-		musicState.playerState.set(shufflePlay ? PlayerState.PLAYING_RANDOM : PlayerState.PLAYING_SINGLE );
+		musicState.playerState.set(shufflePlay ? PlayerState.PLAYING_RANDOM : PlayerState.PLAYING_SINGLE);
 	}
-	
+
 	// ----------------------------------------------------------------------------------------
 	// Service methods.
 	// ----------------------------------------------------------------------------------------
@@ -239,48 +229,49 @@ public class MusicService extends AbstractService<MusicState> {
 		playerThread = null;
 
 		String previousTrackId = musicState.currentTrackId.get();
-		
+
 		musicState.currentTrackId.set(null);
 		musicState.currentTrackArtist.set(null);
 		musicState.currentTrackName.set(null);
 
 		// If shuffle play is enabled, we need to play another track at random.
-		if( musicState.playerState().getValue() == PlayerState.PLAYING_RANDOM ) {
-	
+		if (musicState.playerState().getValue() == PlayerState.PLAYING_RANDOM) {
+
 			String nextTrackId = pickNextTrackAtRandom(previousTrackId);
-			if( nextTrackId != null) {
+			if (nextTrackId != null) {
 				playTrack(nextTrackId);
 			}
 		}
 	}
 
 	/**
-	 * Picks the next track to play from the current playlist avoiding repeats if possible.
+	 * Picks the next track to play from the current playlist avoiding repeats if
+	 * possible.
 	 * 
-	 * @param lastTrackId Id of the last track played.
-	 * @return Id of the next track to play.
+	 * @param  lastTrackId Id of the last track played.
+	 * @return             Id of the next track to play.
 	 */
 	private String pickNextTrackAtRandom(String lastTrackId) {
-		
+
 		Random random = new Random();
-		
+
 		String nextTrackId = lastTrackId;
 		String currentPlaylist = musicState.currentPlaylistName.get();
-		
-		if( currentPlaylist != null ) {
+
+		if (currentPlaylist != null) {
 			List<InternalTrack> tracks = playlistMap.get(currentPlaylist);
-			if( tracks.size() > 1) {
-				
-				while( Objects.equals(nextTrackId, lastTrackId)) {
+			if (tracks.size() > 1) {
+
+				while (Objects.equals(nextTrackId, lastTrackId)) {
 					int trackIndex = random.nextInt(tracks.size());
 					nextTrackId = tracks.get(trackIndex).getTrackId();
 				}
 			}
 		}
-		
+
 		return nextTrackId;
 	}
-	
+
 	/**
 	 * Initializes the music services and returns its initial state.
 	 * 
@@ -535,7 +526,7 @@ public class MusicService extends AbstractService<MusicState> {
 		// ----------------------------------------------------------------------------------------
 
 		@Override
-		public ReadOnlyStringProperty currentPlaylistName() {
+		public StringProperty currentPlaylistName() {
 			return currentPlaylistName;
 		}
 

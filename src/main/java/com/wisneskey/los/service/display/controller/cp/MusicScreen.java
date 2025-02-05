@@ -13,9 +13,12 @@ import com.wisneskey.los.service.remote.RemoteButtonId;
 import com.wisneskey.los.service.script.ScriptId;
 import com.wisneskey.los.state.MusicState;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -59,7 +62,7 @@ public class MusicScreen extends AbstractController {
 	 */
 	@FXML
 	private Label lblArtist;
-	
+
 	/**
 	 * Label for tile of the track that is currently playing.
 	 */
@@ -71,7 +74,13 @@ public class MusicScreen extends AbstractController {
 	 */
 	@FXML
 	private CheckBox chkShuffle;
-	
+
+	/**
+	 * Choice box for selecting playlist.
+	 */
+	@FXML
+	private ChoiceBox<String> choicePlaylist;
+
 	// ----------------------------------------------------------------------------------------
 	// Public methods.
 	// ----------------------------------------------------------------------------------------
@@ -84,23 +93,32 @@ public class MusicScreen extends AbstractController {
 
 		MusicState musicState = chairState().getServiceState(ServiceId.MUSIC);
 		popuateTrackList(musicState.currentPlaylistName().get());
-		
+
 		logo.setOnMouseClicked(new DoubleClickListener(e -> resumePressed()));
-		
+
 		musicState.currentTrackArtist().addListener(new UpdateLabelListener<>(lblArtist));
 		musicState.currentTrackName().addListener(new UpdateLabelListener<>(lblTitle));
+
+		MusicService service = ((MusicService) Kernel.kernel().getService(ServiceId.MUSIC));
+		List<String> playlists = service.getPlaylists();
+		for (String playlist : playlists) {
+			choicePlaylist.getItems().add(playlist);
+		}
+
+		choicePlaylist.valueProperty().bindBidirectional(musicState.currentPlaylistName());
+		choicePlaylist.valueProperty().addListener(new PlaylistChangedListener());
 	}
 
 	@Override
 	public void remoteButtonPressed(RemoteButtonId buttonId) {
 
 		// Allow remote button A to leave the lighting screen.
-		if( buttonId == RemoteButtonId.REMOTE_BUTTON_A) {
+		if (buttonId == RemoteButtonId.REMOTE_BUTTON_A) {
 			resumePressed();
 		} else {
 			super.remoteButtonPressed(buttonId);
 		}
-	}	
+	}
 
 	/**
 	 * Method invoked when the stop button is pressed.
@@ -115,7 +133,7 @@ public class MusicScreen extends AbstractController {
 	public void shufflePressed() {
 
 		((MusicService) kernel().getService(ServiceId.MUSIC)).shufflePlay(chkShuffle.isSelected());
-		
+
 	}
 
 	/**
@@ -124,23 +142,23 @@ public class MusicScreen extends AbstractController {
 	public void resumePressed() {
 		runScript(ScriptId.MUSIC_SCREEN_CLOSE);
 	}
-	
 
 	// ----------------------------------------------------------------------------------------
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
 
 	private void popuateTrackList(String playlistName) {
-	
+
 		// Remove any current tracks listed.
 		tracksBox.getChildren().clear();
-		
-		if( playlistName == null ) {
+
+		if (playlistName == null) {
 			return;
 		}
-		
-		List<Track> tracklist = ((MusicService) Kernel.kernel().getService(ServiceId.MUSIC)).getPlaylistTracks(playlistName);
-		for( Track track : tracklist) {
+
+		List<Track> tracklist = ((MusicService) Kernel.kernel().getService(ServiceId.MUSIC))
+				.getPlaylistTracks(playlistName);
+		for (Track track : tracklist) {
 
 			Button trackButton = createListButton(track.getTitle());
 			trackButton.setOnAction(e -> playTrack(track));
@@ -148,14 +166,28 @@ public class MusicScreen extends AbstractController {
 
 		}
 	}
-	
+
 	/**
-	 * Method invoked to play a track in response to the press of a track's button.
+	 * Method invoked to play a track in response to the press of a track's
+	 * button.
 	 * 
 	 * @param track Track to be played.
 	 */
 	private void playTrack(Track track) {
 
 		((MusicService) kernel().getService(ServiceId.MUSIC)).playTrack(track.getTrackId());
+	}
+
+	// ----------------------------------------------------------------------------------------
+	// Inner classes.
+	// ----------------------------------------------------------------------------------------
+
+	private class PlaylistChangedListener implements ChangeListener<String> {
+
+		@Override
+		public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+
+			popuateTrackList(newValue);
+		}
 	}
 }

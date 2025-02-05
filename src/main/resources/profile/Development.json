@@ -54,7 +54,8 @@
 	// Music service settings:
 	//
 	"playlists": {
-		"Laissez Boy": "/users/paul/LaissezMusic"
+		"Laissez Boy": "/users/paul/LaissezMusic",
+		"Test": "/users/paul/LaissezMusic2"
 	},
 	"playerCommand" : "/opt/homebrew/bin/mpg123"
 }	
