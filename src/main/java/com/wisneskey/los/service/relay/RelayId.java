@@ -25,7 +25,7 @@ public enum RelayId {
 	// Driver board A relays:
 	BAR_LOWER(0, "Lower armrest bar", false),
 	BAR_RAISE(1, "Raise armest bar", false),
-	POLICE(3, "Police Lights", true),
+	POLICE_POWER(3, "Police Lights", true),
 	MARQUEE(4, "LED Marquee", true),
 	BAR_PUMP(5, "Activate Water Tap", false),
 	BAR_LIGHT(6, "Bar Lighting", true),
@@ -33,6 +33,7 @@ public enum RelayId {
 
 	// Driver board B relays:
 	AMPLIFIER(8, "Audio amplifier ", true),
+	POLICE_MODE(13, "Change Police Strobe", false),
 	SIDE_LIGHTING(14, "Side Panel Lighting.", true),
 	UNDER_LIGHTING(15, "Under Chair Lighting.", true);
 
