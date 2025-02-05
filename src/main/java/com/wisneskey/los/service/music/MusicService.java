@@ -165,7 +165,7 @@ public class MusicService extends AbstractService<MusicState> {
 			musicState.currentTrackArtist.set(track.getArtist());
 			musicState.currentTrackName.set(track.getTitle());
 
-			Kernel.kernel().message("Playing '" + track.getTitle() + "'");
+			Kernel.kernel().message("Playing '" + track.getTitle() + "'/n");
 
 			// Do the actual launching of the external player in its own thread so
 			// that we do not block the caller.
@@ -181,7 +181,7 @@ public class MusicService extends AbstractService<MusicState> {
 
 		synchronized (playerLock) {
 			// Make sure to turn off shuffle play so all music stops.
-			musicState.playerState.set(PlayerState.PLAYING_SINGLE);
+			musicState.playerState.setValue(PlayerState.PLAYING_SINGLE);
 			
 			if (playing.get()) {
 				playerThread.killProcess(true);
