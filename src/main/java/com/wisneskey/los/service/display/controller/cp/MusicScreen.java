@@ -20,6 +20,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
@@ -50,6 +51,12 @@ public class MusicScreen extends AbstractController {
 	 */
 	@FXML
 	private ImageView logo;
+
+	/**
+	 * Slider for controlling the music volume.
+	 */
+	@FXML
+	private Slider musicVolumeSlider;
 
 	/**
 	 * Vertical box the tracks will be in.
@@ -107,6 +114,9 @@ public class MusicScreen extends AbstractController {
 
 		choicePlaylist.valueProperty().bindBidirectional(musicState.currentPlaylistName());
 		choicePlaylist.valueProperty().addListener(new PlaylistChangedListener());
+		
+		// Bind the volume control.
+		musicVolumeSlider.valueProperty().bindBidirectional(musicState.volume());
 	}
 
 	@Override
