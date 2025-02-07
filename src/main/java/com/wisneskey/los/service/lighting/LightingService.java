@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.wisneskey.los.error.LaissezException;
+import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.kernel.RunMode;
 import com.wisneskey.los.service.AbstractService;
 import com.wisneskey.los.service.ServiceId;
@@ -120,6 +121,7 @@ public class LightingService extends AbstractService<LightingState> {
 
 		lightingState.setCurrentEffect(effectId);
 		lightingDriver.playEffect(effectId, lightingState);
+		Kernel.kernel().message("Lighting effect now '" + effectId.getShortName() + "'\n");
 	}
 
 	/**
