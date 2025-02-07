@@ -121,6 +121,11 @@ public class MusicService extends AbstractService<MusicState> {
 	 */
 	private String playerCommand;
 
+	/**
+	 * Random generator for selecting next track.
+	 */
+	private Random random = new Random();
+	
 	// ----------------------------------------------------------------------------------------
 	// Constructors.
 	// ----------------------------------------------------------------------------------------
@@ -199,6 +204,28 @@ public class MusicService extends AbstractService<MusicState> {
 		}
 	}
 
+	/**
+	 * Move on to another track selected randomly if playing mode is  or
+	 * stops the track if single playback mode. 
+	 */
+	public void nextTrack()
+	{
+		synchronized (playerLock) {
+
+			if (playing.get()) {
+				// Stop the current track.  If auto play was enabled, a new track will be started.
+				playerThread.killProcess(true);
+			} else {
+				
+				// Just pick a track to play at random since nothing was playing.
+				String nextTrackId = pickNextTrackAtRandom(null);
+				if (nextTrackId != null) {
+					playTrack(nextTrackId);
+				}
+			}
+		}
+	}
+	
 	/**
 	 * Stop a track from playing if one is playing.
 	 */
@@ -303,8 +330,6 @@ public class MusicService extends AbstractService<MusicState> {
 	 * @return             Id of the next track to play.
 	 */
 	private String pickNextTrackAtRandom(String lastTrackId) {
-
-		Random random = new Random();
 
 		String nextTrackId = lastTrackId;
 		String currentPlaylist = musicState.currentPlaylistName.get();
@@ -689,6 +714,5 @@ public class MusicService extends AbstractService<MusicState> {
 		public boolean accept(File dir, String name) {
 			return name.endsWith(MP3_FILE_EXTENSION);
 		}
-
 	}
 }

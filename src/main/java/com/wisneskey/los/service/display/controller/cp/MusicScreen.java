@@ -114,7 +114,7 @@ public class MusicScreen extends AbstractController {
 
 		choicePlaylist.valueProperty().bindBidirectional(musicState.currentPlaylistName());
 		choicePlaylist.valueProperty().addListener(new PlaylistChangedListener());
-		
+
 		// Bind the volume control.
 		musicVolumeSlider.valueProperty().bindBidirectional(musicState.volume());
 	}
@@ -138,14 +138,20 @@ public class MusicScreen extends AbstractController {
 	}
 
 	/**
-	 * Method invoked if the shuffled checkbox is toggled.
+	 * Method invoked if the shuffled check box is toggled.
 	 */
 	public void shufflePressed() {
 
 		((MusicService) kernel().getService(ServiceId.MUSIC)).shufflePlay(chkShuffle.isSelected());
-
 	}
 
+	/**
+	 * Method invoked if the next track button is pressed.
+	 */
+	public void nextTrackPressed() {
+		((MusicService) kernel().getService(ServiceId.MUSIC)).nextTrack();;
+	}
+	
 	/**
 	 * Method invoked by the resume operation button.
 	 */
@@ -157,6 +163,11 @@ public class MusicScreen extends AbstractController {
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
 
+	/**
+	 * Load the tracklist into the UI for named playlist.
+	 * 
+	 * @param playlistName Name of the playlist to display the tracks for.
+	 */
 	private void popuateTrackList(String playlistName) {
 
 		// Remove any current tracks listed.

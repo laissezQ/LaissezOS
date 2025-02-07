@@ -28,7 +28,9 @@ import com.wisneskey.los.service.display.listener.bar.BarStateListener;
 import com.wisneskey.los.service.display.listener.bar.TapButtonListener;
 import com.wisneskey.los.service.display.listener.message.MessagesToLabelListener;
 import com.wisneskey.los.service.display.map.MapServiceTileFactory;
+import com.wisneskey.los.service.lighting.LightingService;
 import com.wisneskey.los.service.location.Location;
+import com.wisneskey.los.service.music.MusicService;
 import com.wisneskey.los.state.LocationState;
 import com.wisneskey.los.state.MapState;
 
@@ -226,6 +228,29 @@ public class MainScreen extends AbstractController {
 		chairState().barState().addListener(new BarStateListener(barButton, tapButton));
 	}
 
+	/**
+	 * Method used by stop music button to stop MP3 playback.
+	 */
+	public void stopMusic() {
+		((MusicService) kernel().getService(ServiceId.MUSIC)).stopPlaying();
+	}
+	
+	/**
+	 * Method used by the next track button to move to next random MP3 track.
+	 */
+	public void nextTrack() {
+		((MusicService) kernel().getService(ServiceId.MUSIC)).nextTrack();
+	}
+	
+
+	/**
+	 * Method invoked when the current lighting button is pressed.
+	 */
+	public void randomLighting() {
+		((LightingService) kernel().getService(ServiceId.LIGHTING)).playRandomEffect(false);
+	}
+
+	
 	// ----------------------------------------------------------------------------------------
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------

@@ -71,7 +71,7 @@
 				<DropShadow />
 			</effect>
 		</Line>
-		<Label layoutX="17.0" layoutY="296.0" text="Track:" textAlignment="CENTER">
+		<Label layoutX="18.0" layoutY="285.0" text="Track:" textAlignment="CENTER">
 			<effect>
 				<DropShadow />
 			</effect>
@@ -79,7 +79,7 @@
 				<Font size="18.0" />
 			</font>
 		</Label>
-		<Label fx:id="lblArtist" layoutX="81.0" layoutY="256.0" prefHeight="17.0" prefWidth="287.0" textFill="WHITE">
+		<Label fx:id="lblArtist" layoutX="81.0" layoutY="256.0" prefHeight="17.0" prefWidth="287.0" textFill="#32c54f">
 			<font>
 				<Font size="18.0" />
 			</font>
@@ -87,7 +87,7 @@
 				<DropShadow />
 			</effect>
 		</Label>
-		<Label fx:id="lblTitle" layoutX="81.0" layoutY="296.0" prefHeight="17.0" prefWidth="287.0" textFill="WHITE">
+		<Label fx:id="lblTitle" layoutX="81.0" layoutY="285.0" prefHeight="17.0" prefWidth="287.0" textFill="#32c54f">
 			<font>
 				<Font size="18.0" />
 			</font>
@@ -95,15 +95,22 @@
 				<DropShadow />
 			</effect>
 		</Label>
-		<Button layoutX="250.0" layoutY="409.0" mnemonicParsing="false" onAction="#stopPressed" prefHeight="38.0" prefWidth="88.0" text="Stop">
+		<Button layoutX="217.0" layoutY="404.0" mnemonicParsing="false" onAction="#stopPressed" prefHeight="45.0" prefWidth="57.0">
 			<effect>
 				<DropShadow />
 			</effect>
 			<font>
 				<Font name="System Bold" size="18.0" />
 			</font>
+         <graphic>
+            <ImageView fitHeight="28.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../images/music_stop.png" />
+               </image>
+            </ImageView>
+         </graphic>
 		</Button>
-		<CheckBox fx:id="chkShuffle" layoutX="63.0" layoutY="416.0" mnemonicParsing="false" onAction="#shufflePressed" text="Autoplay">
+		<CheckBox fx:id="chkShuffle" layoutX="72.0" layoutY="414.0" mnemonicParsing="false" onAction="#shufflePressed" text="Autoplay">
 			<font>
 				<Font size="18.0" />
 			</font>
@@ -125,5 +132,20 @@
 				<DropShadow />
 			</effect>
 		</Slider>
+      <Button layoutX="291.0" layoutY="405.0" mnemonicParsing="false" onAction="#nextTrackPressed" prefHeight="27.0" prefWidth="57.0">
+         <effect>
+            <DropShadow />
+         </effect>
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="31.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../images/music_next_track.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
 	</children>
 </Pane>
