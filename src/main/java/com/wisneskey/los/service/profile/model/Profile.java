@@ -111,6 +111,15 @@ public class Profile {
 	private static final String DEFAULT_TILE_STORE_PATH = "./.map_tile_store";
 
 	// ----------------------------------------------------------------------------------------
+	// Music service defaults.
+	// ----------------------------------------------------------------------------------------
+
+	/**
+	 * Default value for MP3 playback.
+	 */
+	private static final int DEFAULT_MUSIC_VOLUME = 4;
+	
+	// ----------------------------------------------------------------------------------------
 	// General settings.
 	// ----------------------------------------------------------------------------------------
 
@@ -255,6 +264,11 @@ public class Profile {
 	 */
 	private String playerCommand;
 
+	/**
+	 * Volume for MP3 playblack.
+	 */
+	private int musicVolume = DEFAULT_MUSIC_VOLUME;
+	
 	// ----------------------------------------------------------------------------------------
 	// General property getters.
 	// ----------------------------------------------------------------------------------------
@@ -487,5 +501,14 @@ public class Profile {
 	 */
 	public String getPlayerCommand() {
 		return playerCommand;
+	}
+	
+	/**
+	 * Returns the volume to play MP3's with.
+	 * 
+	 * @return Integer value for volume setting for MP3 playback.
+	 */
+	public int getMusicVolume() {
+		return musicVolume;
 	}
 }

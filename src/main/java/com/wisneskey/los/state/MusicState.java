@@ -1,5 +1,6 @@
 package com.wisneskey.los.state;
 
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.beans.property.StringProperty;
@@ -61,6 +62,17 @@ public interface MusicState extends State {
 	 * @return Enumerated value representing the current state of the player.
 	 */
 	ReadOnlyProperty<PlayerState> playerState();
+
+	/**
+	 * Volume of the music playback.
+	 * 
+	 * @return Volume of chair from 0 - 11.
+	 */
+	IntegerProperty volume();
+
+	// ----------------------------------------------------------------------------------------
+	// Inner classes.
+	// ----------------------------------------------------------------------------------------
 
 	/**
 	 * Enumerated type defining the states the track player may be in.

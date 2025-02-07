@@ -26,9 +26,11 @@ import com.wisneskey.los.service.profile.model.Profile;
 import com.wisneskey.los.state.MusicState;
 import com.wisneskey.los.state.MusicState.PlayerState;
 
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.property.ReadOnlyStringProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -57,6 +59,21 @@ import javafx.util.Pair;
 public class MusicService extends AbstractService<MusicState> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(MusicService.class);
+
+	/**
+	 * Minimum supported volume.
+	 */
+	private static final float MIN_VOLUME = 0.0f;
+
+	/**
+	 * Maximum supported volume.
+	 */
+	private static final float MAX_VOLUME = 11.0f;
+
+	/**
+	 * Maximum allowed scaled factor for mpg123.
+	 */
+	private static final int MAX_SCALE_FACTOR = 32768;
 
 	/**
 	 * Extension a file must end with to be considered a track.
@@ -167,9 +184,12 @@ public class MusicService extends AbstractService<MusicState> {
 
 			Kernel.kernel().message("Playing '" + track.getTitle() + "'\n");
 
+			// Get the scale factor to use for setting the volume of the MP3 playback.
+			int scaleFactor = getScaleFactor(musicState.volume().get());
+
 			// Do the actual launching of the external player in its own thread so
 			// that we do not block the caller.
-			playerThread = new PlayerThread(track.getTrackPath());
+			playerThread = new PlayerThread(track.getTrackPath(), scaleFactor);
 			playerThread.start();
 		}
 	}
@@ -182,7 +202,7 @@ public class MusicService extends AbstractService<MusicState> {
 		synchronized (playerLock) {
 			// Make sure to turn off shuffle play so all music stops.
 			musicState.playerState.setValue(PlayerState.PLAYING_SINGLE);
-			
+
 			if (playing.get()) {
 				playerThread.killProcess(true);
 				LOGGER.info("Player thread process killed.");
@@ -220,6 +240,25 @@ public class MusicService extends AbstractService<MusicState> {
 	// ----------------------------------------------------------------------------------------
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
+
+	/**
+	 * Returns the scale factor for playing a MP3 track at the configured volume
+	 * using mpg123's -f parameter.
+	 * 
+	 * @param  volume Volume to calculate gain adjustment for.
+	 * @return        Gain adjustment to be applied to sound clip to reduce its
+	 *                volume.
+	 */
+	private int getScaleFactor(int volume) {
+
+		float volumeFloat = volume;
+
+		// Make sure volume is in allowed range.
+		volumeFloat = Math.max(MIN_VOLUME, volumeFloat);
+		volumeFloat = Math.min(volumeFloat, MAX_VOLUME);
+
+		return Math.round(MAX_SCALE_FACTOR * (volumeFloat / MAX_VOLUME));
+	}
 
 	/**
 	 * Method invoked by the player thread to report its external process has
@@ -309,7 +348,7 @@ public class MusicService extends AbstractService<MusicState> {
 		// Check and load all playlists.
 		loadPlaylists(profile.getPlaylists());
 
-		musicState = new InternalMusicState();
+		musicState = new InternalMusicState(profile.getMusicVolume());
 
 		if (!playlistMap.isEmpty()) {
 			String playlistName = playlistMap.keySet().iterator().next();
@@ -467,11 +506,14 @@ public class MusicService extends AbstractService<MusicState> {
 	private class PlayerThread extends Thread {
 
 		private String trackPath;
+		private int scaleFactor;
+
 		private Process playerProcess;
 		private boolean notifyWhenDone = true;
 
-		private PlayerThread(String trackPath) {
+		private PlayerThread(String trackPath, int scaleFactor) {
 			this.trackPath = trackPath;
+			this.scaleFactor = scaleFactor;
 
 			setName("ExternalMp3PlayerThread");
 		}
@@ -481,7 +523,8 @@ public class MusicService extends AbstractService<MusicState> {
 
 			try {
 				LOGGER.info("Attempting to play track: {}", trackPath);
-				ProcessBuilder processBuilder = new ProcessBuilder(playerCommand, "-q", trackPath);
+				ProcessBuilder processBuilder = new ProcessBuilder(playerCommand, "-q", "-f", String.valueOf(scaleFactor),
+						trackPath);
 				playerProcess = processBuilder.start();
 
 				// Wait for the process to complete.
@@ -492,6 +535,9 @@ public class MusicService extends AbstractService<MusicState> {
 				if (returnCode != 0) {
 					LOGGER.warn("MP3 player exited with non-zer return of {}", returnCode);
 				}
+			} catch (InterruptedException e) {
+				LOGGER.warn("Interrupted during MP3 playback.");
+				this.interrupt();
 			} catch (Exception e) {
 				LOGGER.warn("Exception during playing of MP3.", e);
 			}
@@ -518,11 +564,20 @@ public class MusicService extends AbstractService<MusicState> {
 	 */
 	private static class InternalMusicState implements MusicState {
 
+		private IntegerProperty volume;
 		private StringProperty currentPlaylistName = new SimpleStringProperty();
 		private StringProperty currentTrackId = new SimpleStringProperty();
 		private StringProperty currentTrackArtist = new SimpleStringProperty();
 		private StringProperty currentTrackName = new SimpleStringProperty();
 		private ObjectProperty<PlayerState> playerState = new SimpleObjectProperty<>(PlayerState.PLAYING_SINGLE);
+
+		// ----------------------------------------------------------------------------------------
+		// Constructors.
+		// ----------------------------------------------------------------------------------------
+
+		private InternalMusicState(int volume) {
+			this.volume = new SimpleIntegerProperty(volume);
+		}
 
 		// ----------------------------------------------------------------------------------------
 		// MusicState methods.
@@ -551,6 +606,11 @@ public class MusicService extends AbstractService<MusicState> {
 		@Override
 		public ReadOnlyProperty<PlayerState> playerState() {
 			return playerState;
+		}
+
+		@Override
+		public IntegerProperty volume() {
+			return volume;
 		}
 	}
 
