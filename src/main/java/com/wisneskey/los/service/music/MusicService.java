@@ -63,18 +63,23 @@ public class MusicService extends AbstractService<MusicState> {
 	/**
 	 * Minimum supported volume.
 	 */
-	private static final float MIN_VOLUME = 0.0f;
+	private static final double MIN_VOLUME = 0.0d;
 
 	/**
 	 * Maximum supported volume.
 	 */
-	private static final float MAX_VOLUME = 11.0f;
+	private static final double MAX_VOLUME = 11.0d;
 
 	/**
 	 * Maximum allowed scaled factor for mpg123.
 	 */
-	private static final int MAX_SCALE_FACTOR = 32768;
+	private static final double MAX_SCALE_FACTOR = 32768;
 
+	/**
+	 * Base of exponential use for emphasizing lower volume scale factors.
+	 */
+	private static final double SCALE_FACTOR_BASE = 1.6d;
+	
 	/**
 	 * Extension a file must end with to be considered a track.
 	 */
@@ -251,13 +256,17 @@ public class MusicService extends AbstractService<MusicState> {
 	 */
 	private int getScaleFactor(int volume) {
 
-		float volumeFloat = volume;
+		double volumeDouble = volume;
 
 		// Make sure volume is in allowed range.
-		volumeFloat = Math.max(MIN_VOLUME, volumeFloat);
-		volumeFloat = Math.min(volumeFloat, MAX_VOLUME);
+		volumeDouble = Math.max(MIN_VOLUME, volumeDouble);
+		volumeDouble = Math.min(volumeDouble, MAX_VOLUME);
 
-		return Math.round(MAX_SCALE_FACTOR * (volumeFloat / MAX_VOLUME));
+		// Use a exponential scale to emphasize scale factor at lower volumes.
+		volumeDouble = Math.pow(SCALE_FACTOR_BASE, volumeDouble);
+		double scaledMax = Math.pow(SCALE_FACTOR_BASE, MAX_VOLUME);
+
+		return (int) Math.round(MAX_SCALE_FACTOR * (volumeDouble / scaledMax));
 	}
 
 	/**
@@ -522,7 +531,7 @@ public class MusicService extends AbstractService<MusicState> {
 		public void run() {
 
 			try {
-				LOGGER.info("Attempting to play track: {}", trackPath);
+				LOGGER.info("Attempting to play track: scaleFactor={} path={}", scaleFactor, trackPath);
 				ProcessBuilder processBuilder = new ProcessBuilder(playerCommand, "-q", "-f", String.valueOf(scaleFactor),
 						trackPath);
 				playerProcess = processBuilder.start();

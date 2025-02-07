@@ -55,7 +55,7 @@
 	//
 	"playlists": {
 		"Laissez Boy": "/users/paul/LaissezMusic",
-		"Test": "/users/paul/LaissezMusic2"
+		"Test": "/users/paul/LaissezMusic"
 	},
 	"playerCommand" : "/opt/homebrew/bin/mpg123"
 }	
