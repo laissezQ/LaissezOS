@@ -77,10 +77,10 @@ public class MusicScreen extends AbstractController {
 	private Label lblTitle;
 
 	/**
-	 * Checkbox for enabling shuffle play.
+	 * Checkbox for enabling auto-play.
 	 */
 	@FXML
-	private CheckBox chkShuffle;
+	private CheckBox chkAutoPlay;
 
 	/**
 	 * Choice box for selecting playlist.
@@ -117,6 +117,9 @@ public class MusicScreen extends AbstractController {
 
 		// Bind the volume control.
 		musicVolumeSlider.valueProperty().bindBidirectional(musicState.volume());
+		
+		// Bind the auto-play check box.
+		chkAutoPlay.selectedProperty().bindBidirectional(musicState.autoPlay());
 	}
 
 	@Override
@@ -135,14 +138,6 @@ public class MusicScreen extends AbstractController {
 	 */
 	public void stopPressed() {
 		((MusicService) kernel().getService(ServiceId.MUSIC)).stopPlaying();
-	}
-
-	/**
-	 * Method invoked if the shuffled check box is toggled.
-	 */
-	public void shufflePressed() {
-
-		((MusicService) kernel().getService(ServiceId.MUSIC)).shufflePlay(chkShuffle.isSelected());
 	}
 
 	/**

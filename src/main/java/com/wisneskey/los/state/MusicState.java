@@ -1,7 +1,7 @@
 package com.wisneskey.los.state;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -34,7 +34,7 @@ public interface MusicState extends State {
 	 * @return Name of the currently selected playlist.
 	 */
 	StringProperty currentPlaylistName();
-	
+
 	/**
 	 * Id of the currently playing track (or null if nothing currently playing).
 	 * 
@@ -43,25 +43,27 @@ public interface MusicState extends State {
 	ReadOnlyStringProperty currentTrackId();
 
 	/**
-	 * Artist for the currently playing track (or null if nothing currently playing).
+	 * Artist for the currently playing track (or null if nothing currently
+	 * playing).
 	 * 
 	 * @return Artist for currently playing track or null if no track playing.
 	 */
 	ReadOnlyStringProperty currentTrackArtist();
-	
+
 	/**
 	 * Name of the currently playing track (or null if nothing currently playing).
 	 * 
 	 * @return Name of currently playing track or null if no track playing.
 	 */
 	ReadOnlyStringProperty currentTrackName();
-	
+
 	/**
-	 * Current state of the track player.
+	 * Property indicating if service should auto-play another track when the
+	 * current one ends.
 	 * 
 	 * @return Enumerated value representing the current state of the player.
 	 */
-	ReadOnlyProperty<PlayerState> playerState();
+	BooleanProperty autoPlay();
 
 	/**
 	 * Volume of the music playback.
@@ -69,16 +71,4 @@ public interface MusicState extends State {
 	 * @return Volume of chair from 0 - 11.
 	 */
 	IntegerProperty volume();
-
-	// ----------------------------------------------------------------------------------------
-	// Inner classes.
-	// ----------------------------------------------------------------------------------------
-
-	/**
-	 * Enumerated type defining the states the track player may be in.
-	 */
-	public enum PlayerState {
-		PLAYING_SINGLE,
-		PLAYING_RANDOM
-	}
 }

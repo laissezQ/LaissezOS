@@ -110,7 +110,7 @@
             </ImageView>
          </graphic>
 		</Button>
-		<CheckBox fx:id="chkShuffle" layoutX="72.0" layoutY="414.0" mnemonicParsing="false" onAction="#shufflePressed" text="Autoplay">
+		<CheckBox fx:id="chkAutoPlay" layoutX="72.0" layoutY="414.0" mnemonicParsing="false" text="Autoplay">
 			<font>
 				<Font size="18.0" />
 			</font>

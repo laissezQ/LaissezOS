@@ -24,14 +24,12 @@ import com.wisneskey.los.service.AbstractService;
 import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.profile.model.Profile;
 import com.wisneskey.los.state.MusicState;
-import com.wisneskey.los.state.MusicState.PlayerState;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.property.ReadOnlyStringProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.util.Pair;
@@ -79,7 +77,7 @@ public class MusicService extends AbstractService<MusicState> {
 	 * Base of exponential use for emphasizing lower volume scale factors.
 	 */
 	private static final double SCALE_FACTOR_BASE = 1.6d;
-	
+
 	/**
 	 * Extension a file must end with to be considered a track.
 	 */
@@ -125,7 +123,7 @@ public class MusicService extends AbstractService<MusicState> {
 	 * Random generator for selecting next track.
 	 */
 	private Random random = new Random();
-	
+
 	// ----------------------------------------------------------------------------------------
 	// Constructors.
 	// ----------------------------------------------------------------------------------------
@@ -205,18 +203,18 @@ public class MusicService extends AbstractService<MusicState> {
 	}
 
 	/**
-	 * Move on to another track selected randomly if playing mode is  or
-	 * stops the track if single playback mode. 
+	 * Move on to another track selected randomly if playing mode is or stops the
+	 * track if single playback mode.
 	 */
-	public void nextTrack()
-	{
+	public void nextTrack() {
 		synchronized (playerLock) {
 
 			if (playing.get()) {
-				// Stop the current track.  If auto play was enabled, a new track will be started.
+				// Stop the current track. If auto play was enabled, a new track will be
+				// started.
 				playerThread.killProcess(true);
 			} else {
-				
+
 				// Just pick a track to play at random since nothing was playing.
 				String nextTrackId = pickNextTrackAtRandom(null);
 				if (nextTrackId != null) {
@@ -225,18 +223,16 @@ public class MusicService extends AbstractService<MusicState> {
 			}
 		}
 	}
-	
+
 	/**
 	 * Stop a track from playing if one is playing.
 	 */
 	public void stopPlaying() {
 
 		synchronized (playerLock) {
-			// Make sure to turn off shuffle play so all music stops.
-			musicState.playerState.setValue(PlayerState.PLAYING_SINGLE);
-
 			if (playing.get()) {
-				playerThread.killProcess(true);
+				playerThread.killProcess(false);
+				playing.set(false);
 				LOGGER.info("Player thread process killed.");
 			}
 
@@ -244,15 +240,6 @@ public class MusicService extends AbstractService<MusicState> {
 			musicState.currentTrackArtist.set(null);
 			musicState.currentTrackName.set(null);
 		}
-	}
-
-	/**
-	 * Sets whether or not shuffle play is enabled.
-	 * 
-	 * @param shufflePlay Flag indicating if shuffle play is enabled.
-	 */
-	public void shufflePlay(boolean shufflePlay) {
-		musicState.playerState.set(shufflePlay ? PlayerState.PLAYING_RANDOM : PlayerState.PLAYING_SINGLE);
 	}
 
 	// ----------------------------------------------------------------------------------------
@@ -313,7 +300,7 @@ public class MusicService extends AbstractService<MusicState> {
 		musicState.currentTrackName.set(null);
 
 		// If shuffle play is enabled, we need to play another track at random.
-		if (musicState.playerState().getValue() == PlayerState.PLAYING_RANDOM) {
+		if (musicState.autoPlay().getValue().booleanValue()) {
 
 			String nextTrackId = pickNextTrackAtRandom(previousTrackId);
 			if (nextTrackId != null) {
@@ -392,7 +379,6 @@ public class MusicService extends AbstractService<MusicState> {
 		musicState.currentTrackId.set(null);
 		musicState.currentTrackArtist.set(null);
 		musicState.currentTrackName.set(null);
-		musicState.playerState.set(PlayerState.PLAYING_SINGLE);
 
 		return musicState;
 	}
@@ -603,7 +589,7 @@ public class MusicService extends AbstractService<MusicState> {
 		private StringProperty currentTrackId = new SimpleStringProperty();
 		private StringProperty currentTrackArtist = new SimpleStringProperty();
 		private StringProperty currentTrackName = new SimpleStringProperty();
-		private ObjectProperty<PlayerState> playerState = new SimpleObjectProperty<>(PlayerState.PLAYING_SINGLE);
+		private BooleanProperty autoPlay = new SimpleBooleanProperty(true);
 
 		// ----------------------------------------------------------------------------------------
 		// Constructors.
@@ -638,8 +624,8 @@ public class MusicService extends AbstractService<MusicState> {
 		}
 
 		@Override
-		public ReadOnlyProperty<PlayerState> playerState() {
-			return playerState;
+		public BooleanProperty autoPlay() {
+			return autoPlay;
 		}
 
 		@Override
