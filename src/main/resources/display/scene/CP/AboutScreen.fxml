@@ -141,11 +141,16 @@
 												<Font size="14.0" />
 											</font>
 										</Label>
-										<Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="64.0" prefWidth="180.0" text="Favorite Child">
+										<Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="64.0" prefWidth="180.0" text="Favorite Child #1">
 											<font>
 												<Font size="14.0" />
 											</font>
 										</Label>
+                              <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="82.0" prefWidth="180.0" text="Favorite Child #2">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
 										<Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="28.0" prefWidth="180.0">
 											<font>
 												<Font size="14.0" />
@@ -230,6 +235,11 @@
 												<Font size="14.0" />
 											</font>
 										</Label>
+                              <Label layoutX="10.0" layoutY="82.0" prefWidth="160.0" text="Maggie">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
 										<Label layoutX="10.0" layoutY="28.0" prefWidth="160.0">
 											<font>
 												<Font size="14.0" />
