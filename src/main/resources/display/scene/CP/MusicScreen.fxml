@@ -58,7 +58,7 @@
 				<Font size="18.0" />
 			</font>
 		</Label>
-		<Label layoutX="19.0" layoutY="256.0" text="Artist:" textAlignment="CENTER">
+		<Label layoutX="19.0" layoutY="283.0" text="Artist:" textAlignment="CENTER">
 			<effect>
 				<DropShadow />
 			</effect>
@@ -71,7 +71,7 @@
 				<DropShadow />
 			</effect>
 		</Line>
-		<Label layoutX="18.0" layoutY="285.0" text="Track:" textAlignment="CENTER">
+		<Label layoutX="18.0" layoutY="250.0" text="Track:" textAlignment="CENTER">
 			<effect>
 				<DropShadow />
 			</effect>
@@ -79,7 +79,7 @@
 				<Font size="18.0" />
 			</font>
 		</Label>
-		<Label fx:id="lblArtist" layoutX="81.0" layoutY="256.0" prefHeight="17.0" prefWidth="287.0" textFill="#32c54f">
+		<Label fx:id="lblArtist" layoutX="81.0" layoutY="283.0" prefHeight="23.0" prefWidth="304.0" textFill="#32c54f">
 			<font>
 				<Font size="18.0" />
 			</font>
@@ -87,7 +87,7 @@
 				<DropShadow />
 			</effect>
 		</Label>
-		<Label fx:id="lblTitle" layoutX="81.0" layoutY="285.0" prefHeight="17.0" prefWidth="287.0" textFill="#32c54f">
+		<Label fx:id="lblTitle" layoutX="81.0" layoutY="250.0" prefHeight="23.0" prefWidth="304.0" textFill="#32c54f">
 			<font>
 				<Font size="18.0" />
 			</font>
@@ -132,7 +132,7 @@
 				<DropShadow />
 			</effect>
 		</Slider>
-      <Button layoutX="291.0" layoutY="405.0" mnemonicParsing="false" onAction="#nextTrackPressed" prefHeight="27.0" prefWidth="57.0">
+      <Button layoutX="291.0" layoutY="405.0" mnemonicParsing="false" onAction="#nextTrackPressed" prefHeight="45.0" prefWidth="57.0">
          <effect>
             <DropShadow />
          </effect>

@@ -176,7 +176,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Line endX="90.0" startX="10.0" strokeWidth="3.0">
+            <Line endX="90.0" startX="10.0" strokeWidth="2.0">
                <effect>
                   <DropShadow />
                </effect>
