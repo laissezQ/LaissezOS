@@ -191,7 +191,9 @@ public class MusicService extends AbstractService<MusicState> {
 			musicState.currentTrackArtist.set(track.getArtist());
 			musicState.currentTrackName.set(track.getTitle());
 
-			Kernel.kernel().message("Playing '" + track.getTitle() + "'\n");
+			if( !isBooting()) {
+				Kernel.kernel().message("Playing '" + track.getTitle() + "'\n");
+			}
 
 			// Get the scale factor to use for setting the volume of the MP3 playback.
 			int scaleFactor = getScaleFactor(musicState.volume().get());

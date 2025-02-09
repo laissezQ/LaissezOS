@@ -31,8 +31,11 @@ import com.wisneskey.los.service.display.map.MapServiceTileFactory;
 import com.wisneskey.los.service.lighting.LightingService;
 import com.wisneskey.los.service.location.Location;
 import com.wisneskey.los.service.music.MusicService;
+import com.wisneskey.los.service.relay.RelayId;
+import com.wisneskey.los.service.relay.RelayService;
 import com.wisneskey.los.state.LocationState;
 import com.wisneskey.los.state.MapState;
+import com.wisneskey.los.state.RelayState;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -242,7 +245,6 @@ public class MainScreen extends AbstractController {
 		((MusicService) kernel().getService(ServiceId.MUSIC)).nextTrack();
 	}
 	
-
 	/**
 	 * Method invoked when the current lighting button is pressed.
 	 */
@@ -250,7 +252,21 @@ public class MainScreen extends AbstractController {
 		((LightingService) kernel().getService(ServiceId.LIGHTING)).playRandomEffect(false);
 	}
 
-	
+	/**
+	 * Method invoked when the police light button is pressed.
+	 */
+	public void togglePoliceLights() {
+		RelayState relayState = kernel().chairState().getServiceState(ServiceId.RELAY);
+		boolean lightOn = relayState.getState(RelayId.POLICE_POWER).getValue().booleanValue();
+			
+		RelayService relayService = kernel().getService(ServiceId.RELAY);
+		if( lightOn ) {
+			relayService.turnOff(RelayId.POLICE_POWER);
+		} else {
+			relayService.turnOn(RelayId.POLICE_POWER);
+		}
+	}
+
 	// ----------------------------------------------------------------------------------------
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------

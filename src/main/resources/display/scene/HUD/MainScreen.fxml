@@ -196,6 +196,21 @@
                   </ImageView>
                </graphic>
             </Button>
+            <Button mnemonicParsing="false" onAction="#togglePoliceLights" prefHeight="60.0" prefWidth="80.0" style="-fx-background-color: #b3b3b3;">
+               <effect>
+                  <DropShadow />
+               </effect>
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="39.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/police_light.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
          </children>
          <padding>
             <Insets left="10.0" />
