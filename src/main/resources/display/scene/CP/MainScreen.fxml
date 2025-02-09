@@ -112,7 +112,7 @@
             <DropShadow />
          </effect>
       </Line>
-      <Label layoutX="138.0" layoutY="228.0" text="Current Lighting">
+      <Label layoutX="130.0" layoutY="228.0" text="Current Lighting">
          <effect>
             <DropShadow />
          </effect>

@@ -1,5 +1,8 @@
 package com.wisneskey.los.service;
 
+import com.wisneskey.los.kernel.Kernel;
+import com.wisneskey.los.state.ChairState;
+import com.wisneskey.los.state.ChairState.MasterState;
 import com.wisneskey.los.state.State;
 
 /**
@@ -46,5 +49,20 @@ public abstract class AbstractService<T extends State> implements Service<T> {
 	@Override
 	public ServiceId getServiceId() {
 		return serviceId;
+	}
+	
+	// ----------------------------------------------------------------------------------------
+	// Supporting methods.
+	// ----------------------------------------------------------------------------------------
+
+	/**
+	 * Returns true if the chair is consider to be booting.  Usually used to suppress messages
+	 * that we do not want to interrupt the theatrical boot messages.
+	 * 
+	 * @return True iff chair is in booting state.
+	 */
+	protected boolean isBooting() {
+		ChairState chairState = Kernel.kernel().chairState();
+		return chairState.masterState().getValue() == MasterState.BOOTING;
 	}
 }

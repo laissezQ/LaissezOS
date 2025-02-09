@@ -121,7 +121,11 @@ public class LightingService extends AbstractService<LightingState> {
 
 		lightingState.setCurrentEffect(effectId);
 		lightingDriver.playEffect(effectId, lightingState);
-		Kernel.kernel().message("Lighting effect now '" + effectId.getShortName() + "'\n");
+
+		// Only show the new lighting effect if we are not booting.
+		if (! isBooting()) {
+			Kernel.kernel().message("Lighting effect now '" + effectId.getShortName() + "'\n");
+		}
 	}
 
 	/**
@@ -136,7 +140,7 @@ public class LightingService extends AbstractService<LightingState> {
 		Set<LightingEffectId> availableEffects = requireChapMode ? //
 				LightingEffectId.chapModeEffects() : //
 				Set.of(LightingEffectId.values());
-		
+
 		// Remove current effect and all off from consideration.
 		availableEffects = new HashSet<>(availableEffects);
 		availableEffects.remove(LightingEffectId.ALL_OFF);
