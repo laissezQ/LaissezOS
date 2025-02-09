@@ -38,7 +38,7 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
-      <Slider fx:id="masterVolumeSlider" blockIncrement="1.0" layoutX="36.0" layoutY="970.0" majorTickUnit="1.0" max="11.0" minorTickCount="0" prefHeight="38.0" prefWidth="329.0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
+      <Slider fx:id="masterVolumeSlider" blockIncrement="1.0" layoutX="36.0" layoutY="970.0" majorTickUnit="1.0" max="11.0" minorTickCount="0" prefHeight="38.0" prefWidth="329.0" showTickLabels="true" showTickMarks="true">
          <effect>
             <DropShadow />
          </effect>
@@ -59,7 +59,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Slider fx:id="chapVolumeSlider" blockIncrement="1.0" layoutX="35.0" layoutY="1075.0" majorTickUnit="1.0" max="11.0" minorTickCount="0" prefHeight="38.0" prefWidth="329.0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
+      <Slider fx:id="chapVolumeSlider" blockIncrement="1.0" layoutX="35.0" layoutY="1075.0" majorTickUnit="1.0" max="11.0" minorTickCount="0" prefHeight="38.0" prefWidth="329.0" showTickLabels="true" showTickMarks="true">
          <effect>
             <DropShadow />
          </effect>

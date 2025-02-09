@@ -46,7 +46,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Slider fx:id="brightnessSlider" layoutX="36.0" layoutY="431.0" majorTickUnit="20.0" minorTickCount="10" prefHeight="38.0" prefWidth="329.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="50.0">
+      <Slider fx:id="brightnessSlider" layoutX="36.0" layoutY="431.0" majorTickUnit="20.0" minorTickCount="10" prefHeight="38.0" prefWidth="329.0" showTickLabels="true" showTickMarks="true" value="50.0">
          <effect>
             <DropShadow />
          </effect>
@@ -107,7 +107,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Slider fx:id="speedSlider" blockIncrement="16.0" layoutX="37.0" layoutY="512.0" majorTickUnit="32.0" max="255.0" minorTickCount="16" prefHeight="38.0" prefWidth="329.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="128.0">
+      <Slider fx:id="speedSlider" blockIncrement="16.0" layoutX="37.0" layoutY="512.0" majorTickUnit="32.0" max="255.0" minorTickCount="16" prefHeight="38.0" prefWidth="329.0" showTickLabels="true" showTickMarks="true" value="128.0">
          <effect>
             <DropShadow />
          </effect>
@@ -128,7 +128,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Slider fx:id="intensitySlider" blockIncrement="16.0" layoutX="37.0" layoutY="590.0" majorTickUnit="32.0" max="255.0" minorTickCount="16" prefHeight="38.0" prefWidth="329.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="128.0">
+      <Slider fx:id="intensitySlider" blockIncrement="16.0" layoutX="37.0" layoutY="590.0" majorTickUnit="32.0" max="255.0" minorTickCount="16" prefHeight="38.0" prefWidth="329.0" showTickLabels="true" showTickMarks="true" value="128.0">
          <effect>
             <DropShadow />
          </effect>

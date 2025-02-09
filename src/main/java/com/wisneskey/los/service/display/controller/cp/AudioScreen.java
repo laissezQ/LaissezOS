@@ -85,6 +85,10 @@ public class AudioScreen extends AbstractController {
 		masterVolumeSlider.valueProperty().bindBidirectional(audioState.volume());
 		chapVolumeSlider.valueProperty().bindBidirectional(audioState.chapModeVolume());
 
+		// Enable the user to click on the sliders to set the volume.
+		masterVolumeSlider.setOnMouseClicked(new SliderClickHandler(masterVolumeSlider));
+		chapVolumeSlider.setOnMouseClicked(new SliderClickHandler(chapVolumeSlider));
+
 		// Get all of the audio clips and sort their descriptions alphabetically for
 		// display.
 		Map<String, SoundEffectId> effects = Arrays.stream(SoundEffectId.values())
@@ -102,7 +106,7 @@ public class AudioScreen extends AbstractController {
 			soundEffectsBox.getChildren().add(clipButton);
 		}
 		
-		logo.setOnMouseClicked(new DoubleClickListener(e -> resumePressed()));
+		logo.setOnMouseClicked(new DoubleClickListener(e -> resumePressed()));		
 	}
 
 	@Override

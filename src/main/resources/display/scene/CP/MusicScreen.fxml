@@ -118,7 +118,10 @@
 				<DropShadow />
 			</effect>
 		</CheckBox>
-		<ChoiceBox fx:id="choicePlaylist" layoutX="66.0" layoutY="478.0" prefHeight="27.0" prefWidth="261.0" />
+		<ChoiceBox fx:id="choicePlaylist" layoutX="99.0" layoutY="477.0" prefHeight="27.0" prefWidth="264.0">
+         <effect>
+            <DropShadow />
+         </effect></ChoiceBox>
 		<Label layoutX="143.0" layoutY="325.0" text="Music Volume" textAlignment="CENTER">
 			<font>
 				<Font size="18.0" />
@@ -127,7 +130,7 @@
 				<DropShadow />
 			</effect>
 		</Label>
-		<Slider fx:id="musicVolumeSlider" blockIncrement="1.0" layoutX="37.0" layoutY="353.0" majorTickUnit="1.0" max="11.0" minorTickCount="0" prefHeight="38.0" prefWidth="329.0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
+		<Slider fx:id="musicVolumeSlider" blockIncrement="1.0" layoutX="37.0" layoutY="353.0" majorTickUnit="1.0" max="11.0" minorTickCount="0" prefHeight="38.0" prefWidth="329.0" showTickLabels="true" showTickMarks="true">
 			<effect>
 				<DropShadow />
 			</effect>
@@ -147,5 +150,13 @@
             </ImageView>
          </graphic>
       </Button>
+      <Label layoutX="27.0" layoutY="480.0" prefHeight="23.0" prefWidth="71.0" text="Playlist:" textAlignment="CENTER">
+         <effect>
+            <DropShadow />
+         </effect>
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
 	</children>
 </Pane>

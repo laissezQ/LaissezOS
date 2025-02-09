@@ -111,6 +111,11 @@ public class LightingScreen extends AbstractController {
 		intensitySlider.valueProperty().bindBidirectional(lightingState.intensity());
 		reversedCheckbox.selectedProperty().bindBidirectional(lightingState.reversed());
 
+		// Enable the user to click on the sliders to set the volume.
+		brightnessSlider.setOnMouseClicked(new SliderClickHandler(brightnessSlider));
+		speedSlider.setOnMouseClicked(new SliderClickHandler(speedSlider));
+		intensitySlider.setOnMouseClicked(new SliderClickHandler(intensitySlider));
+
 		// Bind the color pickers to their state counterparts.
 		firstPicker.valueProperty().bindBidirectional(lightingState.firstColor());
 		secondPicker.valueProperty().bindBidirectional(lightingState.secondColor());

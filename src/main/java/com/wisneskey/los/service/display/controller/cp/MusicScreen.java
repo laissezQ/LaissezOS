@@ -88,6 +88,7 @@ public class MusicScreen extends AbstractController {
 	@FXML
 	private ChoiceBox<String> choicePlaylist;
 
+	
 	// ----------------------------------------------------------------------------------------
 	// Public methods.
 	// ----------------------------------------------------------------------------------------
@@ -120,6 +121,9 @@ public class MusicScreen extends AbstractController {
 		
 		// Bind the auto-play check box.
 		chkAutoPlay.selectedProperty().bindBidirectional(musicState.autoPlay());
+		
+		// Enable the user to click on the slider to set the volume.
+		musicVolumeSlider.setOnMouseClicked(new SliderClickHandler(musicVolumeSlider));
 	}
 
 	@Override

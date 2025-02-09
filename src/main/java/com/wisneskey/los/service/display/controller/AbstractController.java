@@ -8,10 +8,13 @@ import com.wisneskey.los.service.script.ScriptService;
 import com.wisneskey.los.state.ChairState;
 import com.wisneskey.los.state.ChairState.BarState;
 
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Font;
 
 /**
@@ -65,10 +68,10 @@ public abstract class AbstractController implements SceneController {
 	public void remoteButtonPressed(RemoteButtonId buttonId) {
 
 		// By default, the B button on the remote works the bar.
-		if( buttonId == RemoteButtonId.REMOTE_BUTTON_B) {
+		if (buttonId == RemoteButtonId.REMOTE_BUTTON_B) {
 
 			BarState barState = chairState().barState().getValue();
-			if( barState == BarState.LOWERED ) {
+			if (barState == BarState.LOWERED) {
 				runScript(ScriptId.BAR_RAISE);
 			} else if (barState == BarState.RAISED) {
 				runScript(ScriptId.BAR_LOWER);
@@ -119,7 +122,7 @@ public abstract class AbstractController implements SceneController {
 	protected ChairState chairState() {
 		return Kernel.kernel().chairState();
 	}
-	
+
 	/**
 	 * Runs a specified script.
 	 * 
@@ -128,5 +131,38 @@ public abstract class AbstractController implements SceneController {
 	protected void runScript(ScriptId scriptId) {
 
 		((ScriptService) Kernel.kernel().getService(ServiceId.SCRIPT)).runScript(scriptId);
+	}
+
+	// ----------------------------------------------------------------------------------------
+	// Inner classes.
+	// ----------------------------------------------------------------------------------------
+
+	/**
+	 * Event handler to let user click on a slider to set its value (as opposed to trying to
+	 * drag the slider which is hard on the chair's small touchscreens.
+	 */
+	protected class SliderClickHandler implements EventHandler<MouseEvent> {
+
+		private Slider slider;
+
+		// ----------------------------------------------------------------------------------------
+		// Constructors.
+		// ----------------------------------------------------------------------------------------
+
+		public SliderClickHandler(Slider slider) {
+			this.slider = slider;
+		}
+
+		// ----------------------------------------------------------------------------------------
+		// EventHandler methods.
+		// ----------------------------------------------------------------------------------------
+
+		@Override
+		public void handle(MouseEvent event) {
+			slider.setValueChanging(true);
+			double newValue = (event.getX() / slider.getWidth()) * slider.getMax();
+			slider.setValue(newValue);
+			slider.setValueChanging(false);
+		}
 	}
 }
