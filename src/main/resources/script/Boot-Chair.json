@@ -22,6 +22,11 @@
 			}
 		},
 		{
+			"relayOn": {
+				"relayId": "AMPLIFIER"
+			}
+		},
+		{
 			"runLightingEffect": {
 				"effectId": "LOADING"
 			}
@@ -93,11 +98,6 @@
 					"Cyber Chair 2000 is now online!\n"
 				],
 				"postCommandPause": 1.0
-			}
-		},
-		{
-			"relayOn": {
-				"relayId": "AMPLIFIER"
 			}
 		},
 		{
