@@ -562,7 +562,7 @@ public class MusicService extends AbstractService<MusicState> {
 				LOGGER.info("External player completed: rc={}", returnCode);
 
 				if (returnCode != 0) {
-					LOGGER.warn("MP3 player exited with non-zer return of {}", returnCode);
+					LOGGER.warn("MP3 player exited with non-zero return of {}", returnCode);
 				}
 			} catch (InterruptedException e) {
 				LOGGER.warn("Interrupted during MP3 playback.");

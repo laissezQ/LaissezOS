@@ -15,6 +15,10 @@
 	// Display service settings:
 	//
 	"displayStyle": "LAISSEZ_OS",
+	// 
+	// Audio settings:
+	//
+	"soundEffectDir" : "/users/paul/SoundEffects",
 	//
 	// Lighting service settings (assuming ssh tunnel to controller on chair):
 	//

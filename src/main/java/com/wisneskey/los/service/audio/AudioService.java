@@ -1,17 +1,8 @@
 package com.wisneskey.los.service.audio;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.concurrent.CountDownLatch;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.FloatControl;
-import javax.sound.sampled.LineEvent;
-import javax.sound.sampled.Mixer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +14,6 @@ import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.profile.model.Profile;
 import com.wisneskey.los.state.AudioState;
 import com.wisneskey.los.state.ChairState.MasterState;
-import com.wisneskey.los.util.StopWatch;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -64,19 +54,14 @@ public class AudioService extends AbstractService<AudioState> {
 	private static final float MAX_VOLUME = 11.0f;
 
 	/**
-	 * Minimum allowed gain adjustment (e.g. none).
+	 * Maximum allowed scaled factor for mpg123.
 	 */
-	private static final float MIN_GAIN_ADJUSTMENT = 0.0f;
+	private static final double MAX_SCALE_FACTOR = 32768;
 
 	/**
-	 * Maximum allowed gain adjustment (e.g. silent).
+	 * Base of exponential use for emphasizing lower volume scale factors.
 	 */
-	private static final float MAX_GAIN_ADJUSTMENT = -80.0f;
-
-	/**
-	 * Base path for where audio clips are saved in the resources.
-	 */
-	private static final String AUDIO_RESOURCE_BASE = "/audio/";
+	private static final double SCALE_FACTOR_BASE = 1.6d;
 
 	/**
 	 * Object for the state of the audio service.
@@ -84,9 +69,14 @@ public class AudioService extends AbstractService<AudioState> {
 	private InternalAudioState audioState;
 
 	/**
-	 * Mixer for audio output.
+	 * Command to use to start the external player.
 	 */
-	private Mixer.Info selectedMixer;
+	private String playerCommand;
+
+	/**
+	 * Base path to the sound effect MP3s.
+	 */
+	private String basePath;
 
 	// ----------------------------------------------------------------------------------------
 	// Constructors.
@@ -112,23 +102,21 @@ public class AudioService extends AbstractService<AudioState> {
 	 */
 	public void playEffect(SoundEffectId effectId, boolean waitForCompletion) {
 
-		IntegerProperty volumeProperty;
+		// Get the scale factor to use for setting the volume of the MP3 playback.
+		int scaleFactor;
+
 		if (Kernel.kernel().chairState().masterState().getValue() == MasterState.CHAP) {
-			volumeProperty = audioState.chapModeVolume();
+			scaleFactor = getScaleFactor(audioState.chapModeVolume().get());
 		} else {
-			volumeProperty = audioState.volume();
+			scaleFactor = getScaleFactor(audioState.volume().get());
 		}
 
-		float gainAdjustment = getGainAdjustment(volumeProperty.get(), effectId.clipGain());
+		// Get the path to the MP3 file for the effect.
+		Path mp3Path = Paths.get(basePath, effectId.getFileName());
 
-		LOGGER.debug("Playing sound effect: id={} volume={} gainAdjustment={}", effectId, volumeProperty.getValue(),
-				gainAdjustment);
+		LOGGER.debug("Playing sound effect: id={} mp3={} scaleFactor={}", effectId, mp3Path, scaleFactor);
 
-		Thread playerThread = new SoundEffectPlayerThread(//
-				effectId, //
-				gainAdjustment, //
-				audioState.playingCount(), //
-				selectedMixer);
+		Thread playerThread = new SoundEffectPlayerThread(mp3Path.toString(), scaleFactor);
 		playerThread.start();
 
 		if (waitForCompletion) {
@@ -168,51 +156,44 @@ public class AudioService extends AbstractService<AudioState> {
 
 		LOGGER.info("Initializing audio service...");
 
-		// Find the appropriate mixer based on our environment.
-		Mixer.Info[] mixerInfo = AudioSystem.getMixerInfo();
-		for (int i = 0; i < mixerInfo.length; i++) {
-
-			if ("Default Audio Device".equals(mixerInfo[i].getName())
-					|| mixerInfo[i].getDescription().startsWith("Direct Audio Device: USB Composite Device")) {
-				selectedMixer = mixerInfo[i];
-				break;
-			}
+		// Make sure the external player is defined.
+		if (profile.getPlayerCommand() == null) {
+			throw new LaissezException("External MP3 player not set in profile.");
 		}
 
-		if (selectedMixer == null) {
-			throw new LaissezException("No suitable audio mixer found.");
+		// Make sure base path is defined.
+		if (profile.getSoundEffectDir() == null) {
+			throw new LaissezException("Sound effect directory not set.");
 		}
 
-		LOGGER.debug("Selected audio mixer: name={} description={}", selectedMixer.getName(),
-				selectedMixer.getDescription());
+		this.playerCommand = profile.getPlayerCommand();
+		this.basePath = profile.getSoundEffectDir();
 
 		audioState = new InternalAudioState(profile.getVolume(), profile.getChapModeVolume());
 		return audioState;
 	}
 
 	/**
-	 * Returns the gain adjustment (reduction in gain) to be applied to a sound
-	 * clip to play it at the indicated volume.
+	 * Returns the scale factor for playing a MP3 track at the configured volume
+	 * using mpg123's -f parameter.
 	 * 
 	 * @param  volume Volume to calculate gain adjustment for.
 	 * @return        Gain adjustment to be applied to sound clip to reduce its
 	 *                volume.
 	 */
-	private float getGainAdjustment(int volume, float clipAdjustment) {
+	private int getScaleFactor(int volume) {
 
-		float volumeFloat = volume;
+		double volumeDouble = volume;
 
 		// Make sure volume is in allowed range.
-		volumeFloat = Math.max(MIN_VOLUME, volumeFloat);
-		volumeFloat = Math.min(volumeFloat, MAX_VOLUME);
+		volumeDouble = Math.max(MIN_VOLUME, volumeDouble);
+		volumeDouble = Math.min(volumeDouble, MAX_VOLUME);
 
-		// Add the clip adjustment after we limit the range so that some clips can
-		// go slightly above or below the range.
-		volumeFloat += clipAdjustment;
+		// Use a exponential scale to emphasize scale factor at lower volumes.
+		volumeDouble = Math.pow(SCALE_FACTOR_BASE, volumeDouble);
+		double scaledMax = Math.pow(SCALE_FACTOR_BASE, MAX_VOLUME);
 
-		// Gain adjustment is applied to lower volume so we invert the percentage.
-		float adjustPercent = 1.0f - (volumeFloat / MAX_VOLUME);
-		return MIN_GAIN_ADJUSTMENT + adjustPercent * (MAX_GAIN_ADJUSTMENT + MIN_GAIN_ADJUSTMENT);
+		return (int) Math.round(MAX_SCALE_FACTOR * (volumeDouble / scaledMax));
 	}
 
 	// ----------------------------------------------------------------------------------------
@@ -237,122 +218,47 @@ public class AudioService extends AbstractService<AudioState> {
 	// Inner classes.
 	// ----------------------------------------------------------------------------------------
 
-	/**
-	 * Thread for playing a sound effect via the javax.sound classes.
-	 */
-	private static class SoundEffectPlayerThread extends Thread {
+	private class SoundEffectPlayerThread extends Thread {
 
-		private static final Logger PLAYER_LOGGER = LoggerFactory.getLogger("EffectPlayer");
+		private String trackPath;
+		private int scaleFactor;
 
-		/**
-		 * Id of the sound effect to play back.
-		 */
-		private SoundEffectId effectId;
+		private SoundEffectPlayerThread(String trackPath, int scaleFactor) {
+			this.trackPath = trackPath;
+			this.scaleFactor = scaleFactor;
 
-		/**
-		 * Adjustment to apply to lower the volume of the clip.
-		 */
-		private float gainAdjustment;
-
-		/**
-		 * Counter for number of clips playing from the internal audio state.
-		 */
-		private AtomicInteger playingCount;
-
-		/**
-		 * Mixer to use for audio playback.
-		 */
-		private Mixer.Info mixer;
-
-		// ----------------------------------------------------------------------------------------
-		// Constructors.
-		// ----------------------------------------------------------------------------------------
-
-		public SoundEffectPlayerThread(SoundEffectId effectId, float gainAdjustment, AtomicInteger playingCount,
-				Mixer.Info mixer) {
-			this.effectId = effectId;
-			this.gainAdjustment = gainAdjustment;
-			this.playingCount = playingCount;
-			this.mixer = mixer;
-
-			setDaemon(true);
-			setName("SoundEffectPlayer[" + effectId + "]");
+			setName("SoundEffectPlayerThread");
 		}
-
-		// ----------------------------------------------------------------------------------------
-		// Thread methods.
-		// ----------------------------------------------------------------------------------------
 
 		@Override
 		public void run() {
 
-			PLAYER_LOGGER.trace("Player thread started...");
-
-			String resourceLocation = AUDIO_RESOURCE_BASE + effectId.getResourcePath();
-			PLAYER_LOGGER.trace("Audio clip resource: {}", resourceLocation);
-
-			boolean playingStarted = false;
 			try {
+				LOGGER.info("Attempting to play sound effect: scaleFactor={} path={}", scaleFactor, trackPath);
+				ProcessBuilder processBuilder = new ProcessBuilder(//
+						playerCommand, //
+						// "-o", //
+						// "alsa:hw:2,0", //
+						"-q", //
+						"-f", //
+						String.valueOf(scaleFactor), //
+						trackPath);
+				Process playerProcess = processBuilder.start();
 
-				CountDownLatch waitLatch = new CountDownLatch(1);
-				StopWatch timer = new StopWatch();
+				// Wait for the process to complete.
+				int returnCode = playerProcess.waitFor();
 
-				// Load the resource to play back as a clip. Put it in a buffered input
-				// stream so that stream can rewind after reading the header
-				// information.
-				InputStream source = getClass().getResourceAsStream(resourceLocation);
-				if (source == null) {
-					throw new IOException("Sound effect resource not found.");
+				LOGGER.info("External player completed: rc={}", returnCode);
+
+				if (returnCode != 0) {
+					LOGGER.warn("MP3 player exited with non-zero return of {}", returnCode);
 				}
-
-				BufferedInputStream bufferedSource = new BufferedInputStream(source);
-				AudioInputStream audioIn = AudioSystem.getAudioInputStream(bufferedSource);
-				Clip clip = AudioSystem.getClip(mixer);
-
-				// Add a listener so we can wait until the clip stops playing and then
-				// close it.
-				clip.addLineListener(e -> {
-					if (e.getType() == LineEvent.Type.STOP) {
-						clip.close();
-						waitLatch.countDown();
-					}
-				});
-
-				clip.open(audioIn);
-
-				// Adjust the volume by applying the supplied gain adjustment.
-				FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-				gainControl.setValue(gainAdjustment);
-
-				// Start the playback.
-				playingStarted = true;
-				playingCount.incrementAndGet();
-				clip.start();
-
-				if (PLAYER_LOGGER.isTraceEnabled()) {
-					PLAYER_LOGGER.trace("Audio clip playback started; time until start: {}", timer.elapsedAsString());
-				}
-
-				// Now wait for the clip to complete playing.
-				waitLatch.await();
-
-				if (PLAYER_LOGGER.isTraceEnabled()) {
-					PLAYER_LOGGER.trace("Audio clip playback completed; total time: {}", timer.elapsedAsString());
-				}
-
 			} catch (InterruptedException e) {
-				PLAYER_LOGGER.error("Interrupted while playing sound effect.");
-				Thread.currentThread().interrupt();
+				LOGGER.warn("Interrupted during MP3 playback.");
+				this.interrupt();
 			} catch (Exception e) {
-				PLAYER_LOGGER.error("Failed to play sound effect: " + effectId, e);
+				LOGGER.warn("Exception during playing of MP3.", e);
 			}
-
-			// If we started the playing then make sure we decrement the playing
-			// count.
-			if (playingStarted) {
-				playingCount.decrementAndGet();
-			}
-			PLAYER_LOGGER.trace("Player thread ended.");
 		}
 	}
 

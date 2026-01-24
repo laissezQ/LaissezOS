@@ -156,6 +156,12 @@ public class Profile {
 	 * Volume of the chair in chap mode.
 	 */
 	private int chapModeVolume = DEFAULT_CHAP_MODE_VOLUME;
+	
+	/**
+	 * Directory the MP3s for sound effects are in.
+	 */
+	private String soundEffectDir;
+	
 
 	// ----------------------------------------------------------------------------------------
 	// Display service settings.
@@ -331,6 +337,14 @@ public class Profile {
 		return chapModeVolume;
 	}
 
+	/**
+	 * Returns the path to the directory containing the mp3s for sound effects.
+	 * @return Path to sound effect directory.
+	 */
+	public String getSoundEffectDir() {
+		return soundEffectDir;
+	}
+	
 	// ----------------------------------------------------------------------------------------
 	// Display service property getters.
 	// ----------------------------------------------------------------------------------------

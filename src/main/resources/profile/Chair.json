@@ -16,6 +16,7 @@
 	//
 	"volume": 5,
 	"chapModeVolume": 5,
+	"soundEffectDir" : "/home/pwisneskey/SoundEffects",	
 	// 
 	// Display service settings:
 	//
