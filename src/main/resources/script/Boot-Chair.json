@@ -22,11 +22,6 @@
 			}
 		},
 		{
-			"relayOn": {
-				"relayId": "AMPLIFIER"
-			}
-		},
-		{
 			"runLightingEffect": {
 				"effectId": "LOADING"
 			}

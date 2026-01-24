@@ -191,7 +191,7 @@ public class MusicService extends AbstractService<MusicState> {
 			musicState.currentTrackArtist.set(track.getArtist());
 			musicState.currentTrackName.set(track.getTitle());
 
-			if( !isBooting()) {
+			if (!isBooting()) {
 				Kernel.kernel().message("Playing '" + track.getTitle() + "'\n");
 			}
 
@@ -348,10 +348,6 @@ public class MusicService extends AbstractService<MusicState> {
 
 		LOGGER.info("Initializing music service...");
 
-		// We do not turn on the amplifier as the audio service does that. That
-		// service handles the sounds effects so will get used before music is
-		// played.
-
 		// Make sure the external player is defined and exists.
 		if (profile.getPlayerCommand() == null) {
 			throw new LaissezException("External MP3 player not set in profile.");
@@ -414,10 +410,10 @@ public class MusicService extends AbstractService<MusicState> {
 			if (playlistTracks.isEmpty()) {
 				LOGGER.warn("Playlist {} has no tracks; ignoring it.", playlistName);
 			} else {
-				
+
 				// Sort the tracks alphabetically by title.
 				Collections.sort(playlistTracks, Comparator.comparing(InternalTrack::getTitle));
-				
+
 				// Register the playlist.
 				playlistMap.put(playlistName, playlistTracks);
 
@@ -550,7 +546,13 @@ public class MusicService extends AbstractService<MusicState> {
 
 			try {
 				LOGGER.info("Attempting to play track: scaleFactor={} path={}", scaleFactor, trackPath);
-				ProcessBuilder processBuilder = new ProcessBuilder(playerCommand, "-q", "-f", String.valueOf(scaleFactor),
+				ProcessBuilder processBuilder = new ProcessBuilder(//
+						playerCommand, //
+						//"-o", //
+						//"alsa:hw:2,0", //
+						"-q", //
+						"-f", //
+						String.valueOf(scaleFactor), //
 						trackPath);
 				playerProcess = processBuilder.start();
 

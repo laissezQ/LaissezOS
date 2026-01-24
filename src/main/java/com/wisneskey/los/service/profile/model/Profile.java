@@ -53,7 +53,7 @@ public class Profile {
 	 * Default volume for the audio service when in chap mode.
 	 */
 	private static final int DEFAULT_CHAP_MODE_VOLUME = 8;
-
+	
 	// ----------------------------------------------------------------------------------------
 	// Display service defaults.
 	// ----------------------------------------------------------------------------------------

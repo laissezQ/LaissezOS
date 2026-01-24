@@ -6,23 +6,21 @@ import java.io.InputStream;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import javax.sound.sampled.DataLine;
 import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.Mixer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.wisneskey.los.error.LaissezException;
 import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.service.AbstractService;
 import com.wisneskey.los.service.ServiceId;
 import com.wisneskey.los.service.profile.model.Profile;
-import com.wisneskey.los.service.relay.RelayId;
-import com.wisneskey.los.service.relay.RelayService;
 import com.wisneskey.los.state.AudioState;
 import com.wisneskey.los.state.ChairState.MasterState;
 import com.wisneskey.los.util.StopWatch;
@@ -85,6 +83,11 @@ public class AudioService extends AbstractService<AudioState> {
 	 */
 	private InternalAudioState audioState;
 
+	/**
+	 * Mixer for audio output.
+	 */
+	private Mixer.Info selectedMixer;
+
 	// ----------------------------------------------------------------------------------------
 	// Constructors.
 	// ----------------------------------------------------------------------------------------
@@ -110,19 +113,22 @@ public class AudioService extends AbstractService<AudioState> {
 	public void playEffect(SoundEffectId effectId, boolean waitForCompletion) {
 
 		IntegerProperty volumeProperty;
-		if( Kernel.kernel().chairState().masterState().getValue() == MasterState.CHAP) {
+		if (Kernel.kernel().chairState().masterState().getValue() == MasterState.CHAP) {
 			volumeProperty = audioState.chapModeVolume();
-		} else
-		{
+		} else {
 			volumeProperty = audioState.volume();
 		}
 
 		float gainAdjustment = getGainAdjustment(volumeProperty.get(), effectId.clipGain());
-		
-		LOGGER.debug("Playing sound effect: id={} volume={} gainAdjustment={}", effectId,
-				volumeProperty.getValue(), gainAdjustment);
-		
-		Thread playerThread = new SoundEffectPlayerThread(effectId, gainAdjustment, audioState.playingCount());
+
+		LOGGER.debug("Playing sound effect: id={} volume={} gainAdjustment={}", effectId, volumeProperty.getValue(),
+				gainAdjustment);
+
+		Thread playerThread = new SoundEffectPlayerThread(//
+				effectId, //
+				gainAdjustment, //
+				audioState.playingCount(), //
+				selectedMixer);
 		playerThread.start();
 
 		if (waitForCompletion) {
@@ -146,8 +152,6 @@ public class AudioService extends AbstractService<AudioState> {
 
 	@Override
 	public void terminate() {
-		((RelayService) Kernel.kernel().getService(ServiceId.RELAY)).turnOff(RelayId.AMPLIFIER);
-		LOGGER.trace("Audio service terminated.");
 	}
 
 	// ----------------------------------------------------------------------------------------
@@ -164,6 +168,24 @@ public class AudioService extends AbstractService<AudioState> {
 
 		LOGGER.info("Initializing audio service...");
 
+		// Find the appropriate mixer based on our environment.
+		Mixer.Info[] mixerInfo = AudioSystem.getMixerInfo();
+		for (int i = 0; i < mixerInfo.length; i++) {
+
+			if ("Default Audio Device".equals(mixerInfo[i].getName())
+					|| mixerInfo[i].getDescription().startsWith("Direct Audio Device: USB Composite Device")) {
+				selectedMixer = mixerInfo[i];
+				break;
+			}
+		}
+
+		if (selectedMixer == null) {
+			throw new LaissezException("No suitable audio mixer found.");
+		}
+
+		LOGGER.debug("Selected audio mixer: name={} description={}", selectedMixer.getName(),
+				selectedMixer.getDescription());
+
 		audioState = new InternalAudioState(profile.getVolume(), profile.getChapModeVolume());
 		return audioState;
 	}
@@ -178,8 +200,8 @@ public class AudioService extends AbstractService<AudioState> {
 	 */
 	private float getGainAdjustment(int volume, float clipAdjustment) {
 
-		float volumeFloat =  volume;
-		
+		float volumeFloat = volume;
+
 		// Make sure volume is in allowed range.
 		volumeFloat = Math.max(MIN_VOLUME, volumeFloat);
 		volumeFloat = Math.min(volumeFloat, MAX_VOLUME);
@@ -187,9 +209,9 @@ public class AudioService extends AbstractService<AudioState> {
 		// Add the clip adjustment after we limit the range so that some clips can
 		// go slightly above or below the range.
 		volumeFloat += clipAdjustment;
-		
+
 		// Gain adjustment is applied to lower volume so we invert the percentage.
-		float adjustPercent = 1.0f - (volumeFloat / MAX_VOLUME);		
+		float adjustPercent = 1.0f - (volumeFloat / MAX_VOLUME);
 		return MIN_GAIN_ADJUSTMENT + adjustPercent * (MAX_GAIN_ADJUSTMENT + MIN_GAIN_ADJUSTMENT);
 	}
 
@@ -226,26 +248,33 @@ public class AudioService extends AbstractService<AudioState> {
 		 * Id of the sound effect to play back.
 		 */
 		private SoundEffectId effectId;
-		
+
 		/**
 		 * Adjustment to apply to lower the volume of the clip.
 		 */
 		private float gainAdjustment;
-		
+
 		/**
 		 * Counter for number of clips playing from the internal audio state.
 		 */
 		private AtomicInteger playingCount;
-		
+
+		/**
+		 * Mixer to use for audio playback.
+		 */
+		private Mixer.Info mixer;
+
 		// ----------------------------------------------------------------------------------------
 		// Constructors.
 		// ----------------------------------------------------------------------------------------
 
-		public SoundEffectPlayerThread(SoundEffectId effectId, float gainAdjustment,AtomicInteger playingCount) {
+		public SoundEffectPlayerThread(SoundEffectId effectId, float gainAdjustment, AtomicInteger playingCount,
+				Mixer.Info mixer) {
 			this.effectId = effectId;
 			this.gainAdjustment = gainAdjustment;
 			this.playingCount = playingCount;
-			
+			this.mixer = mixer;
+
 			setDaemon(true);
 			setName("SoundEffectPlayer[" + effectId + "]");
 		}
@@ -278,9 +307,7 @@ public class AudioService extends AbstractService<AudioState> {
 
 				BufferedInputStream bufferedSource = new BufferedInputStream(source);
 				AudioInputStream audioIn = AudioSystem.getAudioInputStream(bufferedSource);
-				AudioFormat format = audioIn.getFormat();
-				DataLine.Info info = new DataLine.Info(Clip.class, format);
-				Clip clip = (Clip) AudioSystem.getLine(info);
+				Clip clip = AudioSystem.getClip(mixer);
 
 				// Add a listener so we can wait until the clip stops playing and then
 				// close it.
@@ -292,12 +319,11 @@ public class AudioService extends AbstractService<AudioState> {
 				});
 
 				clip.open(audioIn);
-				
+
 				// Adjust the volume by applying the supplied gain adjustment.
-				FloatControl gainControl = 
-				    (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-				gainControl.setValue(gainAdjustment); 
-				
+				FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+				gainControl.setValue(gainAdjustment);
+
 				// Start the playback.
 				playingStarted = true;
 				playingCount.incrementAndGet();
@@ -321,8 +347,9 @@ public class AudioService extends AbstractService<AudioState> {
 				PLAYER_LOGGER.error("Failed to play sound effect: " + effectId, e);
 			}
 
-			// If we started the playing then make sure we decrement the playing count.
-			if(playingStarted) {
+			// If we started the playing then make sure we decrement the playing
+			// count.
+			if (playingStarted) {
 				playingCount.decrementAndGet();
 			}
 			PLAYER_LOGGER.trace("Player thread ended.");
@@ -339,7 +366,7 @@ public class AudioService extends AbstractService<AudioState> {
 		private IntegerProperty chapModeVolume;
 
 		private AtomicInteger playingCount;
-		
+
 		// ----------------------------------------------------------------------------------------
 		// Constructors.
 		// ----------------------------------------------------------------------------------------
@@ -363,7 +390,7 @@ public class AudioService extends AbstractService<AudioState> {
 		public IntegerProperty chapModeVolume() {
 			return chapModeVolume;
 		}
-		
+
 		@Override
 		public AtomicInteger playingCount() {
 			return playingCount;

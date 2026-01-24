@@ -32,7 +32,6 @@ public enum RelayId {
 	FLUX_CAPACITOR(7, "Flux Capacitor", true),
 
 	// Driver board B relays:
-	AMPLIFIER(8, "Audio amplifier ", true),
 	POLICE_MODE(13, "Change Police Strobe", false),
 	SIDE_LIGHTING(14, "Side Panel Lighting.", true),
 	UNDER_LIGHTING(15, "Under Chair Lighting.", true);
