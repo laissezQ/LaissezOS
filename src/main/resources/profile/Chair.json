@@ -14,8 +14,8 @@
 	//
 	// Audio service settings:
 	//
-	"volume": 5,
-	"chapModeVolume": 5,
+	"volume": 3,
+	"chapModeVolume": 3,
 	"soundEffectDir" : "/home/pwisneskey/SoundEffects",	
 	// 
 	// Display service settings:
@@ -62,5 +62,6 @@
 	"playlists": {
 		"Laissez Boy": "/home/pwisneskey/LaissezMusic"
 	},
-	"playerCommand": "/usr/bin/mpg123"
+	"playerCommand": "/usr/bin/mpg123",
+	"musicVolume" : 4
 }

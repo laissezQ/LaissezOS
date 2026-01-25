@@ -47,12 +47,12 @@ public class Profile {
 	/**
 	 * Default volume for the audio service in normal chair operation.
 	 */
-	private static final int DEFAULT_CHAIR_VOLUME = 8;
+	private static final int DEFAULT_CHAIR_VOLUME = 3;
 
 	/**
 	 * Default volume for the audio service when in chap mode.
 	 */
-	private static final int DEFAULT_CHAP_MODE_VOLUME = 8;
+	private static final int DEFAULT_CHAP_MODE_VOLUME = 3;
 	
 	// ----------------------------------------------------------------------------------------
 	// Display service defaults.

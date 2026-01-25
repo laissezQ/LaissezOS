@@ -116,6 +116,18 @@ public class SystemScreen extends AbstractController {
 	@FXML
 	private Label ipAddressLabel;
 
+	/**
+	 * Label for showing the Java version we are running on.
+	 */
+	@FXML
+	private Label javaVersionLabel;
+
+	/**
+	 * Label for showing the JavaFX version in use.
+	 */
+	@FXML
+	private Label javaFxVersionLabel;
+
 	// ----------------------------------------------------------------------------------------
 	// Public methods.
 	// ----------------------------------------------------------------------------------------
@@ -138,11 +150,11 @@ public class SystemScreen extends AbstractController {
 		// Set initial rendering based on current state.
 		updateFixStatus(locationState.hasGpsFix().get());
 
-		if( locationState.hasGpsFix().get()) {
+		if (locationState.hasGpsFix().get()) {
 			satelliteInViewLabel.setText(String.valueOf(locationState.satellitesInView().get()));
 			satelliteInFixLabel.setText(String.valueOf(locationState.satellitesInFix().get()));
 		}
-		
+
 		// Add listeners for the GPS state.
 		locationState.hasGpsFix().addListener(new FixListener());
 
@@ -158,6 +170,10 @@ public class SystemScreen extends AbstractController {
 			locationBox.getChildren().add(locationButton);
 		}
 
+		// Set fixed information about the environment.
+		javaVersionLabel.setText(System.getProperty("java.version"));
+		javaFxVersionLabel.setText(System.getProperty("javafx.runtime.version"));
+		
 		logo.setOnMouseClicked(new DoubleClickListener(e -> resumePressed()));
 	}
 
@@ -199,7 +215,7 @@ public class SystemScreen extends AbstractController {
 	public void scriptPressed() {
 		runScript(ScriptId.SCRIPT_SCREEN_OPEN);
 	}
-	
+
 	// ----------------------------------------------------------------------------------------
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------

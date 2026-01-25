@@ -104,7 +104,7 @@
 				<DropShadow />
 			</effect>
 		</Label>
-		<ScrollPane layoutX="18.0" layoutY="420.0" prefHeight="355.0" prefWidth="371.0">
+		<ScrollPane layoutX="18.0" layoutY="420.0" prefHeight="216.0" prefWidth="371.0">
 			<content>
 				<VBox fx:id="locationBox" prefHeight="31.0" prefWidth="19.0" spacing="16.0" />
 			</content>
@@ -141,5 +141,42 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
+      <Line endX="190.0" layoutX="198.0" layoutY="663.0" startX="-180.0">
+         <effect>
+            <DropShadow />
+         </effect>
+      </Line>
+      <Label layoutX="67.0" layoutY="686.0" text="Java Version:">
+         <effect>
+            <DropShadow />
+         </effect>
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="52.0" layoutY="728.0" text="JavaFX Version:">
+         <effect>
+            <DropShadow />
+         </effect>
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="javaVersionLabel" layoutX="198.0" layoutY="687.0" prefHeight="22.0" prefWidth="156.0" text="Unknown">
+         <effect>
+            <DropShadow />
+         </effect>
+         <font>
+            <Font name="Consolas" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="javaFxVersionLabel" layoutX="197.0" layoutY="729.0" prefHeight="22.0" prefWidth="156.0" text="Unknown">
+         <effect>
+            <DropShadow />
+         </effect>
+         <font>
+            <Font name="Consolas" size="18.0" />
+         </font>
+      </Label>
 	</children>
 </Pane>

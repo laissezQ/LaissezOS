@@ -8,6 +8,7 @@ import com.pi4j.io.gpio.digital.DigitalInput;
 import com.pi4j.io.gpio.digital.DigitalInputConfig;
 import com.pi4j.io.gpio.digital.DigitalInputProvider;
 import com.pi4j.io.gpio.digital.PullResistance;
+import com.pi4j.plugin.gpiod.provider.gpio.digital.GpioDDigitalInputProvider;
 import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.service.remote.RemoteButtonId;
 import com.wisneskey.los.service.remote.RemoteEventHandler;
@@ -104,7 +105,8 @@ public class GpioRemoteDriver implements RemoteDriver {
 					.pull(PullResistance.PULL_DOWN) //
 					.build();
 
-			DigitalInputProvider provider = pi4jContext.provider("pigpio-digital-input");
+			DigitalInputProvider provider = GpioDDigitalInputProvider.newInstance();
+			provider.initialize(pi4jContext);
 			
 			digitalInput = provider.create(config);
 			digitalInput.addListener(event -> {
