@@ -10,7 +10,7 @@ import javafx.scene.control.TextArea;
  * (e.g. should be added to the previous message). Tracks the number of lines in
  * the text area and trims the oldest when the maximum is reached.
  * 
- * Copyright (C) 2025 Paul Wisneskey
+ * Copyright (C) 2026 Paul Wisneskey
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software

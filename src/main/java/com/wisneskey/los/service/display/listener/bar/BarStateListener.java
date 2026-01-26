@@ -13,7 +13,7 @@ import javafx.scene.paint.Color;
  * Change listener that monitors the bar state and updates the icon on a bar
  * button based on whether it is raised or not.
  * 
- * Copyright (C) 2025 Paul Wisneskey
+ * Copyright (C) 2026 Paul Wisneskey
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software

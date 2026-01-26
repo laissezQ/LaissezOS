@@ -29,7 +29,7 @@ import javafx.util.Pair;
  * Core of the Laissez Boy Operating System that manages all services, hardware,
  * etc.
  * 
- * Copyright (C) 2025 Paul Wisneskey
+ * Copyright (C) 2026 Paul Wisneskey
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software

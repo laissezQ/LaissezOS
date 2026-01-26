@@ -7,7 +7,7 @@ import com.wisneskey.los.service.lighting.driver.wled.client.model.Summary;
  * object contains all information that can be obtained from the controller. It
  * is considered a read only object.
  * 
- * Copyright (C) 2025 Paul Wisneskey
+ * Copyright (C) 2026 Paul Wisneskey
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software

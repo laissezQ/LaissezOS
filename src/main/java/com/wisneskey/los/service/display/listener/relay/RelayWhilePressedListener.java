@@ -13,7 +13,7 @@ import javafx.scene.Node;
  * Listener for a pressed event that turns a relay on when a control is pressed
  * and turns it back off when the control is released.
  * 
- * Copyright (C) 2025 Paul Wisneskey
+ * Copyright (C) 2026 Paul Wisneskey
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software

@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
  * Utility class for running a process and capturing its output to the debug
  * log.
  *
- * Copyright (C) 2025 Paul Wisneskey
+ * Copyright (C) 2026 Paul Wisneskey
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software

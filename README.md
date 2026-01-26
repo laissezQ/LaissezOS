@@ -1,5 +1,5 @@
 # LaissezOS
-Copyright (C) 2025 Paul Wisneskey
+Copyright (C) 2026 Paul Wisneskey
 
 paul.wisneskey@gmail.com
 

@@ -18,7 +18,7 @@ import com.wisneskey.los.kernel.RunMode;
  * A JavaFX application for monitoring and controlling the operation of Q's
  * Laissez Boy in a theatrical fashion.
  *
- * Copyright (C) 2025 Paul Wisneskey
+ * Copyright (C) 2026 Paul Wisneskey
  * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
