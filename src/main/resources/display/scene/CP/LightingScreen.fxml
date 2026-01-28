@@ -133,7 +133,7 @@
             <DropShadow />
          </effect>
       </Slider>
-      <CheckBox fx:id="reversedCheckbox" layoutX="138.0" layoutY="655.0" mnemonicParsing="false" text="Reversed">
+      <CheckBox fx:id="reversedCheckbox" layoutX="54.0" layoutY="655.0" mnemonicParsing="false" text="Reversed">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -141,5 +141,13 @@
             <DropShadow />
          </effect>
       </CheckBox>
+      <Button layoutX="200.0" layoutY="650.0" mnemonicParsing="false" onAction="#resetPressed" prefHeight="30.0" prefWidth="136.0" text="Reset">
+         <effect>
+            <DropShadow />
+         </effect>
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Button>
 	</children>
 </Pane>

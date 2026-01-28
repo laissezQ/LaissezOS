@@ -149,6 +149,13 @@ public class LightingScreen extends AbstractController {
 		runScript(ScriptId.LIGHTING_SCREEN_CLOSE);
 	}
 
+	/**
+	 * Method invoked by the reset button.
+	 */
+	public void resetPressed() {
+		((LightingService) kernel().getService(ServiceId.LIGHTING)).reset();
+	}
+	
 	// ----------------------------------------------------------------------------------------
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------

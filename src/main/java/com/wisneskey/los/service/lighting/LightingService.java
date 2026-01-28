@@ -199,6 +199,13 @@ public class LightingService extends AbstractService<LightingState> {
 		lightingState.secondColor().set(savedState.getSecondColor());
 		lightingState.thirdColor().set(savedState.getThirdColor());
 	}
+	
+	/**
+	 * Reset the lighting driver.
+	 */
+	public void reset() {
+		lightingDriver.reset();
+	}
 
 	// ----------------------------------------------------------------------------------------
 	// Supporting methods.

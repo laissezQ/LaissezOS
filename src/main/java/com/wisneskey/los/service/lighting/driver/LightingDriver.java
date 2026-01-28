@@ -41,6 +41,11 @@ public interface LightingDriver {
 	void terminate();
 
 	/**
+	 * Reset the lighting driver.
+	 */
+	void reset();
+	
+	/**
 	 * Play the designated lighting effect.
 	 * 
 	 * @param effectId   Id of the effect to play.

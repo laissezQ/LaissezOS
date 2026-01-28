@@ -1,5 +1,6 @@
 package com.wisneskey.los.service.lighting.driver.wled;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -56,6 +57,12 @@ public class WledLightingDriver implements LightingDriver {
 	 * Base path where WLED effect configurations are saved in the resources.
 	 */
 	private static final String LIGHTING_CONFIG_BASE = "/lighting/wled/";
+
+	/**
+	 * Command to reset the network which usually restablished the ethernet link
+	 * to the ESP32 hosting WLED.
+	 */
+	private static final String RESET_SUBNET_COMMAND = "systemctl restart systemd-networkd";
 
 	/**
 	 * Flag indicating if we found the WLED controller and could communicate with
@@ -134,9 +141,26 @@ public class WledLightingDriver implements LightingDriver {
 	}
 
 	@Override
+	public void reset() {
+		// In the case of WLED, the reset is most likely being called because the
+		// network connection
+		// to the ESP32 it is running on is down. This seems to happen occasionally
+		// on the chair
+		// itself (usually within a few minutes after the initial boot). Once its
+		// stable, it seems
+		// to be good but we will use the reset to be able to re-establish the link.
+		try {
+			Runtime.getRuntime().exec(RESET_SUBNET_COMMAND);
+			online = true;
+		} catch (IOException e) {
+			LOGGER.warn("Failure running subnet rest command.", e);
+		}
+	}
+
+	@Override
 	public void playEffect(LightingEffectId effectId, LightingState lightingState) {
 
-		if(! online) {
+		if (!online) {
 			LOGGER.info("Controller not online: ignoring switch lighting effect.");
 			return;
 		}
@@ -181,14 +205,18 @@ public class WledLightingDriver implements LightingDriver {
 		state.setSegments(Collections.singletonList(segment));
 		state.setVerbose(true);
 
-		UpdateStateResult result = controllerClient.updateState(state);
-		updateLightingState(result, lightingState);
+		// Send the actual change effect request in its own thread.
+		Runnable myRunnable = () -> {
+			UpdateStateResult result = controllerClient.updateState(state);
+			updateLightingState(result, lightingState);
+		};
+		new Thread(myRunnable).start();
 	}
 
 	@Override
 	public void changeBrightness(int brightness) {
 
-		if(! online) {
+		if (!online) {
 			LOGGER.info("Controller not online: ignoring change brightness.");
 			return;
 		}
@@ -206,7 +234,7 @@ public class WledLightingDriver implements LightingDriver {
 	@Override
 	public void changeSpeed(int speed) {
 
-		if(! online) {
+		if (!online) {
 			LOGGER.info("Controller not online: ignoring change speed.");
 			return;
 		}
@@ -226,7 +254,7 @@ public class WledLightingDriver implements LightingDriver {
 	@Override
 	public void changeIntensity(int intensity) {
 
-		if(! online) {
+		if (!online) {
 			LOGGER.info("Controller not online: ignoring change intensity.");
 			return;
 		}
@@ -246,7 +274,7 @@ public class WledLightingDriver implements LightingDriver {
 	@Override
 	public void changeReversed(boolean reversed) {
 
-		if(! online) {
+		if (!online) {
 			LOGGER.info("Controller not online: ignoring reverse.");
 			return;
 		}
@@ -266,7 +294,7 @@ public class WledLightingDriver implements LightingDriver {
 	@Override
 	public void changeColor(LightingState lightingState) {
 
-		if(! online) {
+		if (!online) {
 			LOGGER.info("Controller not online: ignoring change color.");
 			return;
 		}

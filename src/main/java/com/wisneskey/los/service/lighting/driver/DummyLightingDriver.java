@@ -45,6 +45,11 @@ public class DummyLightingDriver implements LightingDriver {
 	}
 
 	@Override
+	public void reset() {
+		LOGGER.info("Lighting driver reset called.");
+	}
+
+	@Override
 	public void playEffect(LightingEffectId effectId, LightingState lightingState) {
 		LOGGER.info("Switching lighting effect: effectId={}", effectId);
 	}

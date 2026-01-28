@@ -2,7 +2,12 @@ package com.wisneskey.los.service.display.controller.cp;
 
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.util.Enumeration;
 import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.wisneskey.los.kernel.Kernel;
 import com.wisneskey.los.kernel.RunMode;
@@ -52,6 +57,8 @@ import javafx.scene.paint.Color;
  */
 public class SystemScreen extends AbstractController {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(SystemScreen.class);
+
 	/**
 	 * Command to use to open a terminal on the Raspberry Pi.
 	 */
@@ -61,6 +68,11 @@ public class SystemScreen extends AbstractController {
 	 * Command to use to open a terminal on the OS X laptop.
 	 */
 	private static final String[] OPEN_TERMINAL_LAPTOP = { "/usr/bin/open", "Applications/iTerm" };
+
+	/**
+	 * Interface for the sub-net for reaching the ESP32 with WLED on it.
+	 */
+	private static final String WLED_SUBNET_INTERFACE = "eth0";
 
 	/**
 	 * Laissez Boy logo.
@@ -128,6 +140,12 @@ public class SystemScreen extends AbstractController {
 	@FXML
 	private Label javaFxVersionLabel;
 
+	/**
+	 * Label for showing the IP address for the ESP32 hosting WLED.
+	 */
+	@FXML
+	private Label wledSubnetLabel;
+
 	// ----------------------------------------------------------------------------------------
 	// Public methods.
 	// ----------------------------------------------------------------------------------------
@@ -140,6 +158,9 @@ public class SystemScreen extends AbstractController {
 
 		// Set our IP address in the label.
 		ipAddressLabel.setText(getIpAddress());
+		
+		// Set the WLED subnet address.
+		wledSubnetLabel.setText(getWledSubnetAddress());
 
 		// Bind the online map download check box to the map state property.
 		MapState mapState = chairState().getServiceState(ServiceId.MAP);
@@ -173,8 +194,13 @@ public class SystemScreen extends AbstractController {
 		// Set fixed information about the environment.
 		javaVersionLabel.setText(System.getProperty("java.version"));
 		javaFxVersionLabel.setText(System.getProperty("javafx.runtime.version"));
-		
+
 		logo.setOnMouseClicked(new DoubleClickListener(e -> resumePressed()));
+	}
+
+	@Override
+	public void sceneShown() {
+		wledSubnetLabel.setText(getWledSubnetAddress());
 	}
 
 	/**
@@ -219,6 +245,32 @@ public class SystemScreen extends AbstractController {
 	// ----------------------------------------------------------------------------------------
 	// Supporting methods.
 	// ----------------------------------------------------------------------------------------
+
+	private String getWledSubnetAddress() {
+
+		try {
+			NetworkInterface networkInterface = NetworkInterface.getByName(WLED_SUBNET_INTERFACE);
+
+			if (networkInterface == null) {
+				return "No interface";
+			}
+
+			Enumeration<InetAddress> inetAddresses = networkInterface.getInetAddresses();
+			while (inetAddresses.hasMoreElements()) {
+				InetAddress currentAddress = inetAddresses.nextElement();
+
+				// Filter for IPv4 addresses and exclude loopback addresses
+				if (currentAddress instanceof java.net.Inet4Address && !currentAddress.isLoopbackAddress()) {
+					return currentAddress.getHostAddress();
+				}
+			}
+		} catch (Exception e) {
+			LOGGER.warn("Failed to WLED subnet address.", e);
+			return "Failed";
+		}
+
+		return "No address"; // No suitable IPv4 address found
+	}
 
 	/**
 	 * Get the IP address for the machine by using the address selected for an
