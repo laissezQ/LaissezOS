@@ -148,7 +148,7 @@ public class MusicScreen extends AbstractController {
 	 * Method invoked if the next track button is pressed.
 	 */
 	public void nextTrackPressed() {
-		((MusicService) kernel().getService(ServiceId.MUSIC)).nextTrack();;
+		((MusicService) kernel().getService(ServiceId.MUSIC)).nextTrack();
 	}
 	
 	/**

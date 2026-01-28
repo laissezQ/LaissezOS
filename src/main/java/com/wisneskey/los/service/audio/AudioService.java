@@ -140,6 +140,7 @@ public class AudioService extends AbstractService<AudioState> {
 
 	@Override
 	public void terminate() {
+		// Nothing to be done for termination, player threads will wrap up on their own.
 	}
 
 	// ----------------------------------------------------------------------------------------
