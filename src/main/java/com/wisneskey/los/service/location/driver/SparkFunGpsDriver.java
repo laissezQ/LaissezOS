@@ -54,10 +54,15 @@ public class SparkFunGpsDriver implements GpsDriver {
 	private static final int GPS_SLEEP_MS = 800;
 
 	/**
+	 * Number of milliseconds to sleep before trying again if an exception occurs during a read.
+	 */
+	private static final int GPS_RESET_SLEEP_MS = 5000;
+
+	/**
 	 * Number of last GPS position samples to use for calculating the latest
 	 * position. Used to smooth the jitter from the GPS.
 	 */
-	private static final int SMOOTHING_SAMPLES = 90;
+	private static final int SMOOTHING_SAMPLES = 10;
 
 	/**
 	 * I2C bus number the board is on.
@@ -288,55 +293,72 @@ public class SparkFunGpsDriver implements GpsDriver {
 
 			while (!isInterrupted()) {
 
-				// Fill with garbage byte
-				Arrays.fill(buffer, (byte) 0x0a);
+				try {
+					// Fill with garbage byte
+					Arrays.fill(buffer, (byte) 0x0a);
 
-				// Read up to the maximum packet size.
-				board.read(buffer);
-				int linefeedCount = 0;
-				for (int i = 0; i < 255; i++) {
+					// Read up to the maximum packet size.
+					board.read(buffer);
+					int linefeedCount = 0;
+					for (int i = 0; i < 255; i++) {
 
-					byte current = buffer[i];
+						byte current = buffer[i];
 
-					if (current == 0x0a || current < 0) {
-						// Ignore linefeeds and negative bytes
-						linefeedCount += 1;
-						continue;
+						if (current == 0x0a || current < 0) {
+							// Ignore linefeeds and negative bytes
+							linefeedCount += 1;
+							continue;
+						}
+
+						// Stop and build line at a carriage return or a $
+						if (current == 0x0d || ((current == '$') && (line.length() > 0))) {
+
+							// We have a carriage return so if the line is non-empty, submit
+							// it.
+							if (line.length() > 0) {
+
+								LOGGER.debug("Found carriage return or $; processing: line={}", line);
+								processGpsLine(line.toString());
+
+								// Start a new line.
+								line.setLength(0);
+
+								// If we processed a line due to a $ we need to start next line
+								// with it.
+								if (current == '$') {
+									line.append('$');
+								}
+							}
+						} else {
+							// Append character read to our buffer.
+							line.append((char) current);
+						}
 					}
 
-					// Stop and build line at a carriage return or a $
-					if (current == 0x0d || ((current == '$') && (line.length() > 0)) ) {
-
-						// We have a carriage return so if the line is non-empty, submit it.
-						if (line.length() > 0) {
-
-							LOGGER.debug("Found carriage return or $; processing: line={}", line);
-							processGpsLine(line.toString());
-
-							// Start a new line.
-							line.setLength(0);
-
-							// If we processed a line due to a $ we need to start next line with it.
-							if (current == '$') {
-								line.append('$');
-							}
+					if (linefeedCount >= 255) {
+						// There was no data in last read so sleep for a while.
+						try {
+							LOGGER.trace("Empty response from GPS module: sleeping...");
+							Thread.sleep(GPS_SLEEP_MS);
+						} catch (InterruptedException e) {
+							LOGGER.warn("Interrupted during GPS sleep.");
+							Thread.currentThread().interrupt();
+							break;
 						}
-					} else {
-						// Append character read to our buffer.
-						line.append((char) current);
 					}
 				}
-
-				if (linefeedCount >= 255) {
-					// There was no data in last read so sleep for a while.
+				catch (Exception e) {
+					LOGGER.warn("Exception during GPS read; reset and retrying in 5 seconds.", e);
+					line.setLength(0);
+					
 					try {
-						LOGGER.trace("Empty response from GPS module: sleeping...");
-						Thread.sleep(GPS_SLEEP_MS);
-					} catch (InterruptedException e) {
-						LOGGER.warn("Interrupted during GPS sleep.");
+						Thread.sleep(GPS_RESET_SLEEP_MS);
+					} catch (InterruptedException ie) {
+						LOGGER.warn("Interrupted during GPS reset sleep.");
 						Thread.currentThread().interrupt();
 						break;
 					}
+
 				}
 			}
 

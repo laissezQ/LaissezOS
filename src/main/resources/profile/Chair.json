@@ -30,6 +30,7 @@
 	// Location service settings:
 	//
 	"defaultLocation": "New Orleans (Magazine and Jefferson)",
+	"mapOnline" : false,
 	"presetLocations": {
 		"Taos": {
 			"latitude": 36.36397792651159,

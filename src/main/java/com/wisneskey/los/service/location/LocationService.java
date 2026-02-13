@@ -136,10 +136,10 @@ public class LocationService extends AbstractService<LocationState> {
 		// enable the initial display to show a location on the map but indicate
 		// that the location is not based on a GPS fix.
 		Location starting = profile.getPresetLocations().get(profile.getDefaultLocation());
-		if( starting == null ) {
+		if (starting == null) {
 			throw new LaissezException("Starting location not found.");
 		}
-		
+
 		locationState.updateLocation(starting);
 		locationState.hasFix.set(false);
 
@@ -214,19 +214,24 @@ public class LocationService extends AbstractService<LocationState> {
 			while (!isInterrupted()) {
 
 				try {
-					Thread.sleep(GPS_POLL_INTERVAL_MS);
-				} catch (InterruptedException e) {
-					LOGGER.warn("Interrupted duriog driver poller sleep.");
-					Thread.currentThread().interrupt();
-					break;
+					
+					try {
+						Thread.sleep(GPS_POLL_INTERVAL_MS);
+					} catch (InterruptedException e) {
+						LOGGER.warn("Interrupted duriog driver poller sleep.");
+						Thread.currentThread().interrupt();
+						break;
+					}
+
+					Location latest = gpsDriver.getCurrentLocation();
+
+					LOGGER.debug("GPS location poll: location={}", latest);
+					locationState.updateLocation(latest);
+					locationState.updateSatellitesInView(gpsDriver.getSatellitesInView());
+					locationState.updateSatellitesInFix(gpsDriver.getSatellitesInFix());
+				} catch (Exception e) {
+					LOGGER.warn("Exception in GPS poller thead; retrying.", e);
 				}
-
-				Location latest = gpsDriver.getCurrentLocation();
-
-				LOGGER.debug("GPS location poll: location={}", latest);
-				locationState.updateLocation(latest);
-				locationState.updateSatellitesInView(gpsDriver.getSatellitesInView());
-				locationState.updateSatellitesInFix(gpsDriver.getSatellitesInFix());
 			}
 
 			LOGGER.info("GPS poller thread shutdown.");
